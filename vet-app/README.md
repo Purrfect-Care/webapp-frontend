@@ -68,3 +68,11 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+#### Running the frontend
+1. You need to have Docker Desktop.
+2. Clone this repository.
+3. Go to the project Directory.
+4. Use this command: `docker build -t vet-app`
+5. Run the Docker container: `docker run -p 3000:3000 vet-app`
+6. Access the React App.
