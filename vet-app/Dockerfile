@@ -1,5 +1,5 @@
 # Use an official Node.js runtime as the base image
-FROM node:20.3.0
+FROM node:20.3.0-alpine
 
 # Enviroment variables
 ENV PATH /app/node_modules/.bin:$PATH
