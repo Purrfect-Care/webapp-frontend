@@ -1,11 +1,22 @@
-.MainTab {
-  text-align: center;
-  background-color: #9DCDBF;
-  min-height: 100vh;
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit&display=swap");
+
+* {
+  box-sizing: border-box;
+  font-family: Outfit;
+  margin: 0;
+  padding: 0;
+
+}
+
+.home, .calendarPage, .prescription {
   display: flex;
-  flex-direction: column;
+  height: 90vh;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  font-size: 3rem;
+}
+
+.app-conatiner {
+  background-color: brown;
+  min-height: 100vh; 
+  display: flex;
 }

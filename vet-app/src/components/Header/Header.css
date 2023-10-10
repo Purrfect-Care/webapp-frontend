@@ -1,29 +1,25 @@
 .header {
     display: flex;
     align-items:center;
+    justify-content: center;
     background-color: #ffffff;
     padding: 10px 20px;
+    width: 100vw;
 }
 
 .logo-text {
     color: #4AA587;
-    text-align: center;
     font-family: Outfit;
     font-size: 23px;
     font-style: normal;
     font-weight: 400;
     text-shadow: 2px 2px 4px #04040430;
-    margin: 0px;
 }
 
-.logo-dog {
+.dog {
     text-shadow: 2px 2px 4px #04040430;
     width: 40px;
-    margin-left: 30px;
+    height: 100%;
+    color: #4AA587;
 }
 
-.logged-person {
-    margin-left: auto;
-    font-family: Outfit;
-    font-weight: 400;
-}

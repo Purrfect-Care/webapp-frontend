@@ -1,15 +1,14 @@
 import React from "react";
 import dog from "../../data/dog.png";
 import "./Header.css";
+import * as Fa6Icons from "react-icons/fa6";
 
 
 const Header = () => {
     return (
         <nav className="header">
-            <img className="logo-dog" src ={dog} alt="logo-dog"></img>
+            <Fa6Icons.FaShieldDog className ="dog" />
             <h1 className="logo-text">PurrfectCare</h1>
-  
-            <h3 className="logged-person">Bob Dylan</h3>
         </nav>
 
     );
