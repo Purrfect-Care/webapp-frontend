@@ -1,6 +1,6 @@
 import React from "react";
 
-function CalendarPage() {
+const CalendarPage = () => {
   return (
     <div className="calendarPage">
     </div>

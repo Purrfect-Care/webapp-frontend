@@ -8,7 +8,7 @@ import { IconContext } from "react-icons";
 import Header from "../Header/Header";
 import * as IoIcons from "react-icons/io";
 
-function Sidebar() {
+const Sidebar = () => {
   const [sidebarTab, setSidebarTab] = useState(false);
 
   const showSidebarTab = () => setSidebarTab(!sidebarTab);
@@ -33,7 +33,7 @@ function Sidebar() {
               return (
                 <li key={index} className={item.className}>
                   <Link to={item.path}>
-                    {item.icon}
+                    {item.icon }
                     <span>{item.title}</span>
                   </Link>
                 </li>

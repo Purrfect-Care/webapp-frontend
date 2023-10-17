@@ -1,26 +1,23 @@
-import { Router } from "react-router-dom";
 import "./App.css";
-import Header from "./components/Header/Header";
-import Sidebar from "./components/Sidebar/Sidebar";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from './pages/Home';
-import Prescription from './pages/Prescription';
-import CalendarPage from './pages/CalendarPage';
+import Home from './pages/Home/Home';
+import Prescription from './pages/Prescription/Prescription';
+import CalendarPage from './pages/Calendar/CalendarPage';
+import PatientsPage from "./pages/Patients/PatientsPage";
 
 function App() {
   return (
-    <>
-    <div className="app-container">
+    <div className="app">
       <BrowserRouter>
-          <Sidebar />
           <Routes>
-            <Route path="/" element={<Home/>} />
+            <Route path="/home" element={<Home/>} />
             <Route path="/prescription" element={<Prescription/>} />
             <Route path="/calendar" element={<CalendarPage/>} />
+            <Route path="/patients" element={<PatientsPage />} />
           </Routes>
+          
       </BrowserRouter>
-      </div>
-    </>
+    </div>
   );
 }
 

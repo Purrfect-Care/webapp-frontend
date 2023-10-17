@@ -1,6 +1,6 @@
 import React from "react";
 
-function Prescription() {
+const Prescription = () => {
   return (
     <div className="prescription">
 

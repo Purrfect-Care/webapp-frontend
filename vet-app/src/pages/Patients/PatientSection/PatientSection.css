@@ -1,0 +1,36 @@
+.patientSection {
+    background-color: #9DCDBF21;
+    width: 80vw;
+}
+
+.rectangle {
+    width: 80px; 
+    height: 100px; 
+    background-color: #69879b; 
+    margin-right: 20px;
+
+}
+
+.mainInfo {
+    display: flex;
+    align-items:end;
+    padding: 30px 40px 5px 40px;
+    
+}
+
+.puppyName {
+    margin-bottom: 5px;
+}
+
+.ageBreed {
+    word-spacing: 5px;
+}
+
+.dot {
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+.patientSection-top {
+    box-shadow: inset -5px 8px 24px -15px rgba(66, 68, 90, 1);
+}

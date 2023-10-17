@@ -1,5 +1,4 @@
 import React from "react";
-import dog from "../../data/dog.png";
 import "./Header.css";
 import * as Fa6Icons from "react-icons/fa6";
 

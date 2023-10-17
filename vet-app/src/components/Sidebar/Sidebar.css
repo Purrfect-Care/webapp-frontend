@@ -4,7 +4,7 @@
     display: flex;
     justify-content: start;
     align-items: center;
-    box-shadow: 2px 2px 15px #04040430;
+    padding-bottom: 1px ;
 }
 
 .bars {
@@ -60,11 +60,14 @@
 
 .sidebar-text a:hover {
     background-color: rgb(19, 94, 66);
+    font-weight: 700;
 }
+
 
 .side-menu-items {
     width: 100%;
 }
+
 
 .sidebar-toggle {
     background-color: #4AA587;
@@ -73,6 +76,7 @@
     display: flex;
     justify-content: start;
     align-items: center;
+    
 
 span {
     margin-left: 16px;
@@ -82,6 +86,7 @@ span {
 .icons {
     margin-right: 15px;
     font-size: 1.5rem;
+
 }
 
 .exit {
