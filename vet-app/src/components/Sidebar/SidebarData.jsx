@@ -9,7 +9,7 @@ import * as TfiIcons from "react-icons/tfi";
 export const SidebarData = [
     {
         title: 'Kalendarz',
-        path: '/home',
+        path: '/calendar',
         icon: <BsIcons.BsFillCalendarWeekFill />,
         className: 'sidebar-text' 
     },
@@ -21,7 +21,7 @@ export const SidebarData = [
     },
     {
         title: 'Wizyty',
-        path: '/visits',
+        path: '/visit_type',
         icon: <BsIcons.BsFillBookmarkPlusFill />,
         className: 'sidebar-text' 
     },
