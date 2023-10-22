@@ -3,7 +3,7 @@ import React from "react";
 
 const Day = ({ day, rowIdx }) => {
   function getCurrentDayClass() {
-    return day.format("DD-MM-YY") == dayjs().format("DD-MM-YY")
+    return day.format("DD-MM-YY") === dayjs().format("DD-MM-YY")
       ? "bg-customGreen text-white rounded-full w-7"
       : "";
   }
