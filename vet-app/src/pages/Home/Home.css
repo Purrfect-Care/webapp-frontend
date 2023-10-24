@@ -115,3 +115,12 @@
         fill: white;
     }
 }
+
+.home-exit {
+    opacity: 1;
+}
+
+.home-exit-active {
+    opacity: 0;
+    transition: opacity 300ms ease-in;
+}
