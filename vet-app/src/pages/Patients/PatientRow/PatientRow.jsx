@@ -1,19 +1,16 @@
 import React from "react";
 import "./PatientRow.css";
-import { PatientRowData } from "./PatientRowData";
 import { Link } from "react-router-dom";
 
-const PatientRow = ({ name, surname, puppyName }) => {
+const PatientRow = ({ patientId, ownerName, ownerSurname, patientName }) => {
   return (
-    <div className="patientRow">
+    <Link to={`/patients/${patientId}`} className="patientRow">
       <div className="circle"></div>
       <span className="patientText">
-      <Link to="#">
-          {puppyName} • {name}&nbsp;
-          {surname}
-      </Link>
+        {patientName} • {ownerName}&nbsp;
+        {ownerSurname}
       </span>
-    </div>
+    </Link>
   );
 };
 
