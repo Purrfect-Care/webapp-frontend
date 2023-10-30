@@ -20,7 +20,7 @@ const CalendarPage = () => {
     <>
       <React.Fragment>
         {showEventModal && <EventModal />}
-        
+        <Sidebar />
         <div className="h-screen flex flex-col shadow-inner ml-[-5px] mt-[8px] p-[24px] bg-white rounded-lg">
           <CalendarHeader />
           <div className="flex flex-1">

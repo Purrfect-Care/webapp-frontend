@@ -39,7 +39,7 @@ const Sidebar = () => {
                 </li>
               );
             })}
-            <Link to="#" className="exit">
+            <Link to="/login" className="exit">
               <IoIcons.IoMdExit className="exit-icon" />
             </Link>
           </ul>
