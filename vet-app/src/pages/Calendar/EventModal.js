@@ -29,6 +29,7 @@ function EventModal() {
 
   function handleSubmit(e) {
     e.preventDefault();
+    
     const calendarEvent = {
       title,
       description,
@@ -37,6 +38,7 @@ function EventModal() {
       id: selectedEvent ? selectedEvent.id : Date.now(),
     };
     if (selectedEvent) {
+      
       dispatchCallEvent({ type: "update", payload: calendarEvent });
     } else {
       dispatchCallEvent({ type: "push", payload: calendarEvent });
@@ -78,6 +80,7 @@ function EventModal() {
               className="pt-3 border-0 text-gray-600 text-xl font-semibold pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:blue-500"
               onChange={(e) => setTitle(e.target.value)}
             />
+            
 
             <AiIcons.AiOutlineClockCircle className="text-gray-400 text-2xl" />
             <p>{daySelected.format("dddd, MMMM DD")}</p>

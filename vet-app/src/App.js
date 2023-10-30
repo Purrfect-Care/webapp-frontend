@@ -5,6 +5,7 @@ import Prescription from './pages/Prescription/Prescription';
 import CalendarPage from './pages/Calendar/CalendarPage';
 import PatientsPage from "./pages/Patients/PatientsPage";
 import VisitTypePage from "./pages/VisitType/VisitType";
+import Login from "./pages/Login/Login";
 
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home/>} />
             <Route path="/visits" element={<Home/>} />
+            <Route path="/login" element={<Login />} />
             <Route path="/prescription" element={<Prescription/>} />
             <Route path="/calendar" element={<CalendarPage/>} />
             <Route path="/patients" element={<PatientsPage />} />
