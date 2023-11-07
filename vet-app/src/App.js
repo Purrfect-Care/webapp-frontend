@@ -6,6 +6,7 @@ import CalendarPage from './pages/Calendar/CalendarPage';
 import PatientsPage from "./pages/Patients/PatientsPage";
 import VisitTypePage from "./pages/VisitType/VisitType";
 import Login from "./pages/Login/Login";
+import SignIn from "./pages/SignIn/SignIn";
 
 
 function App() {
@@ -14,12 +15,12 @@ function App() {
       <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home/>} />
-            <Route path="/visits" element={<Home/>} />
             <Route path="/login" element={<Login />} />
             <Route path="/prescription" element={<Prescription/>} />
             <Route path="/calendar" element={<CalendarPage/>} />
             <Route path="/patients" element={<PatientsPage />} />
-            <Route path="/visit_type" element={<VisitTypePage />} />
+            <Route path="/visits" element={<VisitTypePage />} />
+            <Route path="/sign-in" element={<SignIn />} />
           </Routes>
           
       </BrowserRouter>
