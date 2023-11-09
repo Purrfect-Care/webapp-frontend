@@ -15,7 +15,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: start;
+    justify-content: flex-start;
 }
 
 .form input {
@@ -29,6 +29,27 @@
 }
 
 .main {
-    margin-top: 40px;
+    margin-top: 30px;
 }
 
+.roles {
+    margin-right: 15px;
+}
+
+.clinics {
+    padding: 8px 160px;
+}
+
+.links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 450px;
+}
+
+.footer-bttn {
+    display: flex;
+    justify-content: flex-end;
+    width: 450px;
+    align-items: center;
+}
