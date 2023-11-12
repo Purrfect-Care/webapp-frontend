@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./PatientSection.css";
 import NavBar from "../NavBar/NavBar";
+import AboutPage from "../AboutPage/AboutPage";
+import VisitsPage from "../VisitsPage/VisitsPage";
+import DocumentsPage from "../DocumentsPage/DocumentsPage";
+import OwnerPage from "../OwnerPage/OwnerPage";
 
 const PatientSection = ({ patientId }) => {
   const [patient, setPatientData] = useState(null);
+  const [activeComponent, setActiveComponent] = useState("INFORMACJE");
 
   useEffect(() => {
     if (patientId) {
@@ -24,6 +29,10 @@ const PatientSection = ({ patientId }) => {
     return <h1>Loading...</h1>;
   }
 
+  const handleSelectOption = (selectedComponent) => {
+    setActiveComponent(selectedComponent);
+  };
+
   return (
     <div className="patientSection">
       <div className="patientSection-top">
@@ -38,7 +47,13 @@ const PatientSection = ({ patientId }) => {
             </span>
           </div>
         </div>
-        <NavBar id={patientId}/>
+        <NavBar id={patientId} onSelectOption={handleSelectOption}/>
+      </div>
+      <div className="patientSection-content">
+        {activeComponent === "INFORMACJE" && <AboutPage patient={patient} />}
+        {activeComponent === "WIZYTY" && <VisitsPage patient={patient} />}        
+        {activeComponent === "DOKUMENTACJA" && <DocumentsPage patient={patient} />}   
+        {activeComponent === "WŁAŚCICIEL" && <OwnerPage patient={patient} />}   
       </div>
     </div>
   );

@@ -21,14 +21,14 @@ const Login = () => {
           placeholder="Hasło"
         />
         <span className="flex flex-between w-96 items-center">
-          <span className=" flex justify-start whitespace-nowrap text-sm">
+          <span className=" flex justify-start whitespace-nowrap text-sm text-emerald-950">
             <h5>Nie masz konta?</h5>
             <a href="http://localhost:3000/sign-in" className="ml-1 font-semibold">Zarejestruj się.</a>
           </span>
           <footer className="flex justify-end w-96">
             <button
               type="submit"
-              className="bg-customGrey hover:bg-blue-600 px-10 py-2 rounded  text-black hover:shadow-md"
+              className="bg-emerald-800 hover:bg-blue-600 px-10 py-2 rounded  text-white hover:shadow-md"
             >
               Zaloguj się
             </button>

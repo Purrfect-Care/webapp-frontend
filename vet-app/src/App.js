@@ -22,6 +22,7 @@ function App() {
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/patients/:id" element={<PatientsPage />} />
             <Route path="/visit_type" element={<VisitTypePage />} />
+            <Route path="/patients/:id/*" element={<PatientsPage />} />
           </Routes>
       </BrowserRouter>
     </div>

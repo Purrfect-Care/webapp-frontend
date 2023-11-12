@@ -61,14 +61,14 @@ const SignIn = () => {
           </select>
         </div>
         <span className="flex mt-6 flex-between items-center">
-          <span className=" flex justify-start whitespace-nowrap text-sm">
+          <span className=" flex justify-start whitespace-nowrap text-sm text-emerald-950">
             <h5>Masz już konto?</h5>
             <a href="http://localhost:3000/login" className="ml-1 font-semibold">Zaloguj się.</a>
           </span>
           <footer className="flex justify-end w-96">
             <button
               type="submit"
-              className="bg-customGrey hover:bg-blue-600 px-10 py-2 rounded  text-black hover:shadow-md"
+              className="bg-emerald-800 hover:bg-blue-600 px-10 py-2 rounded  text-white hover:shadow-md"
             >
               Zaloguj się
             </button>
