@@ -5,26 +5,30 @@ import AboutPage from "../AboutPage/AboutPage";
 import VisitsPage from "../VisitsPage/VisitsPage";
 import DocumentsPage from "../DocumentsPage/DocumentsPage";
 import OwnerPage from "../OwnerPage/OwnerPage";
+import { patientRequest } from "../../../api/patientsRequests";
 
 const PatientSection = ({ patientId }) => {
   const [patient, setPatientData] = useState(null);
   const [activeComponent, setActiveComponent] = useState("INFORMACJE");
 
   useEffect(() => {
-    if (patientId) {
-      fetch(`http://localhost:8000/api/patients/${patientId}`)
-        .then((response) => response.json())
-        .then((data) => setPatientData(data))
-        .catch((error) => console.error("Error fetching data: " + error));
-    }
+    const fetchData = async () => {
+      try {
+        if (patientId) {
+          const patientData = await patientRequest(patientId);
+          setPatientData(patientData);
+        }
+      } catch (error) {
+        console.error("Error fetching data: " + error);
+      }
+    };
+    fetchData();
   }, [patientId]);
 
-  // Default
   if (!patientId) {
     return <h1>Select a patient</h1>;
   }
 
-  // Temp
   if (!patient) {
     return <h1>Loading...</h1>;
   }
@@ -43,7 +47,7 @@ const PatientSection = ({ patientId }) => {
             <span className="ageBreed">
               {patient.patient_date_of_birth}
               <span className="dot">•</span>
-              {patient.patients_species_id.species_name}
+              {patient.patients_species.species_name}
             </span>
           </div>
         </div>
