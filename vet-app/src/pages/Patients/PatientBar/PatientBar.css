@@ -1,8 +1,7 @@
 .patientBar {
-  height: 89vh;
+  height: 87vh;
   width: 20vw;
   overflow-y: auto;
   background-color: #ffffff;
   box-shadow: inset -5px 8px 24px -15px rgba(66, 68, 90, 1);
-  
 }
