@@ -33,7 +33,7 @@
     height: 2px; /* Adjust the thickness of the underline */
     background-color: #072d21; /* Color of the underline */
     position: absolute;
-    bottom: -1px; /* Position the underline below the text */
+    bottom: 3px; /* Position the underline below the text */
     left: 0;
     transition: width 0.3s; /* Add a smooth transition effect */
   }
