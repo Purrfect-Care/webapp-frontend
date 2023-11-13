@@ -9,7 +9,7 @@ import * as FiIcons from "react-icons/fi";
 const PatientBar = () => {
   const [patients, setPatients] = useState([]);
   const [results, setResults] = useState([]);
-  const [isSearchBarClicked, setIsSearchBarClicked] = useState(false);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,28 +23,16 @@ const PatientBar = () => {
     fetchData();
   }, []);
 
-  const handleSearchBarClick = () => {
-    setIsSearchBarClicked(true);
-  };
-
-  const handleBackClick = () => {
-    setIsSearchBarClicked(false);
-    alert("You clicked the Arrow Left icon!");
-  };
-
   return (
     <div className="patientBar">
-      <div
-        className={`searchBar ${isSearchBarClicked ? "clicked" : ""}`}
-        onClick={handleSearchBarClick}
-      >
+      <div className="searchBar">
         <div className="topSearchBar">
-        <FiIcons.FiArrowLeft className="backIcon" onClick={handleBackClick}/>
-        <SearchBar setResults={setResults} />
+          <FiIcons.FiArrowLeft className="backIcon" />
+          <SearchBar setResults={setResults} />
         </div>
-        {isSearchBarClicked && <SearchResultsList results={results} />}
+        {<SearchResultsList results={results} />}
       </div>
-      {!isSearchBarClicked && patients.map((patient) => (
+      {patients.map((patient) => (
         <PatientRow
           patientId={patient.id}
           ownerName={patient.patients_owner.owner_first_name}
