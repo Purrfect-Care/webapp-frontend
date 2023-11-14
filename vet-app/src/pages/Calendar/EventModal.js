@@ -102,7 +102,7 @@ function EventModal() {
                 <span
                   key={i}
                   onClick={() => setSelectedLabel(lblClass)}
-                  className={`bg-${lblClass} w-6 h-6 rounded-full flex items-center justify-center cursor-pointer border border-gray-400`}
+                  className={`bg-blue w-6 h-6 rounded-full flex items-center justify-center cursor-pointer border border-gray-400`}
                 >
                   {selectedLabel === lblClass && (
                     <AiIcons.AiOutlineCheck className="text-white text-sm" />
