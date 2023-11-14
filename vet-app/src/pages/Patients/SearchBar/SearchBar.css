@@ -21,7 +21,9 @@
 }
 
 .inputSearch:focus {
-    outline: none !important;
+    outline-style: none;
+    box-shadow: none;
+    border-color: transparent;
 }
 
 .searchIcon {

@@ -16,6 +16,7 @@ const PatientBar = () => {
 
   const hideSearchBar = () => {
     setSearchBar(false);
+    setResults([])
     setInput("")
   }
 
