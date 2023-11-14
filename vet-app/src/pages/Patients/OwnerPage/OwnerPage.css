@@ -1,0 +1,25 @@
+.ownerPage{
+    color: #4aa587;
+    margin-top: 35px;
+    margin-left: 40px;
+    display: flex;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.owner-info > div{
+    margin-bottom: 15px;
+
+}
+
+.owner-label {
+    color: #072d21; 
+    font-weight: bold;
+    margin-right: 8px;
+    
+}
+
+.owner-value {
+    color: #4aa587;
+
+}
