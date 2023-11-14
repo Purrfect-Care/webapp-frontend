@@ -1,24 +1,14 @@
-import React, { useState } from "react";
 import "./SearchBar.css";
 import * as FaIcons from "react-icons/fa";
 
-const SearchBar = ({ setResults }) => {
-  const [input, setInput] = useState("");
+const SearchBar = ({ setResults, showSearchResults, setInput, input }) => {
   let debounceTimer;
 
   const fetchData = (value) => {
-    fetch("http://localhost:8000/api/patients/")
+    fetch(`http://localhost:8000/api/patient-search/?query=${value}`)
       .then((response) => response.json())
-      .then((json) => {
-        const results = json.filter((user) => {
-          return (
-            value &&
-            user &&
-            user.patient_name &&
-            user.patient_name.toLowerCase().includes(value)
-          );
-        });
-        setResults(results);
+      .then((json) => {  
+        setResults(json);
       });
   };
 
@@ -35,14 +25,15 @@ const SearchBar = ({ setResults }) => {
   };
 
   return (
-    <div className="inputWrapper">
-      <FaIcons.FaSearch className="searchIcon" />
+    <div className="inputWrapper" >
       <input
         className="inputSearch"
         placeholder="Wyszukaj..."
         value={input}
+        onClick={showSearchResults}
         onChange={(e) => handleChange(e.target.value)}
       />
+      <FaIcons.FaSearch className="searchIcon" />
     </div>
   );
 };

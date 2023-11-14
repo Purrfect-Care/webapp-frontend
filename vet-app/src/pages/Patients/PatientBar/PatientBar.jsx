@@ -9,7 +9,15 @@ import * as FiIcons from "react-icons/fi";
 const PatientBar = () => {
   const [patients, setPatients] = useState([]);
   const [results, setResults] = useState([]);
+  const [searchBar, setSearchBar] = useState(false);
+  const [input, setInput] = useState("");
 
+  const showSearchResults = () => setSearchBar(true);
+
+  const hideSearchBar = () => {
+    setSearchBar(false);
+    setInput("")
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,19 +35,30 @@ const PatientBar = () => {
     <div className="patientBar">
       <div className="searchBar">
         <div className="topSearchBar">
-          <FiIcons.FiArrowLeft className="backIcon" />
-          <SearchBar setResults={setResults} />
+          {searchBar && (
+            <FiIcons.FiArrowLeft className="backIcon" onClick={hideSearchBar} />
+          )}
+          <SearchBar
+            setResults={setResults}
+            showSearchResults={showSearchResults}
+            setInput={setInput}
+            input={input}
+          />
         </div>
-        {<SearchResultsList results={results} />}
       </div>
-      {patients.map((patient) => (
-        <PatientRow
-          patientId={patient.id}
-          ownerName={patient.patients_owner.owner_first_name}
-          ownerSurname={patient.patients_owner.owner_last_name}
-          patientName={patient.patient_name}
-        />
-      ))}
+      {searchBar && <SearchResultsList results={results} />}
+
+      <div className="patients">
+      {!searchBar &&
+        patients.map((patient) => (
+          <PatientRow
+            patientId={patient.id}
+            ownerName={patient.patients_owner.owner_first_name}
+            ownerSurname={patient.patients_owner.owner_last_name}
+            patientName={patient.patient_name}
+          />
+        ))}
+        </div>
     </div>
   );
 };
