@@ -1,6 +1,7 @@
 .patientSection {
     background-color: #9DCDBF21;
     width: 80vw;
+    height: 87vh;
 }
 
 .rectangle {
@@ -33,4 +34,5 @@
 
 .patientSection-top {
     box-shadow: inset -5px 8px 24px -15px rgba(66, 68, 90, 1);
+
 }

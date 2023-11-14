@@ -1,0 +1,10 @@
+.docsCard {
+    width: 98%;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    justify-content: center;
+    height: 100px;
+    background-color: #9bc8b871;
+}

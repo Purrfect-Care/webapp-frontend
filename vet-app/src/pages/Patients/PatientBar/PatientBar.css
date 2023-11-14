@@ -1,8 +1,38 @@
 .patientBar {
-  height: 89vh;
+  height: 87vh;
   width: 20vw;
-  overflow-y: auto;
   background-color: #ffffff;
   box-shadow: inset -5px 8px 24px -15px rgba(66, 68, 90, 1);
-  
+  min-width: 250px;
+}
+
+.searchBar {
+  height: 10vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 2px solid #ddd;
+
+}
+
+.patients {
+  overflow-y: auto;
+  height: 77vh;
+  width: 20vw;
+  min-width: 250px;
+}
+
+
+.topSearchBar {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  margin-left: 6px;
+}
+
+.backIcon {
+  font-size: 1.5rem;
+  color:  #4AA587;
 }
