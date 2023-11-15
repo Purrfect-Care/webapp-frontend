@@ -1,23 +1,41 @@
 import React from "react";
 import "./DocsCard.css";
-import * as GrIcons from "react-icons/gr";
+import * as AiIcons from "react-icons/ai";
 
+const DocsCard = ({ prescId, medications, date, onDelete }) => {
+  const cardHeight = 100 + medications.length * 40;
 
-const DocsCard = ({ prescId, medications, date }) => {
-    return (
-        <div className="docsCard">
-          <h3>Prescription ID: {prescId}</h3>
-          <p>Prescription Date: {date}</p>
-          <h4>Prescribed Medications:</h4>
-          <ul>
-            {medications.map((medication) => (
-              <li key={medication.id}>
-                <p>Medication Amount: {medication.medication_amount}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      );
-    };
+  const handleDelete = () => {
+    onDelete(prescId);
+  };
+
+  return (
+    <div className="docsCard" style={{ height: `${cardHeight}px` }}>
+      <table>
+        <thead>
+          <tr>
+            <th>Nazwa leku</th>
+            <th>Przepisana ilość</th>
+            <th>Data przepisania leku</th>
+            <th className="icons">
+              <AiIcons.AiOutlineDelete className="deleteIcon" onClick={handleDelete} />
+              <AiIcons.AiOutlineFilePdf />
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {medications.map((medication) => (
+            <tr key={medication.id}>
+              <td>{medication.medication_name.medication_name}</td>
+              <td>{medication.medication_amount}</td>
+              <td>{date}</td>
+              <td></td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
 export default DocsCard;
