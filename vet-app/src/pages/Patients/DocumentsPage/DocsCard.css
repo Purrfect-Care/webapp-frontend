@@ -1,10 +1,55 @@
 .docsCard {
-    width: 98%;
-    border-radius: 8px;
-    padding: 16px;
-    margin: 16px 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    justify-content: center;
-    height: 100px;
-    background-color: #9bc8b871;
+  width: 98%;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  justify-content: center;
+  height: 400px;
+  background-color: #9bc8b871;
+  overflow: hidden;
+  display: flex;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 16px;
+  margin: 0 auto;
+}
+
+th,
+td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+thead {
+  background-color: #4aa587;
+  color: #fff;
+}
+
+td {
+  background-color: #fff;
+}
+
+th:not(:last-child),
+td:not(:last-child) {
+  border-right: 1px solid #ddd; 
+}
+
+.icons {
+  font-size: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;
+  padding: 12px 0;
+  width:100%;
+}
+
+.deleteIcon {
+  margin-right: 15px;
+  font-size: 1.7rem;
 }
