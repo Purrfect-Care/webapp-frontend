@@ -17,7 +17,7 @@ const DocsCard = ({ prescId, medications, date, onDelete }) => {
             <th>Nazwa leku</th>
             <th>Przepisana ilość</th>
             <th>Data przepisania leku</th>
-            <th className="icons">
+            <th className="icons-docs">
               <AiIcons.AiOutlineDelete className="deleteIcon" onClick={handleDelete} />
               <AiIcons.AiOutlineFilePdf />
             </th>
