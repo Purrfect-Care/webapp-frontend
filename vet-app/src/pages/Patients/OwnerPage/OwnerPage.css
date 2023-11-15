@@ -1,9 +1,9 @@
 .ownerPage{
     color: #4aa587;
-    margin-top: 35px;
+    margin-top: 30px;
     margin-left: 40px;
     display: flex;
-    font-size: 20px;
+    font-size: 17px;
     margin-bottom: 10px;
 }
 
@@ -22,4 +22,18 @@
 .owner-value {
     color: #4aa587;
 
+}
+
+.edit-owner-button {
+    color: #ffffff;
+    background-color: #4aa587;
+    padding: 10px 20px;
+    font-size: 17px;
+    border: 2px solid #4aa587;
+    cursor: pointer;
+}
+
+.edit-owner-button:hover {
+    background-color: #ffffff;
+    color: #4aa587;
 }

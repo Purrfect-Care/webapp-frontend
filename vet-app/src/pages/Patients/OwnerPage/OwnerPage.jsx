@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Routes, Route, useNavigate, useParams } from "react-router-dom";
 import { patientRequest } from "../../../api/patientsRequests.js"; 
 import "./OwnerPage.css";
-import PatientBar from "../PatientBar/PatientBar";
-import PatientRow from "../PatientRow/PatientRow";
-import NavBar from "../NavBar/NavBar";
-import PatientSection from "../PatientSection/PatientSection";
-import Sidebar from "../../../components/Sidebar/Sidebar";
-import Header from "../../../components/Header/Header";
-import PatientsPage from "../PatientsPage";
+import EditOwnerForm from "../../../components/EditOwnerForm/EditOwnerForm.jsx";
+
 
 const OwnerPage = () => {
     const [ownerData, setOwnerData] = useState(null);
+    const [isEditFormOpen, setIsEditFormOpen] = useState(false);
     const navigate = useNavigate();
     const { id: patientId } = useParams();
 
@@ -45,43 +41,56 @@ const OwnerPage = () => {
       
           fetchData();
         }, [patientId, navigate]);
+
+        const handleEditButtonClick = () => {
+          setIsEditFormOpen(true);
+        };
       
+        const handleCloseEditForm = () => {
+          setIsEditFormOpen(false);
+        };
+      
+        
         return (
             <>
             <div className="ownerPage">
-            {ownerData ? (
-          <div className="owner-info">
-            <div>
-              <span className="owner-label">Imię:</span>
-              <span className="owner-value">{ownerData.owner_first_name}</span>
+              {ownerData ? (
+                <div className="owner-info">
+                  <div>
+                    <span className="owner-label">Imię:</span>
+                    <span className="owner-value">{ownerData.owner_first_name}</span>
+                  </div>
+                  <div>
+                    <span className="owner-label">Nazwisko:</span>
+                    <span className="owner-value">{ownerData.owner_last_name}</span>
+                  </div>
+                  <div>
+                    <span className="owner-label">Adres:</span>
+                    <span className="owner-value">{ownerData.owner_address}</span>
+                  </div>
+                  <div>
+                    <span className="owner-label">Kod pocztowy:</span>
+                    <span className="owner-value">
+                      {ownerData.owner_postcode} {ownerData.owner_city}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="owner-label">Numer telefonu:</span>
+                    <span className="owner-value">{ownerData.owner_phone_number}</span>
+                  </div>
+                  <div>
+                    <span className="owner-label">Email:</span>
+                    <span className="owner-value">{ownerData.owner_email}</span>
+                  </div>
+                  <div>
+                    <button className="edit-owner-button" onClick={handleEditButtonClick}>Zmień dane właściciela</button>
+                  </div>
+                </div>
+                ) : (
+                <p>...</p>
+              )}
             </div>
-            <div>
-              <span className="owner-label">Nazwisko:</span>
-              <span className="owner-value">{ownerData.owner_last_name}</span>
-            </div>
-            <div>
-              <span className="owner-label">Adres:</span>
-              <span className="owner-value">{ownerData.owner_address}</span>
-            </div>
-            <div>
-              <span className="owner-label">Kod pocztowy:</span>
-              <span className="owner-value">
-                {ownerData.owner_postcode} {ownerData.owner_city}
-              </span>
-            </div>
-            <div>
-              <span className="owner-label">Numer telefonu:</span>
-              <span className="owner-value">{ownerData.owner_phone_number}</span>
-            </div>
-            <div>
-              <span className="owner-label">Email:</span>
-              <span className="owner-value">{ownerData.owner_email}</span>
-            </div>
-          </div>
-        ) : (
-          <p>...</p>
-        )}
-          </div>
+            <EditOwnerForm isOpen={isEditFormOpen} ownerId={ownerData?.id} existingData={ownerData} onClose={handleCloseEditForm} />
           </>          
         );
       };
