@@ -25,7 +25,6 @@
     margin-bottom: 10px;
     display: flex;
     align-items: center;
-    
 }
 
 .owner-label {
@@ -33,6 +32,13 @@
     font-weight: bold;
     margin-right: 8px;
     margin-bottom: 8px;
+}
 
-    
+form > div {
+    margin-bottom: 5px;
+}
+
+form input {
+    padding: 8px;
+    margin-bottom: 5px;
 }

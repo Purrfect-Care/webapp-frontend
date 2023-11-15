@@ -14,14 +14,12 @@ const OwnerPage = () => {
     useEffect(() => {
         const fetchData = async () => {
           try {
-            // Fetch patient data using the patient ID from the path
             const patientData = await patientRequest(patientId);
     
-            // Extract owner id from patient data
             const ownerId = patientData.patients_owner.id;
-            //setOwnerId(ownerId);
             const ownerEndpoint = `http://127.0.0.1:8000/api/owners/${ownerId}`;
             const ownerResponse = await fetch(ownerEndpoint);
+
             if (ownerResponse.ok) {
                 const ownerData = await ownerResponse.json();
                 setOwnerData(ownerData);
@@ -29,18 +27,16 @@ const OwnerPage = () => {
                 console.error(
                   `Error fetching owner data: ${ownerResponse.status} - ${await ownerResponse.text()}`
                 );
-                // Redirect or handle the error as needed
-                navigate("/error"); // Example: Redirect to an error page
+                navigate("/error"); 
               }
             } catch (error) {
               console.error(`Error fetching patient data: ${error.message}`);
-              // Redirect or handle the error as needed
-              navigate("/error"); // Example: Redirect to an error page
+              navigate("/error"); 
             }
           };
       
           fetchData();
-        }, [patientId, navigate]);
+          }, [patientId, navigate, isEditFormOpen]);
 
         const handleEditButtonClick = () => {
           setIsEditFormOpen(true);
@@ -48,6 +44,27 @@ const OwnerPage = () => {
       
         const handleCloseEditForm = () => {
           setIsEditFormOpen(false);
+          fetchData();
+        };
+
+        const fetchData = async () => {
+          try {
+            const patientData = await patientRequest(patientId);
+            const ownerId = patientData.patients_owner.id;
+            const ownerEndpoint = `http://127.0.0.1:8000/api/owners/${ownerId}`;
+            const ownerResponse = await fetch(ownerEndpoint);
+      
+            if (ownerResponse.ok) {
+              const ownerData = await ownerResponse.json();
+              setOwnerData(ownerData);
+            } else {
+              console.error(`Error fetching owner data: ${ownerResponse.status} - ${await ownerResponse.text()}`);
+              navigate("/error");
+            }
+          } catch (error) {
+            console.error(`Error fetching patient data: ${error.message}`);
+            navigate("/error");
+          }
         };
       
         
@@ -87,10 +104,14 @@ const OwnerPage = () => {
                   </div>
                 </div>
                 ) : (
-                <p>...</p>
+                <p>Ładowanie...</p>
               )}
             </div>
-            <EditOwnerForm isOpen={isEditFormOpen} ownerId={ownerData?.id} existingData={ownerData} onClose={handleCloseEditForm} />
+            <EditOwnerForm
+              isOpen={isEditFormOpen}
+              ownerId={ownerData?.id}
+              existingData={ownerData}
+              onClose={handleCloseEditForm} />          
           </>          
         );
       };
