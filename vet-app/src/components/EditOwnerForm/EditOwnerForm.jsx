@@ -43,6 +43,7 @@ const handleSubmit = async (e) => {
 
     if (response.ok) {
       console.log('Owner data updated successfully');
+      window.location.reload();
     } else {
       console.error(`Failed to update owner data: ${await response.text()}`);
     }

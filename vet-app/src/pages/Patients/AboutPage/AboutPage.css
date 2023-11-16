@@ -1,0 +1,23 @@
+.aboutPage{
+    color: #4aa587;
+    margin-top: 30px;
+    margin-left: 40px;
+    display: flex;
+    font-size: 17px;
+    margin-bottom: 10px;
+}
+
+.patient-info > div{
+    margin-bottom: 15px;
+}
+
+.patient-label {
+    color: #072d21; 
+    font-weight: bold;
+    margin-right: 8px;
+    
+}
+
+.patient-value {
+    color: #4aa587;
+}
