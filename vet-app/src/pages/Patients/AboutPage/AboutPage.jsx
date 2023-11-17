@@ -1,5 +1,3 @@
-// AboutPage.jsx
-
 import React, { useState, useEffect } from "react";
 import { patientRequest } from "../../../api/patientsRequests.js";
 import { useNavigate, useParams } from "react-router-dom";
@@ -17,7 +15,6 @@ const AboutPage = () => {
         setPatientData(data);
       } catch (error) {
         console.error('Error fetching patient data:', error.message);
-        // Handle the error as needed (e.g., show an error message)
       }
     };
 
@@ -25,7 +22,7 @@ const AboutPage = () => {
   }, [patientId]);
 
   if (!patientData) {
-    return <p>Loading...</p>; // You can render a loading indicator while data is being fetched
+    return <p className="aboutPage">Loading...</p>; 
   }
 
   return (
@@ -51,7 +48,7 @@ const AboutPage = () => {
               </div>
             </div>
             ) : (
-            <p>Ładowanie...</p>
+            <p className="aboutPage">Ładowanie...</p>
           )}
         </div>
     </>

@@ -1,0 +1,42 @@
+.illnessHistoryPage{
+    color: #4aa587;
+    margin-top: 30px;
+    margin-left: 30px;
+    display: flex;
+    font-size: 17px;
+    margin-bottom: 10px;
+}
+
+.illness-history-item {
+  border: 2px solid #4aa587;
+  padding: 10px;
+  margin-bottom: 15px;
+  display: flex;
+  justify-content:flex;
+  width:fit-content;
+  margin-left: 40px;
+
+}
+
+.illness-label {
+  color: #072d21;
+  font-weight: bold;
+  margin-right: 8px;
+}
+
+.illness-value {
+  color: #4aa587;
+  margin-left: 5px;
+  margin-right: 40px;
+}
+
+
+
+.no-illness-history {
+  color: #4aa587;
+  margin-top: 30px;
+  margin-left: 40px;
+  font-size: 17px;
+  margin-bottom: 10px;
+}
+
