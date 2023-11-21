@@ -1,5 +1,5 @@
-export async function visitTypeRequest(){
-    const endpoint = "http://localhost:8000/api/visit_types/"
+export async function visitSubtypeRequest(){
+    const endpoint = "http://localhost:8000/api/visit_subtypes/"
 
     const response = await fetch(endpoint, { 
         method: "GET"
