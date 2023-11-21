@@ -7,6 +7,8 @@ import PatientsPage from "./pages/Patients/PatientsPage";
 import VisitTypePage from "./pages/VisitType/VisitType";
 import Login from "./pages/Login/Login";
 import SignIn from "./pages/SignIn/SignIn";
+import AddClinic from "./pages/AddClinic/AddClinic";
+
 
 function App() {
   return (
@@ -23,6 +25,7 @@ function App() {
             <Route path="/patients/:id" element={<PatientsPage />} />
             <Route path="/visit_type" element={<VisitTypePage />} />
             <Route path="/patients/:id/*" element={<PatientsPage />} />
+            <Route path="/add-clinic" element={<AddClinic />} />
           </Routes>
       </BrowserRouter>
     </div>

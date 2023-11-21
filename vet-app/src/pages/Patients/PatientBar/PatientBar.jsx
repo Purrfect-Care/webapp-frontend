@@ -34,7 +34,9 @@ const PatientBar = () => {
   useEffect(() => {
     setFilteredPatients(
       patients.filter((patient) =>
-        patient.patient_name.toLowerCase().includes(input.toLowerCase())
+        patient.patient_name.toLowerCase().includes(input.toLowerCase()) ||
+        patient.patients_owner.owner_first_name.toLowerCase().includes(input.toLowerCase()) ||
+        patient.patients_owner.owner_last_name.toLowerCase().includes(input.toLowerCase())
       )
     );
   }, [input, patients]);
