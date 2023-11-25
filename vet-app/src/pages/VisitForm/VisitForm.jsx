@@ -7,6 +7,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';  // Import the utc plugin
+import timezone from 'dayjs/plugin/timezone';
 
 const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
   const [formValues, setFormValues] = useState({
@@ -54,6 +56,12 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
   const [subtypesForSelectedType, setSubtypesForSelectedType] = useState([]);
   const [allSubtypes, setAllSubtypes] = useState([]);
 
+
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
+  // Set the time zone to Warsaw (CET)
+  dayjs.tz.setDefault('Europe/Warsaw');
+  dayjs.locale('en');
   useEffect(() => {
     setReadOnly(!edit);
   }, [edit]);
@@ -66,7 +74,7 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
           visitSubtypeRequest(),
           allPatientsRequest(),
         ]);
-  
+
         setAllTypes(visitTypes);
         setAllSubtypes(visitSubtypes);
         setAllPatients(patients);
@@ -74,7 +82,7 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
         console.error('Error fetching data:', error);
       }
     };
-  
+
     fetchData();
   }, []);
 
@@ -126,7 +134,7 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
     console.log('Form submitted!');
     await onSubmit(formValues);
     onClose();
-    window.location.reload();
+    // window.location.reload();
   };
 
   return (
@@ -167,17 +175,22 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
           <label>
             Waga pacjenta (kg):
             <input
-              type="text"
+              type="number"
+              step="0.01"
+              min="0"
               name="patient_weight"
               value={formValues.patient_weight}
               onChange={handleChange}
               disabled={!!readOnly}
             />
           </label>
+
           <label>
             Wzrost pacjenta (cm):
             <input
-              type="text"
+              type="number"
+              step="0.01"
+              min="0"
               name="patient_height"
               value={formValues.patient_height}
               onChange={handleChange}
@@ -244,6 +257,7 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
                   value={dayjs(formValues.visit_datetime)}
                   onChange={handleDateTimeChange}
                   disabled={!!readOnly}
+                  dayOfWeekFormatter={(_day, weekday) => `${weekday.format('dd')}`}
                 />
               </LocalizationProvider>
             </label>
