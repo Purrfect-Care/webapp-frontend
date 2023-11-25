@@ -1,33 +1,111 @@
-.illnessHistoryPage{
-    color: #4aa587;
-    margin-top: 30px;
-    margin-left: 30px;
-    display: flex;
-    font-size: 17px;
-    margin-bottom: 10px;
+/* Reset some default styles for better consistency */
+body, h1, h2, p, ul {
+  margin: 0;
+  padding: 0;
 }
 
-.illness-history-item {
-  border: 2px solid #4aa587;
-  padding: 10px;
-  margin-bottom: 15px;
-  display: flex;
-  justify-content:flex;
-  width:fit-content;
-  margin-left: 40px;
-
+body {
+  font-family: 'Arial', sans-serif;
 }
 
-.illness-label {
-  color: #072d21;
+/* Container for the entire page */
+.container {
+  margin: 20px;
+}
+
+/* Header styling */
+.column-bar {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr; /* Equal widths for the four columns */
+  justify-content: space-between;
+  cursor: pointer;
   font-weight: bold;
-  margin-right: 8px;
+  padding-top: 20px;
+  border-bottom: 1px solid black; /* Bottom border only */
+  text-align: center; /* Center the text */
 }
 
-.illness-value {
+/* Styling for each column in the header */
+.column-illness_history_name,
+.column-illness_history_date,
+.column-illness_history_delete {
+  grid-column: span 1; /* Each element takes one column */
+}
+
+/* Visit list styling */
+.illness-history-list {
+  align-items: center; /* Center the items horizontally */
+}
+
+/* Styling for each visit item */
+.illness-history-item {
+  height: 50px;
+  width: 100%;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr; /* Equal widths for the four columns */
+  align-items: center;
+  justify-items: center; /* Center the items horizontally within each cell */ /* Added margin between items for better spacing */
+}
+
+/* Alternating background colors for visit items */
+.illness-history-item:nth-child(odd) {
+  background-color: white; /* Apply white background */
+}
+
+.illness-history-item:nth-child(even) {
+  background-color: lightgray; /* Apply light gray background */
+}
+
+/* Styling for visit name */
+.illness-name {
+  font-weight: bold;
+  text-align: center;
+}
+
+/* Styling for links within visit name */
+.illness-name a {
+  text-decoration: none;
   color: #4aa587;
-  margin-left: 5px;
-  margin-right: 40px;
+  font-weight: bold;
+  position: relative;
+  transition: color 0.3s;
+}
+
+/* Styling for link hover effect */
+.illness-name a::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background-color: #072d21;
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  transition: width 0.3s;
+}
+
+/* Styling for link hover effect */
+.illness-name a:hover {
+  color: #072d21;
+}
+
+/* Styling for link hover effect */
+.illness-name a:hover::after {
+  width: 100%;
+}
+
+/* Styling for visit date, edit, and delete */
+.illness-history-date,
+.illness-history-delete {
+  text-align: center;
+}
+
+.illness-history-delete button {
+  color: red;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
 }
 
 
