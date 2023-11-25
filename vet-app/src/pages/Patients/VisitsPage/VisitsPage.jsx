@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { visitsRequest, updateVisitRequest, deleteVisitRequest } from '../../../api/visitsRequest';
 import './VisitsPage.css';
 import VisitForm from '../../../pages/VisitForm/VisitForm';
+import ConfirmationPopup from "../../../components/ConifrmationPopup/ConfirmationPopup";
 import { FaPen, FaTrash } from 'react-icons/fa';// Import the VisitForm component
 
 const VisitsPage = ({ patient }) => {
@@ -10,6 +11,8 @@ const VisitsPage = ({ patient }) => {
   const [selectedVisit, setSelectedVisit] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [visitToDelete, setVisitToDelete] = useState(null);
 
   useEffect(() => {
     if (patient) {
@@ -71,27 +74,35 @@ const VisitsPage = ({ patient }) => {
     closeForm();
   };
   
-  const deleteVisit = async (visit) => {
+  const deleteVisit = (visit) => {
+    setVisitToDelete(visit);
+    setShowConfirmation(true);
+  };
+
+  const confirmDeleteVisit = async () => {
     try {
-      if (!visit || !visit.id) {
+      if (!visitToDelete || !visitToDelete.id) {
         console.error('No selected visit or visit ID');
         return;
       }
-  
-      const shouldDelete = window.confirm('Czy na pewno chcesz usunąć wizytę?');
-  
-      if (shouldDelete) {
-        const visitId = visit.id;
-        await deleteVisitRequest(visitId);
-        console.log('Visit deleted successfully');
-      }
+
+      const visitId = visitToDelete.id;
+      await deleteVisitRequest(visitId);
+      console.log('Visit deleted successfully');
+      setVisits((prevVisits) =>
+        prevVisits.filter((visit) => visit.id !== visitToDelete.id)
+      );
     } catch (error) {
       console.error('Error deleting visit:', error);
+    } finally {
+      // Close the form
+      closeForm();
+      setShowConfirmation(false);
     }
-  
-    // Close the form
-    closeForm();
-    window.location.reload();
+  };
+
+  const cancelDeleteVisit = () => {
+    setShowConfirmation(false);
   };
 
 
@@ -155,6 +166,13 @@ const VisitsPage = ({ patient }) => {
           onSubmit={updateForm}
           initialValues={selectedVisit}
           edit={editMode} // Pass the selected visit details to the form
+        />
+      )}
+      {showConfirmation && (
+        <ConfirmationPopup
+          message="Czy na pewno chcesz usunąć wizytę?"
+          onConfirm={confirmDeleteVisit}
+          onCancel={cancelDeleteVisit}
         />
       )}
     </div>
