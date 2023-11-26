@@ -3,17 +3,21 @@ import React, { useContext, useEffect, useState } from "react";
 import GlobalContext from "../../context/GlobalContext";
 
 const Day = ({ day, rowIdx }) => {
-  const { setDaySelected, setShowEventModal, filteredEvents, setSelectedEvent} =
-    useContext(GlobalContext);
+  const {
+    setDaySelected,
+    setShowEventModal,
+    filteredEvents,
+    setSelectedEvent,
+  } = useContext(GlobalContext);
   const [dayEvents, setDayEvents] = useState([]);
 
-  useEffect(
-    () => {
-      const events = filteredEvents.filter(
-        (evt) => dayjs(evt.day).format("DD-MM-YY") === day.format("DD-MM-YY")
-      );
-      setDayEvents(events);
-    },[filteredEvents, day]);
+  useEffect(() => {
+    const events = filteredEvents.filter(
+      (evt) =>
+        dayjs(evt.visit_datetime).format("DD-MM-YY") === day.format("DD-MM-YY")
+    );
+    setDayEvents(events);
+  }, [filteredEvents, day]);
 
   function getCurrentDayClass() {
     return day.format("DD-MM-YY") === dayjs().format("DD-MM-YY")
@@ -42,15 +46,17 @@ const Day = ({ day, rowIdx }) => {
           setShowEventModal(true);
         }}
       >
-        {dayEvents.map((evt, idx) => (
-          <div
-            key={idx}
-            onClick={() => setSelectedEvent(evt)}
-            className={`bg-${evt.label} p-1 mr-3 text-white text-sm rounded mb-1 truncate`}
-          >
-            {evt.title}
-          </div>
-        ))}
+        {dayEvents.map((evt, idx) => {
+          return (
+            <div
+              key={idx}
+              onClick={() => setSelectedEvent(evt)}
+              className={`bg-${evt.visit_status.toLowerCase()}-200 p-1 mr-3 text-black text-sm rounded mb-1 truncate`}
+            >
+              {evt.visits_visit_type.visit_type_name}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

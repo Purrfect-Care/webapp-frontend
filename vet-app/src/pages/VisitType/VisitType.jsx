@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { visitTypeRequest } from '../../api/visitTypeRequest'; // Import your API function
+import { visitTypesRequest } from '../../api/visitsRequests.js'; // Import your API function
 
 function VisitTypePage() {
   const [visitTypes, setVisitTypes] = useState([]);
@@ -9,7 +9,7 @@ function VisitTypePage() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const data = await visitTypeRequest();
+        const data = await visitTypesRequest();
         setVisitTypes(data);
         setLoading(false);
       } catch (error) {
@@ -31,7 +31,7 @@ function VisitTypePage() {
 
   return (
     <div>
-      <h1>Visit Typessssssss</h1>
+      <h1>Visit Types</h1>
       <ul>
         {visitTypes.map(visitType => (
           <li key={visitType.id}>{visitType.visit_type_name}</li>
