@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { patientRequest } from "../../../api/patientsRequests.js";
 import "./IllnessHistoryPage.css";
-import { FaPen, FaTrash } from 'react-icons/fa';// Import the VisitForm component
+import { FaTrash } from 'react-icons/fa';
 import { illnessHistoryRequest, createIllnessHistoryRequest, deleteIllnessHistoryRequest } from "../../../api/illnessHistoryRequests.js";
 
 
@@ -11,7 +10,6 @@ const IllnessHistoryPage = ({patient}) => {
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState({ column: 'DATA', ascending: true });
   const navigate = useNavigate();
-  const { id: patientId } = useParams();
 
   useEffect(() => {
     if (patient) {
@@ -28,9 +26,9 @@ const IllnessHistoryPage = ({patient}) => {
       }
     };
 
-  fetchIllnessHistory();
-}
-}, [patient]);
+    fetchIllnessHistory();
+  }
+} , [patient]);
 
   const sortColumn = (column) => {
     if (sortBy.column === column) {
@@ -57,23 +55,14 @@ const IllnessHistoryPage = ({patient}) => {
   };
 
   if (loading) {
-    return <p className="illnessHistoryPage">Ładowanie...</p>;
+    return <p className="loading">Ładowanie...</p>;
   }
 
   if (!illnessHistory.length) {
     return <p className="no-illness-history">Brak chorób dla tego pacjenta.</p>;
   }
 
-  // Filter the illnessHistory based on the condition
-  const filteredIllnessHistory = illnessHistory.filter(
-    (historyItem) => historyItem.illness_history_patient_id == patientId
-  );
-
-  if (!filteredIllnessHistory.length) {
-    return <p className="no-illness-history">Brak chorób dla tego pacjenta.</p>;
-  }
-
-  const sortedIllnessHistory = [...filteredIllnessHistory].sort((a, b) => {
+  const sortedIllnessHistory = [...illnessHistory].sort((a, b) => {
     if (sortBy.column === 'DATA') {
       const dateA = new Date(a.illness_onset_date);
       const dateB = new Date(b.illness_onset_date);
@@ -118,18 +107,6 @@ const IllnessHistoryPage = ({patient}) => {
       </div>
     </div>
 
-    // <div className="illnessHistoryPage">
-    //   <ul>
-    //     {filteredIllnessHistory.map((historyItem) => (
-    //       <li key={historyItem.id} className="illness-history-item">
-    //       <p className="illness-label">Data:</p>
-    //       <p className="illness-value">{historyItem.illness_onset_date}</p>
-    //       <p className="illness-label">Choroba:</p>
-    //       <p className="illness-value">{historyItem.illness_history_illness.illness_name}</p>
-    //     </li>
-    //     ))}
-    //   </ul>
-    // </div>
     
   );
 };

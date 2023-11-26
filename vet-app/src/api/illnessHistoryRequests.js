@@ -4,7 +4,6 @@ export async function illnessHistoryRequest(patientId) {
     const response = await fetch(endpoint);
     if (response.ok) {
         const data = await response.json();
-        // Filter visits based on the patientId
         const filteredIllnessHistory = data.filter(illnessHistory => illnessHistory.illness_history_patient.id === patientId);
         return filteredIllnessHistory;
     }
