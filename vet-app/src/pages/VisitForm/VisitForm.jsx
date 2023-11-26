@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { allPatientsRequest } from '../../api/patientsRequests';
 import { visitTypeRequest } from '../../api/visitTypeRequest'
 import { visitSubtypeRequest } from '../../api/visitSubtypeRequest'
+import { deleteVisitRequest } from '../../api/visitsRequest';
 import './VisitForm.css';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -9,23 +10,24 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';  // Import the utc plugin
 import timezone from 'dayjs/plugin/timezone';
+import ConfirmationPopup from "../../components/ConifrmationPopup/ConfirmationPopup";
 
 const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
   const [formValues, setFormValues] = useState({
     visits_patient: {
       patient_name: '',
-      patient_gender: null,
-      patient_date_of_birth: null,
-      patients_owner_id: null,
-      patients_species_id: null,
-      patients_breed_id: null,
+      patient_gender: '',
+      patient_date_of_birth: '',
+      patients_owner_id: '',
+      patients_species_id: '',
+      patients_breed_id: '',
     },
     visits_visit_type: {
       visit_type_name: '',
     },
     visits_visit_subtype: {
       visit_subtype_name: '',
-      visit_subtypes_visit_type_id: null,
+      visit_subtypes_visit_type_id: '',
     },
     visits_employee: {
       employee_role: '',
@@ -37,24 +39,27 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
       employee_phone_number: '',
       employee_email: '',
       employee_password: '',
-      employees_clinic_id: null,
+      employees_clinic_id: '',
     },
-    visit_datetime: null,
-    visit_duration: null,
-    visit_status: null,
+    visit_datetime: '',
+    visit_duration: '',
+    visit_status: '',
     visit_description: '',
-    patient_weight: null,
-    patient_height: null,
-    visits_patient_id: null,
-    visits_visit_type_id: null,
-    visits_visit_subtype_id: null,
-    visits_employee_id: null,
+    patient_weight: '',
+    patient_height: '',
+    visits_patient_id: '',
+    visits_visit_type_id: '',
+    visits_visit_subtype_id: '',
+    visits_employee_id: '',
   });
   const [readOnly, setReadOnly] = useState(!edit);
   const [allTypes, setAllTypes] = useState([]);
   const [allPatients, setAllPatients] = useState([]);
   const [subtypesForSelectedType, setSubtypesForSelectedType] = useState([]);
   const [allSubtypes, setAllSubtypes] = useState([]);
+  const [visitToDelete, setVisitToDelete] = useState(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [editWasPressed, setEditWasPressed] = useState(false);
 
 
   dayjs.extend(utc);
@@ -135,6 +140,32 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
     await onSubmit(formValues);
     onClose();
     // window.location.reload();
+  };
+
+  const deleteVisit = (visit) => {
+    setVisitToDelete(visit);
+    setShowConfirmation(true);
+  };
+
+  const confirmDeleteVisit = async () => {
+    try {
+      if (!visitToDelete || !visitToDelete.id) {
+        console.error('No selected visit or visit ID');
+        return;
+      }
+      await deleteVisitRequest(visitToDelete.id);
+      // TODO reload page
+    } catch (error) {
+      console.error('Error deleting visit:', error);
+    } finally {
+      // Close the form
+      onClose();
+      setShowConfirmation(false);
+    }
+  };
+
+  const cancelDeleteVisit = () => {
+    setShowConfirmation(false);
   };
 
   return (
@@ -243,9 +274,9 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
                 disabled={!!readOnly}
               >
                 <option value="">-Wybierz status wizyty-</option>
-                <option value="planned">Zaplanowana</option>
-                <option value="cancelled">Odwołana</option>
-                <option value="complete">Zakończona</option>
+                <option value="Planned">Zaplanowana</option>
+                <option value="Cancelled">Odwołana</option>
+                <option value="Complete">Zakończona</option>
               </select>
             </label>
             <label>
@@ -285,8 +316,20 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
       </form>
       <div className="button-container">
         {readOnly || <button className="form-button" onClick={handleSubmit} type="submit">Zatwierdź</button>}
-        <button className="form-button" onClick={onClose}>Zamknij</button>
+        {!readOnly || <button className="delete-button" onClick={() => deleteVisit(initialValues)}>Usuń</button>}
+        {!readOnly || <button className="form-button"onClick={() => {setReadOnly(false); setEditWasPressed(true)}}>Edytuj</button>}
+        {editWasPressed ? 
+          (<button className="form-button" onClick={() => { setReadOnly(true); setEditWasPressed(false) }}>Anuluj</button>) 
+          : (<button className="form-button" onClick={onClose}>Zamknij</button>)
+        }
       </div>
+      {showConfirmation && (
+        <ConfirmationPopup
+          message="Czy na pewno chcesz usunąć wizytę?"
+          onConfirm={confirmDeleteVisit}
+          onCancel={cancelDeleteVisit}
+        />
+      )}
     </div>
   );
 };
