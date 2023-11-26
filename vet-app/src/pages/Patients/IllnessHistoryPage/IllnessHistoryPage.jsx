@@ -3,9 +3,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import { patientRequest } from "../../../api/patientsRequests.js";
 import "./IllnessHistoryPage.css";
 import { FaPen, FaTrash } from 'react-icons/fa';// Import the VisitForm component
+import { illnessHistoryRequest, createIllnessHistoryRequest, deleteIllnessHistoryRequest } from "../../../api/illnessHistoryRequests.js";
 
 
-const IllnessHistoryPage = () => {
+const IllnessHistoryPage = ({patient}) => {
   const [illnessHistory, setIllnessHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState({ column: 'DATA', ascending: true });
@@ -13,29 +14,23 @@ const IllnessHistoryPage = () => {
   const { id: patientId } = useParams();
 
   useEffect(() => {
-    const fetchIllnessHistory = async () => {
-      try {
-        setLoading(true);
-        const patientData = await patientRequest(patientId);
+    if (patient) {
+      const fetchIllnessHistory = async () => {
+        try {
+          setLoading(true);
+        const data = await illnessHistoryRequest(patient.id);
 
-        const response = await fetch(`http://localhost:8000/api/illness_history/`);
-        
-        if (!response.ok) {
-          throw new Error(`Failed to fetch illness history data: ${await response.text()}`);
-        }
-
-        const data = await response.json();
         setIllnessHistory(data);
       } catch (error) {
-        console.error('Error fetching illness history:', error.message);
-        // Handle the error as needed (e.g., show an error message)
+        console.error('Error fetching data:', error.message);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchIllnessHistory();
-  }, [patientId]);
+  fetchIllnessHistory();
+}
+}, [patient]);
 
   const sortColumn = (column) => {
     if (sortBy.column === column) {
@@ -45,22 +40,20 @@ const IllnessHistoryPage = () => {
     }
   };  
 
-  const deleteIllnessHistoryItem = async (itemId) => {
+
+  const deleteIllnessHistoryItem = async (item) => {
     try {
       const shouldDelete = window.confirm('Czy na pewno chcesz usunąć wpis o chorobie?');
 
       if (shouldDelete) {
-        // Make an API request to delete the item with itemId
-        // Update the illnessHistory state accordingly
-        // Example: await deleteIllnessHistoryItemRequest(itemId);
-        setIllnessHistory((prevIllnessHistory) =>
-          prevIllnessHistory.filter((item) => item.id !== itemId)
-        );
+        const itemId = item.id;
+        await deleteIllnessHistoryRequest(itemId);
         console.log('Illness history item deleted successfully');
       }
     } catch (error) {
       console.error('Error deleting illness history item:', error);
     }
+    window.location.reload();
   };
 
   if (loading) {
