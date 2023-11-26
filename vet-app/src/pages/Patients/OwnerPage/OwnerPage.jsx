@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate, useParams } from "react-router-dom";
 import { patientRequest } from "../../../api/patientsRequests.js"; 
 import "./OwnerPage.css";
-import EditOwnerForm from "../../../components/EditOwnerForm/EditOwnerForm.jsx";
+import EditOwnerForm from "../../EditOwnerForm/EditOwnerForm.jsx";
 
 
 const OwnerPage = () => {

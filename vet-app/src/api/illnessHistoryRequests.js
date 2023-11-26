@@ -61,3 +61,18 @@ export async function createIllnessHistoryRequest(data) {
       throw error;
     }
   }
+
+  export async function illnessesRequest(){
+    const endpoint = "http://127.0.0.1:8000/api/illnesses/"
+  
+    const response = await fetch(endpoint, { 
+        method: "GET"
+    });
+  
+    if (response.ok) {
+        const json = await response.json();
+        return json;
+    }
+  
+    throw new Error('Response ${response.status}: ${response.statusText} - ${await response.text()}');
+  }

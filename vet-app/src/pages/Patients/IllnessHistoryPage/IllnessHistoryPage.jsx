@@ -3,13 +3,15 @@ import { useNavigate, useParams } from "react-router-dom";
 import "./IllnessHistoryPage.css";
 import { FaTrash } from 'react-icons/fa';
 import { illnessHistoryRequest, createIllnessHistoryRequest, deleteIllnessHistoryRequest } from "../../../api/illnessHistoryRequests.js";
-
+import IllnessHistoryForm from "../../IllnessHistoryForm/IllnessHistoryForm.jsx"
 
 const IllnessHistoryPage = ({patient}) => {
   const [illnessHistory, setIllnessHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState({ column: 'DATA', ascending: true });
   const navigate = useNavigate();
+  const [showIllnessHistoryForm, setShowIllnessHistoryForm] = useState(false);
+
 
   useEffect(() => {
     if (patient) {
@@ -75,8 +77,33 @@ const IllnessHistoryPage = ({patient}) => {
     return <p className="no-illness-history">Brak chorób dla tego pacjenta.</p>;
   }
 
+  
+
+  const handleIllnessHistoryForm = () => {
+    setShowIllnessHistoryForm(true);
+  };
+
+  const handleCloseIllnessHistoryForm = () => {
+    setShowIllnessHistoryForm(false);
+  };
+
+  const submitForm = async (formData) => {
+    try {
+      console.log('Form Data:', formData);
+
+      await createIllnessHistoryRequest(formData);
+
+    } catch (error) {
+      console.error('Error submitting form:', error);
+    }
+    handleCloseIllnessHistoryForm();
+  };
+
   return (
     <div>
+      <div>
+      <button onClick={handleIllnessHistoryForm} className="illness_history_form">Przypisz chorobę</button>
+      </div>
       <div className="column-bar">
         <span className="column-illness_history_name" onClick={() => sortColumn('CHOROBA')}>
           CHOROBA {sortBy.column === 'CHOROBA' && (sortBy.ascending ? '↑' : '↓')}
@@ -105,6 +132,16 @@ const IllnessHistoryPage = ({patient}) => {
         </li>
         ))}
       </div>
+      {showIllnessHistoryForm && (
+      <IllnessHistoryForm
+      isOpen={showIllnessHistoryForm}
+              onClose={handleCloseIllnessHistoryForm}
+              initialValues={{
+                illness_history_patient_id: patient.id,
+              }}
+              onSubmit={submitForm}
+ />
+      )}
     </div>
 
     

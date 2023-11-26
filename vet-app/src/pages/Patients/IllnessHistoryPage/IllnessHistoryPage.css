@@ -126,3 +126,20 @@ body {
   font-size: 17px;
   margin-bottom: 10px;
 }
+
+.illness_history_form {
+  background-color: #4aa587;
+  display: flex;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  align-content: center;
+  border-radius: 8px; /* Add rounded corners */
+  margin-top: 10px; /* Move the button to the right side of the container */
+  margin-left:350px;
+}
+
+.illness_history_form:hover {
+  background-color: #2f6d58;
+}
