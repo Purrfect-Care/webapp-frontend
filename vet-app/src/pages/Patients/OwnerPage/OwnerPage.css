@@ -35,3 +35,13 @@
     background-color: #ffffff;
     color: #4aa587;
 }
+
+.loading{
+    color: #4aa587;
+    margin-top: 30px;
+    margin-left: 40px;
+    display: flex;
+    font-size: 17px;
+    margin-bottom: 10px;
+  }
+  
