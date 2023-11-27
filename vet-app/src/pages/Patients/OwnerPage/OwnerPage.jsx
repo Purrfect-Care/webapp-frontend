@@ -104,7 +104,7 @@ const OwnerPage = () => {
                   </div>
                 </div>
                 ) : (
-                <p className="loading">Ładowanie...</p>
+                <p>Ładowanie...</p>
               )}
             </div>
             <EditOwnerForm

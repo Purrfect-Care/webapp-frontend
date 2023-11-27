@@ -98,10 +98,11 @@ const IllnessHistoryForm = ({isOpen, onClose, initialValues, onSubmit}) => {
         console.log('Form submitted!');
         await onSubmit(formValues);
         onClose();
+        window.location.reload();
       };
 
       return (
-        <div style={{ display: isOpen ? 'block' : 'none', position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', border: '2px solid #ccc', padding: '40px', backgroundColor: '#fff', zIndex: '1000' }}>            
+        <div className="popup-form">        
         <h2>Formularz choroby</h2>
         <form onSubmit={handleSubmit} className="form-sections">
         <div className="form-section">
