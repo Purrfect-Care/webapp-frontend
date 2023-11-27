@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import GlobalContext from "./GlobalContext";
 import dayjs from "dayjs";
-import { visitsRequest } from "../api/visitsRequests";
+import { visitsRequest } from "../api/visitsRequest";
 
 export default function ContextWrapper(props) {
   const [monthIndex, setMonthIndex] = useState(dayjs().month());

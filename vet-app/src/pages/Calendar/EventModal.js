@@ -1,14 +1,11 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import GlobalContext from "../../context/GlobalContext";
 import VisitForm from '../../pages/VisitForm/VisitForm';
-import { updateVisitRequest, deleteVisitRequest } from '../../api/visitsRequest';
+import { updateVisitRequest } from '../../api/visitsRequest';
 
-
-const labelsClasses = ["Planned", "Cancelled", "Complete"];
 
 function EventModal() {
   const { setShowEventModal, selectedEvent } = useContext(GlobalContext);
-  const [editMode, setEditMode] = useState(false);
 
   const closeForm = () => {
     setShowEventModal(false);    
@@ -29,7 +26,7 @@ function EventModal() {
         onClose={closeForm}
         onSubmit={updateForm}
         initialValues={selectedEvent}
-        edit={false}
+        edit={!selectedEvent}
       />
     </div>
   );
