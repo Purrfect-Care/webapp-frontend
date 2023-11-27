@@ -14,7 +14,7 @@ body {
 }
 
 /* Header styling */
-.column-bar {
+.column-bar-illness-history {
   display: grid;
   grid-template-columns: 2fr 2fr 1fr; /* Equal widths for the four columns */
   justify-content: space-between;

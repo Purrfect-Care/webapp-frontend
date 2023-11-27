@@ -104,7 +104,7 @@ const IllnessHistoryPage = ({patient}) => {
       <div>
       <button onClick={handleIllnessHistoryForm} className="illness_history_form">Przypisz chorobę</button>
       </div>
-      <div className="column-bar">
+      <div className="column-bar-illness-history">
         <span className="column-illness_history_name" onClick={() => sortColumn('CHOROBA')}>
           CHOROBA {sortBy.column === 'CHOROBA' && (sortBy.ascending ? '↑' : '↓')}
         </span>
