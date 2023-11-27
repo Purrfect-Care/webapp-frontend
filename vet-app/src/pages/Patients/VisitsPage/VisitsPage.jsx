@@ -173,6 +173,8 @@ const VisitsPage = ({ patient }) => {
           message="Czy na pewno chcesz usunąć wizytę?"
           onConfirm={confirmDeleteVisit}
           onCancel={cancelDeleteVisit}
+          onYes = "Tak"
+          onNo = "Nie"
         />
       )}
     </div>
