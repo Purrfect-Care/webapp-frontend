@@ -11,6 +11,11 @@ export const NavBarData = [
         className: 'navbar-text' 
     },
     {
+        title: 'HISTORIA CHORÓB',
+        path: '/illnesshistory',
+        className: 'navbar-text' 
+    },
+    {
         title: 'DOKUMENTACJA',
         path: '/documentation',
         className: 'navbar-text' 
