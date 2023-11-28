@@ -31,6 +31,7 @@ const AddClinic = () => {
         // Handle the error and provide user feedback if necessary
       }
     };
+
   return (
     <div className="addClinic">
       <div className="shadow-md bg-white h-20 flex">
@@ -38,10 +39,6 @@ const AddClinic = () => {
       </div>
       <div className="form">
         <form id="formClinic" onSubmit={handleSubmit}>
-          <input
-            className="name"
-            name="clinic_name"
-            type="text"
             value={formValues.clinic_name}
             placeholder="Nazwa kliniki"
             onChange={handleInputChange}

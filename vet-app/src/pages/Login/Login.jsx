@@ -2,18 +2,17 @@ import React from "react";
 import Header from "../../components/Header/Header";
 
 const Login = () => {
-  const users = [{ username: "admin", password: "test" }];
 
   return (
     <div className="bg-customGreen h-screen overflow-hidden">
       <div className="shadow-md bg-white h-20 flex">
-        <Header className="ml-4" />
+        <Header />
       </div>
       <div className="h-full flex flex-col items-center space-y-10 mt-36">
         <input
           className="rounded h-12 w-96 border-none"
-          type="text"
-          placeholder="Nazwa użytkownika"
+          type="email"
+          placeholder="Email"
         />
         <input
           className="rounded h-12 w-96 border-none"

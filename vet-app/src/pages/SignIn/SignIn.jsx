@@ -6,7 +6,7 @@ const SignIn = () => {
   return (
     <div className="signIn">
       <div className="shadow-md bg-white h-20 flex">
-        <Header className="ml-4" />
+        <Header />
       </div>
       <div className="form">
         <div className="main">
@@ -59,8 +59,12 @@ const SignIn = () => {
             <option value="four">Klinika 4</option>
             <option value="me">Me</option>
           </select>
+          <span className=" flex mt-2 justify-end whitespace-nowrap text-sm text-emerald-950">
+          <h5>Nie ma Twojej kliniki?</h5>
+          <a href="http://localhost:3000/add-clinic" className="ml-1 font-semibold">Dodaj ją.</a>
+        </span>
         </div>
-        <span className="flex mt-6 flex-between items-center">
+        <span className="flex mt-3 flex-between items-center">
           <span className=" flex justify-start whitespace-nowrap text-sm text-emerald-950">
             <h5>Masz już konto?</h5>
             <a href="http://localhost:3000/login" className="ml-1 font-semibold">Zaloguj się.</a>

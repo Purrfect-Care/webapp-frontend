@@ -5,6 +5,7 @@ import AboutPage from "../AboutPage/AboutPage";
 import VisitsPage from "../VisitsPage/VisitsPage";
 import DocumentsPage from "../DocumentsPage/DocumentsPage";
 import OwnerPage from "../OwnerPage/OwnerPage";
+import IllnessHistoryPage from "../IllnessHistoryPage/IllnessHistoryPage";
 import { patientRequest } from "../../../api/patientsRequests";
 
 const PatientSection = ({ patientId }) => {
@@ -55,7 +56,8 @@ const PatientSection = ({ patientId }) => {
       </div>
       <div className="patientSection-content">
         {activeComponent === "INFORMACJE" && <AboutPage patient={patient} />}
-        {activeComponent === "WIZYTY" && <VisitsPage patient={patient} />}        
+        {activeComponent === "WIZYTY" && <VisitsPage patient={patient} />}
+        {activeComponent === "HISTORIA CHORÓB" && <IllnessHistoryPage patient={patient} />}
         {activeComponent === "DOKUMENTACJA" && <DocumentsPage patient={patient} />}   
         {activeComponent === "WŁAŚCICIEL" && <OwnerPage patient={patient} />}   
       </div>
