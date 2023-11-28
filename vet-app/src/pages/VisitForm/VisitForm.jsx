@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { allPatientsRequest } from '../../api/patientsRequests';
+import { patientRequest, allPatientsRequest } from '../../api/patientsRequests';
 import { visitTypeRequest } from '../../api/visitTypeRequest'
 import { visitSubtypeRequest } from '../../api/visitSubtypeRequest'
+import { employeeRequest } from '../../api/employeeRequest';
 import './VisitForm.css';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -12,33 +13,6 @@ import timezone from 'dayjs/plugin/timezone';
 
 const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
   const [formValues, setFormValues] = useState({
-    visits_patient: {
-      patient_name: '',
-      patient_gender: null,
-      patient_date_of_birth: null,
-      patients_owner_id: null,
-      patients_species_id: null,
-      patients_breed_id: null,
-    },
-    visits_visit_type: {
-      visit_type_name: '',
-    },
-    visits_visit_subtype: {
-      visit_subtype_name: '',
-      visit_subtypes_visit_type_id: null,
-    },
-    visits_employee: {
-      employee_role: '',
-      employee_first_name: '',
-      employee_last_name: '',
-      employee_address: '',
-      employee_postcode: '',
-      employee_city: '',
-      employee_phone_number: '',
-      employee_email: '',
-      employee_password: '',
-      employees_clinic_id: null,
-    },
     visit_datetime: null,
     visit_duration: null,
     visit_status: null,
@@ -55,6 +29,9 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
   const [allPatients, setAllPatients] = useState([]);
   const [subtypesForSelectedType, setSubtypesForSelectedType] = useState([]);
   const [allSubtypes, setAllSubtypes] = useState([]);
+  const [employee, setEmployee] = useState([]);
+  const [patientData, setPatient] = useState([]);
+
 
 
   dayjs.extend(utc);
@@ -69,12 +46,19 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [visitTypes, visitSubtypes, patients] = await Promise.all([
+        const [visitTypes, visitSubtypes, patients, employeeJSON] = await Promise.all([
           visitTypeRequest(),
           visitSubtypeRequest(),
           allPatientsRequest(),
+          employeeRequest(initialValues.visits_employee_id),
         ]);
 
+        if(initialValues.visits_patient_id != null)
+        {
+          const patientJSON = await patientRequest(initialValues.visits_patient_id);
+          setPatient(patientJSON);
+        }
+        setEmployee(employeeJSON);
         setAllTypes(visitTypes);
         setAllSubtypes(visitSubtypes);
         setAllPatients(patients);
@@ -134,7 +118,7 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
     console.log('Form submitted!');
     await onSubmit(formValues);
     onClose();
-    // window.location.reload();
+    window.location.reload();
   };
 
   return (
@@ -142,15 +126,15 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
       <h2>Formularz wizyty</h2>
       <form onSubmit={handleSubmit} className="form-sections">
         <div className="form-section">
-          <h3>Lekarz</h3>
+          <h3>Weterynarz</h3>
           <label>
-            <input
-              type="text"
-              name="visits_employee_id"
-              value={formValues.visits_employee_id}
-              onChange={handleChange}
-              disabled={readOnly}
-            />
+            Imię i nazwisko:
+            <div className='name'>
+            <a href={`http://localhost:3000/employees/${employee.id}`}>
+              {`${employee.employee_first_name || ''} ${employee.employee_last_name || ''}`}
+            </a>
+
+            </div>
           </label>
           {/* Add other doctor-related fields here */}
         </div>
@@ -158,11 +142,17 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
           <h3>Pacjent</h3>
           <label>
             Nazwa pacjenta:
-            <select
+            <div className='name'>
+            <a href={`http://localhost:3000/patients/${formValues.visits_patient_id}`}>
+              {patientData.patient_name}
+            </a>
+
+            </div>
+            {!initialValues.visits_patient_id && <select
               name="visits_patient_id"
               value={formValues.visits_patient_id || ''}
               onChange={handleChange}
-              disabled={initialValues}
+              disabled={initialValues.visits_patient_id}
             >
               <option value="">Select Patient</option>
               {allPatients.map((patient) => (
@@ -170,7 +160,7 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
                   {patient.patient_name}
                 </option>
               ))}
-            </select>
+            </select>}
           </label>
           <label>
             Waga pacjenta (kg):
