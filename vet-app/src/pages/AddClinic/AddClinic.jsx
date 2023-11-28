@@ -15,7 +15,13 @@ const AddClinic = () => {
   
     const handleInputChange = (e) => {
       const { name, value } = e.target;
-      setFormValues({ ...formValues, [name]: value });
+      if (name === "clinic_postcode" && value.length <= 6) {
+        setFormValues({ ...formValues, [name]: value.replace(/[^0-9]/g, "").replace(/(\d{2})(\d{0,2})/, "$1-$2") });
+      } else if (name === "clinic_phone_number" && value.length <= 9) {
+        setFormValues({ ...formValues, [name]: value.replace(/[^0-9]/g, "").replace(/(\d{3})(\d{3})(\d{3})/, "$1 $2 $3")});
+      } else {
+        setFormValues({ ...formValues, [name]: value });
+      }
     };
   
     const handleSubmit = async (e) => {
@@ -39,6 +45,10 @@ const AddClinic = () => {
       </div>
       <div className="form">
         <form id="formClinic" onSubmit={handleSubmit}>
+          <input
+            className="name"
+            name="clinic_name"
+            type="text"
             value={formValues.clinic_name}
             placeholder="Nazwa kliniki"
             onChange={handleInputChange}
@@ -61,6 +71,7 @@ const AddClinic = () => {
               placeholder="Kod pocztowy"
               onChange={handleInputChange}
               value={formValues.clinic_postcode}
+              maxLength="6"
               required
             />
             <input
@@ -75,11 +86,12 @@ const AddClinic = () => {
           </div>
           <input
             className="phone"
-            type="number"
+            type="text"
             name="clinic_phone_number"
             placeholder="Telefon"
             onChange={handleInputChange}
             value={formValues.clinic_phone_number}
+            maxLength="9"
             required
           />
           <input

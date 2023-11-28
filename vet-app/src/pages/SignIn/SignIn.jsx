@@ -8,7 +8,7 @@ const SignIn = () => {
       <div className="shadow-md bg-white h-20 flex">
         <Header />
       </div>
-      <div className="form">
+      <div className="formSignIn">
         <div className="main">
           <input
             className="firstName"
