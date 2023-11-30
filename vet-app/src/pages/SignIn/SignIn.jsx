@@ -1,8 +1,22 @@
-import React from "react";
+import React, {useState} from "react";
 import "./SignIn.css";
 import Header from "../../components/Header/Header";
 
 const SignIn = () => {
+  const [formValues, setFormValues] = useState({
+    employee_role: "",
+    employee_first_name: "",
+    employee_last_name: "",
+    employee_address: "",
+    employee_postcode: "",
+    employee_city: "",
+    employee_phone_number: "",
+    employee_email: "",
+    employee_password: "",
+    employee_clinic_id: "",
+    
+  });
+
   return (
     <div className="signIn">
       <div className="shadow-md bg-white h-20 flex">
@@ -37,7 +51,6 @@ const SignIn = () => {
             type="text"
             name="postcode"
             className="postcode"
-            pattern="\d{2}-\d{3}"
             placeholder="Kod pocztowy"
             required
           />
