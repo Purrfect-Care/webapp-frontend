@@ -115,7 +115,6 @@ const IllnessHistoryPage = ({patient}) => {
     try {
       console.log('Illness Form Data:', formData);
 
-      // Assuming you have a function to create a new illness
       await createIllnessRequest(formData);
 
     } catch (error) {

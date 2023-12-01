@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { createIllnessRequest } from '../../api/illnessRequests'; // Update the import based on your API file
+import { createIllnessRequest } from '../../api/illnessRequests'; 
 import './NewIllnessForm.css';
 
 const IllnessForm = ({ isOpen, onClose, onSubmit }) => {
@@ -7,7 +7,7 @@ const IllnessForm = ({ isOpen, onClose, onSubmit }) => {
     illness_name: '',
   });
 
-  const [readOnly, setReadOnly] = useState(false); // Assuming it's not read-only for a new illness
+  const [readOnly, setReadOnly] = useState(false); 
 
   useEffect(() => {
     setReadOnly(false);
@@ -28,7 +28,7 @@ const IllnessForm = ({ isOpen, onClose, onSubmit }) => {
     console.log('Form submitted!');
     await onSubmit(formValues);
     onClose();
-    window.location.reload(); // This is not the ideal way, but you can adjust as needed
+    window.location.reload(); 
   };
 
   return (
