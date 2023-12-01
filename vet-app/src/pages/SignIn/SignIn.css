@@ -9,7 +9,7 @@
     margin-left: 4px;
 }
 
-.formSignIn {
+#siginForm {
     border: 1px solid #ccc;
     height: 100vh;
     display: flex;
@@ -18,26 +18,30 @@
     justify-content: flex-start;
 }
 
-.formSignIn input {
+#siginForm input {
     border-radius: 10px;
     padding: 10px;
     width: 250px;
     border: 1px solid #ccc;
     margin-right: 10px;
     margin-bottom: 20px;
-   
 }
 
 .main {
-    margin-top: 20px;
+    margin-top: 12px;
+}
+
+.addressSignin {
+    width: 400px !important;
 }
 
 .roles {
     margin-right: 15px;
+    padding: 8px 50px;
 }
 
 .clinics {
-    padding: 8px 160px;
+    padding: 8px 100px;
 }
 
 .links {

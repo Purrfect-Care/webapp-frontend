@@ -30,7 +30,6 @@ export async function getClinicsRequest() {
   
   if (response.ok) {
     const json = await response.json();
-    console.log(json);
     return json;
   }
 

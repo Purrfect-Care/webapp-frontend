@@ -4,31 +4,42 @@ import Header from "../../components/Header/Header";
 import { getClinicsRequest } from "../../api/clinicRequests";
 import { addEmployeeRequest } from "../../api/employeeRequests";
 const SignIn = () => {
-  const [formValues, setFormValues] = useState({});
   const [clinicsData, setClinicsData] = useState([]);
+  const [formValues, setFormValues] = useState({});
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormValues((formValues) => ({
-      ...formValues,
-      [name]: value,
-    }));
+    if (name === "employee_postcode" && value.length <= 6) {
+      setFormValues({
+        ...formValues,
+        [name]: value
+          .replace(/[^0-9]/g, "")
+          .replace(/(\d{2})(\d{0,2})/, "$1-$2"),
+      });
+    } else if (name === "employee_phone_number" && value.length <= 9) {
+      setFormValues({
+        ...formValues,
+        [name]: value
+          .replace(/[^0-9]/g, "")
+          .replace(/(\d{3})(\d{3})(\d{3})/, "$1 $2 $3"),
+      });
+    } else {
+      setFormValues({ ...formValues, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // Call your API function here with formValues
       await addEmployeeRequest(formValues);
-
-      // Handle success or navigate to a different page
     } catch (error) {
       console.error("Error submitting form: " + error);
     }
   };
 
   useEffect(() => {
+    console.log("Fetching clinics data...");
     const fetchData = async () => {
       try {
         const clinicsData = await getClinicsRequest();
@@ -47,7 +58,7 @@ const SignIn = () => {
       </div>
       <div className="formSignIn">
         <form id="siginForm" onSubmit={handleSubmit}>
-          <div>
+          <div className="main">
             <input
               className="firstName"
               name="employee_first_name"
@@ -86,7 +97,7 @@ const SignIn = () => {
             required
           />
           <input
-            className="address"
+            className="addressSignin"
             type="text"
             placeholder="Adres"
             name="employee_address"
@@ -102,6 +113,7 @@ const SignIn = () => {
               placeholder="Kod pocztowy"
               onChange={handleInputChange}
               value={formValues.employee_postcode || ""}
+              maxLength="6"
               required
             />
             <input
@@ -116,29 +128,32 @@ const SignIn = () => {
           </div>
           <input
             className="phone"
-            type="number"
+            type="text"
             placeholder="Telefon"
             onChange={handleInputChange}
             value={formValues.employee_phone_number || ""}
             name="employee_phone_number"
+            maxLength="9"
             required
           />
           <div>
-            <select name="employee_role" className="roles">
-              <option value="vet">Weterynarz</option>
-              <option value="admin">Administrator</option>
-              <option value="reception">Recepcjonista</option>
-              <option value="patient">Pacjent</option>
-              <option value="me">Me</option>
+            <select
+              name="employee_role"
+              className="roles"
+              onChange={handleInputChange}
+              value={formValues.employee_role || ""}
+            >
+              <option value="Weterynarz">Weterynarz</option>
+              <option value="Administrator">Administrator</option>
             </select>
             <select
-              name="employee_clinic_id"
+              name="employees_clinic_id"
               className="clinics"
               onChange={handleInputChange}
-              value={formValues.employee_clinic_id || ""}
+              value={formValues.employees_clinic_id || ""}
             >
               {clinicsData.map((clinic) => (
-                <option key={clinic.id} value={clinic.clinic_name}>
+                <option key={clinic.id} value={clinic.id}>
                   {clinic.clinic_name}
                 </option>
               ))}
@@ -168,7 +183,7 @@ const SignIn = () => {
                 type="submit"
                 className="bg-emerald-800 hover:bg-blue-600 px-10 py-2 rounded  text-white hover:shadow-md"
               >
-                Zaloguj się
+                Zarejestruj się
               </button>
             </footer>
           </span>
