@@ -4,6 +4,8 @@ import "./IllnessHistoryPage.css";
 import { FaTrash } from 'react-icons/fa';
 import { illnessHistoryRequest, createIllnessHistoryRequest, deleteIllnessHistoryRequest } from "../../../api/illnessHistoryRequests.js";
 import IllnessHistoryForm from "../../IllnessHistoryForm/IllnessHistoryForm.jsx"
+import NewIllnessForm from "../../NewIllnessForm/NewIllnessForm.jsx"; // Import the new IllnessForm component
+import { createIllnessRequest } from "../../../api/illnessRequests.js";
 
 const IllnessHistoryPage = ({patient}) => {
   const [illnessHistory, setIllnessHistory] = useState([]);
@@ -11,6 +13,7 @@ const IllnessHistoryPage = ({patient}) => {
   const [sortBy, setSortBy] = useState({ column: 'DATA', ascending: true });
   const navigate = useNavigate();
   const [showIllnessHistoryForm, setShowIllnessHistoryForm] = useState(false);
+  const [showIllnessForm, setShowIllnessForm] = useState(false); // State to manage the visibility of the IllnessForm
 
 
   useEffect(() => {
@@ -99,8 +102,35 @@ const IllnessHistoryPage = ({patient}) => {
     handleCloseIllnessHistoryForm();
   };
 
+  //new illness form
+  const handleIllnessForm = () => {
+    setShowIllnessForm(true);
+  };
+
+  const handleCloseIllnessForm = () => {
+    setShowIllnessForm(false);
+  };
+
+  const submitIllnessForm = async (formData) => {
+    try {
+      console.log('Illness Form Data:', formData);
+
+      // Assuming you have a function to create a new illness
+      await createIllnessRequest(formData);
+
+    } catch (error) {
+      console.error('Error submitting illness form:', error);
+    }
+    handleCloseIllnessForm();
+  };
+
   return (
     <div>
+      <div>
+        <button onClick={handleIllnessForm} className="illness_history_form">
+          Dodaj nową chorobę
+        </button>
+      </div>
       <div>
       <button onClick={handleIllnessHistoryForm} className="illness_history_form">Przypisz chorobę</button>
       </div>
@@ -141,6 +171,13 @@ const IllnessHistoryPage = ({patient}) => {
               }}
               onSubmit={submitForm}
  />
+      )}
+      {showIllnessForm && (
+        <NewIllnessForm
+          isOpen={showIllnessForm}
+          onClose={handleCloseIllnessForm}
+          onSubmit={submitIllnessForm}
+        />
       )}
     </div>
 

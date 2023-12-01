@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { allPatientsRequest } from '../../api/patientsRequests';
-import { illnessesRequest } from '../../api/illnessHistoryRequests';
+import { illnessesRequest } from '../../api/illnessRequests';
 import './IllnessHistoryForm.css';
 import dayjs from 'dayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -113,7 +113,7 @@ const IllnessHistoryForm = ({isOpen, onClose, initialValues, onSubmit}) => {
                     value={formValues.illness_history_illness_id}
                     onChange={handleChange}
                 >
-                    <option value="">Select illness</option>
+                    <option value="">Wybierz chorobę</option>
                     {illnesses.map((illness) => (
                         <option key={illness.id} value={illness.id}>
                             {illness.illness_name}
@@ -130,7 +130,7 @@ const IllnessHistoryForm = ({isOpen, onClose, initialValues, onSubmit}) => {
                     value={formValues.illness_history_patient_id}
                     disabled={initialValues}
                 >
-                    <option value="">Select Patient</option>
+                    <option value="">Wybierz pacjenta</option>
                     {allPatients.map((patient) => (
                         <option key={patient.id} value={patient.id}>
                             {patient.patient_name}
