@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import "./Home.css";
-import {Navigate, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 
 const Home = () => {
   const logo = document.querySelectorAll("#logo path");

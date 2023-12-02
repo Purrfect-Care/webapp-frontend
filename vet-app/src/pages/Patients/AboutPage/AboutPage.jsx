@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { patientRequest } from "../../../api/patientsRequests.js";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "./AboutPage.css";
 
 const AboutPage = () => {
   const [patientData, setPatientData] = useState(null);
-  const navigate = useNavigate();
   const { id: patientId } = useParams();
 
   useEffect(() => {
