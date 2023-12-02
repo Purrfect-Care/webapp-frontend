@@ -248,9 +248,9 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
                 disabled={!!readOnly}
               >
                 <option value="">-Wybierz status wizyty-</option>
-                <option value="Planned">Zaplanowana</option>
-                <option value="Cancelled">Odwołana</option>
-                <option value="Complete">Zakończona</option>
+                <option value="planned">Zaplanowana</option>
+                <option value="cancelled">Odwołana</option>
+                <option value="complete">Zakończona</option>
               </select>
             </label>
             <label>
