@@ -1,12 +1,13 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import GlobalContext from "../../context/GlobalContext";
 import VisitForm from '../../pages/VisitForm/VisitForm';
+import ViewVisit from '../../pages/VisitForm/ViewVisit';
 import { updateVisitRequest } from '../../api/visitsRequest';
 
 
 function EventModal() {
   const { setShowEventModal, selectedEvent, daySelected } = useContext(GlobalContext);
-
+  const [isFormForEdit, setIsFormForEdit] = useState(selectedEvent ? false : true);
 
   const closeForm = () => {
     setShowEventModal(false);    
@@ -49,12 +50,19 @@ function EventModal() {
 
   return (
     <div>
-      <VisitForm
+    {!isFormForEdit ? (
+      <ViewVisit
+        onClose={closeForm}
+        setEdit={setIsFormForEdit}
+        initialValues={selectedEvent ? selectedEvent : newEvent}
+      />
+    ) : 
+    <VisitForm
         onClose={closeForm}
         onSubmit={updateForm}
+        setEdit={setIsFormForEdit}
         initialValues={selectedEvent ? selectedEvent : newEvent}
-        edit={!selectedEvent}
-      />
+      />}
     </div>
   );
 }
