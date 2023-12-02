@@ -13,7 +13,7 @@ export const addEmployeeRequest = async (employeeData) => {
     if (response.ok) {
       return response.json();
     } else {
-      throw new Error("Failed to add clinic");
+      throw new Error("Failed to add an employee");
     }
   } catch (error) {
     
