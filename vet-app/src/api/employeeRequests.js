@@ -9,7 +9,7 @@ export const addEmployeeRequest = async (employeeData) => {
       },
       body: JSON.stringify(employeeData),
     });
-
+    console.log(employeeData);
     if (response.ok) {
       return response.json();
     } else {

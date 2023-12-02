@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import DocsCard from "./DocsCard";
 import ConfirmationPopup from "../../../components/ConifrmationPopup/ConfirmationPopup";
-import {prescriptionsRequest, deletePrescriptionRequest} from "../../../api/prescriptionRequests";
+import PrescriptionForm from "../../../PrescriptionForm/PrescriptionForm";
+import { prescriptionsRequest, deletePrescriptionRequest } from "../../../api/prescriptionRequests";
 
 const DocumentsPage = ({ patient }) => {
   const [prescriptions, setPrescriptions] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [prescriptionToDelete, setPrescriptionToDelete] = useState(null);
+  const [showPrescriptionForm, setShowPrescriptionForm] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,6 +46,18 @@ const DocumentsPage = ({ patient }) => {
     setShowConfirmation(false);
   };
 
+  const handleOpenPrescriptionForm = () => {
+    setShowPrescriptionForm(true);
+  };
+
+  const handleClosePrescriptionForm = () => {
+    setShowPrescriptionForm(false);
+  };
+  const handlePrescriptionSubmit = (prescriptionData) => {
+    // Handle the submission of prescription data here
+    console.log("Prescription data submitted:", prescriptionData);
+  };
+
   return (
     <div className="documentsPage">
       <div className="cards">
@@ -66,6 +80,15 @@ const DocumentsPage = ({ patient }) => {
           onYes="Tak"
           onNo="Nie"
         />
+      )}
+
+      {/* Button to open the prescription form */}
+      <button onClick={handleOpenPrescriptionForm}>Dodaj nową receptę</button>
+
+      {/* Prescription Form */}
+      {showPrescriptionForm && (
+        <PrescriptionForm onClose={handleClosePrescriptionForm}
+        onSubmit={handlePrescriptionSubmit} />
       )}
     </div>
   );
