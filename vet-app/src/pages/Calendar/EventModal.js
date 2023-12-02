@@ -44,7 +44,7 @@ function EventModal() {
     visits_patient_id: null,
     visits_visit_type_id: null,
     visits_visit_subtype_id: null,
-    visits_employee_id: null,
+    visits_employee_id: JSON.parse(localStorage.getItem('employeeData')).id.toString(),
   };
 
   return (
