@@ -14,33 +14,6 @@ import ConfirmationPopup from "../../components/ConifrmationPopup/ConfirmationPo
 
 const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
   const [formValues, setFormValues] = useState({
-    visits_patient: {
-      patient_name: '',
-      patient_gender: '',
-      patient_date_of_birth: '',
-      patients_owner_id: '',
-      patients_species_id: '',
-      patients_breed_id: '',
-    },
-    visits_visit_type: {
-      visit_type_name: '',
-    },
-    visits_visit_subtype: {
-      visit_subtype_name: '',
-      visit_subtypes_visit_type_id: '',
-    },
-    visits_employee: {
-      employee_role: '',
-      employee_first_name: '',
-      employee_last_name: '',
-      employee_address: '',
-      employee_postcode: '',
-      employee_city: '',
-      employee_phone_number: '',
-      employee_email: '',
-      employee_password: '',
-      employees_clinic_id: '',
-    },
     visit_datetime: '',
     visit_duration: '',
     visit_status: '',
@@ -155,7 +128,7 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
         return;
       }
       await deleteVisitRequest(visitToDelete.id);
-      // TODO reload page
+      window.location.reload();
     } catch (error) {
       console.error('Error deleting visit:', error);
     } finally {

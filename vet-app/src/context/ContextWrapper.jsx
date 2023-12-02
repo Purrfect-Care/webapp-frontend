@@ -26,7 +26,6 @@ export default function ContextWrapper(props) {
       try {
         const eventsData = await visitsRequest();
         setEvents(eventsData);
-        console.log(eventsData);
       } catch (error) {
         console.error("Error fetching events from the server:", error);
       }
