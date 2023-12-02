@@ -1,4 +1,4 @@
-export async function visitsRequest(patientId) {
+export async function visitsByPatientIdRequest(patientId) {
     const endpoint = `http://localhost:8000/api/visits`;
   
     const response = await fetch(endpoint);
@@ -85,4 +85,13 @@ export async function createVisitRequest(data) {
       console.error('Error updating visit:', error);
       throw error;
     }
+  }
+
+  export async function visitsRequest() {
+    const response = await fetch("http://localhost:8000/api/visits/");
+    if (!response.ok) {
+      throw new Error(`Error fetching visits: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data;
   }

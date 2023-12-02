@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { visitsRequest, updateVisitRequest, deleteVisitRequest } from '../../../api/visitsRequest';
+import { visitsByPatientIdRequest, updateVisitRequest, deleteVisitRequest } from '../../../api/visitsRequest';
 import './VisitsPage.css';
 import VisitForm from '../../../pages/VisitForm/VisitForm';
 import ConfirmationPopup from "../../../components/ConifrmationPopup/ConfirmationPopup";
@@ -18,7 +18,7 @@ const VisitsPage = ({ patient }) => {
     if (patient) {
       const fetchVisits = async () => {
         try {
-          const data = await visitsRequest(patient.id);
+          const data = await visitsByPatientIdRequest(patient.id);
           setVisits(data);
         } catch (error) {
           console.error('Error fetching visits:', error);

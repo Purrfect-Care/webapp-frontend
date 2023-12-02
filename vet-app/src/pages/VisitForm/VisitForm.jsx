@@ -138,6 +138,7 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
     e.preventDefault();
     console.log('Form submitted!');
     await onSubmit(formValues);
+    console.log(formValues);
     onClose();
     // window.location.reload();
   };
