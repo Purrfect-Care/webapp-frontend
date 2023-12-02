@@ -1,4 +1,4 @@
-.popup-form {
+.popup-form-static {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -12,62 +12,62 @@
     width: 100%;
 }
 
-.popup-form input:disabled {
+.popup-form-static input:disabled {
     background-color: #f4f4f4; /* Adjust the background color as needed */
     color: #999; /* Adjust the text color as needed */
   }
 
-.popup-form textarea:disabled {
+.popup-form-static textarea:disabled {
     background-color: #f4f4f4; /* Adjust the background color as needed */
     color: #999; /* Adjust the text color as needed */
 }
 
-.button-container {
+.button-container-static {
     display: flex;
     justify-content: flex-end; /* Align buttons to the right */
     width: 100%; /* Ensure full width */
 }
 
-.popup-form h2 {
+.popup-form-static h2 {
     font-size: 1.5em;
     margin-bottom: 15px;
 }
 
-.form-sections {
+.form-sections-static {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 
-.form-section {
+.form-section-static {
     flex: 1 1 calc(48% - 10px); /* Adjust the width of each section */
     margin-bottom: 20px;
     box-sizing: border-box; /* Add box-sizing to include padding and border in width */
 }
 
-.form-section h3 {
+.form-section-static h3 {
     font-size: 1.2em;
     margin-bottom: 10px;
     border-bottom: 1px solid #ccc; /* Add underline to the section header */
     padding-bottom: 5px; /* Adjust as needed */
 }
 
-.form-section label {
+.form-section-static label {
     display: block;
     margin-bottom: 5px; /* Adjust the margin between label and input */
 }
 
-.form-section-row {
+.form-section-row-static {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
 
-.form-section-row label {
+.form-section-row-static label {
     width: calc(48% - 10px); /* Adjust the width of labels with margin */
 }
 
-.form-section textarea {
+.form-section-static textarea {
     width: 100%; /* Adjust the width as needed */
     height: 100px;
     padding: 8px;
@@ -76,15 +76,15 @@
     margin-bottom: 5px;
 }
 
-.popup-form select {
+.popup-form-static select {
     width: 288px; /* Adjust the width as needed */
   }
 
-.popup-form select[name="visits_patient_id"] {
+.popup-form-static select[name="visits_patient_id"] {
     width: 288px; /* Adjust the width as needed */
   }
 
-  .popup-form .form-button {
+  .popup-form-static .form-button {
     background-color: #4aa587;
     color: white;
     border: none;
@@ -95,16 +95,16 @@
     border-radius: 8px; /* Adjust margin as needed */
   }
   
-  .popup-form .form-button:hover {
+  .popup-form-static .form-button:hover {
     background-color: #2f6d58;
   }
 
-  .name {
+  .name-static {
     font-weight: bold;
   }
   
   /* Styling for links within visit name */
-  .name a {
+  .name-static a {
     text-decoration: none;
     color: #4aa587;
     font-weight: bold;
@@ -113,7 +113,7 @@
   }
   
   /* Styling for link hover effect */
-  .name a::after {
+  .name-static a::after {
     content: '';
     display: block;
     width: 0;
@@ -126,15 +126,15 @@
   }
   
   /* Styling for link hover effect */
-  .name a:hover {
+  .name-static a:hover {
     color: #072d21;
   }
   
   /* Styling for link hover effect */
-  .name a:hover::after {
+  .name-static a:hover::after {
     width: 100%;
   }
 
-  .value p {
+  .value-static p {
     font-weight: bold;
   }

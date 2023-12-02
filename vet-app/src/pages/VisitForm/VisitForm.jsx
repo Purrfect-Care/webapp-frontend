@@ -153,14 +153,14 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
   };
 
   return (
-    <div className="popup-form">
+    <div className="popup-form-visit">
       <h2>Formularz wizyty</h2>
-      <form onSubmit={handleSubmit} className="form-sections">
-        <div className="form-section">
+      <form onSubmit={handleSubmit} className="form-sections-visit">
+        <div className="form-section-visit">
           <h3>Weterynarz</h3>
           <label>
             Imię i nazwisko:
-            <div className='name'>
+            <div className='name-visit'>
             <a href={`http://localhost:3000/employees/${employee.id}`}>
               {`${employee.employee_first_name || ''} ${employee.employee_last_name || ''}`}
             </a>
@@ -169,11 +169,11 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
           </label>
           {/* Add other doctor-related fields here */}
         </div>
-        <div className="form-section">
+        <div className="form-section-visit">
           <h3>Pacjent</h3>
           <label>
             Nazwa pacjenta:
-            <div className='name'>
+            <div className='name-visit'>
             <a href={`http://localhost:3000/patients/${formValues.visits_patient_id}`}>
               {patientData.patient_name}
             </a>
@@ -220,9 +220,9 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
           </label>
           {/* Add other patient-related fields here */}
         </div>
-        <div className="form-section">
+        <div className="form-section-visit">
           <h3>Wizyta</h3>
-          <div className="form-section-row">
+          <div className="form-section-row-visit">
             <label>
               Typ wizyty:
               <select
@@ -293,7 +293,7 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
               />
             </label>
           </div>
-          <div className="form-section">
+          <div className="form-section-visit">
             <h3>Opis wizyty</h3>
             <textarea
               name="visit_description"
@@ -304,13 +304,13 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
           </div>
         </div>
       </form>
-      <div className="button-container">
-        {readOnly || <button className="form-button" onClick={handleSubmit} type="submit">Zatwierdź</button>}
-        {!readOnly || <button className="delete-button" onClick={() => deleteVisit(initialValues)}>Usuń</button>}
-        {!readOnly || <button className="form-button"onClick={() => {setReadOnly(false); setEditWasPressed(true)}}>Edytuj</button>}
+      <div className="button-container-visit">
+        {readOnly || <button className="form-button-visit" onClick={handleSubmit} type="submit">Zatwierdź</button>}
+        {!readOnly || <button className="delete-button-visit" onClick={() => deleteVisit(initialValues)}>Usuń</button>}
+        {!readOnly || <button className="form-button-visit"onClick={() => {setReadOnly(false); setEditWasPressed(true)}}>Edytuj</button>}
         {editWasPressed ? 
-          (<button className="form-button" onClick={() => { setReadOnly(true); setEditWasPressed(false) }}>Anuluj</button>) 
-          : (<button className="form-button" onClick={onClose}>Zamknij</button>)
+          (<button className="form-button-visit" onClick={() => { setReadOnly(true); setEditWasPressed(false) }}>Anuluj</button>) 
+          : (<button className="form-button-visit" onClick={onClose}>Zamknij</button>)
         }
       </div>
       {showConfirmation && (
