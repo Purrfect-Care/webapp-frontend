@@ -1,0 +1,44 @@
+.edit-owner-button {
+    display: flex;
+    align-items: center;
+    color: #ffffff;
+    background-color: #4aa587;
+    padding: 10px 20px;
+    font-size: 17px;
+    border: 2px solid #4aa587;
+    cursor: pointer;
+    margin: 5px;
+}
+
+.edit-owner-button:hover {
+    background-color: #ffffff;
+    display: flex;
+    align-items: center;
+    color: #4aa587;
+    margin: 5px;
+}
+
+.button-container {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.owner-label {
+    color: #072d21; 
+    font-weight: bold;
+    margin-right: 8px;
+    margin-bottom: 8px;
+}
+
+form > div {
+    margin-bottom: 5px;
+}
+
+form input {
+    padding: 8px;
+    margin-bottom: 5px;
+}

@@ -63,6 +63,8 @@ const DocumentsPage = ({ patient }) => {
           message="Czy chcesz usunąć tą receptę?"
           onConfirm={confirmDelete}
           onCancel={cancelDelete}
+          onYes="Tak"
+          onNo="Nie"
         />
       )}
     </div>

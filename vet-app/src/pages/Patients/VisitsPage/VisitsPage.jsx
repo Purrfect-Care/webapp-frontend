@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { visitsByPatientIdRequest, updateVisitRequest, deleteVisitRequest } from '../../../api/visitsRequest';
 import './VisitsPage.css';
 import VisitForm from '../../../pages/VisitForm/VisitForm';
+import ViewVisit from '../../VisitForm/ViewVisit';
 import ConfirmationPopup from "../../../components/ConifrmationPopup/ConfirmationPopup";
 import { FaPen, FaTrash } from 'react-icons/fa';// Import the VisitForm component
 
@@ -10,6 +11,7 @@ const VisitsPage = ({ patient }) => {
   const [sortBy, setSortBy] = useState({ column: 'DATA', ascending: true });
   const [selectedVisit, setSelectedVisit] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isFormForEdit, setIsFormForEdit] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [visitToDelete, setVisitToDelete] = useState(null);
@@ -38,7 +40,7 @@ const VisitsPage = ({ patient }) => {
 
   const editVisit = (visit) => {
     setSelectedVisit(visit);
-    setIsFormOpen(true);
+    setIsFormForEdit(true);
     setEditMode(true);
   };
 
@@ -51,6 +53,7 @@ const VisitsPage = ({ patient }) => {
   const closeForm = () => {
     setIsFormOpen(false);
     setSelectedVisit(null);
+    setIsFormForEdit(false);
   };
 
   const updateForm = async (formData) => {
@@ -161,6 +164,13 @@ const VisitsPage = ({ patient }) => {
         ))}
       </div>
       {isFormOpen && selectedVisit && (
+        <ViewVisit
+          onClose={closeForm}
+          initialValues={selectedVisit}
+          edit={editMode} // Pass the selected visit details to the form
+        />
+      )}
+      {isFormForEdit && selectedVisit && (
         <VisitForm
           onClose={closeForm}
           onSubmit={updateForm}
@@ -173,6 +183,8 @@ const VisitsPage = ({ patient }) => {
           message="Czy na pewno chcesz usunąć wizytę?"
           onConfirm={confirmDeleteVisit}
           onCancel={cancelDeleteVisit}
+          onYes = "Tak"
+          onNo = "Nie"
         />
       )}
     </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./NavBar.css";
 import { NavBarData } from "./NavBarData";
 import { Link } from "react-router-dom";
@@ -6,6 +6,7 @@ import VisitForm from '../../../pages/VisitForm/VisitForm';
 import { createVisitRequest } from '../../../api/visitsRequest';
 
 const NavBar = ({ id, onSelectOption }) => {
+  const [selectedTab, setSelectedTab] = useState(NavBarData[0].title); // Set default tab
 
   const [showVisitForm, setShowVisitForm] = useState(false);
 
@@ -36,30 +37,39 @@ const NavBar = ({ id, onSelectOption }) => {
     handleCloseVisitForm();
   };
 
+  const isWizytyTab = selectedTab === 'WIZYTY';
+
   return (
     <div className="navBar">
       {NavBarData.map((item, index) => {
         return (
           <li key={index} className={item.className}>
-            <Link to={`/patients/${id}${item.path}`} onClick={() => onSelectOption(item.title)}>
+            <Link
+              to={`/patients/${id}${item.path}`}
+              onClick={() => {
+                onSelectOption(item.title);
+                setSelectedTab(item.title);
+              }}
+            >
               {item.title}
             </Link>
           </li>
         );
       })}
       {showVisitForm && (
-        <VisitForm
-          onClose={handleCloseVisitForm}
-          onSubmit={submitForm}
-          initialValues={{
-            visits_patient_id: id,
-          }}
-          edit={true}
-        />
+        <>
+          <VisitForm
+            onClose={handleCloseVisitForm}
+            onSubmit={submitForm}
+            initialValues={{
+              visits_patient_id: id,
+              visits_employee_id: JSON.parse(localStorage.getItem('employeeData')).id.toString(),
+            }}
+            edit={true}
+          />
+        </>
       )}
-      <button onClick={handleCreateVisit} className="create_visit">Utwórz Wizytę</button>
-
-
+      {isWizytyTab && <button onClick={handleCreateVisit} className="create_visit">Utwórz Wizytę</button>}
     </div>
   );
 };

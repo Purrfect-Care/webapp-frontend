@@ -1,6 +1,33 @@
 .addClinic {
-    background-color: #4AA587;
-    height: 100vh;
-    overflow: hidden;
-    border: 1px solid #080707;
+  background-color: #4aa587;
+  height: 100vh;
+  overflow: hidden;
+  border: 1px solid #080707;
+}
+
+#formClinic {
+  height: 80vh;
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  width: 500px;
+}
+
+#formClinic input {
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 25px;
+  height: 45px;
+}
+
+.name, .address{
+    width: 400px;
+}
+
+.postcode {
+    margin-right: 20px;
 }
