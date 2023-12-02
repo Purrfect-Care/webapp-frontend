@@ -1,62 +1,47 @@
-import React, { useEffect, useMemo, useReducer, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import GlobalContext from "./GlobalContext";
 import dayjs from "dayjs";
-
-function savedEventsReducer(state, { type, payload }) {
-  switch (type) {
-    case "push":
-      return [...state, payload];
-    case "update":
-      return state.map((evt) => (evt.id === payload.id ? payload : evt));
-    case "delete":
-      return state.filter((evt) => evt.id !== payload.id);
-    default:
-      throw new Error();
-  }
-}
-
-function initEvents() {
-  const storageEvents = localStorage.getItem("savedEvents");
-  const parsedEvents = storageEvents ? JSON.parse(storageEvents) : [];
-  return parsedEvents;
-}
-
+import { visitsRequest } from "../api/visitsRequest";
 
 export default function ContextWrapper(props) {
-  
   const [monthIndex, setMonthIndex] = useState(dayjs().month());
   const [smallCalendarMonth, setSmallCalendarMonth] = useState(null);
   const [daySelected, setDaySelected] = useState(dayjs());
   const [showEventModal, setShowEventModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [labels, setLabels] = useState([]);
-  const [savedEvents, dispatchCallEvent] = useReducer(
-    savedEventsReducer,
-    [],
-    initEvents
-  );
+  const [events, setEvents] = useState([]);
 
   const filteredEvents = useMemo(() => {
-    return savedEvents.filter((evt) =>
+    return events.filter((evt) =>
       labels
         .filter((lbl) => lbl.checked)
         .map((lbl) => lbl.label)
-        .includes(evt.label)
+        .includes(evt.visit_status)
     );
-  }, [savedEvents, labels]);
+  }, [events, labels]);
 
   useEffect(() => {
-    localStorage.setItem("savedEvents", JSON.stringify(savedEvents));
-  }, [savedEvents]);
+    async function fetchEvents() {
+      try {
+        const eventsData = await visitsRequest();
+        setEvents(eventsData);
+      } catch (error) {
+        console.error("Error fetching events from the server:", error);
+      }
+    }
+
+    fetchEvents();
+  }, []); // Fetch events on component mount
 
   useEffect(() => {
     setLabels((prevLabels) => {
-      return [...new Set(savedEvents.map((evt) => evt.label))].map((label) => {
+      return [...new Set(events.map((evt) => evt.visit_status))].map((label) => {
         const currentLabel = prevLabels.find((lbl) => lbl.label === label);
         return { label, checked: currentLabel ? currentLabel.checked : true };
       });
     });
-  }, [savedEvents]);
+  }, [events]);
 
   useEffect(() => {
     if (!showEventModal) {
@@ -70,7 +55,7 @@ export default function ContextWrapper(props) {
     }
   }, [smallCalendarMonth]);
 
-  function updateLabel( label) {
+  function updateLabel(label) {
     setLabels(labels.map((lbl) => (lbl.label === label.label ? label : lbl)));
   }
 
@@ -85,8 +70,6 @@ export default function ContextWrapper(props) {
         daySelected,
         showEventModal,
         setShowEventModal,
-        dispatchCallEvent,
-        savedEvents,
         selectedEvent,
         setSelectedEvent,
         setLabels,

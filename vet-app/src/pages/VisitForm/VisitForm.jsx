@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { patientRequest, allPatientsRequest } from '../../api/patientsRequests';
 import { visitTypeRequest } from '../../api/visitTypeRequest'
 import { visitSubtypeRequest } from '../../api/visitSubtypeRequest'
+import { deleteVisitRequest } from '../../api/visitsRequest';
 import { employeeRequest } from '../../api/employeeRequest';
 import './VisitForm.css';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -10,6 +11,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';  // Import the utc plugin
 import timezone from 'dayjs/plugin/timezone';
+import ConfirmationPopup from "../../components/ConifrmationPopup/ConfirmationPopup";
 
 const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
   const [formValues, setFormValues] = useState({
@@ -17,21 +19,23 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
     visit_duration: null,
     visit_status: null,
     visit_description: '',
-    patient_weight: null,
-    patient_height: null,
-    visits_patient_id: null,
-    visits_visit_type_id: null,
-    visits_visit_subtype_id: null,
-    visits_employee_id: null,
+    patient_weight: '',
+    patient_height: '',
+    visits_patient_id: '',
+    visits_visit_type_id: '',
+    visits_visit_subtype_id: '',
+    visits_employee_id: '',
   });
   const [readOnly, setReadOnly] = useState(!edit);
   const [allTypes, setAllTypes] = useState([]);
   const [allPatients, setAllPatients] = useState([]);
   const [subtypesForSelectedType, setSubtypesForSelectedType] = useState([]);
   const [allSubtypes, setAllSubtypes] = useState([]);
+  const [visitToDelete, setVisitToDelete] = useState(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [editWasPressed, setEditWasPressed] = useState(false);
   const [employee, setEmployee] = useState([]);
   const [patientData, setPatient] = useState([]);
-
 
 
   dayjs.extend(utc);
@@ -117,8 +121,35 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
     e.preventDefault();
     console.log('Form submitted!');
     await onSubmit(formValues);
+    console.log(formValues);
     onClose();
     window.location.reload();
+  };
+
+  const deleteVisit = (visit) => {
+    setVisitToDelete(visit);
+    setShowConfirmation(true);
+  };
+
+  const confirmDeleteVisit = async () => {
+    try {
+      if (!visitToDelete || !visitToDelete.id) {
+        console.error('No selected visit or visit ID');
+        return;
+      }
+      await deleteVisitRequest(visitToDelete.id);
+      window.location.reload();
+    } catch (error) {
+      console.error('Error deleting visit:', error);
+    } finally {
+      // Close the form
+      onClose();
+      setShowConfirmation(false);
+    }
+  };
+
+  const cancelDeleteVisit = () => {
+    setShowConfirmation(false);
   };
 
   return (
@@ -275,8 +306,20 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
       </form>
       <div className="button-container">
         {readOnly || <button className="form-button" onClick={handleSubmit} type="submit">Zatwierdź</button>}
-        <button className="form-button" onClick={onClose}>Zamknij</button>
+        {!readOnly || <button className="delete-button" onClick={() => deleteVisit(initialValues)}>Usuń</button>}
+        {!readOnly || <button className="form-button"onClick={() => {setReadOnly(false); setEditWasPressed(true)}}>Edytuj</button>}
+        {editWasPressed ? 
+          (<button className="form-button" onClick={() => { setReadOnly(true); setEditWasPressed(false) }}>Anuluj</button>) 
+          : (<button className="form-button" onClick={onClose}>Zamknij</button>)
+        }
       </div>
+      {showConfirmation && (
+        <ConfirmationPopup
+          message="Czy na pewno chcesz usunąć wizytę?"
+          onConfirm={confirmDeleteVisit}
+          onCancel={cancelDeleteVisit}
+        />
+      )}
     </div>
   );
 };
