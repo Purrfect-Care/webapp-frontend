@@ -12,6 +12,12 @@ const Sidebar = () => {
   const [sidebarTab, setSidebarTab] = useState(false);
 
   const showSidebarTab = () => setSidebarTab(!sidebarTab);
+  const handleExit = () => {
+    // Clear localStorage data
+    localStorage.removeItem('employeeData');
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('authTokenExpiration');
+  };
 
   return (
     <>
@@ -39,7 +45,7 @@ const Sidebar = () => {
                 </li>
               );
             })}
-            <Link to="/login" className="exit">
+            <Link to="/login" className="exit" onClick={handleExit}>
               <IoIcons.IoMdExit className="exit-icon" />
             </Link>
           </ul>

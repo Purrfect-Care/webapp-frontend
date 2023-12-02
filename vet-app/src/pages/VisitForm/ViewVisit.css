@@ -134,3 +134,7 @@
   .name a:hover::after {
     width: 100%;
   }
+
+  .value p {
+    font-weight: bold;
+  }
