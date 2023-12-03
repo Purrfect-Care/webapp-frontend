@@ -4,6 +4,7 @@ import "./IllnessHistoryPage.css";
 import { FaTrash } from 'react-icons/fa';
 import { illnessHistoryRequest, createIllnessHistoryRequest, deleteIllnessHistoryRequest } from "../../../api/illnessHistoryRequests.js";
 import IllnessHistoryForm from "../../IllnessHistoryForm/IllnessHistoryForm.jsx"
+import PulseLoader from "react-spinners/PulseLoader";
 
 const IllnessHistoryPage = ({patient}) => {
   const [illnessHistory, setIllnessHistory] = useState([]);
@@ -57,7 +58,17 @@ const IllnessHistoryPage = ({patient}) => {
   };
 
   if (loading) {
-    return <p className="loading">Ładowanie...</p>;
+    return <PulseLoader
+    color="#4AA587"
+    cssOverride={{
+      'align-items': 'center',
+      display: 'flex',
+      height: '50vh',
+      'justify-content': 'center'
+    }}
+    size={20}
+    speedMultiplier={0.8}
+  />;
   }
 
   if (!illnessHistory.length) {
