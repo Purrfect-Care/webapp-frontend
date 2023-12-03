@@ -9,6 +9,7 @@ import Login from "./pages/Login/Login";
 import SignIn from "./pages/SignIn/SignIn";
 import AddClinic from "./pages/AddClinic/AddClinic";
 import AddPage from "./pages/AddPage/AddPage";
+import AddMedications from "./pages/AddPage/AddMedications/AddMedications";
 
 
 function App() {
@@ -27,6 +28,10 @@ function App() {
             <Route path="/add" element={<AddPage />} />
             <Route path="/patients/:id/*" element={<PatientsPage />} />
             <Route path="/add-clinic" element={<AddClinic />} />
+            <Route path="/add-visit-type" element={<AddClinic />} />
+            <Route path="/add-medication" element={<AddMedications />} />
+            <Route path="/add-illness" element={<AddClinic />} />
+            <Route path="/add-patient" element={<AddClinic />} />
           </Routes>
       </BrowserRouter>
     </div>
