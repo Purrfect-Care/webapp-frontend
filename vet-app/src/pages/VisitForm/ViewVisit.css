@@ -95,7 +95,7 @@
     border-radius: 8px; /* Adjust margin as needed */
   }
 
-  .popup-form .delete-button {
+  .popup-form-static .delete-button {
     background-color: #f44336;
     color: #fff;
     border: none;
