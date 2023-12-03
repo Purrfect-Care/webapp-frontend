@@ -4,6 +4,7 @@ import "./IllnessHistoryPage.css";
 import { FaTrash } from 'react-icons/fa';
 import { illnessHistoryByPatientIdRequest, createIllnessHistoryRequest, deleteIllnessHistoryRequest } from "../../../api/illnessHistoryRequests.js";
 import IllnessHistoryForm from "../../IllnessHistoryForm/IllnessHistoryForm.jsx"
+import ConfirmationPopup from "../../../components/ConifrmationPopup/ConfirmationPopup";
 
 const IllnessHistoryPage = ({patient}) => {
   const [illnessHistory, setIllnessHistory] = useState([]);
@@ -11,7 +12,8 @@ const IllnessHistoryPage = ({patient}) => {
   const [sortBy, setSortBy] = useState({ column: 'DATA', ascending: true });
   const navigate = useNavigate();
   const [showIllnessHistoryForm, setShowIllnessHistoryForm] = useState(false);
-
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+  const [illnessHistoryToDelete, setIllnessHistoryToDelete] = useState(null);
 
   useEffect(() => {
     if (patient) {
@@ -41,19 +43,37 @@ const IllnessHistoryPage = ({patient}) => {
   };  
 
 
-  const deleteIllnessHistoryItem = async (item) => {
-    try {
-      const shouldDelete = window.confirm('Czy na pewno chcesz usunąć wpis o chorobie?');
+  const deleteIllnessHistoryItem = (item) => {
+    setIllnessHistoryToDelete(item);
+    setShowDeleteConfirmation(true);
+  };
 
-      if (shouldDelete) {
-        const itemId = item.id;
-        await deleteIllnessHistoryRequest(itemId);
-        console.log('Illness history item deleted successfully');
+  const confirmDeleteIllnessHistory = async () => {
+    try {
+      if (!illnessHistoryToDelete || !illnessHistoryToDelete.id) {
+        console.error('No selected illness history or history ID');
+        return;
       }
+  
+      const itemId = illnessHistoryToDelete.id;
+      await deleteIllnessHistoryRequest(itemId);
+      console.log('Illness history item deleted successfully');
+  
+      // Update the illness history list after deletion
+      setIllnessHistory((prevHistory) =>
+        prevHistory.filter((historyItem) => historyItem.id !== illnessHistoryToDelete.id)
+      );
     } catch (error) {
       console.error('Error deleting illness history item:', error);
+    } finally {
+      // Close the confirmation popup
+      setShowDeleteConfirmation(false);
     }
-    window.location.reload();
+  };
+  
+  const cancelDeleteIllnessHistory = () => {
+    // Close the confirmation popup
+    setShowDeleteConfirmation(false);
   };
 
   if (loading) {
@@ -125,9 +145,9 @@ const IllnessHistoryPage = ({patient}) => {
             {historyItem.illness_onset_date}
           </div>
           <div className="illness-history-delete">
-            <button onClick={() => deleteIllnessHistoryItem(historyItem)} className="delete-button">
-            <FaTrash />
-            </button>
+          <button onClick={() => deleteIllnessHistoryItem(historyItem)} className="delete-button">
+          <FaTrash />
+          </button>           
           </div>
         </li>
         ))}
@@ -140,8 +160,17 @@ const IllnessHistoryPage = ({patient}) => {
                 illness_history_patient_id: patient.id,
               }}
               onSubmit={submitForm}
- />
+      />
       )}
+      {showDeleteConfirmation && (
+  <ConfirmationPopup
+    message="Czy na pewno chcesz usunąć wpis o chorobie?"
+    onConfirm={confirmDeleteIllnessHistory}
+    onCancel={cancelDeleteIllnessHistory}
+    onYes="Tak"
+    onNo="Nie"
+  />
+)}
     </div>
 
     
