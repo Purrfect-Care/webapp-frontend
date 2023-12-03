@@ -12,6 +12,8 @@ const SignIn = () => {
     if (name === "employee_postcode" && value.length <= 6) {
       setFormValues({
         ...formValues,
+        employees_clinic_id: clinicsData[0].id,
+        employee_role: "Weterynarz",
         [name]: value
           .replace(/[^0-9]/g, "")
           .replace(/(\d{2})(\d{0,2})/, "$1-$2"),
@@ -141,7 +143,7 @@ const SignIn = () => {
               name="employee_role"
               className="roles"
               onChange={handleInputChange}
-              value={formValues.employee_role || ""}
+              value={formValues.employee_role}
             >
               <option value="Weterynarz">Weterynarz</option>
               <option value="Administrator">Administrator</option>
@@ -150,7 +152,7 @@ const SignIn = () => {
               name="employees_clinic_id"
               className="clinics"
               onChange={handleInputChange}
-              value={formValues.employees_clinic_id || ""}
+              value={formValues.employees_clinic_id}
             >
               {clinicsData.map((clinic) => (
                 <option key={clinic.id} value={clinic.id}>

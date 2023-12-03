@@ -47,6 +47,7 @@ function EventModal() {
     visits_visit_type_id: '',
     visits_visit_subtype_id: '',
     visits_employee_id: JSON.parse(localStorage.getItem('employeeData')).id.toString()
+
   };
 
   return (

@@ -120,14 +120,14 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly=false }
   };
 
   return (
-    <div className="popup-form">
+    <div className="popup-form-visit">
       <h2>Formularz wizyty</h2>
-      <form onSubmit={handleSubmit} className="form-sections">
-        <div className="form-section">
+      <form onSubmit={handleSubmit} className="form-sections-visit">
+        <div className="form-section-visit">
           <h3>Weterynarz</h3>
           <label>
             Imię i nazwisko:
-            <div className='name'>
+            <div className='name-visit'>
             <a href={`http://localhost:3000/employees/${employee.id}`}>
               {`${employee.employee_first_name || ''} ${employee.employee_last_name || ''}`}
             </a>
@@ -136,11 +136,11 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly=false }
           </label>
           {/* Add other doctor-related fields here */}
         </div>
-        <div className="form-section">
+        <div className="form-section-visit">
           <h3>Pacjent</h3>
           <label>
             Nazwa pacjenta:
-            <div className='name'>
+            <div className='name-visit'>
             <a href={`http://localhost:3000/patients/${formValues.visits_patient_id}`}>
               {patientData.patient_name}
             </a>
@@ -185,9 +185,9 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly=false }
           </label>
           {/* Add other patient-related fields here */}
         </div>
-        <div className="form-section">
+        <div className="form-section-visit">
           <h3>Wizyta</h3>
-          <div className="form-section-row">
+          <div className="form-section-row-visit">
             <label>
               Typ wizyty:
               <select
@@ -253,7 +253,7 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly=false }
               />
             </label>
           </div>
-          <div className="form-section">
+          <div className="form-section-visit">
             <h3>Opis wizyty</h3>
             <textarea
               name="visit_description"
@@ -263,7 +263,7 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly=false }
           </div>
         </div>
       </form>
-      <div className="button-container">
+       <div className="button-container-visit">
         <button className="form-button" onClick={handleSubmit} type="submit">Zatwierdź</button>
         <button className="form-button" onClick={() => {
           if(editOnly) onClose();
