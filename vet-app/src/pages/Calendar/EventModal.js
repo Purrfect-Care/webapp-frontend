@@ -1,12 +1,13 @@
-import React, { useContext } from "react";
+import React, { useState, useContext } from "react";
 import GlobalContext from "../../context/GlobalContext";
 import VisitForm from '../../pages/VisitForm/VisitForm';
-import { updateVisitRequest } from '../../api/visitsRequest';
+import ViewVisit from '../../pages/VisitForm/ViewVisit';
+import { createVisitRequest, updateVisitRequest } from '../../api/visitsRequest';
 
 
 function EventModal() {
   const { setShowEventModal, selectedEvent, daySelected } = useContext(GlobalContext);
-
+  const [isFormForEdit, setIsFormForEdit] = useState(selectedEvent ? false : true);
 
   const closeForm = () => {
     setShowEventModal(false);    
@@ -27,7 +28,8 @@ function EventModal() {
         visits_employee_id: formData.visits_employee_id,
       }      
       console.log(EventData);
-      await updateVisitRequest(selectedEvent.id, EventData);
+      if(selectedEvent) await updateVisitRequest(selectedEvent.id, EventData);
+      else await createVisitRequest(EventData);
     } catch (error) {
       console.error('Error submitting form:', error);
     }
@@ -36,25 +38,34 @@ function EventModal() {
 
   const newEvent = {
     visit_datetime: daySelected,
-    visit_duration: null,
-    visit_status: null,
-    visit_description: null,
-    patient_weight: null,
-    patient_height: null,
-    visits_patient_id: null,
-    visits_visit_type_id: null,
-    visits_visit_subtype_id: null,
-    visits_employee_id: JSON.parse(localStorage.getItem('employeeData')).id.toString(),
+    visit_duration: '',
+    visit_status: '',
+    visit_description: '',
+    patient_weight: '',
+    patient_height: '',
+    visits_patient_id: '',
+    visits_visit_type_id: '',
+    visits_visit_subtype_id: '',
+    visits_employee_id: JSON.parse(localStorage.getItem('employeeData')).id.toString()
+
   };
 
   return (
     <div>
-      <VisitForm
+    {!isFormForEdit ? (
+      <ViewVisit
+        onClose={closeForm}
+        setEdit={setIsFormForEdit}
+        initialValues={selectedEvent ? selectedEvent : newEvent}
+      />
+    ) : 
+    <VisitForm
         onClose={closeForm}
         onSubmit={updateForm}
+        setEdit={setIsFormForEdit}
         initialValues={selectedEvent ? selectedEvent : newEvent}
-        edit={!selectedEvent}
-      />
+        editOnly={selectedEvent ? false : true}
+      />}
     </div>
   );
 }

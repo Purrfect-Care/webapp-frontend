@@ -4,6 +4,7 @@ import { NavBarData } from "./NavBarData";
 import { Link } from "react-router-dom";
 import VisitForm from '../../../pages/VisitForm/VisitForm';
 import { createVisitRequest } from '../../../api/visitsRequest';
+import dayjs from 'dayjs';
 
 const NavBar = ({ id, onSelectOption }) => {
   const [selectedTab, setSelectedTab] = useState(NavBarData[0].title); // Set default tab
@@ -63,9 +64,11 @@ const NavBar = ({ id, onSelectOption }) => {
             onSubmit={submitForm}
             initialValues={{
               visits_patient_id: id,
+              visit_datetime: dayjs(),
               visits_employee_id: JSON.parse(localStorage.getItem('employeeData')).id.toString(),
             }}
-            edit={true}
+            editOnly={true}
+            setEdit={showVisitForm}
           />
         </>
       )}
