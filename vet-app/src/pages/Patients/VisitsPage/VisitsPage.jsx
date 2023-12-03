@@ -21,7 +21,12 @@ const VisitsPage = ({ patient }) => {
       const fetchVisits = async () => {
         try {
           const data = await visitsByPatientIdRequest(patient.id);
-          setVisits(data);
+          const sortedPatients = data.slice().sort((a, b) => {
+            const nameA = a.patient_name.toLowerCase();
+            const nameB = b.patient_name.toLowerCase();
+            return nameA.localeCompare(nameB);
+          });
+          setVisits(sortedPatients);
         } catch (error) {
           console.error('Error fetching visits:', error);
         }

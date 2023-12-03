@@ -14,9 +14,9 @@ import timezone from 'dayjs/plugin/timezone';
 
 const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly=false }) => {
   const [formValues, setFormValues] = useState({
-    visit_datetime: null,
-    visit_duration: null,
-    visit_status: null,
+    visit_datetime: '',
+    visit_duration: '',
+    visit_status: '',
     visit_description: '',
     patient_weight: '',
     patient_height: '',
@@ -64,6 +64,12 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly=false }
 
     fetchData();
   }, []);
+
+  const sortedPatients = allPatients.slice().sort((a, b) => {
+    const nameA = a.patient_name.toLowerCase();
+    const nameB = b.patient_name.toLowerCase();
+    return nameA.localeCompare(nameB);
+  });
 
   useEffect(() => {
     if (initialValues) {
@@ -147,9 +153,9 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly=false }
               disabled={initialValues.visits_patient_id}
             >
               <option value="">Select Patient</option>
-              {allPatients.map((patient) => (
+              {sortedPatients.map((patient) => (
                 <option key={patient.id} value={patient.id}>
-                  {patient.patient_name}
+                  {patient.patient_name} • {patient.patients_owner.owner_first_name} {patient.patients_owner.owner_last_name}                   
                 </option>
               ))}
             </select>}
@@ -260,7 +266,7 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly=false }
       <div className="button-container">
         <button className="form-button" onClick={handleSubmit} type="submit">Zatwierdź</button>
         <button className="form-button" onClick={() => {
-          if(editOnly)onClose();
+          if(editOnly) onClose();
           else setEdit(false);
         }}>Anuluj</button>
       </div>

@@ -95,3 +95,21 @@ export async function createVisitRequest(data) {
     const data = await response.json();
     return data;
   }
+
+  export async function visitsByEmployeeIdRequest(employeeId) {
+    const url = `http://localhost:8000/api/visits/?employee_id=${employeeId}`;
+    
+    try {
+      const response = await fetch(url);
+  
+      if (!response.ok) {
+        throw new Error(`Error fetching visits: ${response.statusText}`);
+      }
+  
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      throw new Error(`Error in visitsRequest: ${error.message}`);
+    }
+  }
+  

@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import GlobalContext from "../../context/GlobalContext";
 import VisitForm from '../../pages/VisitForm/VisitForm';
 import ViewVisit from '../../pages/VisitForm/ViewVisit';
-import { updateVisitRequest } from '../../api/visitsRequest';
+import { createVisitRequest, updateVisitRequest } from '../../api/visitsRequest';
 
 
 function EventModal() {
@@ -28,7 +28,8 @@ function EventModal() {
         visits_employee_id: formData.visits_employee_id,
       }      
       console.log(EventData);
-      await updateVisitRequest(selectedEvent.id, EventData);
+      if(selectedEvent) await updateVisitRequest(selectedEvent.id, EventData);
+      else await createVisitRequest(EventData);
     } catch (error) {
       console.error('Error submitting form:', error);
     }
@@ -37,15 +38,15 @@ function EventModal() {
 
   const newEvent = {
     visit_datetime: daySelected,
-    visit_duration: null,
-    visit_status: null,
-    visit_description: null,
-    patient_weight: null,
-    patient_height: null,
-    visits_patient_id: null,
-    visits_visit_type_id: null,
-    visits_visit_subtype_id: null,
-    visits_employee_id: null,
+    visit_duration: '',
+    visit_status: '',
+    visit_description: '',
+    patient_weight: '',
+    patient_height: '',
+    visits_patient_id: '',
+    visits_visit_type_id: '',
+    visits_visit_subtype_id: '',
+    visits_employee_id: JSON.parse(localStorage.getItem('employeeData')).id.toString()
   };
 
   return (
@@ -62,6 +63,7 @@ function EventModal() {
         onSubmit={updateForm}
         setEdit={setIsFormForEdit}
         initialValues={selectedEvent ? selectedEvent : newEvent}
+        editOnly={selectedEvent ? false : true}
       />}
     </div>
   );
