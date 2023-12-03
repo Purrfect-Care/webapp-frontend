@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "./IllnessHistoryPage.css";
 import { FaTrash } from 'react-icons/fa';
-import { illnessHistoryRequest, createIllnessHistoryRequest, deleteIllnessHistoryRequest } from "../../../api/illnessHistoryRequests.js";
+import { illnessHistoryByPatientIdRequest, createIllnessHistoryRequest, deleteIllnessHistoryRequest } from "../../../api/illnessHistoryRequests.js";
 import IllnessHistoryForm from "../../IllnessHistoryForm/IllnessHistoryForm.jsx"
 
 const IllnessHistoryPage = ({patient}) => {
@@ -18,7 +18,7 @@ const IllnessHistoryPage = ({patient}) => {
       const fetchIllnessHistory = async () => {
         try {
           setLoading(true);
-        const data = await illnessHistoryRequest(patient.id);
+        const data = await illnessHistoryByPatientIdRequest(patient.id);
 
         setIllnessHistory(data);
       } catch (error) {

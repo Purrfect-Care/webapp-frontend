@@ -94,6 +94,17 @@
     margin-left: 5px;
     border-radius: 8px; /* Adjust margin as needed */
   }
+
+  .popup-form-static .delete-button {
+    background-color: #f44336;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-left: 5px;
+    border-radius: 8px; /* Adjust margin as needed */
+  }
   
   .popup-form-static .form-button:hover {
     background-color: #2f6d58;

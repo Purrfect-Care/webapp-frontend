@@ -3,12 +3,14 @@ import { patientRequest } from '../../api/patientsRequests';
 import { typeIdRequest } from '../../api/visitTypeRequest'
 import { subtypeIdRequest } from '../../api/visitSubtypeRequest'
 import { employeeRequest } from '../../api/employeeRequest';
+import { deleteVisitRequest } from '../../api/visitsRequest';
+import ConfirmationPopup from "../../components/ConifrmationPopup/ConfirmationPopup";
 import './ViewVisit.css';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';  // Import the utc plugin
 import timezone from 'dayjs/plugin/timezone';
 
-const ViewVisit = ({ onClose, initialValues, edit }) => {
+const ViewVisit = ({ onClose, initialValues, setEdit }) => {
     const [formValues, setFormValues] = useState({
       visit_datetime: null,
       visit_duration: null,
@@ -25,6 +27,8 @@ const ViewVisit = ({ onClose, initialValues, edit }) => {
     const [subtype, setSubtype] = useState({});
     const [employee, setEmployee] = useState({});
     const [patientData, setPatient] = useState({});
+    const [visitToDelete, setVisitToDelete] = useState(null);
+    const [showConfirmation, setShowConfirmation] = useState(false);
   
     dayjs.extend(utc);
     dayjs.extend(timezone);
@@ -57,7 +61,33 @@ const ViewVisit = ({ onClose, initialValues, edit }) => {
         setFormValues(initialValues);
       }
     }, [initialValues]);
+
+    const deleteVisit = (visit) => {
+      setVisitToDelete(visit);
+      setShowConfirmation(true);
+    };
   
+    const confirmDeleteVisit = async () => {
+      try {
+        if (!visitToDelete || !visitToDelete.id) {
+          console.error('No selected visit or visit ID');
+          return;
+        }
+        await deleteVisitRequest(visitToDelete.id);
+        window.location.reload();
+      } catch (error) {
+        console.error('Error deleting visit:', error);
+      } finally {
+        // Close the form
+        onClose();
+        setShowConfirmation(false);
+      }
+    };
+  
+    const cancelDeleteVisit = () => {
+      setShowConfirmation(false);
+    };
+
     return (
       <div className="popup-form-static">
         <h2>Formularz wizyty</h2>
@@ -144,8 +174,19 @@ const ViewVisit = ({ onClose, initialValues, edit }) => {
           </div>
         </form>
         <div className="button-container-static">
+          <button className="delete-button" onClick={() => deleteVisit(initialValues)}>Usuń</button>
+          <button className="form-button" onClick={() => setEdit(true)}>Edytuj</button>
           <button className="form-button" onClick={onClose}>Zamknij</button>
         </div>
+        {showConfirmation && (
+        <ConfirmationPopup
+          message="Czy na pewno chcesz usunąć wizytę?"
+          onConfirm={confirmDeleteVisit}
+          onCancel={cancelDeleteVisit}
+          onYes="Tak"
+          onNo="Nie"
+        />
+      )}
       </div>
     );
   };
