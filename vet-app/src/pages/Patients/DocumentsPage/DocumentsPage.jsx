@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import DocsCard from "./DocsCard";
 import ConfirmationPopup from "../../../components/ConifrmationPopup/ConfirmationPopup";
-import {prescriptionsRequest, deletePrescriptionRequest} from "../../../api/prescriptionRequests";
+import {prescriptionsByPatientIdRequest, deletePrescriptionRequest} from "../../../api/prescriptionRequests";
 
 const DocumentsPage = ({ patient }) => {
   const [prescriptions, setPrescriptions] = useState([]);
@@ -11,7 +11,7 @@ const DocumentsPage = ({ patient }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const prescriptionsData = await prescriptionsRequest(patient.id);
+        const prescriptionsData = await prescriptionsByPatientIdRequest(patient.id);
         setPrescriptions(prescriptionsData);
       } catch (error) {
         console.error("Error fetching data: " + error);
@@ -63,6 +63,8 @@ const DocumentsPage = ({ patient }) => {
           message="Czy chcesz usunąć tą receptę?"
           onConfirm={confirmDelete}
           onCancel={cancelDelete}
+          onYes="Tak"
+          onNo="Nie"
         />
       )}
     </div>

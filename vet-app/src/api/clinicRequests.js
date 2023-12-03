@@ -21,3 +21,21 @@ export const addClinic = async (clinicData) => {
     throw new Error(`Error: ${error.message}`);
   }
 };
+
+export async function getClinicsRequest() {
+
+  const response = await fetch(`${BASE_URL}/clinics/`, {
+    method: "GET",
+  });
+  
+  if (response.ok) {
+    const json = await response.json();
+    return json;
+  }
+
+  throw new Error(
+    `Response ${response.status}: ${
+      response.statusText
+    } - ${await response.text()}`
+  );
+}

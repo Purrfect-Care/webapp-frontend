@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { allPatientsRequest } from '../../api/patientsRequests';
+import { patientRequest, allPatientsRequest } from '../../api/patientsRequests';
 import { visitTypeRequest } from '../../api/visitTypeRequest'
 import { visitSubtypeRequest } from '../../api/visitSubtypeRequest'
+import { employeeRequest } from '../../api/employeeRequest';
 import './VisitForm.css';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -10,71 +11,49 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';  // Import the utc plugin
 import timezone from 'dayjs/plugin/timezone';
 
-const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
+
+const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly=false }) => {
   const [formValues, setFormValues] = useState({
-    visits_patient: {
-      patient_name: '',
-      patient_gender: null,
-      patient_date_of_birth: null,
-      patients_owner_id: null,
-      patients_species_id: null,
-      patients_breed_id: null,
-    },
-    visits_visit_type: {
-      visit_type_name: '',
-    },
-    visits_visit_subtype: {
-      visit_subtype_name: '',
-      visit_subtypes_visit_type_id: null,
-    },
-    visits_employee: {
-      employee_role: '',
-      employee_first_name: '',
-      employee_last_name: '',
-      employee_address: '',
-      employee_postcode: '',
-      employee_city: '',
-      employee_phone_number: '',
-      employee_email: '',
-      employee_password: '',
-      employees_clinic_id: null,
-    },
-    visit_datetime: null,
-    visit_duration: null,
-    visit_status: null,
+    visit_datetime: '',
+    visit_duration: '',
+    visit_status: '',
     visit_description: '',
-    patient_weight: null,
-    patient_height: null,
-    visits_patient_id: null,
-    visits_visit_type_id: null,
-    visits_visit_subtype_id: null,
-    visits_employee_id: null,
+    patient_weight: '',
+    patient_height: '',
+    visits_patient_id: '',
+    visits_visit_type_id: '',
+    visits_visit_subtype_id: '',
+    visits_employee_id: '',
   });
-  const [readOnly, setReadOnly] = useState(!edit);
   const [allTypes, setAllTypes] = useState([]);
   const [allPatients, setAllPatients] = useState([]);
   const [subtypesForSelectedType, setSubtypesForSelectedType] = useState([]);
   const [allSubtypes, setAllSubtypes] = useState([]);
-
+  const [employee, setEmployee] = useState([]);
+  const [patientData, setPatient] = useState([]);
 
   dayjs.extend(utc);
   dayjs.extend(timezone);
   // Set the time zone to Warsaw (CET)
   dayjs.tz.setDefault('Europe/Warsaw');
   dayjs.locale('en');
-  useEffect(() => {
-    setReadOnly(!edit);
-  }, [edit]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [visitTypes, visitSubtypes, patients] = await Promise.all([
+        const [visitTypes, visitSubtypes, patients, employeeJSON] = await Promise.all([
           visitTypeRequest(),
           visitSubtypeRequest(),
           allPatientsRequest(),
+          employeeRequest(initialValues.visits_employee_id),
         ]);
 
+        if(initialValues.visits_patient_id != null)
+        {
+          const patientJSON = await patientRequest(initialValues.visits_patient_id);
+          setPatient(patientJSON);
+        }
+        setEmployee(employeeJSON);
         setAllTypes(visitTypes);
         setAllSubtypes(visitSubtypes);
         setAllPatients(patients);
@@ -85,6 +64,12 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
 
     fetchData();
   }, []);
+
+  const sortedPatients = allPatients.slice().sort((a, b) => {
+    const nameA = a.patient_name.toLowerCase();
+    const nameB = b.patient_name.toLowerCase();
+    return nameA.localeCompare(nameB);
+  });
 
   useEffect(() => {
     if (initialValues) {
@@ -98,79 +83,82 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
 
 
   const handleChange = async (e) => {
-    if (!readOnly) {
-      const { name, value } = e.target;
+    const { name, value } = e.target;
 
-      if (name === 'visits_visit_type_id') {
-        const typeId = parseInt(value);
-        const subtypes = allSubtypes.filter(
-          (subtype) => subtype.visit_subtypes_visit_type_id === typeId
-        );
-        setSubtypesForSelectedType(subtypes);
+    if (name === "visits_visit_type_id") {
+      const typeId = parseInt(value);
+      const subtypes = allSubtypes.filter(
+        (subtype) => subtype.visit_subtypes_visit_type_id === typeId
+      );
+      setSubtypesForSelectedType(subtypes);
 
-        setFormValues((prevFormValues) => ({
-          ...prevFormValues,
-          [name]: value,
-          visits_visit_subtype_id: '',
-        }));
-      } else {
-        setFormValues((prevFormValues) => ({
-          ...prevFormValues,
-          [name]: value,
-        }));
-      }
+      setFormValues((prevFormValues) => ({
+        ...prevFormValues,
+        [name]: value,
+        visits_visit_subtype_id: "",
+      }));
+    } else {
+      setFormValues((prevFormValues) => ({
+        ...prevFormValues,
+        [name]: value,
+      }));
     }
   };
   const handleDateTimeChange = (newValue) => {
-    if (!readOnly) {
-      setFormValues((prevFormValues) => ({
-        ...prevFormValues,
-        visit_datetime: newValue ? newValue.toISOString() : null,
-      }));
-    }
+    setFormValues((prevFormValues) => ({
+      ...prevFormValues,
+      visit_datetime: newValue ? newValue.toISOString() : null,
+    }));
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log('Form submitted!');
     await onSubmit(formValues);
+    console.log(formValues);
     onClose();
-    // window.location.reload();
+    window.location.reload();
   };
 
   return (
-    <div className="popup-form">
+    <div className="popup-form-visit">
       <h2>Formularz wizyty</h2>
-      <form onSubmit={handleSubmit} className="form-sections">
-        <div className="form-section">
-          <h3>Lekarz</h3>
+      <form onSubmit={handleSubmit} className="form-sections-visit">
+        <div className="form-section-visit">
+          <h3>Weterynarz</h3>
           <label>
-            <input
-              type="text"
-              name="visits_employee_id"
-              value={formValues.visits_employee_id}
-              onChange={handleChange}
-              disabled={readOnly}
-            />
+            Imię i nazwisko:
+            <div className='name-visit'>
+            <a href={`http://localhost:3000/employees/${employee.id}`}>
+              {`${employee.employee_first_name || ''} ${employee.employee_last_name || ''}`}
+            </a>
+
+            </div>
           </label>
           {/* Add other doctor-related fields here */}
         </div>
-        <div className="form-section">
+        <div className="form-section-visit">
           <h3>Pacjent</h3>
           <label>
             Nazwa pacjenta:
-            <select
+            <div className='name-visit'>
+            <a href={`http://localhost:3000/patients/${formValues.visits_patient_id}`}>
+              {patientData.patient_name}
+            </a>
+
+            </div>
+            {!initialValues.visits_patient_id && <select
               name="visits_patient_id"
               value={formValues.visits_patient_id || ''}
               onChange={handleChange}
-              disabled={initialValues}
+              disabled={initialValues.visits_patient_id}
             >
               <option value="">Select Patient</option>
-              {allPatients.map((patient) => (
+              {sortedPatients.map((patient) => (
                 <option key={patient.id} value={patient.id}>
-                  {patient.patient_name}
+                  {patient.patient_name} • {patient.patients_owner.owner_first_name} {patient.patients_owner.owner_last_name}                   
                 </option>
               ))}
-            </select>
+            </select>}
           </label>
           <label>
             Waga pacjenta (kg):
@@ -181,7 +169,6 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
               name="patient_weight"
               value={formValues.patient_weight}
               onChange={handleChange}
-              disabled={!!readOnly}
             />
           </label>
 
@@ -194,21 +181,19 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
               name="patient_height"
               value={formValues.patient_height}
               onChange={handleChange}
-              disabled={!!readOnly}
             />
           </label>
           {/* Add other patient-related fields here */}
         </div>
-        <div className="form-section">
+        <div className="form-section-visit">
           <h3>Wizyta</h3>
-          <div className="form-section-row">
+          <div className="form-section-row-visit">
             <label>
               Typ wizyty:
               <select
                 name="visits_visit_type_id"
                 value={formValues.visits_visit_type_id || ''}
                 onChange={handleChange}
-                disabled={!!readOnly}
               >
                 <option value="">-Wybierz typ wizyty-</option>
                 {allTypes.map((type) => (
@@ -224,7 +209,6 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
                 name="visits_visit_subtype_id"
                 value={formValues.visits_visit_subtype_id || ''}
                 onChange={handleChange}
-                disabled={!!readOnly}
               >
                 <option value="">-Wybierz podtyp wizyty-</option>
                 {subtypesForSelectedType.map((subtype) => (
@@ -240,7 +224,6 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
                 name="visit_status"
                 value={formValues.visit_status || ''}
                 onChange={handleChange}
-                disabled={!!readOnly}
               >
                 <option value="">-Wybierz status wizyty-</option>
                 <option value="planned">Zaplanowana</option>
@@ -256,7 +239,6 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
                   ampm={false}
                   value={dayjs(formValues.visit_datetime)}
                   onChange={handleDateTimeChange}
-                  disabled={!!readOnly}
                   dayOfWeekFormatter={(_day, weekday) => `${weekday.format('dd')}`}
                 />
               </LocalizationProvider>
@@ -268,24 +250,25 @@ const VisitForm = ({ onClose, initialValues, edit, onSubmit }) => {
                 name="visit_duration"
                 value={formValues.visit_duration}
                 onChange={handleChange}
-                disabled={!!readOnly}
               />
             </label>
           </div>
-          <div className="form-section">
+          <div className="form-section-visit">
             <h3>Opis wizyty</h3>
             <textarea
               name="visit_description"
               value={formValues.visit_description}
               onChange={handleChange}
-              disabled={readOnly}
             />
           </div>
         </div>
       </form>
-      <div className="button-container">
-        {readOnly || <button className="form-button" onClick={handleSubmit} type="submit">Zatwierdź</button>}
-        <button className="form-button" onClick={onClose}>Zamknij</button>
+       <div className="button-container-visit">
+        <button className="form-button" onClick={handleSubmit} type="submit">Zatwierdź</button>
+        <button className="form-button" onClick={() => {
+          if(editOnly) onClose();
+          else setEdit(false);
+        }}>Anuluj</button>
       </div>
     </div>
   );

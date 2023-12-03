@@ -10,7 +10,7 @@ import { patientRequest } from "../../../api/patientsRequests";
 
 const PatientSection = ({ patientId }) => {
   const [patient, setPatientData] = useState(null);
-  const [activeComponent, setActiveComponent] = useState("INFORMACJE");
+  const [activeComponent, setActiveComponent] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,6 +18,7 @@ const PatientSection = ({ patientId }) => {
         if (patientId) {
           const patientData = await patientRequest(patientId);
           setPatientData(patientData);
+          setActiveComponent(null);
         }
       } catch (error) {
         console.error("Error fetching data: " + error);

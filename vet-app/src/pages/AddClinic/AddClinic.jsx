@@ -4,14 +4,7 @@ import "./AddClinic.css";
 import { addClinic } from "../../api/clinicRequests";
 
 const AddClinic = () => {
-    const [formValues, setFormValues] = useState({
-      clinic_name: "",
-      clinic_address: "",
-      clinic_postcode: "",
-      clinic_city: "",
-      clinic_phone_number: "",
-      clinic_email: "",
-    });
+    const [formValues, setFormValues] = useState({});
   
     const handleInputChange = (e) => {
       const { name, value } = e.target;
@@ -49,7 +42,7 @@ const AddClinic = () => {
             className="name"
             name="clinic_name"
             type="text"
-            value={formValues.clinic_name}
+            value={formValues.clinic_name || ""}
             placeholder="Nazwa kliniki"
             onChange={handleInputChange}
             required
@@ -58,7 +51,7 @@ const AddClinic = () => {
             className="address"
             name="clinic_address"
             type="text"
-            value={formValues.clinic_address}
+            value={formValues.clinic_address || ""}
             placeholder="Adres"
             onChange={handleInputChange}
             required
@@ -70,7 +63,7 @@ const AddClinic = () => {
               className="postcode"
               placeholder="Kod pocztowy"
               onChange={handleInputChange}
-              value={formValues.clinic_postcode}
+              value={formValues.clinic_postcode || ""}
               maxLength="6"
               required
             />
@@ -80,7 +73,7 @@ const AddClinic = () => {
               type="text"
               placeholder="Miasto"
               onChange={handleInputChange}
-              value={formValues.clinic_city}
+              value={formValues.clinic_city || ""}
               required
             />
           </div>
@@ -90,7 +83,7 @@ const AddClinic = () => {
             name="clinic_phone_number"
             placeholder="Telefon"
             onChange={handleInputChange}
-            value={formValues.clinic_phone_number}
+            value={formValues.clinic_phone_number || ""}
             maxLength="9"
             required
           />
@@ -98,7 +91,7 @@ const AddClinic = () => {
             className="email"
             type="email"
             name="clinic_email"
-            value={formValues.clinic_email}
+            value={formValues.clinic_email || ""}
             onChange={handleInputChange}
             placeholder="Email"
           />

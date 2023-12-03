@@ -1,127 +1,71 @@
-import React, { useContext, useState } from "react";
+import React, { useState, useContext } from "react";
 import GlobalContext from "../../context/GlobalContext";
-import * as Hi2Icons from "react-icons/hi2";
-import * as AiIcons from "react-icons/ai";
-import * as BiIcons from "react-icons/bi";
+import VisitForm from '../../pages/VisitForm/VisitForm';
+import ViewVisit from '../../pages/VisitForm/ViewVisit';
+import { createVisitRequest, updateVisitRequest } from '../../api/visitsRequest';
 
-
-const labelsClasses = [
-  "indigo",
-  "grayCheck",
-  "greenCheck",
-  "blue",
-  "red",
-  "purple",
-];
 
 function EventModal() {
-  const { setShowEventModal, daySelected, dispatchCallEvent, selectedEvent } =
-    useContext(GlobalContext);
-  const [title, setTitle] = useState(selectedEvent ? selectedEvent.title : "");
-  const [description, setDescription] = useState(
-    selectedEvent ? selectedEvent.description : ""
-  );
-  const [selectedLabel, setSelectedLabel] = useState(
-    selectedEvent
-      ? labelsClasses.find((lbl) => lbl === selectedEvent.label)
-      : labelsClasses[0]
-  );
+  const { setShowEventModal, selectedEvent, daySelected } = useContext(GlobalContext);
+  const [isFormForEdit, setIsFormForEdit] = useState(selectedEvent ? false : true);
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    
-    const calendarEvent = {
-      title,
-      description,
-      label: selectedLabel,
-      day: daySelected.valueOf(),
-      id: selectedEvent ? selectedEvent.id : Date.now(),
-    };
-    if (selectedEvent) {
-      
-      dispatchCallEvent({ type: "update", payload: calendarEvent });
-    } else {
-      dispatchCallEvent({ type: "push", payload: calendarEvent });
+  const closeForm = () => {
+    setShowEventModal(false);    
+  };
+
+  const updateForm = async (formData) => {
+    try {
+      const EventData = {
+        visit_datetime: formData.visit_datetime,
+        visit_duration: formData.visit_duration,
+        visit_status: formData.visit_status,
+        visit_description: formData.visit_description,
+        patient_weight: formData.patient_weight,
+        patient_height: formData.patient_height,
+        visits_patient_id: formData.visits_patient_id,
+        visits_visit_type_id: formData.visits_visit_type_id,
+        visits_visit_subtype_id: formData.visits_visit_subtype_id,
+        visits_employee_id: formData.visits_employee_id,
+      }      
+      console.log(EventData);
+      if(selectedEvent) await updateVisitRequest(selectedEvent.id, EventData);
+      else await createVisitRequest(EventData);
+    } catch (error) {
+      console.error('Error submitting form:', error);
     }
+    closeForm();
+  };
 
-    setShowEventModal(false);
-  }
+  const newEvent = {
+    visit_datetime: daySelected,
+    visit_duration: '',
+    visit_status: '',
+    visit_description: '',
+    patient_weight: '',
+    patient_height: '',
+    visits_patient_id: '',
+    visits_visit_type_id: '',
+    visits_visit_subtype_id: '',
+    visits_employee_id: JSON.parse(localStorage.getItem('employeeData')).id.toString()
+
+  };
 
   return (
-    <div className="h-screen w-full fixed left-0 top-0 flex justify-center items-center ">
-      <form className="bg-white rounded-lg shadow-2xl w-1/4">
-        <header className="bg-customGreen px-4 py-2 flex justify-between items-center">
-          <Hi2Icons.HiBars2 className="text-white" />
-          <div>
-            {selectedEvent && (
-              <button
-                onClick={() => {
-                  dispatchCallEvent({ type: "delete", payload: selectedEvent });
-                  setShowEventModal(false);
-                }}
-              >
-                <AiIcons.AiOutlineDelete className="text-white mr-2" />
-              </button>
-            )}
-            <button onClick={() => setShowEventModal(false)}>
-              <AiIcons.AiOutlineClose className="text-white" />
-            </button>
-          </div>
-        </header>
-        <div className="p-3">
-          <div className="grid grid-cols-1/5 items-end gap-y-7">
-            <div></div>
-            <input
-              type="text"
-              name="title"
-              placeholder="Dodaj tytuł"
-              value={title}
-              required
-              className="pt-3 border-0 text-gray-600 text-xl font-semibold pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:blue-500"
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            
-
-            <AiIcons.AiOutlineClockCircle className="text-gray-400 text-2xl" />
-            <p>{daySelected.format("dddd, MMMM DD")}</p>
-
-            <Hi2Icons.HiBars3BottomLeft className="text-gray-400 text-2xl" />
-            <input
-              type="text"
-              name="description"
-              placeholder="Dodaj opis"
-              value={description}
-              required
-              className="pt-3 border-0 text-gray-600 pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:blue-500"
-              onChange={(e) => setDescription(e.target.value)}
-            />
-
-            <BiIcons.BiBookmark className="text-gray-400 text-2xl" />
-            <div className="flex gap-x-2">
-              {labelsClasses.map((lblClass, i) => (
-                <span
-                  key={i}
-                  onClick={() => setSelectedLabel(lblClass)}
-                  className={`bg-blue w-6 h-6 rounded-full flex items-center justify-center cursor-pointer border border-gray-400`}
-                >
-                  {selectedLabel === lblClass && (
-                    <AiIcons.AiOutlineCheck className="text-white text-sm" />
-                  )}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-        <footer className="flex justify-end border-t p-3 mt-5">
-          <button
-            type="submit"
-            onClick={handleSubmit}
-            className="bg-customGreen hover:bg-blue-600 px-6 py-2 rounded text-white"
-          >
-            Zapisz
-          </button>
-        </footer>
-      </form>
+    <div>
+    {!isFormForEdit ? (
+      <ViewVisit
+        onClose={closeForm}
+        setEdit={setIsFormForEdit}
+        initialValues={selectedEvent ? selectedEvent : newEvent}
+      />
+    ) : 
+    <VisitForm
+        onClose={closeForm}
+        onSubmit={updateForm}
+        setEdit={setIsFormForEdit}
+        initialValues={selectedEvent ? selectedEvent : newEvent}
+        editOnly={selectedEvent ? false : true}
+      />}
     </div>
   );
 }

@@ -1,19 +1,18 @@
-export async function visitsRequest(patientId) {
-    const endpoint = `http://localhost:8000/api/visits`;
+export async function visitsByPatientIdRequest(patientId) {
+    const endpoint = `http://localhost:8000/api/visits/?patient_id=${patientId}`;
   
-    const response = await fetch(endpoint);
-    if (response.ok) {
+    try {
+      const response = await fetch(endpoint);
+  
+      if (response.ok) {
         const data = await response.json();
-        // Filter visits based on the patientId
-        const filteredVisits = data.filter(visit => visit.visits_patient.id === patientId);
-        return filteredVisits;
-    }
+        return data;
+      }
   
-    throw new Error(
-        `Response ${response.status}: ${
-            response.statusText
-        } - ${await response.text()}`
-    );
+      throw new Error(`Response ${response.status}: ${response.statusText}`);
+    } catch (error) {
+      throw new Error(`Error: ${error.message}`);
+    }
 }
 export async function updateVisitRequest(id, data) {
     const endpoint = `http://localhost:8000/api/visits/${id}/`;
@@ -86,3 +85,30 @@ export async function createVisitRequest(data) {
       throw error;
     }
   }
+
+  export async function visitsRequest() {
+    const response = await fetch("http://localhost:8000/api/visits/");
+    if (!response.ok) {
+      throw new Error(`Error fetching visits: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return data;
+  }
+
+  export async function visitsByEmployeeIdRequest(employeeId) {
+    const url = `http://localhost:8000/api/visits/?employee_id=${employeeId}`;
+    
+    try {
+      const response = await fetch(url);
+  
+      if (!response.ok) {
+        throw new Error(`Error fetching visits: ${response.statusText}`);
+      }
+  
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      throw new Error(`Error in visitsRequest: ${error.message}`);
+    }
+  }
+  
