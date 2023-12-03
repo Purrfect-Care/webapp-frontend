@@ -1,22 +1,20 @@
-export async function illnessHistoryRequest(patientId) {
-  const endpoint = `http://localhost:8000/api/illness_history/`;
+export async function illnessHistoryByPatientIdRequest(patientId) {
+  const endpoint = `http://localhost:8000/api/illness_history/?patient_id=${patientId}`;
 
-  const response = await fetch(endpoint);
-  if (response.ok) {
-    const data = await response.json();
-    const filteredIllnessHistory = data.filter(
-      (illnessHistory) =>
-        illnessHistory.illness_history_patient.id === patientId
-    );
-    return filteredIllnessHistory;
+  try {
+    const response = await fetch(endpoint);
+
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    }
+
+    throw new Error(`Response ${response.status}: ${response.statusText}`);
+  } catch (error) {
+    throw new Error(`Error in illnessHistoryRequest: ${error.message}`);
   }
-
-  throw new Error(
-    `Response ${response.status}: ${
-      response.statusText
-    } - ${await response.text()}`
-  );
 }
+
 
 export async function deleteIllnessHistoryRequest(id) {
   const endpoint = `http://localhost:8000/api/illness_history/${id}/`;
