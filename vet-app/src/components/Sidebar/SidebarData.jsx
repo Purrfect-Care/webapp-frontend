@@ -18,8 +18,8 @@ export const SidebarData = [
         className: 'sidebar-text' 
     },
     {
-        title: 'Wizyty',
-        path: '/visit_type',
+        title: 'Dodaj',
+        path: '/add',
         icon: <BsIcons.BsFillBookmarkPlusFill />,
         className: 'sidebar-text' 
     },
