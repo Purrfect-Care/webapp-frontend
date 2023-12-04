@@ -39,3 +39,18 @@ export async function getClinicsRequest() {
     } - ${await response.text()}`
   );
 }
+
+export async function getClinicByIdRequest(id) {
+
+  const response = await fetch(`${BASE_URL}/clinics/${id}`, {
+    method: "GET",
+  });
+  if (response.ok) {
+    const json = await response.json();
+    return json;
+  }
+
+  throw new Error(
+    `Response ${response.status}: ${response.statusText} - ${await response.text()}`
+  );
+}

@@ -2,15 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { allPatientsRequest } from '../api/patientsRequests';
 import { addPrescribedMedicationRequest, addPrescriptionRequest } from '../api/prescriptionRequests';
 import { allMedicationsRequest } from '../api/medicationsRequest'; // Assuming you have an API endpoint for fetching medications
+import { patientRequest } from '../api/patientsRequests';
 
-const PrescriptionForm = ({ onClose, onSubmit }) => {
+
+
+const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
   const [formValues, setFormValues] = useState({
     prescription_date: new Date().toISOString().split('T')[0],
-    prescriptions_patient_id: '',
+    prescriptions_patient_id: initialPrescriptionValues.prescriptions_patient_id,
     prescribed_medications: [{ medication_id: '', medication_amount: '' }],
   });
   const [allPatients, setAllPatients] = useState([]);
   const [allMedications, setAllMedications] = useState([]);
+  const [patientData, setPatient] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,6 +23,11 @@ const PrescriptionForm = ({ onClose, onSubmit }) => {
           allPatientsRequest(),
           allMedicationsRequest(),
         ]);
+        if(initialPrescriptionValues.prescriptions_patient_id != null)
+        {
+          const patientJSON = await patientRequest(initialPrescriptionValues.prescriptions_patient_id);
+          setPatient(patientJSON);
+        }
 
         setAllPatients(patients);
         setAllMedications(medications);
@@ -87,14 +96,17 @@ const PrescriptionForm = ({ onClose, onSubmit }) => {
   
       // Make API request to add prescribed medications
       await Promise.all(prescribedMedicationsData.map(addPrescribedMedicationRequest));
-  
+      
       console.log('Prescription and medications added successfully!');
-      onClose();
+      window.location.href = `/patients/${formValues.prescriptions_patient_id}`;
+      
     } catch (error) {
       console.error('Error submitting prescription:', error.message);
       // Handle error as needed
     }
   };
+
+  console.log(initialPrescriptionValues.prescriptions_patient_id);
 
   return (
     <div className="popup-form">
@@ -102,7 +114,8 @@ const PrescriptionForm = ({ onClose, onSubmit }) => {
       <form onSubmit={handleSubmit} className="form-sections">
         <label>
           Pacjent:
-          <select
+              {patientData.patient_name}
+          {!initialPrescriptionValues.prescriptions_patient_id && <select
             name="prescriptions_patient_id"
             value={formValues.prescriptions_patient_id}
             onChange={(e) => setFormValues((prevFormValues) => ({ ...prevFormValues, prescriptions_patient_id: e.target.value }))}
@@ -113,7 +126,7 @@ const PrescriptionForm = ({ onClose, onSubmit }) => {
                 {patient.patient_name}
               </option>
             ))}
-          </select>
+          </select>}
         </label>
 
         {formValues.prescribed_medications.map((medication, index) => (

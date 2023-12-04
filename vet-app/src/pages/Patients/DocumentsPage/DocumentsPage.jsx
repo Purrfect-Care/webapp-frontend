@@ -15,6 +15,7 @@ const DocumentsPage = ({ patient }) => {
       try {
         const prescriptionsData = await prescriptionsRequest(patient.id);
         setPrescriptions(prescriptionsData);
+        console.log(prescriptionsData);
       } catch (error) {
         console.error("Error fetching data: " + error);
       }
@@ -67,6 +68,8 @@ const DocumentsPage = ({ patient }) => {
             prescId={prescription.id}
             medications={prescription.prescribed_medications}
             date={prescription.prescription_date}
+            employee={prescription.prescriptions_employee_id}
+            patient={prescription.prescriptions_patient_id}
             onDelete={() => handleDeletePrescription(prescription.id)}
           />
         ))}
@@ -80,15 +83,6 @@ const DocumentsPage = ({ patient }) => {
           onYes="Tak"
           onNo="Nie"
         />
-      )}
-
-      {/* Button to open the prescription form */}
-      <button onClick={handleOpenPrescriptionForm}>Dodaj nową receptę</button>
-
-      {/* Prescription Form */}
-      {showPrescriptionForm && (
-        <PrescriptionForm onClose={handleClosePrescriptionForm}
-        onSubmit={handlePrescriptionSubmit} />
       )}
     </div>
   );

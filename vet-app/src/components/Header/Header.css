@@ -10,6 +10,10 @@
     
 }
 
+.logo-prescription {
+    display: flex;
+}
+
 .logo-text {
     color: #4AA587;
     font-family: Outfit;

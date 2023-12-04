@@ -1,12 +1,18 @@
-import React from "react";
+import React, {useState} from "react";
 import "./DocsCard.css";
 import * as AiIcons from "react-icons/ai";
+import ViewPrescriptionForm from "../../../PrescriptionForm/ViewPrescriptionForm";
 
-const DocsCard = ({ prescId, medications, date, onDelete }) => {
+const DocsCard = ({ prescId, medications, date, onDelete, employee, patient }) => {
+  const [showPrescriptionForm, setShowPrescriptionForm] = useState(false);
+  
   const cardHeight = 100 + medications.length * 40;
 
   const handleDelete = () => {
     onDelete(prescId);
+  };
+  const handleViewPrescription = () => {
+    setShowPrescriptionForm(true);
   };
 
   return (
@@ -19,7 +25,7 @@ const DocsCard = ({ prescId, medications, date, onDelete }) => {
             <th>Data przepisania leku</th>
             <th className="icons-docs">
               <AiIcons.AiOutlineDelete className="deleteIcon" onClick={handleDelete} />
-              <AiIcons.AiOutlineFilePdf />
+              <AiIcons.AiOutlineFilePdf onClick={handleViewPrescription} />
             </th>
           </tr>
         </thead>
@@ -34,6 +40,12 @@ const DocsCard = ({ prescId, medications, date, onDelete }) => {
           ))}
         </tbody>
       </table>
+      {showPrescriptionForm && (
+        <ViewPrescriptionForm
+          onClose={() => setShowPrescriptionForm(false)}
+          prescriptionDetails={{ prescription_date: date, prescribed_medications: medications, employee: employee, patient: patient }}
+        />
+      )}
     </div>
   );
 };

@@ -48,7 +48,7 @@ export const addPrescriptionRequest = async (prescriptionData) => {
       },
       body: JSON.stringify(prescriptionData),
     });
-
+    
     if (response.ok) {
       return response.json();
     } else {
@@ -69,6 +69,7 @@ export const addPrescribedMedicationRequest = async (prescriptionmedData) => {
       },
       body: JSON.stringify(prescriptionmedData),
     });
+    console.log("medication json", prescriptionmedData);
 
     if (response.ok) {
       return response.json();
