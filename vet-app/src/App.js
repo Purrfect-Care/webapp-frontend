@@ -77,6 +77,10 @@ function App() {
             element={<CustomRoute element={<PatientsPage />} path="/patients/:id/*" />}
           />
           <Route
+            path="/add"
+            element={<CustomRoute element={<AddPage />} path="/add" />}
+          />
+          <Route
             path="/add-clinic"
             element={<CustomRoute element={<AddClinic />} path="/add-clinic" />}
           />

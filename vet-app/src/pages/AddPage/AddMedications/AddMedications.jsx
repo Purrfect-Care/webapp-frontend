@@ -39,7 +39,7 @@ const AddMedications = () => {
             <button
               type="submit"
               onClick={handleAddMedication}
-              className="bg-emerald-800 hover:bg-blue-600 px-10 py-2 rounded text-white hover:shadow-md"
+              className="bg-emerald-800 hover:bg-emerald-600 px-10 py-2 rounded text-white hover:shadow-md"
             >
               Dodaj
             </button>
