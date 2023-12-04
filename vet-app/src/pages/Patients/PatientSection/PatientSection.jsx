@@ -7,6 +7,7 @@ import DocumentsPage from "../DocumentsPage/DocumentsPage";
 import OwnerPage from "../OwnerPage/OwnerPage";
 import IllnessHistoryPage from "../IllnessHistoryPage/IllnessHistoryPage";
 import { patientRequest } from "../../../api/patientsRequests";
+import PulseLoader from "react-spinners/PulseLoader";
 
 const PatientSection = ({ patientId }) => {
   const [patient, setPatientData] = useState(null);
@@ -28,11 +29,22 @@ const PatientSection = ({ patientId }) => {
   }, [patientId]);
 
   if (!patientId) {
-    return <h1>Select a patient</h1>;
+    return <h1>Wybierz pacjenta</h1>;
   }
 
   if (!patient) {
-    return <h1>Loading...</h1>;
+    return <PulseLoader
+    color="#4AA587"
+    cssOverride={{
+      'align-items': 'center',
+      display: 'flex',
+      height: '87vh',
+      width: '100%',
+      'justify-content': 'center'
+    }}
+    size={20}
+    speedMultiplier={0.8}
+  />;
   }
 
   const handleSelectOption = (selectedComponent) => {

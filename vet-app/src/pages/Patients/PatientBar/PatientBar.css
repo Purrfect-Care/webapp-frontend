@@ -1,9 +1,9 @@
 .patientBar {
-  height: 87vh;
+  height: 100vh;
   width: 20vw;
   background-color: #ffffff;
-  box-shadow: inset -5px 8px 24px -15px rgba(66, 68, 90, 1);
-  min-width: 250px;
+  box-shadow: inset 5px 8px 24px -12px rgb(52, 54, 71);
+  min-width: 300px;
 }
 
 .searchBar {
@@ -19,8 +19,8 @@
 
 .patients {
   overflow-y: auto;
-  height: 77vh;
-  width: 20vw;
+  height: 100%;
+  width: 100%;
   min-width: 250px;
 }
 

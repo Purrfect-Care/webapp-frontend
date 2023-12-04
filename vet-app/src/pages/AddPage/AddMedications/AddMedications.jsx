@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import { addMedicationsRequest } from "../../../api/medicationRequests";
 
+
 const AddMedications = () => {
   const [medication, setMedication] = useState({ medication_name: "" });
 

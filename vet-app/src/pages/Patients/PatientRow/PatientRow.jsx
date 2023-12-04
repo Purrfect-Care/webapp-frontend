@@ -7,8 +7,8 @@ const PatientRow = ({ patientId, ownerName, ownerSurname, patientName }) => {
     <Link to={`/patients/${patientId}`} className="patientRow">
       <div className="circle"></div>
       <span className="patientText">
-        {patientName} • {ownerName}&nbsp;
-        {ownerSurname}
+        <div className="patient-name">{patientName}</div>
+        <h3 className="owner-info">{ownerName}&nbsp;{ownerSurname}</h3>
       </span>
     </Link>
   );
