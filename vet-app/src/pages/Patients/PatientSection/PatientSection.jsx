@@ -43,7 +43,14 @@ const PatientSection = ({ patientId }) => {
     <div className="patientSection">
       <div className="patientSection-top">
         <div className="mainInfo">
-          <div className="rectangle"></div>
+        <div className="photo-container">
+        <img
+            src={patient.patient_photo}
+            alt={`Photo of ${patient.patient_name}`}
+            className="patient-photo"
+            style={{ width: '150px', height: '150px' }} // Adjust the width and height as needed
+          />
+          </div>
           <div className="textInfo">
             <h1 className="patient_name">{patient.patient_name}</h1>
             <span className="ageBreed">

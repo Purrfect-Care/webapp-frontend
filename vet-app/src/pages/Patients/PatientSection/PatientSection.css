@@ -36,3 +36,9 @@
     box-shadow: inset -5px 8px 24px -15px rgba(66, 68, 90, 1);
 
 }
+
+.patient-photo{
+    width: 80px; 
+    height: 100px; 
+    margin-right: 20px;
+}

@@ -9,6 +9,7 @@ import Login from './pages/Login/Login';
 import SignIn from './pages/SignIn/SignIn';
 import AddClinic from './pages/AddClinic/AddClinic';
 import AutoLogout from './api/AutoLogout';
+import PatientForm from './pages/PatientForm/PatientForm';
 
 const isAuthenticated = () => {
   // Implement your logic to check if the user is authenticated
@@ -75,6 +76,10 @@ function App() {
           <Route
             path="/add-clinic"
             element={<CustomRoute element={<AddClinic />} path="/add-clinic" />}
+          />
+          <Route
+            path="/add-patient"
+            element={<CustomRoute element={<PatientForm />} path="/add-patient" />}
           />
         </Routes>
       </BrowserRouter>
