@@ -115,14 +115,10 @@ const PatientForm = ({ onClose }) => {
       });
   
       console.log(formValues);
-  
-      // Use the createPatientRequest function with the FormData object
+      
       const response = await createPatientRequest(formData);
       console.log('Form submitted!', response);
-      const newPatientId = response.data.id;
-  
-      // Redirect to the specific patient page
-      navigate(`/patients/${newPatientId}`, { replace: true });
+      navigate(`/patients/${response.id}`, { replace: true });
     } catch (error) {
       console.error('Error:', error.message);
     }
