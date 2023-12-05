@@ -4,6 +4,7 @@
     height: 87vh;
 }
 
+
 .rectangle {
     width: 80px; 
     height: 100px; 
@@ -16,6 +17,7 @@
     display: flex;
     align-items:flex-end;
     padding: 30px 40px 5px 40px;
+    height: 22vh;
     
 }
 
@@ -32,3 +34,34 @@
     margin-right: 8px;
 }
 
+.patientSection-content {
+    height: 57vh;
+}
+
+.patientSection-top {
+    height: 30vh;
+    
+}
+
+.no-patient-msg {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;  
+    width: 80vw; 
+}
+
+.patient-msg {
+    color: #4AA587;
+    font-weight: bold; 
+    margin-bottom: 10px;
+    font-size: x-large; 
+}
+
+.dog-msg {
+    color: #4AA587;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 20px;
+}

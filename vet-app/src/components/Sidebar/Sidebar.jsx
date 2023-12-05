@@ -40,7 +40,7 @@ const Sidebar = () => {
                 <li key={index} className={item.className}>
                   <Link to={item.path}>
                     {item.icon }
-                    <span>{item.title}</span>
+                    <span className="item-title">{item.title}</span>
                   </Link>
                 </li>
               );

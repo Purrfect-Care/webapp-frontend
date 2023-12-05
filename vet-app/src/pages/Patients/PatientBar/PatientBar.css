@@ -14,7 +14,6 @@
   justify-content: flex-start;
   align-items: center;
   border-bottom: 2px solid #ddd;
-
 }
 
 .patients {
@@ -28,8 +27,9 @@
 .topSearchBar {
   display: flex;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 2vh;
   margin-left: 6px;
+  margin-bottom: 2vh;
 }
 
 .backIcon {

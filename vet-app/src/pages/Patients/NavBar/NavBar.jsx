@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 
 const NavBar = ({ id, onSelectOption }) => {
-  const [selectedTab, setSelectedTab] = useState(NavBarData[0].title); 
+  const [selectedTab, setSelectedTab] = useState(NavBarData[1].title); 
   const [showVisitForm, setShowVisitForm] = useState(false);
 
   const handleCreateVisit = () => {

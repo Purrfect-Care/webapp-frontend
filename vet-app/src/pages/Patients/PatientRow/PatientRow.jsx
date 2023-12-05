@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const PatientRow = ({ patientId, ownerName, ownerSurname, patientName }) => {
   return (
-    <Link to={`/patients/${patientId}`} className="patientRow">
+    <Link to={`/patients/${patientId}/visits`} className="patientRow">
       <div className="circle"></div>
       <span className="patientText">
         <div className="patient-name">{patientName}</div>

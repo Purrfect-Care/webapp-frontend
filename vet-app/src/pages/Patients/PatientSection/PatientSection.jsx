@@ -8,6 +8,8 @@ import OwnerPage from "../OwnerPage/OwnerPage";
 import IllnessHistoryPage from "../IllnessHistoryPage/IllnessHistoryPage";
 import { patientRequest } from "../../../api/patientsRequests";
 import PulseLoader from "react-spinners/PulseLoader";
+import * as Fa6Icons from "react-icons/fa6";
+
 
 const PatientSection = ({ patientId }) => {
   const [patient, setPatientData] = useState(null);
@@ -19,7 +21,7 @@ const PatientSection = ({ patientId }) => {
         if (patientId) {
           const patientData = await patientRequest(patientId);
           setPatientData(patientData);
-          setActiveComponent(null);
+          setActiveComponent("WIZYTY");
         }
       } catch (error) {
         console.error("Error fetching data: " + error);
@@ -29,22 +31,29 @@ const PatientSection = ({ patientId }) => {
   }, [patientId]);
 
   if (!patientId) {
-    return <h1>Wybierz pacjenta</h1>;
+    return (
+      <div className="no-patient-msg">
+        <Fa6Icons.FaShieldDog className="dog-msg" />
+        <h1 className="patient-msg">Wybierz pacjenta z listy</h1>
+      </div>
+    );
   }
 
   if (!patient) {
-    return <PulseLoader
-    color="#4AA587"
-    cssOverride={{
-      'align-items': 'center',
-      display: 'flex',
-      height: '87vh',
-      width: '100%',
-      'justify-content': 'center'
-    }}
-    size={20}
-    speedMultiplier={0.8}
-  />;
+    return (
+      <PulseLoader
+        color="#4AA587"
+        cssOverride={{
+          alignItems: "center",
+          display: "flex",
+          height: "87vh",
+          width: "100%",
+          justifyContent: "center",
+        }}
+        size={20}
+        speedMultiplier={0.8}
+      />
+    );
   }
 
   const handleSelectOption = (selectedComponent) => {
@@ -65,14 +74,18 @@ const PatientSection = ({ patientId }) => {
             </span>
           </div>
         </div>
-        <NavBar id={patientId} onSelectOption={handleSelectOption}/>
+        <NavBar id={patientId} onSelectOption={handleSelectOption} />
       </div>
       <div className="patientSection-content">
         {activeComponent === "INFORMACJE" && <AboutPage patient={patient} />}
         {activeComponent === "WIZYTY" && <VisitsPage patient={patient} />}
-        {activeComponent === "HISTORIA CHORÓB" && <IllnessHistoryPage patient={patient} />}
-        {activeComponent === "DOKUMENTACJA" && <DocumentsPage patient={patient} />}   
-        {activeComponent === "WŁAŚCICIEL" && <OwnerPage patient={patient} />}   
+        {activeComponent === "HISTORIA CHORÓB" && (
+          <IllnessHistoryPage patient={patient} />
+        )}
+        {activeComponent === "DOKUMENTACJA" && (
+          <DocumentsPage patient={patient} />
+        )}
+        {activeComponent === "WŁAŚCICIEL" && <OwnerPage patient={patient} />}
       </div>
     </div>
   );

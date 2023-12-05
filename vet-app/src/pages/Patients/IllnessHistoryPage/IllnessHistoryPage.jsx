@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import "./IllnessHistoryPage.css";
 import { FaTrash } from 'react-icons/fa';
 import { illnessHistoryByPatientIdRequest, createIllnessHistoryRequest, deleteIllnessHistoryRequest } from "../../../api/illnessHistoryRequests.js";
@@ -11,7 +10,7 @@ const IllnessHistoryPage = ({patient}) => {
   const [illnessHistory, setIllnessHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState({ column: 'DATA', ascending: true });
-  const navigate = useNavigate();
+
   const [showIllnessHistoryForm, setShowIllnessHistoryForm] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [illnessHistoryToDelete, setIllnessHistoryToDelete] = useState(null);
@@ -81,10 +80,10 @@ const IllnessHistoryPage = ({patient}) => {
     return <PulseLoader
     color="#4AA587"
     cssOverride={{
-      'align-items': 'center',
+      alignItems: 'center',
       display: 'flex',
       height: '50vh',
-      'justify-content': 'center'
+      justifyContent: 'center'
     }}
     size={20}
     speedMultiplier={0.8}
