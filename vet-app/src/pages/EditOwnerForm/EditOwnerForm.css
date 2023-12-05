@@ -1,21 +1,15 @@
 .edit-owner-button {
-    display: flex;
-    align-items: center;
-    color: #ffffff;
     background-color: #4aa587;
-    padding: 10px 20px;
-    font-size: 17px;
-    border: 2px solid #4aa587;
+    color: white;
+    border: none;
+    padding: 10px 15px;
     cursor: pointer;
-    margin: 5px;
+    border-radius: 8px; /* Add rounded corners */
+    margin: auto;
 }
 
 .edit-owner-button:hover {
-    background-color: #ffffff;
-    display: flex;
-    align-items: center;
-    color: #4aa587;
-    margin: 5px;
+    background-color: #2f6d58;
 }
 
 .button-container {
