@@ -236,7 +236,7 @@ const PatientForm = ({ onClose }) => {
 
         <button 
         type="submit" 
-        className="bg-emerald-800 hover:bg-blue-600 px-10 py-2 rounded  text-white hover:shadow-md">
+        className="submit-button-create-patient">
           Dodaj pacjenta
           </button>
 

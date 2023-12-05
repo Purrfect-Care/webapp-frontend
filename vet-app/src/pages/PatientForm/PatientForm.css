@@ -56,3 +56,17 @@
     border-bottom: 1px solid #ccc; /* Add underline to the section header */
     padding-bottom: 5px; /* Adjust as needed */
 }
+
+.submit-button-create-patient {
+  background-color: #047857; /* Replace with your desired background color */
+  color: #ffffff; /* Replace with your desired text color */
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    background-color: #005240; /* Replace with your desired hover background color */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+}
