@@ -1,4 +1,5 @@
 import React from 'react';
+import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home/Home';
 import Prescription from './pages/Prescription/Prescription';
@@ -10,6 +11,10 @@ import SignIn from './pages/SignIn/SignIn';
 import AddClinic from './pages/AddClinic/AddClinic';
 import AutoLogout from './api/AutoLogout';
 import CreatePrescription from './pages/CreatePrescription/CreatePrescription';
+import AddPage from "./pages/AddPage/AddPage";
+import AddMedications from "./pages/AddPage/AddMedications/AddMedications";
+import PatientForm from './pages/PatientForm/PatientForm';
+
 
 const isAuthenticated = () => {
   // Implement your logic to check if the user is authenticated
@@ -74,10 +79,31 @@ function App() {
             element={<CustomRoute element={<PatientsPage />} path="/patients/:id/*" />}
           />
           <Route
+            path="/add"
+            element={<CustomRoute element={<AddPage />} path="/add" />}
+          />
+          <Route
             path="/add-clinic"
             element={<CustomRoute element={<AddClinic />} path="/add-clinic" />}
           />
+          <Route 
+            path="/add-visit-type" 
+            element={<CustomRoute element={<AddClinic />} path="/add-clinic" />} 
+          />
+          <Route 
+             path="/add-medication" 
+             element={<CustomRoute element={<AddMedications />} path="/add-medication"/>}
+           />
+           <Route 
+             path="/add-illness" 
+             element={<CustomRoute element={<AddClinic />} path="/add-illness"/>}
+           />
+           <Route 
+             path="/add-patient" 
+             element={<CustomRoute element={<PatientForm />} path="/add-patient"/>}
+           />
         </Routes>
+
       </BrowserRouter>
     </div>
   );

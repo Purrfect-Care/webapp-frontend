@@ -18,8 +18,8 @@ export const SidebarData = [
         className: 'sidebar-text' 
     },
     {
-        title: 'Wizyty',
-        path: '/visit_type',
+        title: 'Dodaj',
+        path: '/add',
         icon: <BsIcons.BsFillBookmarkPlusFill />,
         className: 'sidebar-text' 
     },
@@ -27,6 +27,12 @@ export const SidebarData = [
         title: 'Recepta',
         path: '/prescription',
         icon: <TfiIcons.TfiWrite />,
+        className: 'sidebar-text' 
+    },
+    {
+        title: 'Dodaj pacjenta',
+        path: '/add-patient',
+        icon: <TfiIcons.TfiIdBadge />,
         className: 'sidebar-text' 
     }
 ]

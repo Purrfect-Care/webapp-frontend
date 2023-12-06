@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { visitsRequest, updateVisitRequest, deleteVisitRequest } from '../../../api/visitsRequest';
+import { visitsByPatientIdRequest, updateVisitRequest, deleteVisitRequest } from '../../../api/visitsRequest';
 import './VisitsPage.css';
 import VisitForm from '../../../pages/VisitForm/VisitForm';
 import ViewVisit from '../../VisitForm/ViewVisit';
@@ -12,15 +12,15 @@ const VisitsPage = ({ patient }) => {
   const [selectedVisit, setSelectedVisit] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [isFormForEdit, setIsFormForEdit] = useState(false);
-  const [editMode, setEditMode] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [visitToDelete, setVisitToDelete] = useState(null);
+  const [editOnly, setEditOnly] = useState(false);
 
   useEffect(() => {
     if (patient) {
       const fetchVisits = async () => {
         try {
-          const data = await visitsRequest(patient.id);
+          const data = await visitsByPatientIdRequest(patient.id);
           setVisits(data);
         } catch (error) {
           console.error('Error fetching visits:', error);
@@ -41,13 +41,13 @@ const VisitsPage = ({ patient }) => {
   const editVisit = (visit) => {
     setSelectedVisit(visit);
     setIsFormForEdit(true);
-    setEditMode(true);
+    setEditOnly(true);    
   };
 
   const openForm = (visit) => {
     setSelectedVisit(visit);
     setIsFormOpen(true);
-    setEditMode(false);
+    setEditOnly(false);
   };
 
   const closeForm = () => {
@@ -166,8 +166,8 @@ const VisitsPage = ({ patient }) => {
       {isFormOpen && selectedVisit && (
         <ViewVisit
           onClose={closeForm}
+          setEdit={setIsFormForEdit}
           initialValues={selectedVisit}
-          edit={editMode} // Pass the selected visit details to the form
         />
       )}
       {isFormForEdit && selectedVisit && (
@@ -175,7 +175,8 @@ const VisitsPage = ({ patient }) => {
           onClose={closeForm}
           onSubmit={updateForm}
           initialValues={selectedVisit}
-          edit={editMode} // Pass the selected visit details to the form
+          setEdit={setIsFormForEdit}
+          editOnly={editOnly}
         />
       )}
       {showConfirmation && (

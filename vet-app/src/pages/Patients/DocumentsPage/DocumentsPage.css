@@ -1,4 +1,21 @@
-.documentsPage{
+.documentsPage {
     height: 57vh;
     overflow-y: auto;
+}
+
+.no-data-msg {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.no-documents-msg {
+    color: #4AA587;
+    font-size: 16px; 
+    font-weight: bold; 
+    margin-bottom: 10px;
+    font-size: larger; 
 }

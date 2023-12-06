@@ -1,19 +1,20 @@
 const BASE_URL = "http://localhost:8000/api";
 
-export const addEmployeeRequest = async (employeeData) => {
+export const addMedicationsRequest = async (med_name) => {
   try {
-    const response = await fetch(`${BASE_URL}/employees/`, {
+    const response = await fetch(`${BASE_URL}/medications/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(employeeData),
+      body: JSON.stringify(med_name),
     });
-    console.log(employeeData);
+    console.log(med_name);
+
     if (response.ok) {
       return response.json();
     } else {
-      throw new Error("Failed to add an employee");
+      throw new Error("Failed to add medication");
     }
   } catch (error) {
     

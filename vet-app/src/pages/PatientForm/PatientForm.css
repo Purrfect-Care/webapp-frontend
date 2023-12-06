@@ -1,0 +1,72 @@
+.add-patient{
+    background-color: #4aa587;
+    height: 100vh;
+    overflow: hidden;
+    border: 1px solid #080707;
+}
+
+#formPatient{
+    height: 80vh;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    width: 500px;
+}
+
+#formPatient input, select {
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 25px;
+    margin-left: 50px;
+    height: 45px;
+    width: 400px;
+  }
+
+.patient-form-date {
+    margin-left: 50px;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-left: 50px;
+    background-color: #ffffff;
+}
+
+
+
+/* Styles for Photo Upload */
+#formPatient input[type="file"] {
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 25px;
+    margin-left: 50px;
+    height: 45px;
+    width: 400px;
+    background-color: #ffffff;
+}
+
+#formPatient label{
+    color: #000000;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc; /* Add underline to the section header */
+    padding-bottom: 5px; /* Adjust as needed */
+}
+
+.submit-button-create-patient {
+  background-color: #047857; /* Replace with your desired background color */
+  color: #ffffff; /* Replace with your desired text color */
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    background-color: #005240; /* Replace with your desired hover background color */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+}

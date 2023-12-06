@@ -9,8 +9,17 @@
 .patientText {
   color: #4aa587;
   word-spacing: 5px;
-  font-size: 16px;
   margin: 0px;
+  margin-left: 5px;
+}
+
+.patient-name {
+  font-weight: bolder;
+  font-size: 16px;
+}
+
+.owner-info {
+  font-size: 14px;
 }
 
 .circle {

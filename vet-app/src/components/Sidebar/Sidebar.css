@@ -1,10 +1,11 @@
 .sidebar {
     background-color: #ffffff;
-    height: 80px;
+    height: 13vh;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     padding-bottom: 1px ;
+    box-shadow: 5px 8px 24px -12px rgb(52, 54, 71);
 }
 
 .bars {
@@ -76,12 +77,12 @@
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    
+}    
 
-span {
+.item-title {
     margin-left: 16px;
 }
-}
+
 
 .icons {
     margin-right: 15px;

@@ -1,14 +1,11 @@
 const API_ENDPOINT = "http://localhost:8000/api/prescriptions";
 
-export async function prescriptionsRequest(id) {
-  const response = await fetch(API_ENDPOINT);
+export async function prescriptionsByPatientIdRequest(patient_id) {
+  const response = await fetch(`http://localhost:8000/api/prescriptions/?patient_id=${patient_id}`);
 
   if (response.ok) {
     const data = await response.json();
-    const filteredPrescriptions = data.filter(
-      (prescription) => prescription.prescriptions_patient_id === id
-    );
-    return filteredPrescriptions;
+    return data;
   }
 
   throw new Error(

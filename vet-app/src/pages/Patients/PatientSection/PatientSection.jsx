@@ -7,10 +7,13 @@ import DocumentsPage from "../DocumentsPage/DocumentsPage";
 import OwnerPage from "../OwnerPage/OwnerPage";
 import IllnessHistoryPage from "../IllnessHistoryPage/IllnessHistoryPage";
 import { patientRequest } from "../../../api/patientsRequests";
+import PulseLoader from "react-spinners/PulseLoader";
+import * as Fa6Icons from "react-icons/fa6";
+
 
 const PatientSection = ({ patientId }) => {
   const [patient, setPatientData] = useState(null);
-  const [activeComponent, setActiveComponent] = useState("INFORMACJE");
+  const [activeComponent, setActiveComponent] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,6 +21,7 @@ const PatientSection = ({ patientId }) => {
         if (patientId) {
           const patientData = await patientRequest(patientId);
           setPatientData(patientData);
+          setActiveComponent("WIZYTY");
         }
       } catch (error) {
         console.error("Error fetching data: " + error);
@@ -27,11 +31,29 @@ const PatientSection = ({ patientId }) => {
   }, [patientId]);
 
   if (!patientId) {
-    return <h1>Select a patient</h1>;
+    return (
+      <div className="no-patient-msg">
+        <Fa6Icons.FaShieldDog className="dog-msg" />
+        <h1 className="patient-msg">Wybierz pacjenta z listy</h1>
+      </div>
+    );
   }
 
   if (!patient) {
-    return <h1>Loading...</h1>;
+    return (
+      <PulseLoader
+        color="#4AA587"
+        cssOverride={{
+          alignItems: "center",
+          display: "flex",
+          height: "87vh",
+          width: "100%",
+          justifyContent: "center",
+        }}
+        size={20}
+        speedMultiplier={0.8}
+      />
+    );
   }
 
   const handleSelectOption = (selectedComponent) => {
@@ -42,7 +64,14 @@ const PatientSection = ({ patientId }) => {
     <div className="patientSection">
       <div className="patientSection-top">
         <div className="mainInfo">
-          <div className="rectangle"></div>
+        <div className="photo-container">
+        <img
+            src={patient.patient_photo}
+            alt={`Photo of ${patient.patient_name}`}
+            className="patient-photo"
+            style={{ width: '150px', height: '150px' }} // Adjust the width and height as needed
+          />
+          </div>
           <div className="textInfo">
             <h1 className="patient_name">{patient.patient_name}</h1>
             <span className="ageBreed">
@@ -52,14 +81,18 @@ const PatientSection = ({ patientId }) => {
             </span>
           </div>
         </div>
-        <NavBar id={patientId} onSelectOption={handleSelectOption}/>
+        <NavBar id={patientId} onSelectOption={handleSelectOption} />
       </div>
       <div className="patientSection-content">
         {activeComponent === "INFORMACJE" && <AboutPage patient={patient} />}
         {activeComponent === "WIZYTY" && <VisitsPage patient={patient} />}
-        {activeComponent === "HISTORIA CHORÓB" && <IllnessHistoryPage patient={patient} />}
-        {activeComponent === "DOKUMENTACJA" && <DocumentsPage patient={patient} />}   
-        {activeComponent === "WŁAŚCICIEL" && <OwnerPage patient={patient} />}   
+        {activeComponent === "HISTORIA CHORÓB" && (
+          <IllnessHistoryPage patient={patient} />
+        )}
+        {activeComponent === "DOKUMENTACJA" && (
+          <DocumentsPage patient={patient} />
+        )}
+        {activeComponent === "WŁAŚCICIEL" && <OwnerPage patient={patient} />}
       </div>
     </div>
   );

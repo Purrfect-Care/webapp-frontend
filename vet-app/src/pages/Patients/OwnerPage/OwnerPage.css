@@ -23,17 +23,17 @@
 }
 
 .edit-owner-button {
-    color: #ffffff;
     background-color: #4aa587;
-    padding: 10px 20px;
-    font-size: 17px;
-    border: 2px solid #4aa587;
+    color: white;
+    border: none;
+    padding: 10px 15px;
     cursor: pointer;
+    border-radius: 8px; /* Add rounded corners */
+    margin: auto;
 }
 
 .edit-owner-button:hover {
-    background-color: #ffffff;
-    color: #4aa587;
+    background-color: #2f6d58;
 }
 
 .loading{

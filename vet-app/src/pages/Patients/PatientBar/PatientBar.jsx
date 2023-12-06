@@ -22,8 +22,13 @@ const PatientBar = () => {
     const fetchData = async () => {
       try {
         const patientsData = await patientsSideBarRequest();
-        setPatients(patientsData);
-        setFilteredPatients(patientsData);
+        const sortedPatients = patientsData.slice().sort((a, b) => {
+          const nameA = a.patient_name.toLowerCase();
+          const nameB = b.patient_name.toLowerCase();
+          return nameA.localeCompare(nameB);
+        });
+        setPatients(sortedPatients);
+        setFilteredPatients(sortedPatients);
       } catch (error) {
         console.error("Error fetching data: " + error);
       }
