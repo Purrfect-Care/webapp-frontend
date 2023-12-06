@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Header from "../../components/Header/Header";
 import { useNavigate } from "react-router-dom";
 
@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false);
 
   const handleLogin = async () => {
     try {
@@ -74,7 +73,7 @@ const Login = () => {
             <button
               type="submit"
               onClick={handleLogin}
-              className="bg-emerald-800 hover:bg-blue-600 px-10 py-2 rounded  text-white hover:shadow-md"
+              className="bg-emerald-800 hover:bg-emerald-900 px-10 py-2 rounded  text-white hover:shadow-md"
             >
               Zaloguj się
             </button>

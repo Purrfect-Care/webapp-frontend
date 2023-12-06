@@ -5,6 +5,7 @@ import VisitForm from '../../../pages/VisitForm/VisitForm';
 import ViewVisit from '../../VisitForm/ViewVisit';
 import ConfirmationPopup from "../../../components/ConifrmationPopup/ConfirmationPopup";
 import { FaPen, FaTrash } from 'react-icons/fa';// Import the VisitForm component
+import PulseLoader from "react-spinners/PulseLoader";
 
 const VisitsPage = ({ patient }) => {
   const [visits, setVisits] = useState([]);
@@ -15,15 +16,19 @@ const VisitsPage = ({ patient }) => {
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [visitToDelete, setVisitToDelete] = useState(null);
   const [editOnly, setEditOnly] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (patient) {
       const fetchVisits = async () => {
         try {
+          setLoading(true);
           const data = await visitsByPatientIdRequest(patient.id);
           setVisits(data);
         } catch (error) {
           console.error('Error fetching visits:', error);
+        } finally {
+          setLoading(false);
         }
       };
       fetchVisits();
@@ -37,6 +42,22 @@ const VisitsPage = ({ patient }) => {
       setSortBy({ column, ascending: true });
     }
   };
+
+  if (loading) {
+    return (
+      <PulseLoader
+        color="#4AA587"
+        cssOverride={{
+          alignItems: "center",
+          display: "flex",
+          height: "50vh",
+          justifyContent: "center",
+        }}
+        size={20}
+        speedMultiplier={0.8}
+      />
+    );
+  }
 
   const editVisit = (visit) => {
     setSelectedVisit(visit);
@@ -107,6 +128,16 @@ const VisitsPage = ({ patient }) => {
   const cancelDeleteVisit = () => {
     setShowConfirmation(false);
   };
+
+  if (!visits.length) {
+    return (
+      <div className="no-data-msg">
+        <h1 className="no-documents-msg">
+          Brak wcześniejszych wizyt pacjenta
+        </h1>
+      </div>
+    );
+  }
 
 
   const sortedVisits = [...visits].sort((a, b) => {

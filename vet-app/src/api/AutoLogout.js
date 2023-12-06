@@ -12,27 +12,24 @@ const AutoLogout = () => {
                 console.log('expiration time: ', expirationTime);
                 console.log('curent time: ', currentTime);
                 const timeUntilExpiration = expirationTime - currentTime;
-                const warningThreshold = 10 * 60; // 10 minutes in seconds
+                const warningThreshold = 10 * 60; 
 
                 if (timeUntilExpiration <= warningThreshold && !warningSeen) {
-                    // Show the warning popup
                     setShowWarning(true);
                 }
                 if (currentTime > expirationTime) {
                     console.log('curent time: ', currentTime);
-                    // Token has expired, perform logout
+
                     localStorage.removeItem('authToken');
                     localStorage.removeItem('authTokenExpiration');
                     localStorage.removeItem('employeeData');
-                    // window.location.href = '/login'; // Redirect to the login page
+                    // window.location.href = '/login'; 
                 }
             }
         };
 
-        // Check expiration every minute (adjust the interval as needed)
         const intervalId = setInterval(checkExpiration, 60000);
 
-        // Clear the interval on component unmount
         return () => clearInterval(intervalId);
     }, []);
 

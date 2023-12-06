@@ -7,7 +7,7 @@ export async function employeeRequest(id) {
 
   if (response.ok) {
     const json = await response.json();
-    console.log("Employee data:", json); // Add this line for debugging
+    console.log("Employee data:", json);
     return json;
   }
 
@@ -15,3 +15,4 @@ export async function employeeRequest(id) {
     `Response ${response.status}: ${response.statusText} - ${await response.text()}`
   );
 }
+

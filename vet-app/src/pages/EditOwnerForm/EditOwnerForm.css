@@ -2,19 +2,18 @@
     display: flex;
     align-items: center;
     color: #ffffff;
-    background-color: #4aa587;
+    background-color: #00897B;
     padding: 10px 20px;
     font-size: 17px;
-    border: 2px solid #4aa587;
     cursor: pointer;
     margin: 5px;
 }
 
 .edit-owner-button:hover {
-    background-color: #ffffff;
+    background-color:#00695C;
     display: flex;
     align-items: center;
-    color: #4aa587;
+    color: #ffffff;
     margin: 5px;
 }
 

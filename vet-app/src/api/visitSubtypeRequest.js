@@ -28,3 +28,25 @@ export async function subtypeIdRequest(id) {
       } - ${await response.text()}`
     );
   }
+
+  export const addVisitSubtypeRequest = async (visit_subtype_name) => {
+    try {
+      const response = await fetch("http://localhost:8000/api/visit_subtypes/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(visit_subtype_name),
+      });
+      console.log(visit_subtype_name);
+  
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Failed to add visit subtype");
+      }
+    } catch (error) {
+      
+      throw new Error(`Error: ${error.message}`);
+    }
+  };

@@ -25,6 +25,11 @@ const PopupComponent = () => {
     navigate(path);
   };
 
+  const navigateToVisitSubtype = () => {
+    let path = "/add-visit-subtype";
+    navigate(path);
+  };
+
   return (
     <div className="navigationPopup-overlay">
       <div className="popup-content">
@@ -34,6 +39,7 @@ const PopupComponent = () => {
           <button onClick={navigateToIllness}>Chorobę</button>
           <button onClick={navigateToMedication}>Lek</button>
           <button onClick={navigateToVisitType}>Typ wizyty</button>
+          <button onClick={navigateToVisitSubtype}>Podtyp wizyty</button>
         </div>
       </div>
     </div>

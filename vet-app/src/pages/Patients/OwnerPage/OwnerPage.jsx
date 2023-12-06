@@ -1,19 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Routes, Route, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { patientRequest } from "../../../api/patientsRequests.js"; 
 import "./OwnerPage.css";
 import EditOwnerForm from "../../EditOwnerForm/EditOwnerForm.jsx";
-
+import PulseLoader from "react-spinners/PulseLoader";
 
 const OwnerPage = () => {
     const [ownerData, setOwnerData] = useState(null);
     const [isEditFormOpen, setIsEditFormOpen] = useState(false);
     const navigate = useNavigate();
     const { id: patientId } = useParams();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
           try {
+            setLoading(true);
             const patientData = await patientRequest(patientId);
     
             const ownerId = patientData.patients_owner.id;
@@ -32,6 +34,8 @@ const OwnerPage = () => {
             } catch (error) {
               console.error(`Error fetching patient data: ${error.message}`);
               navigate("/error"); 
+            } finally {
+              setLoading(false);
             }
           };
       
@@ -41,6 +45,22 @@ const OwnerPage = () => {
         const handleEditButtonClick = () => {
           setIsEditFormOpen(true);
         };
+
+        if (loading) {
+          return (
+            <PulseLoader
+              color="#4AA587"
+              cssOverride={{
+                alignItems: "center",
+                display: "flex",
+                height: "50vh",
+                justifyContent: "center",
+              }}
+              size={20}
+              speedMultiplier={0.8}
+            />
+          );
+        }
       
         const handleCloseEditForm = () => {
           setIsEditFormOpen(false);
@@ -72,7 +92,7 @@ const OwnerPage = () => {
             <>
             <div className="ownerPage">
               {ownerData ? (
-                <div className="owner-info">
+                <div className="owner-info-page">
                   <div>
                     <span className="owner-label">Imię:</span>
                     <span className="owner-value">{ownerData.owner_first_name}</span>

@@ -3,17 +3,18 @@
     margin-top: 30px;
     margin-left: 40px;
     display: flex;
-    font-size: 17px;
+    font-size: 18px;
     margin-bottom: 10px;
+    height: 57vh;
 }
 
-.owner-info > div{
+.owner-info-page > div{
     margin-bottom: 15px;
 }
 
 .owner-label {
     color: #072d21; 
-    font-weight: bold;
+    font-weight: bolder;
     margin-right: 8px;
     
 }
@@ -21,27 +22,3 @@
 .owner-value {
     color: #4aa587;
 }
-
-.edit-owner-button {
-    color: #ffffff;
-    background-color: #4aa587;
-    padding: 10px 20px;
-    font-size: 17px;
-    border: 2px solid #4aa587;
-    cursor: pointer;
-}
-
-.edit-owner-button:hover {
-    background-color: #ffffff;
-    color: #4aa587;
-}
-
-.loading{
-    color: #4aa587;
-    margin-top: 30px;
-    margin-left: 40px;
-    display: flex;
-    font-size: 17px;
-    margin-bottom: 10px;
-  }
-  

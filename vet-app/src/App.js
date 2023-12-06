@@ -12,7 +12,8 @@ import AddClinic from './pages/AddClinic/AddClinic';
 import AutoLogout from './api/AutoLogout';
 import AddPage from "./pages/AddPage/AddPage";
 import AddMedications from "./pages/AddPage/AddMedications/AddMedications";
-
+import AddVisitType from './pages/AddVisitType/AddVisitType';
+import AddVisitSubtype from './pages/AddVisitSubtype/AddVisitSubtype';
 
 const isAuthenticated = () => {
   // Implement your logic to check if the user is authenticated
@@ -86,7 +87,11 @@ function App() {
           />
           <Route 
             path="/add-visit-type" 
-            element={<CustomRoute element={<AddClinic />} path="/add-clinic" />} 
+            element={<CustomRoute element={<AddVisitType />} path="/add-visit-type" />} 
+          />
+          <Route 
+            path="/add-visit-subtype" 
+            element={<CustomRoute element={<AddVisitSubtype />} path="/add-visit-subtype" />} 
           />
           <Route 
              path="/add-medication" 
