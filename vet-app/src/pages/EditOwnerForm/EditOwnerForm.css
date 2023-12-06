@@ -6,7 +6,8 @@
     padding: 10px 20px;
     font-size: 17px;
     cursor: pointer;
-    margin: 5px;
+    border-radius: 8px; /* Add rounded corners */
+    margin: auto;
 }
 
 .edit-owner-button:hover {

@@ -4,14 +4,17 @@ import VisitForm from "../../../pages/VisitForm/VisitForm";
 import { createVisitRequest } from "../../../api/visitsRequest";
 import { NavBarData } from "./NavBarData";
 import { Link } from "react-router-dom";
+import PrescriptionForm from "../../../PrescriptionForm/PrescriptionForm";
 import dayjs from "dayjs";
 import IllnessHistoryForm from "../../IllnessHistoryForm/IllnessHistoryForm";
 import { createIllnessHistoryRequest } from "../../../api/illnessHistoryRequests";
+
 
 const NavBar = ({ id, onSelectOption }) => {
   const [selectedTab, setSelectedTab] = useState(NavBarData[1].title);
   const [showVisitForm, setShowVisitForm] = useState(false);
   const [showIllnessHistoryForm, setShowIllnessHistoryForm] = useState(false);
+  const [showPrescriptionForm, setShowPrescriptionForm] = useState(false);
 
   const handleCreateVisit = () => {
     setShowVisitForm(true);
@@ -52,8 +55,18 @@ const NavBar = ({ id, onSelectOption }) => {
     handleCloseIllnessHistoryForm();
   };
 
+  const handleCreatePrescription = () => {
+    setShowPrescriptionForm(true);
+  };
+
+  const handleClosePrescriptionForm = () => {
+    setShowPrescriptionForm(false);
+  };
+
   const isWizytyTab = selectedTab === "WIZYTY";
   const isChorobyTab = selectedTab === "HISTORIA CHORÓB";
+  const isDokumentacjaTab = selectedTab === 'DOKUMENTACJA';
+
 
   return (
     <div className="navBar">
@@ -90,7 +103,6 @@ const NavBar = ({ id, onSelectOption }) => {
           />
         </>
       )}
-
       {showIllnessHistoryForm && (
         <>
           <IllnessHistoryForm
@@ -113,6 +125,18 @@ const NavBar = ({ id, onSelectOption }) => {
           Przypisz chorobę
         </button>
       )}
+      {isDokumentacjaTab && <button onClick={handleCreatePrescription} className="create_visit">Utwórz Receptę</button>}
+      {showPrescriptionForm && (
+        <>
+          <PrescriptionForm
+            onClose={handleClosePrescriptionForm}
+            initialPrescriptionValues={{
+              prescriptions_patient_id: id
+            }}
+          />
+        </>
+      )}
+
     </div>
   );
 };
