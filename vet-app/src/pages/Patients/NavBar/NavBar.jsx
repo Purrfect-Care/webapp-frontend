@@ -4,8 +4,6 @@ import VisitForm from "../../../pages/VisitForm/VisitForm";
 import { createVisitRequest } from "../../../api/visitsRequest";
 import { NavBarData } from "./NavBarData";
 import { Link } from "react-router-dom";
-import VisitForm from '../../../pages/VisitForm/VisitForm';
-import { createVisitRequest } from '../../../api/visitsRequest';
 import PrescriptionForm from "../../../PrescriptionForm/PrescriptionForm";
 import dayjs from "dayjs";
 
