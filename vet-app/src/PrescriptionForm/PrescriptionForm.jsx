@@ -3,6 +3,8 @@ import { allPatientsRequest } from '../api/patientsRequests';
 import { addPrescribedMedicationRequest, addPrescriptionRequest } from '../api/prescriptionRequests';
 import { allMedicationsRequest } from '../api/medicationsRequest'; // Assuming you have an API endpoint for fetching medications
 import { patientRequest } from '../api/patientsRequests';
+import { FaPlus, FaTrash } from 'react-icons/fa';
+import './PrescriptionForm.css';
 
 
 
@@ -106,11 +108,14 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
   };
 
   return (
-    <div className="popup-form">
+    <div className="popup-form-pres">
       <h2>Formularz recepty</h2>
-      <form onSubmit={handleSubmit} className="form-sections">
-        <label>
-          Pacjent: {patientData.patient_name}
+      <form onSubmit={handleSubmit} className="form-sections-prescription-form">
+        <div className='form-section-patient-prescription'>
+        <label className='prescription-patient-label'>
+          Pacjent
+        </label>
+        <p className="patient-name-prescription">{patientData.patient_name}</p>
           {!initialPrescriptionValues.prescriptions_patient_id && (
             <select
               name="prescriptions_patient_id"
@@ -125,12 +130,13 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
               ))}
             </select>
           )}
-        </label>
 
+        </div>
+        <div className='form-section-medication'>
         {formValues.prescribed_medications.map((medication, index) => (
-          <div key={index}>
-            <label>
-              Medication:
+          <div key={index} className='medication-space'>
+            <label className='medication-name-pres'>
+              Lek:
               <select
                 name="medication_id"
                 value={medication.medication_id}
@@ -144,8 +150,8 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
                 ))}
               </select>
             </label>
-            <label>
-              Amount:
+            <label className='medication-amount-pres'>
+              Ilość:
               <input
                 type="number"
                 name="medication_amount"
@@ -156,23 +162,25 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
               />
             </label>
             {index > 0 && (
-              <button type="button" onClick={() => handleRemoveMedication(index)}>
-                Remove
+              <button type="button" onClick={() => handleRemoveMedication(index)} className='delete-medication'>
+                <FaTrash />
               </button>
             )}
           </div>
         ))}
 
-        <button type="button" onClick={handleAddMedication}>
-          Add Medication
+        </div>
+
+        <button type="button" onClick={handleAddMedication} className='add-medication'>
+          <FaPlus />
         </button>
 
-        <div className="button-container">
-          <button className="form-button" type="submit">
-            Submit
+        <div className="button-container-prescription-form">
+          <button className="form-button-prescription-form" type="submit">
+            Zatwierdź
           </button>
-          <button className="form-button" onClick={onClose}>
-            Close
+          <button className="form-button-prescription-form" onClick={onClose}>
+            Zamknij
           </button>
         </div>
       </form>

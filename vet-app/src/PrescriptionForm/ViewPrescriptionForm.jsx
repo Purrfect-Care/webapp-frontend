@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import html2pdf from 'html2pdf.js';
 import { employeeRequest } from '../api/employeeRequest';
 import { patientRequest } from '../api/patientsRequests';
-import './ViewPrescriptionFrom.css';
+import './ViewPrescriptionForm.css';
 import dayjs from 'dayjs';
 import { getClinicByIdRequest } from '../api/clinicRequests';
 import { ownerByIdRequest } from '../api/ownerRequests';
@@ -121,11 +121,11 @@ const ViewPrescriptionForm = ({ onClose, prescriptionDetails }) => {
             </form>
 
             <div className="button-container-prescription">
-                <button ref={generatePDFButtonRef} className="form-button-prescription" onClick={handleGeneratePDF}>
-                    Convert to PDF
+                <button ref={generatePDFButtonRef} className="form-button-prescription-form" onClick={handleGeneratePDF}>
+                    Wygeneruj plik PDF
                 </button>
-                <button className="form-button-prescription" onClick={onClose}>
-                    Close
+                <button className="form-button-prescription-form" onClick={onClose}>
+                    Zamknij
                 </button>
             </div>
         </div>

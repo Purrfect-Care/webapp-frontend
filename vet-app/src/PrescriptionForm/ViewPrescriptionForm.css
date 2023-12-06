@@ -101,19 +101,22 @@
     justify-content: space-between;
   }
   
+  
   .button-container-prescription {
-    margin-top: 20px;
-    text-align: center;
+    display: flex;
+    justify-content: flex-end;
   }
+  
   
   .form-button-prescription {
     background-color: #4aa587;
     color: white;
-    padding: 10px 20px;
     border: none;
-    border-radius: 4px;
+    padding: 10px 15px;
     cursor: pointer;
-    margin-right: 10px;
+    margin-top: 20px;
+    margin-left: 5px;
+    border-radius: 8px; /* Adjust margin as needed */
   }
   
   .form-button-prescription:hover {
@@ -123,4 +126,5 @@
   .form-button-prescription:last-child {
     margin-right: 0;
   }
+
   

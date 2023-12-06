@@ -1,4 +1,4 @@
-.popup-form-prescription {
+.popup-form-pres {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -9,117 +9,109 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     font-family: Arial, sans-serif;
     z-index: 1000;
-    width: 55%;
   }
 
-  .generated {
-    margin-right: 10px;
-  }
-
-
-  .logo-prescription {
-    display: flex;
-    align-items: center;
-  }
-  .watermark {
-    text-shadow: 2px 2px 4px #04040430;
-    width: 40px;
-    height: 100%;
-    color: #4AA587;
-  }
-
-  .logo-text-prescription {
-    color: #4AA587;
-    font-family: Outfit;
-    font-size: 23px;
-    font-style: normal;
-    font-weight: 400;
-    text-shadow: 2px 2px 4px #04040430;
-    text-align: center;
-  }
-
-  .form-section-date {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-  }
-  
-  .label-date {
-    margin-right: 5px; /* Adjust the margin as needed */
-  }
-  
-  .clinic-data {
-    text-align: right;
-  }
-  
   h2 {
-    text-align: center;
-    color: #333;
-  }
-  
-  .form-sections-prescription {
-    margin-top: 20px;
-  }
-  .form-section-title {
+    font-size: 1.5em;
     margin-bottom: 20px;
-    padding-bottom: 10px;
   }
-
-  .prescription-title {
-    text-align: center;
-    font-size: larger;
-    font-weight: bold;
-  }
-  
-  .form-section-info {
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #000;
-  }
-
-
-  
-  .name-section {
-    display: flex;
-    align-items: center;
-  }
-  
-  .label-prescription {
-    font-weight: bold;
+  .prescription-patient-label{
     margin-right: 10px;
+    font-weight: bold;
   }
-  
-  .name-prescription,
-  .medication-name,
-  .medication-amount {
+  .patient-name-prescription {
     margin: 0;
   }
-  
-  .medication-item {
+
+  .form-sections-prescription-form {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
   }
   
-  .button-container-prescription {
-    margin-top: 20px;
-    text-align: center;
+  .form-section-patient-prescription {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
   }
   
-  .form-button-prescription {
-    background-color: #4caf50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+  
+  .form-section-medication {
+    display: flex;
+    flex-direction: column;
+  }
+  .form-section-medication div {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+  }
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  select,
+  input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    height: 50px;
+  }
+  .medication-name-pres{
     margin-right: 10px;
   }
-  
-  .form-button-prescription:hover {
-    background-color: #45a049;
+
+  .medication-name-pres,
+  .medication-amount-pres{
+    height: 80px;
   }
   
-  .form-button-prescription:last-child {
+
+  .delete-medication {
+    color: red;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+
+  .add-medication {
+    color: #4aa587;
+  }
+
+  .medication-space {
+    width: 100%;
+  }
+
+  /* button {
+    cursor: pointer;
+    padding: 8px 12px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+  } */
+  
+  .button-container-prescription-form {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  
+  .form-button-prescription-form {
+    background-color: #4aa587;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-left: 5px;
+    border-radius: 8px; /* Adjust margin as needed */
+  }
+  
+  .form-button-prescription-form:hover {
+    background-color: #2f6d58;
+  }
+  
+  .form-button-prescription-form:last-child {
     margin-right: 0;
   }
-  
