@@ -4,11 +4,16 @@ import VisitForm from "../../../pages/VisitForm/VisitForm";
 import { createVisitRequest } from "../../../api/visitsRequest";
 import { NavBarData } from "./NavBarData";
 import { Link } from "react-router-dom";
+import VisitForm from '../../../pages/VisitForm/VisitForm';
+import { createVisitRequest } from '../../../api/visitsRequest';
+import PrescriptionForm from "../../../PrescriptionForm/PrescriptionForm";
 import dayjs from "dayjs";
+
 
 const NavBar = ({ id, onSelectOption }) => {
   const [selectedTab, setSelectedTab] = useState(NavBarData[1].title); 
   const [showVisitForm, setShowVisitForm] = useState(false);
+  const [showPrescriptionForm, setShowPrescriptionForm] = useState(false);
 
   const handleCreateVisit = () => {
     setShowVisitForm(true);
@@ -30,7 +35,17 @@ const NavBar = ({ id, onSelectOption }) => {
     handleCloseVisitForm();
   };
 
-  const isWizytyTab = selectedTab === "WIZYTY";
+  const handleCreatePrescription = () => {
+    setShowPrescriptionForm(true);
+  };
+
+  const handleClosePrescriptionForm = () => {
+    setShowPrescriptionForm(false);
+  };
+
+  const isWizytyTab = selectedTab === 'WIZYTY';
+
+  const isDokumentacjaTab = selectedTab === 'DOKUMENTACJA';
 
   return (
     <div className="navBar">
@@ -67,11 +82,19 @@ const NavBar = ({ id, onSelectOption }) => {
           />
         </>
       )}
-      {isWizytyTab && (
-        <button onClick={handleCreateVisit} className="create_visit">
-          Utwórz Wizytę
-        </button>
+      {showPrescriptionForm && (
+        <>
+          <PrescriptionForm
+            onClose={handleClosePrescriptionForm}
+            initialPrescriptionValues={{
+              prescriptions_patient_id: id
+            }}
+          />
+        </>
       )}
+      {isWizytyTab && <button onClick={handleCreateVisit} className="create_visit">Utwórz Wizytę</button>}
+      {isDokumentacjaTab && <button onClick={handleCreatePrescription} className="create_visit">Utwórz Receptę</button>}
+
     </div>
   );
 };

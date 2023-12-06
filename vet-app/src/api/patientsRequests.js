@@ -4,6 +4,7 @@ export async function patientRequest(patientId) {
   const response = await fetch(endpoint);
   if (response.ok) {
     const data = await response.json();
+    console.log(data);
     return data;
   }
 

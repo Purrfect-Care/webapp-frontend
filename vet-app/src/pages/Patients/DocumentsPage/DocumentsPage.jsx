@@ -18,6 +18,7 @@ const DocumentsPage = ({ patient }) => {
           patient.id
         );
         setPrescriptions(prescriptionsData);
+        console.log(prescriptionsData);
       } catch (error) {
         console.error("Error fetching data: " + error);
       } finally {
@@ -49,6 +50,10 @@ const DocumentsPage = ({ patient }) => {
 
   const cancelDelete = () => {
     setShowConfirmation(false);
+  };
+  const handlePrescriptionSubmit = (prescriptionData) => {
+    // Handle the submission of prescription data here
+    console.log("Prescription data submitted:", prescriptionData);
   };
 
   return (
@@ -86,6 +91,9 @@ const DocumentsPage = ({ patient }) => {
               prescId={prescription.id}
               medications={prescription.prescribed_medications}
               date={prescription.prescription_date}
+              employee={prescription.prescriptions_employee_id}
+              patient={prescription.prescriptions_patient_id}
+              owner={patient.patients_owner.id}
               onDelete={() => handleDeletePrescription(prescription.id)}
             />
           ))}

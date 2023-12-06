@@ -35,3 +35,46 @@ export const deletePrescriptionRequest = async (prescriptionId) => {
     throw new Error(`Error deleting prescription: ${error.message}`);
   }
 };
+
+export const addPrescriptionRequest = async (prescriptionData) => {
+  try {
+    const response = await fetch(`${API_ENDPOINT}/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(prescriptionData),
+    });
+    
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error("Failed to add prescription");
+    }
+  } catch (error) {
+    
+    throw new Error(`Error: ${error.message}`);
+  }
+};
+
+export const addPrescribedMedicationRequest = async (prescriptionmedData) => {
+  try {
+    const response = await fetch("http://127.0.0.1:8000/api/prescribedmed/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(prescriptionmedData),
+    });
+    console.log("medication json", prescriptionmedData);
+
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error("Failed to add prescription's medication");
+    }
+  } catch (error) {
+    
+    throw new Error(`Error: ${error.message}`);
+  }
+};
