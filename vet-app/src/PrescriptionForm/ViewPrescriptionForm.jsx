@@ -5,6 +5,7 @@ import { patientRequest } from '../api/patientsRequests';
 import './ViewPrescriptionFrom.css';
 import dayjs from 'dayjs';
 import { getClinicByIdRequest } from '../api/clinicRequests';
+import { ownerByIdRequest } from '../api/ownerRequests';
 import * as Fa6Icons from "react-icons/fa6";
 
 const ViewPrescriptionForm = ({ onClose, prescriptionDetails }) => {
@@ -12,6 +13,7 @@ const ViewPrescriptionForm = ({ onClose, prescriptionDetails }) => {
     const [employeeData, setEmployee] = useState([]);
     const [patientData, setPatient] = useState([]);
     const [clinicData, setClinic] = useState([]);
+    const [ownerData, setOwner] = useState([]);
     const generatePDFButtonRef = useRef();
 
     useEffect(() => {
@@ -23,7 +25,9 @@ const ViewPrescriptionForm = ({ onClose, prescriptionDetails }) => {
                 setPatient(patientData);
                 const clinicData = await getClinicByIdRequest(employeeData.employees_clinic_id);
                 setClinic(clinicData);
-                console.log(clinicData);
+                const ownerData = await ownerByIdRequest(prescriptionDetails.owner);
+                setOwner(ownerData);
+
             } catch (error) {
                 console.error("Error fetching data: " + error);
             }
@@ -66,7 +70,7 @@ const ViewPrescriptionForm = ({ onClose, prescriptionDetails }) => {
                 {/* Section 1: Date */}
                 <div className="form-section-date">
                     <div>
-                        <label className="label-date">Data wydania recepty</label>
+                        <label className="label-date-static">Data wydania recepty</label>
                         <p className="name-prescription">{prescriptionDetails.prescription_date}</p>
                     </div>
                     <div className='clinic-data'>
@@ -92,6 +96,10 @@ const ViewPrescriptionForm = ({ onClose, prescriptionDetails }) => {
                     <div className="name-section">
                         <label className='label-prescription'>Pacjent</label>
                         <p className="name-prescription">{patientData.patient_name}</p>
+                    </div>
+                    <div className="name-section">
+                        <label className='label-prescription'>Wlaściciel</label>
+                        <p className="name-prescription">{`${ownerData.owner_first_name} ${ownerData.owner_last_name}`}</p>
                     </div>
                 </div>
 

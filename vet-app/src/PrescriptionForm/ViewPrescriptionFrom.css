@@ -44,8 +44,9 @@
     align-items: baseline;
   }
   
-  .label-date {
+  .label-date-static {
     margin-right: 5px; /* Adjust the margin as needed */
+    font-weight: bold;
   }
   
   .clinic-data {
@@ -106,7 +107,7 @@
   }
   
   .form-button-prescription {
-    background-color: #4caf50;
+    background-color: #4aa587;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -116,7 +117,7 @@
   }
   
   .form-button-prescription:hover {
-    background-color: #45a049;
+    background-color: #2f6d58;
   }
   
   .form-button-prescription:last-child {

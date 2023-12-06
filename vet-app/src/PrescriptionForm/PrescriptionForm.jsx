@@ -7,11 +7,17 @@ import { patientRequest } from '../api/patientsRequests';
 
 
 const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
+  const MAX_MEDICATIONS = 5;
+
   const [formValues, setFormValues] = useState({
     prescription_date: new Date().toISOString().split('T')[0],
     prescriptions_patient_id: initialPrescriptionValues.prescriptions_patient_id,
-    prescribed_medications: [{ medication_id: '', medication_amount: '' }],
+    prescribed_medications: Array.from({ length: 1 }, () => ({
+      medication_id: '',
+      medication_amount: 1,
+    })),
   });
+
   const [allPatients, setAllPatients] = useState([]);
   const [allMedications, setAllMedications] = useState([]);
   const [patientData, setPatient] = useState([]);
@@ -23,8 +29,8 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
           allPatientsRequest(),
           allMedicationsRequest(),
         ]);
-        if(initialPrescriptionValues.prescriptions_patient_id != null)
-        {
+
+        if (initialPrescriptionValues.prescriptions_patient_id != null) {
           const patientJSON = await patientRequest(initialPrescriptionValues.prescriptions_patient_id);
           setPatient(patientJSON);
         }
@@ -42,22 +48,21 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
   const handleChange = (e, index) => {
     const { name, value } = e.target;
     const updatedMedications = [...formValues.prescribed_medications];
-    updatedMedications[index][name] = value;
-  
-    console.log(updatedMedications); // Log the updated medications
-  
+    updatedMedications[index][name] = name === 'medication_amount' ? Math.max(1, Math.min(5, parseInt(value, 10))) : value;
+
     setFormValues((prevFormValues) => ({
       ...prevFormValues,
       prescribed_medications: updatedMedications,
     }));
   };
-  
 
   const handleAddMedication = () => {
-    setFormValues((prevFormValues) => ({
-      ...prevFormValues,
-      prescribed_medications: [...prevFormValues.prescribed_medications, { medication_id: '', medication_amount: '' }],
-    }));
+    if (formValues.prescribed_medications.length < MAX_MEDICATIONS) {
+      setFormValues((prevFormValues) => ({
+        ...prevFormValues,
+        prescribed_medications: [...prevFormValues.prescribed_medications, { medication_id: '', medication_amount: 1 }],
+      }));
+    }
   };
 
   const handleRemoveMedication = (index) => {
@@ -72,61 +77,54 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
-      // Extract prescription data
       const { prescription_date, prescriptions_patient_id } = formValues;
-  
-      // Create prescription request data
-      const prescriptionData = {
+      const prescriptions_employee_id = JSON.parse(localStorage.getItem('employeeData')).id.toString();
+
+      const addedPrescription = await addPrescriptionRequest({
         prescription_date,
         prescriptions_patient_id,
-        prescriptions_employee_id: JSON.parse(localStorage.getItem('employeeData')).id.toString(),
-      };
-  
-      // Make API request to add prescription
-      const addedPrescription = await addPrescriptionRequest(prescriptionData);
-  
-      // Extract prescribed medications data
+        prescriptions_employee_id,
+      });
+
       const prescribedMedicationsData = formValues.prescribed_medications.map((medication) => ({
         medication_amount: medication.medication_amount,
         prescribed_medications_prescription_id: addedPrescription.id,
         prescribed_medications_medication_id: medication.medication_id,
       }));
-  
-      // Make API request to add prescribed medications
+
       await Promise.all(prescribedMedicationsData.map(addPrescribedMedicationRequest));
-      
+
       console.log('Prescription and medications added successfully!');
       window.location.href = `/patients/${formValues.prescriptions_patient_id}`;
-      
+
     } catch (error) {
       console.error('Error submitting prescription:', error.message);
       // Handle error as needed
     }
   };
 
-  console.log(initialPrescriptionValues.prescriptions_patient_id);
-
   return (
     <div className="popup-form">
       <h2>Formularz recepty</h2>
       <form onSubmit={handleSubmit} className="form-sections">
         <label>
-          Pacjent:
-              {patientData.patient_name}
-          {!initialPrescriptionValues.prescriptions_patient_id && <select
-            name="prescriptions_patient_id"
-            value={formValues.prescriptions_patient_id}
-            onChange={(e) => setFormValues((prevFormValues) => ({ ...prevFormValues, prescriptions_patient_id: e.target.value }))}
-          >
-            <option value="">Select Patient</option>
-            {allPatients.map((patient) => (
-              <option key={patient.id} value={patient.id}>
-                {patient.patient_name}
-              </option>
-            ))}
-          </select>}
+          Pacjent: {patientData.patient_name}
+          {!initialPrescriptionValues.prescriptions_patient_id && (
+            <select
+              name="prescriptions_patient_id"
+              value={formValues.prescriptions_patient_id}
+              onChange={(e) => setFormValues((prevFormValues) => ({ ...prevFormValues, prescriptions_patient_id: e.target.value }))}
+            >
+              <option value="">Select Patient</option>
+              {allPatients.map((patient) => (
+                <option key={patient.id} value={patient.id}>
+                  {patient.patient_name}
+                </option>
+              ))}
+            </select>
+          )}
         </label>
 
         {formValues.prescribed_medications.map((medication, index) => (
@@ -153,6 +151,8 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
                 name="medication_amount"
                 value={medication.medication_amount}
                 onChange={(e) => handleChange(e, index)}
+                min="1"
+                max="5"
               />
             </label>
             {index > 0 && (
@@ -168,8 +168,12 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
         </button>
 
         <div className="button-container">
-          <button className="form-button" type="submit">Submit</button>
-          <button className="form-button" onClick={onClose}>Close</button>
+          <button className="form-button" type="submit">
+            Submit
+          </button>
+          <button className="form-button" onClick={onClose}>
+            Close
+          </button>
         </div>
       </form>
     </div>

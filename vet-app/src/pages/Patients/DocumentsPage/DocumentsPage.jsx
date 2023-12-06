@@ -8,7 +8,6 @@ const DocumentsPage = ({ patient }) => {
   const [prescriptions, setPrescriptions] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [prescriptionToDelete, setPrescriptionToDelete] = useState(null);
-  const [showPrescriptionForm, setShowPrescriptionForm] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -46,14 +45,6 @@ const DocumentsPage = ({ patient }) => {
   const cancelDelete = () => {
     setShowConfirmation(false);
   };
-
-  const handleOpenPrescriptionForm = () => {
-    setShowPrescriptionForm(true);
-  };
-
-  const handleClosePrescriptionForm = () => {
-    setShowPrescriptionForm(false);
-  };
   const handlePrescriptionSubmit = (prescriptionData) => {
     // Handle the submission of prescription data here
     console.log("Prescription data submitted:", prescriptionData);
@@ -70,6 +61,7 @@ const DocumentsPage = ({ patient }) => {
             date={prescription.prescription_date}
             employee={prescription.prescriptions_employee_id}
             patient={prescription.prescriptions_patient_id}
+            owner={patient.patients_owner.id}
             onDelete={() => handleDeletePrescription(prescription.id)}
           />
         ))}
