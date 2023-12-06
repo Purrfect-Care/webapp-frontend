@@ -23,6 +23,7 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
   const [allPatients, setAllPatients] = useState([]);
   const [allMedications, setAllMedications] = useState([]);
   const [patientData, setPatient] = useState([]);
+  const [isFormOpen, setIsFormOpen] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -106,8 +107,14 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
       // Handle error as needed
     }
   };
+  const handleClose = () => {
+    setIsFormOpen(false);
+    onClose();
+  };
 
   return (
+    <div>
+       <div className={`overlay-prescription-form ${isFormOpen ? 'active' : ''}`} onClick={handleClose}></div>
     <div className="popup-form-pres">
       <h2>Formularz recepty</h2>
       <form onSubmit={handleSubmit} className="form-sections-prescription-form">
@@ -184,6 +191,7 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
           </button>
         </div>
       </form>
+    </div>
     </div>
   );
 };

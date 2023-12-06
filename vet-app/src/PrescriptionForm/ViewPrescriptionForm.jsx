@@ -15,6 +15,7 @@ const ViewPrescriptionForm = ({ onClose, prescriptionDetails }) => {
     const [clinicData, setClinic] = useState([]);
     const [ownerData, setOwner] = useState([]);
     const generatePDFButtonRef = useRef();
+    const [isFormOpen, setIsFormOpen] =useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -62,9 +63,15 @@ const ViewPrescriptionForm = ({ onClose, prescriptionDetails }) => {
         }
     };
 
+    const handleClose = () => {
+        setIsFormOpen(false);
+        onClose();
+      };
 
 
     return (
+        <div>
+             <div className={`overlay-prescription-view ${isFormOpen ? 'active' : ''}`} onClick={handleClose}></div>
         <div className="popup-form-prescription">
             <form className="form-sections-prescription" id="prescription-form">
                 {/* Section 1: Date */}
@@ -128,6 +135,7 @@ const ViewPrescriptionForm = ({ onClose, prescriptionDetails }) => {
                     Zamknij
                 </button>
             </div>
+        </div>
         </div>
     );
 };
