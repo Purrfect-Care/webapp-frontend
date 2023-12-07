@@ -29,7 +29,7 @@ const CustomRoute = ({ element, path }) => {
   if (path === '/login' || path === '/sign-in' || path === '/add-clinic' || path === '/') {
     // For public routes, redirect to home if the user is authenticated
     return isAuthenticated() ? <Navigate to="/calendar" replace /> : element;
-  } else if (path === '/add' && !isAdministrator) {
+  } else if ((path === '/add' || path === '/add-clinic' || path === '/add-visit-type' || path === '/add-visit-subtype' || path === '/add-medication' || path === '/add-illness') && !isAdministrator) {
     // Redirect away from "/add" if the user is not an administrator
     return <Navigate to="/calendar" replace />;
   } else {
