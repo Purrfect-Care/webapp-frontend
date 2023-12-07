@@ -62,7 +62,7 @@ const PatientBar = () => {
       </div>
 
       <div className="patients">
-      {!searchBar &&
+        {!searchBar &&
           patients.map((patient) => (
             <PatientRow
               key={patient.id}
@@ -70,6 +70,7 @@ const PatientBar = () => {
               ownerName={patient.patients_owner.owner_first_name}
               ownerSurname={patient.patients_owner.owner_last_name}
               patientName={patient.patient_name}
+              patientPhoto={patient.patient_photo} // Ensure the property name is correct
             />
           ))}
         {searchBar &&
@@ -80,6 +81,7 @@ const PatientBar = () => {
               ownerName={patient.patients_owner.owner_first_name}
               ownerSurname={patient.patients_owner.owner_last_name}
               patientName={patient.patient_name}
+              patientPhoto={patient.patient_photo} // Pass the patient's photo URL
             />
           ))}
       </div>

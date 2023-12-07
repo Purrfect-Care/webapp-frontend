@@ -30,7 +30,16 @@
   margin-right: 10px;
   margin-left: 10px;
   border: 1px solid black;
+  overflow: hidden; /* Ensures the image is cut within the circle */
 }
+
+.patient-photo-sidebar {
+  width: 100%; /* Ensures the image fills the circle */
+  height: 100%; /* Ensures the image fills the circle */
+  object-fit: cover; /* Maintains the aspect ratio of the image while covering the circle */
+  border-radius: 50%; /* Applies a circular border-radius to the image */
+}
+
 
 .patientText a {
   text-decoration: none;
