@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./NavBar.css";
 import VisitForm from "../../../pages/VisitForm/VisitForm";
 import { createVisitRequest } from "../../../api/visitsRequest";
@@ -10,8 +10,8 @@ import IllnessHistoryForm from "../../IllnessHistoryForm/IllnessHistoryForm";
 import { createIllnessHistoryRequest } from "../../../api/illnessHistoryRequests";
 
 
-const NavBar = ({ id, onSelectOption }) => {
-  const [selectedTab, setSelectedTab] = useState(NavBarData[1].title);
+const NavBar = ({ id, onSelectOption, selectedTab }) => {
+
   const [showVisitForm, setShowVisitForm] = useState(false);
   const [showIllnessHistoryForm, setShowIllnessHistoryForm] = useState(false);
   const [showPrescriptionForm, setShowPrescriptionForm] = useState(false);
@@ -67,9 +67,8 @@ const NavBar = ({ id, onSelectOption }) => {
   const isChorobyTab = selectedTab === "HISTORIA CHORÓB";
   const isDokumentacjaTab = selectedTab === 'DOKUMENTACJA';
 
-
   return (
-    <div className="navBar">
+    <div className="navBar">      
       {NavBarData.map((item, index) => {
         return (
           <li key={index} className={item.className}>
@@ -77,7 +76,7 @@ const NavBar = ({ id, onSelectOption }) => {
               to={`/patients/${id}${item.path}`}
               onClick={() => {
                 onSelectOption(item.title);
-                setSelectedTab(item.title);
+                
               }}
               className={selectedTab === item.title ? "active" : ""}
             >

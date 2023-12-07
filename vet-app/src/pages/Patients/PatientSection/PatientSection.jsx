@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect} from "react";
 import "./PatientSection.css";
 import NavBar from "../NavBar/NavBar";
 import AboutPage from "../AboutPage/AboutPage";
@@ -11,7 +11,7 @@ import PulseLoader from "react-spinners/PulseLoader";
 import * as Fa6Icons from "react-icons/fa6";
 
 
-const PatientSection = ({ patientId }) => {
+const PatientSection = ({ patientId}) => {
   const [patient, setPatientData] = useState(null);
   const [activeComponent, setActiveComponent] = useState(null);
 
@@ -81,7 +81,7 @@ const PatientSection = ({ patientId }) => {
             </span>
           </div>
         </div>
-        <NavBar id={patientId} onSelectOption={handleSelectOption} />
+        <NavBar id={patientId} onSelectOption={handleSelectOption} selectedTab={activeComponent} />
       </div>
       <div className="patientSection-content">
         {activeComponent === "INFORMACJE" && <AboutPage patient={patient} />}
