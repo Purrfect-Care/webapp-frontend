@@ -65,13 +65,16 @@
     margin-bottom: 5px;
   }
   
-  select,
-  input {
+  .select-prescriptionform,
+  .input-prescriptionform {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
     height: 50px;
+    border-radius: 10px;
+    border: 1px solid #000000;
   }
+  
   .medication-name-pres{
     margin-right: 10px;
   }

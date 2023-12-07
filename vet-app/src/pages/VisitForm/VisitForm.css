@@ -32,6 +32,7 @@
   flex-direction: column;
 }
 
+
 /* Disabled Input and Textarea Styles */
 .popup-form-visit input:disabled,
 .popup-form-visit textarea:disabled {
@@ -173,8 +174,14 @@
 .input-visitform,
 .input-visitform-duration {
   border-radius: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #000000;
 }
+.MuiInputBase-root.MuiOutlinedInput-root:hover {
+  background-color: transparent; /* Set the background color to match the default */
+  border-radius: 10px;
+}
+
+
 
 .input-visitform-duration {
   width: 100%;

@@ -125,11 +125,12 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
         <p className="patient-name-prescription">{patientData.patient_name}</p>
           {!initialPrescriptionValues.prescriptions_patient_id && (
             <select
+              className='select-prescriptionform'
               name="prescriptions_patient_id"
               value={formValues.prescriptions_patient_id}
               onChange={(e) => setFormValues((prevFormValues) => ({ ...prevFormValues, prescriptions_patient_id: e.target.value }))}
             >
-              <option value="">Select Patient</option>
+              <option value="">Wybierz pacjenta</option>
               {allPatients.map((patient) => (
                 <option key={patient.id} value={patient.id}>
                   {patient.patient_name}
@@ -145,6 +146,7 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
             <label className='medication-name-pres'>
               Lek:
               <select
+                className='select-prescriptionform'
                 name="medication_id"
                 value={medication.medication_id}
                 onChange={(e) => handleChange(e, index)}
@@ -160,6 +162,7 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
             <label className='medication-amount-pres'>
               Ilość:
               <input
+                className='input-prescriptionform'
                 type="number"
                 name="medication_amount"
                 value={medication.medication_amount}

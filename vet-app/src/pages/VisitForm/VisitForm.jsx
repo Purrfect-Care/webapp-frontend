@@ -135,10 +135,7 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
             <label>
               Imię i nazwisko:
               <div className='name-visit'>
-                <a href={`http://localhost:3000/employees/${employee.id}`}>
-                  {`${employee.employee_first_name || ''} ${employee.employee_last_name || ''}`}
-                </a>
-
+                <p className='employee-name'>{`${employee.employee_first_name || ''} ${employee.employee_last_name || ''}`}</p>
               </div>
             </label>
             {/* Add other doctor-related fields here */}
@@ -245,33 +242,37 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
                 </select>
               </label>
               <div className="form-section-column-visit">
-                  <label>
-                    Data i godzina wizyty:
-                    <div>
-                      <LocalizationProvider dateAdapter={AdapterDayjs}>
-                        <DateTimePicker
-                          name='visit_datetime'
-                          ampm={false}
-                          value={dayjs(formValues.visit_datetime)}
-                          onChange={handleDateTimeChange}
-                          dayOfWeekFormatter={(_day, weekday) => `${weekday.format('dd')}`}
-                        />
-                      </LocalizationProvider>
-                    </div>
-                  </label>
-                  <label>
-                    Czas trwania wizyty:
-                    <div>
-                      <input
-                        className='input-visitform-duration'
-                        type="text"
-                        name="visit_duration"
-                        value={formValues.visit_duration}
-                        onChange={handleChange}
+                <label>
+                  Data i godzina wizyty:
+                  <div>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DateTimePicker
+                        name='visit_datetime'
+                        ampm={false}
+                        value={dayjs(formValues.visit_datetime)}
+                        onChange={handleDateTimeChange}
+                        dayOfWeekFormatter={(_day, weekday) => `${weekday.format('dd')}`}
+                        sx={{
+                          borderRadius: '10px',
+                          border: '1px solid #000000',
+                        }}
                       />
-                    </div>
-                  </label>
-                </div>
+                    </LocalizationProvider>
+                  </div>
+                </label>
+                <label>
+                  Czas trwania wizyty:
+                  <div>
+                    <input
+                      className='input-visitform-duration'
+                      type="text"
+                      name="visit_duration"
+                      value={formValues.visit_duration}
+                      onChange={handleChange}
+                    />
+                  </div>
+                </label>
+              </div>
             </div>
             <div className="form-section-visit">
               <h3>Opis wizyty</h3>
