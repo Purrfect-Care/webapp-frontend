@@ -12,7 +12,7 @@ import utc from 'dayjs/plugin/utc';  // Import the utc plugin
 import timezone from 'dayjs/plugin/timezone';
 
 
-const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly=false }) => {
+const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false }) => {
   const [formValues, setFormValues] = useState({
     visit_datetime: '',
     visit_duration: '',
@@ -31,6 +31,7 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly=false }
   const [allSubtypes, setAllSubtypes] = useState([]);
   const [employee, setEmployee] = useState([]);
   const [patientData, setPatient] = useState([]);
+  const [isFormOpen, setIsFormOpen] = useState(true);
 
   dayjs.extend(utc);
   dayjs.extend(timezone);
@@ -48,8 +49,7 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly=false }
           employeeRequest(initialValues.visits_employee_id),
         ]);
 
-        if(initialValues.visits_patient_id != null)
-        {
+        if (initialValues.visits_patient_id != null) {
           const patientJSON = await patientRequest(initialValues.visits_patient_id);
           setPatient(patientJSON);
         }
@@ -119,156 +119,177 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly=false }
     window.location.reload();
   };
 
+  const handleClose = () => {
+    setIsFormOpen(false);
+    onClose();
+  };
+
   return (
-    <div className="popup-form-visit">
-      <h2>Formularz wizyty</h2>
-      <form onSubmit={handleSubmit} className="form-sections-visit">
-        <div className="form-section-visit">
-          <h3>Weterynarz</h3>
-          <label>
-            Imię i nazwisko:
-            <div className='name-visit'>
-            <a href={`http://localhost:3000/employees/${employee.id}`}>
-              {`${employee.employee_first_name || ''} ${employee.employee_last_name || ''}`}
-            </a>
-
-            </div>
-          </label>
-          {/* Add other doctor-related fields here */}
-        </div>
-        <div className="form-section-visit">
-          <h3>Pacjent</h3>
-          <label>
-            Nazwa pacjenta:
-            <div className='name-visit'>
-            <a href={`http://localhost:3000/patients/${formValues.visits_patient_id}`}>
-              {patientData.patient_name}
-            </a>
-
-            </div>
-            {!initialValues.visits_patient_id && <select
-              name="visits_patient_id"
-              value={formValues.visits_patient_id || ''}
-              onChange={handleChange}
-              disabled={initialValues.visits_patient_id}
-            >
-              <option value="">Select Patient</option>
-              {sortedPatients.map((patient) => (
-                <option key={patient.id} value={patient.id}>
-                  {patient.patient_name} • {patient.patients_owner.owner_first_name} {patient.patients_owner.owner_last_name}                   
-                </option>
-              ))}
-            </select>}
-          </label>
-          <label>
-            Waga pacjenta (kg):
-            <input
-              type="number"
-              step="0.01"
-              min="0"
-              name="patient_weight"
-              value={formValues.patient_weight}
-              onChange={handleChange}
-            />
-          </label>
-
-          <label>
-            Wzrost pacjenta (cm):
-            <input
-              type="number"
-              step="0.01"
-              min="0"
-              name="patient_height"
-              value={formValues.patient_height}
-              onChange={handleChange}
-            />
-          </label>
-          {/* Add other patient-related fields here */}
-        </div>
-        <div className="form-section-visit">
-          <h3>Wizyta</h3>
-          <div className="form-section-row-visit">
+    <div>
+      <div className={`overlay-visit-form ${isFormOpen ? 'active' : ''}`} onClick={handleClose}></div>
+      <div className="popup-form-visit">
+        <h2>Formularz wizyty</h2>
+        <form onSubmit={handleSubmit} className="form-sections-visit">
+          <div className="form-section-visit">
+            <h3>Weterynarz</h3>
             <label>
-              Typ wizyty:
-              <select
-                name="visits_visit_type_id"
-                value={formValues.visits_visit_type_id || ''}
+              Imię i nazwisko:
+              <div className='name-visit'>
+                <a href={`http://localhost:3000/employees/${employee.id}`}>
+                  {`${employee.employee_first_name || ''} ${employee.employee_last_name || ''}`}
+                </a>
+
+              </div>
+            </label>
+            {/* Add other doctor-related fields here */}
+          </div>
+          <div className="form-section-visit">
+            <h3>Pacjent</h3>
+            <label>
+              Nazwa pacjenta:
+              <div className='name-visit'>
+                <a href={`http://localhost:3000/patients/${formValues.visits_patient_id}`}>
+                  {patientData.patient_name}
+                </a>
+
+              </div>
+              {!initialValues.visits_patient_id && <select
+                className='select-visitform'
+                name="visits_patient_id"
+                value={formValues.visits_patient_id || ''}
                 onChange={handleChange}
+                disabled={initialValues.visits_patient_id}
               >
-                <option value="">-Wybierz typ wizyty-</option>
-                {allTypes.map((type) => (
-                  <option key={type.id} value={type.id}>
-                    {type.visit_type_name}
+                <option value="">Select Patient</option>
+                {sortedPatients.map((patient) => (
+                  <option key={patient.id} value={patient.id}>
+                    {patient.patient_name} • {patient.patients_owner.owner_first_name} {patient.patients_owner.owner_last_name}
                   </option>
                 ))}
-              </select>
+              </select>}
             </label>
             <label>
-              Podtyp wizyty:
-              <select
-                name="visits_visit_subtype_id"
-                value={formValues.visits_visit_subtype_id || ''}
-                onChange={handleChange}
-              >
-                <option value="">-Wybierz podtyp wizyty-</option>
-                {subtypesForSelectedType.map((subtype) => (
-                  <option key={subtype.id} value={subtype.id}>
-                    {subtype.visit_subtype_name}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              Status wizyty:
-              <select
-                name="visit_status"
-                value={formValues.visit_status || ''}
-                onChange={handleChange}
-              >
-                <option value="">-Wybierz status wizyty-</option>
-                <option value="planned">Zaplanowana</option>
-                <option value="cancelled">Odwołana</option>
-                <option value="complete">Zakończona</option>
-              </select>
-            </label>
-            <label>
-              Data i godzina wizyty:
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DateTimePicker
-                  name='visit_datetime'
-                  ampm={false}
-                  value={dayjs(formValues.visit_datetime)}
-                  onChange={handleDateTimeChange}
-                  dayOfWeekFormatter={(_day, weekday) => `${weekday.format('dd')}`}
-                />
-              </LocalizationProvider>
-            </label>
-            <label>
-              Czas trwania wizyty:
+              Waga pacjenta (kg):
               <input
-                type="text"
-                name="visit_duration"
-                value={formValues.visit_duration}
+                className='input-visitform'
+                type="number"
+                step="0.01"
+                min="0"
+                name="patient_weight"
+                value={formValues.patient_weight}
                 onChange={handleChange}
               />
             </label>
+
+            <label>
+              Wzrost pacjenta (cm):
+              <input
+                className='input-visitform'
+                type="number"
+                step="0.01"
+                min="0"
+                name="patient_height"
+                value={formValues.patient_height}
+                onChange={handleChange}
+              />
+            </label>
+            {/* Add other patient-related fields here */}
           </div>
           <div className="form-section-visit">
-            <h3>Opis wizyty</h3>
-            <textarea
-              name="visit_description"
-              value={formValues.visit_description}
-              onChange={handleChange}
-            />
+            <h3>Wizyta</h3>
+            <div className="form-section-row-visit">
+              <label>
+                Typ wizyty:
+                <select
+                  className='select-visitform'
+                  name="visits_visit_type_id"
+                  value={formValues.visits_visit_type_id || ''}
+                  onChange={handleChange}
+                >
+                  <option value="">-Wybierz typ wizyty-</option>
+                  {allTypes.map((type) => (
+                    <option key={type.id} value={type.id}>
+                      {type.visit_type_name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Podtyp wizyty:
+                <select
+                  className='select-visitform'
+                  name="visits_visit_subtype_id"
+                  value={formValues.visits_visit_subtype_id || ''}
+                  onChange={handleChange}
+                >
+                  <option value="">-Wybierz podtyp wizyty-</option>
+                  {subtypesForSelectedType.map((subtype) => (
+                    <option key={subtype.id} value={subtype.id}>
+                      {subtype.visit_subtype_name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Status wizyty:
+                <select
+                  className='select-visitform'
+                  name="visit_status"
+                  value={formValues.visit_status || ''}
+                  onChange={handleChange}
+                >
+                  <option value="">-Wybierz status wizyty-</option>
+                  <option value="planned">Zaplanowana</option>
+                  <option value="cancelled">Odwołana</option>
+                  <option value="complete">Zakończona</option>
+                </select>
+              </label>
+              <div className="form-section-column-visit">
+                  <label>
+                    Data i godzina wizyty:
+                    <div>
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DateTimePicker
+                          name='visit_datetime'
+                          ampm={false}
+                          value={dayjs(formValues.visit_datetime)}
+                          onChange={handleDateTimeChange}
+                          dayOfWeekFormatter={(_day, weekday) => `${weekday.format('dd')}`}
+                        />
+                      </LocalizationProvider>
+                    </div>
+                  </label>
+                  <label>
+                    Czas trwania wizyty:
+                    <div>
+                      <input
+                        className='input-visitform-duration'
+                        type="text"
+                        name="visit_duration"
+                        value={formValues.visit_duration}
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </label>
+                </div>
+            </div>
+            <div className="form-section-visit">
+              <h3>Opis wizyty</h3>
+              <textarea
+                name="visit_description"
+                value={formValues.visit_description}
+                onChange={handleChange}
+              />
+            </div>
           </div>
+        </form>
+        <div className="button-container-visit">
+          <button className="form-button" onClick={handleSubmit} type="submit">Zatwierdź</button>
+          <button className="form-button" onClick={() => {
+            if (editOnly) onClose();
+            else setEdit(false);
+          }}>Anuluj</button>
         </div>
-      </form>
-       <div className="button-container-visit">
-        <button className="form-button" onClick={handleSubmit} type="submit">Zatwierdź</button>
-        <button className="form-button" onClick={() => {
-          if(editOnly) onClose();
-          else setEdit(false);
-        }}>Anuluj</button>
       </div>
     </div>
   );

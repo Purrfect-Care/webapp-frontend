@@ -11,84 +11,92 @@ import utc from 'dayjs/plugin/utc';  // Import the utc plugin
 import timezone from 'dayjs/plugin/timezone';
 
 const ViewVisit = ({ onClose, initialValues, setEdit }) => {
-    const [formValues, setFormValues] = useState({
-      visit_datetime: null,
-      visit_duration: null,
-      visit_status: null,
-      visit_description: '',
-      patient_weight: null,
-      patient_height: null,
-      visits_patient_id: null,
-      visits_visit_type_id: null,
-      visits_visit_subtype_id: null,
-      visits_employee_id: null,
-    });
-    const [type, setType] = useState({});
-    const [subtype, setSubtype] = useState({});
-    const [employee, setEmployee] = useState({});
-    const [patientData, setPatient] = useState({});
-    const [visitToDelete, setVisitToDelete] = useState(null);
-    const [showConfirmation, setShowConfirmation] = useState(false);
-  
-    dayjs.extend(utc);
-    dayjs.extend(timezone);
-    dayjs.tz.setDefault('Europe/Warsaw');
-    dayjs.locale('en');
-  
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const [visitTypes, visitSubtypes, patientJSON, employeeJSON] = await Promise.all([
-            typeIdRequest(initialValues.visits_visit_type_id),
-            subtypeIdRequest(initialValues.visits_visit_subtype_id),
-            patientRequest(initialValues.visits_patient_id),
-            employeeRequest(initialValues.visits_employee_id),
-          ]);
-          setEmployee(employeeJSON);
-          setPatient(patientJSON);
-          setType(visitTypes);
-          setSubtype(visitSubtypes);
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-      };
-  
-      fetchData();
-    }, [initialValues]);
-  
-    useEffect(() => {
-      if (initialValues) {
-        setFormValues(initialValues);
-      }
-    }, [initialValues]);
+  const [formValues, setFormValues] = useState({
+    visit_datetime: null,
+    visit_duration: null,
+    visit_status: null,
+    visit_description: '',
+    patient_weight: null,
+    patient_height: null,
+    visits_patient_id: null,
+    visits_visit_type_id: null,
+    visits_visit_subtype_id: null,
+    visits_employee_id: null,
+  });
+  const [type, setType] = useState({});
+  const [subtype, setSubtype] = useState({});
+  const [employee, setEmployee] = useState({});
+  const [patientData, setPatient] = useState({});
+  const [visitToDelete, setVisitToDelete] = useState(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [isFormOpen, setIsFormOpen] =useState(true);
 
-    const deleteVisit = (visit) => {
-      setVisitToDelete(visit);
-      setShowConfirmation(true);
-    };
-  
-    const confirmDeleteVisit = async () => {
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
+  dayjs.tz.setDefault('Europe/Warsaw');
+  dayjs.locale('en');
+
+  useEffect(() => {
+    const fetchData = async () => {
       try {
-        if (!visitToDelete || !visitToDelete.id) {
-          console.error('No selected visit or visit ID');
-          return;
-        }
-        await deleteVisitRequest(visitToDelete.id);
-        window.location.reload();
+        const [visitTypes, visitSubtypes, patientJSON, employeeJSON] = await Promise.all([
+          typeIdRequest(initialValues.visits_visit_type_id),
+          subtypeIdRequest(initialValues.visits_visit_subtype_id),
+          patientRequest(initialValues.visits_patient_id),
+          employeeRequest(initialValues.visits_employee_id),
+        ]);
+        setEmployee(employeeJSON);
+        setPatient(patientJSON);
+        setType(visitTypes);
+        setSubtype(visitSubtypes);
       } catch (error) {
-        console.error('Error deleting visit:', error);
-      } finally {
-        // Close the form
-        onClose();
-        setShowConfirmation(false);
+        console.error('Error fetching data:', error);
       }
     };
-  
-    const cancelDeleteVisit = () => {
-      setShowConfirmation(false);
-    };
 
-    return (
+    fetchData();
+  }, [initialValues]);
+
+  useEffect(() => {
+    if (initialValues) {
+      setFormValues(initialValues);
+    }
+  }, [initialValues]);
+
+  const deleteVisit = (visit) => {
+    setVisitToDelete(visit);
+    setShowConfirmation(true);
+  };
+
+  const confirmDeleteVisit = async () => {
+    try {
+      if (!visitToDelete || !visitToDelete.id) {
+        console.error('No selected visit or visit ID');
+        return;
+      }
+      await deleteVisitRequest(visitToDelete.id);
+      window.location.reload();
+    } catch (error) {
+      console.error('Error deleting visit:', error);
+    } finally {
+      // Close the form
+      onClose();
+      setShowConfirmation(false);
+    }
+  };
+
+  const cancelDeleteVisit = () => {
+    setShowConfirmation(false);
+  };
+
+  const handleClose = () => {
+    setIsFormOpen(false);
+    onClose();
+  };
+
+  return (
+    <div>
+      <div className={`overlay-visit-view ${isFormOpen ? 'active' : ''}`} onClick={handleClose}></div>
       <div className="popup-form-static">
         <h2>Formularz wizyty</h2>
         <form className="form-sections-static">
@@ -125,7 +133,7 @@ const ViewVisit = ({ onClose, initialValues, setEdit }) => {
               <div className="value-static">
                 <p>{formValues.patient_height}</p>
               </div>
-              
+
             </label>
             {/* Add other patient-related fields here */}
           </div>
@@ -135,31 +143,31 @@ const ViewVisit = ({ onClose, initialValues, setEdit }) => {
               <label>
                 Typ wizyty:
                 <div className="value-static">
-                <p>{type.visit_type_name}</p>
+                  <p>{type.visit_type_name}</p>
                 </div>
               </label>
               <label>
                 Podtyp wizyty:
                 <div className="value-static">
-                <p>{subtype.visit_subtype_name}</p>
+                  <p>{subtype.visit_subtype_name}</p>
                 </div>
               </label>
               <label>
                 Status wizyty:
                 <div className="value-static">
-                <p>{formValues.visit_status}</p>
+                  <p>{formValues.visit_status}</p>
                 </div>
               </label>
               <label>
                 Data i godzina wizyty:
                 <div className="value-static">
-                <p>{dayjs(formValues.visit_datetime).format('YYYY-MM-DD HH:mm')}</p>
+                  <p>{dayjs(formValues.visit_datetime).format('YYYY-MM-DD HH:mm')}</p>
                 </div>
               </label>
               <label>
                 Czas trwania wizyty:
                 <div className="value-static">
-                <p>{formValues.visit_duration}</p>
+                  <p>{formValues.visit_duration}</p>
                 </div>
               </label>
             </div>
@@ -172,23 +180,24 @@ const ViewVisit = ({ onClose, initialValues, setEdit }) => {
               />
             </div>
           </div>
+          <div className="button-container-static">
+            <button className="delete-button" onClick={() => deleteVisit(initialValues)}>Usuń</button>
+            <button className="form-button-static" onClick={() => setEdit(true)}>Edytuj</button>
+            <button className="form-button-static" onClick={onClose}>Zamknij</button>
+          </div>
         </form>
-        <div className="button-container-static">
-          <button className="delete-button" onClick={() => deleteVisit(initialValues)}>Usuń</button>
-          <button className="form-button" onClick={() => setEdit(true)}>Edytuj</button>
-          <button className="form-button" onClick={onClose}>Zamknij</button>
-        </div>
         {showConfirmation && (
-        <ConfirmationPopup
-          message="Czy na pewno chcesz usunąć wizytę?"
-          onConfirm={confirmDeleteVisit}
-          onCancel={cancelDeleteVisit}
-          onYes="Tak"
-          onNo="Nie"
-        />
-      )}
+          <ConfirmationPopup
+            message="Czy na pewno chcesz usunąć wizytę?"
+            onConfirm={confirmDeleteVisit}
+            onCancel={cancelDeleteVisit}
+            onYes="Tak"
+            onNo="Nie"
+          />
+        )}
       </div>
-    );
-  };
-  
-  export default ViewVisit;
+    </div>
+  );
+};
+
+export default ViewVisit;
