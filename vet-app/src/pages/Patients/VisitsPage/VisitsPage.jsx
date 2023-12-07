@@ -154,7 +154,7 @@ const VisitsPage = ({ patient }) => {
   });
 
   return (
-    <div>
+    <div className='visits-table'>
       <div className="column-bar">
         <span className="column-visit_name" onClick={() => sortColumn('NAZWA')}>
           NAZWA {sortBy.column === 'NAZWA' && (sortBy.ascending ? '↑' : '↓')}

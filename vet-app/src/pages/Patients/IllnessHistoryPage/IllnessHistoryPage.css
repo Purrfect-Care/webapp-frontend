@@ -21,7 +21,7 @@ body {
   justify-content: space-between;
   cursor: pointer;
   font-weight: bold;
-  padding-top: 20px;
+  height: 3vh;
   border-bottom: 1px solid black; /* Bottom border only */
   text-align: center; /* Center the text */
 }
@@ -34,7 +34,9 @@ body {
 }
 
 /* Visit list styling */
-.illness-history-list {
+.illness_history_list {
+  max-height: 54vh; /* Adjust the value as needed */
+  overflow-y: auto;
   align-items: center; /* Center the items horizontally */
 }
 

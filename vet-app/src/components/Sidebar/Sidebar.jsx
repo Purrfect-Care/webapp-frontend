@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
+import { useEffect } from "react";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import { Link } from "react-router-dom";
@@ -10,6 +11,15 @@ import * as IoIcons from "react-icons/io";
 
 const Sidebar = () => {
   const [sidebarTab, setSidebarTab] = useState(false);
+  const [employeeData, setEmployeeData] = useState(null);
+
+  useEffect(() => {
+    // Fetch employee data from local storage
+    const storedEmployeeData = localStorage.getItem('employeeData');
+    if (storedEmployeeData) {
+      setEmployeeData(JSON.parse(storedEmployeeData));
+    }
+  }, []);
 
   const showSidebarTab = () => setSidebarTab(!sidebarTab);
   const handleExit = () => {
@@ -36,7 +46,11 @@ const Sidebar = () => {
               </Link>
             </li>
             {SidebarData.map((item, index) => {
-              return (
+              // Check if the role is Administrator or if the item is not "Dodaj"
+              const shouldRenderItem =
+                employeeData?.employee_role === "Administrator" || item.title !== "Dodaj";
+
+              return shouldRenderItem && (
                 <li key={index} className={item.className}>
                   <Link to={item.path}>
                     {item.icon }
@@ -50,10 +64,9 @@ const Sidebar = () => {
             </Link>
           </ul>
         </nav>
-
       </IconContext.Provider>
     </>
   );
-}
+};
 
 export default Sidebar;

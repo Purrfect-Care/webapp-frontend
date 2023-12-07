@@ -133,7 +133,7 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
               <option value="">Wybierz pacjenta</option>
               {allPatients.map((patient) => (
                 <option key={patient.id} value={patient.id}>
-                  {patient.patient_name}
+                  {patient.patient_name} • {patient.patients_owner.owner_first_name} {patient.patients_owner.owner_last_name}
                 </option>
               ))}
             </select>
@@ -151,7 +151,7 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
                 value={medication.medication_id}
                 onChange={(e) => handleChange(e, index)}
               >
-                <option value="">Select Medication</option>
+                <option value="">Wybierz lek</option>
                 {allMedications.map((med) => (
                   <option key={med.id} value={med.id}>
                     {med.medication_name}
