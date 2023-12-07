@@ -23,14 +23,22 @@ const isAuthenticated = () => {
 };
 
 const CustomRoute = ({ element, path }) => {
+  const employeeData = JSON.parse(localStorage.getItem('employeeData'));
+  const isAdministrator = employeeData?.employee_role === 'Administrator';
+
   if (path === '/login' || path === '/sign-in' || path === '/add-clinic' || path === '/') {
     // For public routes, redirect to home if the user is authenticated
     return isAuthenticated() ? <Navigate to="/calendar" replace /> : element;
+  } else if (path === '/add' && !isAdministrator) {
+    // Redirect away from "/add" if the user is not an administrator
+    return <Navigate to="/calendar" replace />;
   } else {
     // For private routes, redirect to login if the user is not authenticated
     return isAuthenticated() ? element : <Navigate to="/login" replace />;
   }
 };
+
+
 
 function App() {
   return (
