@@ -37,7 +37,7 @@ body {
 
 /* Visit list styling */
 .visit-list {
-  max-height: 50vh; /* Adjust the value as needed */
+  max-height: 54vh; /* Adjust the value as needed */
   overflow-y: auto;
   align-items: center; /* Center the items horizontally */
 }
@@ -45,7 +45,7 @@ body {
 
 /* Styling for each visit item */
 .visit-item {
-  height: 54px;
+  height: 50px;
   width: 100%;
   box-sizing: border-box;
   display: grid;
