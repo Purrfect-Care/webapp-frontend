@@ -114,3 +114,7 @@ body {
   padding: 5px 10px;
   cursor: pointer;
 }
+
+.visits-table {
+  margin-top: 20px;
+}
