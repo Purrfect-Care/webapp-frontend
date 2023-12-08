@@ -66,8 +66,8 @@
     margin-bottom: 20px;
 }
 
-.patient-photo{
-    width: 80px; 
-    height: 100px; 
+.patient-photo-patient-section{
+    width: 20vh; 
+    height: 20vh; 
     margin-right: 20px;
 }

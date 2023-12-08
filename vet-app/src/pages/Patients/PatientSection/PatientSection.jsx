@@ -68,8 +68,8 @@ const PatientSection = ({ patientId}) => {
         <img
             src={patient.patient_photo}
             alt={`Photo of ${patient.patient_name}`}
-            className="patient-photo"
-            style={{ width: '150px', height: '150px' }} // Adjust the width and height as needed
+            className="patient-photo-patient-section"
+            //style={{ width: '150px', height: '150px' }} // Adjust the width and height as needed
           />
           </div>
           <div className="textInfo">
