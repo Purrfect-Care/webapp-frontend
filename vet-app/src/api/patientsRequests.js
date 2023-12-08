@@ -15,8 +15,8 @@ export async function patientRequest(patientId) {
   );
 }
 
-export async function patientsSideBarRequest() {
-  const endpoint = "http://localhost:8000/api/patients_sidebar_list/";
+export async function patientsSideBarRequest(clinicId) {
+  const endpoint = `http://localhost:8000/api/patients_sidebar_list/?clinic_id=${clinicId}`;
 
   const response = await fetch(endpoint, {
     method: "GET",
