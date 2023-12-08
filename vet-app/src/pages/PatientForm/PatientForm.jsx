@@ -128,9 +128,10 @@ const PatientForm = ({ onClose }) => {
     <>
 
       <div className="add-patient">
-        <Sidebar />
+      <Sidebar />
         <div className='patient-form'>
-          <form id="formPatient" onSubmit={handleSubmit}
+          <h2 style={{marginBottom: '3vh', marginTop: '24vh', marginLeft: '15vh'}}>Formularz dodawania pacjenta</h2>
+          <form onSubmit={handleSubmit}
             encType="multipart/form-data">
             <input
               className='input-patientform'
@@ -207,7 +208,7 @@ const PatientForm = ({ onClose }) => {
                 </option>
               ))}
             </select>
-            <label>Data urodzenia</label>
+            <h3>Data urodzenia</h3>
             <div className='patient-form-date'>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
@@ -219,6 +220,12 @@ const PatientForm = ({ onClose }) => {
                   onChange={handleDateChange}
                   disabled={!!readOnly}
                   dayOfWeekFormatter={(_day, weekday) => `${weekday.format('dd')}`}
+                  sx={{
+                    backgroundColor:"white",
+                    borderRadius:"10px",
+
+                    "& fieldset": { border: 'none' },
+                  }}
                 />
               </LocalizationProvider>
             </div>
@@ -226,9 +233,9 @@ const PatientForm = ({ onClose }) => {
 
 
 
-            <label>Zdjęcie</label>
+            <h3>Zdjęcie</h3>
             <input
-              className='input-patientform'
+              className='patient-form-photo'
               type="file"
               accept="image/*"
               name="patient_photo"
@@ -236,12 +243,14 @@ const PatientForm = ({ onClose }) => {
               onChange={handlePhotoChange}
             />
 
-
-            <button
+              <div className='button-container-add-patient'>
+              <button
               type="submit"
-              className="submit-button-create-patient">
+              className="submit-button-add-patient">
               Dodaj pacjenta
             </button>
+            </div>
+
 
           </form>
         </div>
