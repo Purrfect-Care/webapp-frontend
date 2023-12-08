@@ -1,4 +1,4 @@
-.popup-form {
+.popup-form-illness-history {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -12,28 +12,28 @@
     width: 100%;
 }
 
-.popup-form input:disabled {
+.popup-form-illness-history input:disabled {
     background-color: #f4f4f4; /* Adjust the background color as needed */
     color: #999; /* Adjust the text color as needed */
   }
 
-.popup-form textarea:disabled {
+.popup-form-illness-history textarea:disabled {
     background-color: #f4f4f4; /* Adjust the background color as needed */
     color: #999; /* Adjust the text color as needed */
 }
 
-.button-container {
+.button-container-illness-history {
     display: flex;
     justify-content: flex-end; /* Align buttons to the right */
     width: 100%; /* Ensure full width */
 }
 
-.popup-form h2 {
+.popup-form-illness-history h2 {
     font-size: 1.5em;
     margin-bottom: 15px;
 }
 
-.form-sections {
+.form-sections-illness-history {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -43,28 +43,28 @@
     font-weight: bold;
 }
 
-.form-section {
+.form-section-illness-history {
     width: 100%;
     margin-bottom: 20px;
 }
 
-.form-section h3 {
+.form-section-illness-history h3 {
     font-size: 1.2em;
     margin-bottom: 10px;
     border-bottom: 1px solid #ccc; /* Add underline to the section header */
     padding-bottom: 5px; /* Adjust as needed */
 }
 
-.form-section label {
+.form-section-illness-history label {
     display: block;
     margin-bottom: 5px; /* Adjust the margin between label and input */
 }
 
 
 
-.form-section select,
-.form-section input,
-.form-section textarea {
+.form-section-illness-history select,
+.form-section-illness-history input,
+.form-section-illness-history textarea {
     width: 100%; /* Adjust the width as needed */
     padding: 8px;
     box-sizing: border-box;
@@ -72,11 +72,11 @@
     margin-bottom: 5px;
 }
 
-.popup-form select[name="illness_history_patient_id"] {
+.popup-form-illness-history select[name="illness_history_patient_id"] {
     width: 288px; /* Adjust the width as needed */
   }
 
-.form-button {
+.form-button-illness-history {
   background-color: #4aa587;
   display: flex;
   color: white;
@@ -88,6 +88,6 @@
   margin-right: 10px;
   border-radius: 8px; /* Add rounded corners */  }
   
-.form-button:hover {
+.form-button-illness-history:hover {
     background-color: #2f6d58;
 }

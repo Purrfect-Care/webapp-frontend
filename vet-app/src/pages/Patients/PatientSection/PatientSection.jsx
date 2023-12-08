@@ -1,7 +1,6 @@
 import React, { useState, useEffect} from "react";
 import "./PatientSection.css";
 import NavBar from "../NavBar/NavBar";
-import AboutPage from "../AboutPage/AboutPage";
 import VisitsPage from "../VisitsPage/VisitsPage";
 import DocumentsPage from "../DocumentsPage/DocumentsPage";
 import OwnerPage from "../OwnerPage/OwnerPage";
@@ -9,7 +8,7 @@ import IllnessHistoryPage from "../IllnessHistoryPage/IllnessHistoryPage";
 import { patientRequest } from "../../../api/patientsRequests";
 import PulseLoader from "react-spinners/PulseLoader";
 import * as Fa6Icons from "react-icons/fa6";
-
+import dayjs from "dayjs";
 
 const PatientSection = ({ patientId}) => {
   const [patient, setPatientData] = useState(null);
@@ -68,23 +67,28 @@ const PatientSection = ({ patientId}) => {
         <img
             src={patient.patient_photo}
             alt={`Photo of ${patient.patient_name}`}
-            className="patient-photo"
-            style={{ width: '150px', height: '150px' }} // Adjust the width and height as needed
+            className="patient-photo-patient-section"
+            //style={{ width: '150px', height: '150px' }} // Adjust the width and height as needed
           />
           </div>
           <div className="textInfo">
-            <h1 className="patient_name">{patient.patient_name}</h1>
-            <span className="ageBreed">
-              {patient.patient_date_of_birth}
-              <span className="dot">•</span>
-              {patient.patients_species.species_name}
+            <h1 className="patient-name-patient-section">{patient.patient_name}</h1>
+            <span className="patient-details-patient-section">
+              <p>
+                Data urodzenia: {dayjs(patient.patient_date_of_birth).format('DD-MM-YYYY')}
+              </p>
+              <p>
+                {patient.patients_species.species_name}
+                <span className="dot">•</span>
+                {patient.patients_breed.breed_name}
+              </p>
+              <p>{patient.patient_gender}</p>
             </span>
           </div>
         </div>
         <NavBar id={patientId} onSelectOption={handleSelectOption} selectedTab={activeComponent} />
       </div>
       <div className="patientSection-content">
-        {activeComponent === "INFORMACJE" && <AboutPage patient={patient} />}
         {activeComponent === "WIZYTY" && <VisitsPage patient={patient} />}
         {activeComponent === "HISTORIA CHORÓB" && (
           <IllnessHistoryPage patient={patient} />

@@ -1,29 +1,61 @@
-.edit-owner-button {
+
+
+.popup-form-edit-owner{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-width: 500px;
+    width: 100%;
+    box-sizing: border-box;
+    height: 58vh;
+    overflow-y: auto;
     display: flex;
-    align-items: center;
-    color: #ffffff;
-    background-color: #00897B;
-    padding: 10px 20px;
-    font-size: 17px;
-    cursor: pointer;
-    border-radius: 8px; /* Add rounded corners */
-    margin: auto;
+    flex-direction: column;
 }
 
-.edit-owner-button:hover {
+.form-section-edit-owner{
+    flex: 1 1 100%;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+.form-sections-edit-owner{
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.edit-owner-button-form {
+    background-color: #4aa587;
+    display: flex;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    align-content: center;
+    margin-top: 20px;
+    margin-right: 10px;
+    border-radius: 8px;
+}
+
+.edit-owner-button-form:hover {
     background-color:#00695C;
     display: flex;
     align-items: center;
     color: #ffffff;
 }
 
-.button-container {
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+.button-container-edit-owner {
+    margin-top: auto;
     display: flex;
-    align-items: center;
+    justify-content: flex-end;
 }
 
 .owner-label {
@@ -40,4 +72,10 @@ form > div {
 form input {
     padding: 8px;
     margin-bottom: 5px;
+    margin-left: 5px;
+}
+
+.input-edit-owner{
+    border-radius: 10px;
+    border: 1px solid #000000;
 }

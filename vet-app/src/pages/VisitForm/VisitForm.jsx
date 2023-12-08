@@ -285,8 +285,8 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
           </div>
         </form>
         <div className="button-container-visit">
-          <button className="form-button" onClick={handleSubmit} type="submit">Zatwierdź</button>
-          <button className="form-button" onClick={() => {
+          <button className="form-button-visit" onClick={handleSubmit} type="submit">Zatwierdź</button>
+          <button className="form-button-visit" onClick={() => {
             if (editOnly) onClose();
             else setEdit(false);
           }}>Anuluj</button>
