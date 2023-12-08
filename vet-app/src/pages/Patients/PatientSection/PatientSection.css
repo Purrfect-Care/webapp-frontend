@@ -21,11 +21,14 @@
     
 }
 
-.patient_name {
+.patient-name-patient-section {
     margin-bottom: 5px;
+    font-size: 24px; /* Adjust the font size as needed */
+    font-weight: bold; /* Add bold style for emphasis */
+    color: #1A202C; /* Set the desired color for the patient name */
 }
 
-.ageBreed {
+.patient-details-patient-section {
     word-spacing: 5px;
 }
 

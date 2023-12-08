@@ -1,11 +1,6 @@
 
 export const NavBarData = [
     {
-        title: 'INFORMACJE',
-        path: '/about',
-        className: 'navbar-text' 
-    },
-    {
         title: 'WIZYTY',
         path: '/visits',
         className: 'navbar-text' 
