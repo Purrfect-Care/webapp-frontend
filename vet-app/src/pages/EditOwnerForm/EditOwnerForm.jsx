@@ -55,45 +55,102 @@ const handleSubmit = async (e) => {
 };
 
 
-  return (
-    <div style={{ display: isOpen ? 'block' : 'none', position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', border: '2px solid #ccc', padding: '40px', backgroundColor: '#fff', zIndex: '1000' }}>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label className='owner-label'>Imię:</label>
-          <input type="text" name="owner_first_name" value={editedData.owner_first_name} onChange={handleInputChange} />
+return (
+<div style={{ display: isOpen ? 'block' : 'none', position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', border: '2px solid #ccc', padding: '40px', backgroundColor: '#fff',  width: '50vh', height:'50vh' }}>    
+<div className="popup-form-edit-owner">
+      <h2 style={{marginBottom : '2vh'}}>Formularz edycji danych właściciela</h2>
+      <form onSubmit={handleSubmit} className="form-sections-edit-owner">
+        <div className="form-section-edit-owner">
+          <label>
+            Imię:
+            <input
+              className="input-edit-owner"
+              type="text"
+              name="owner_first_name"
+              value={editedData.owner_first_name}
+              onChange={handleInputChange}
+            />
+          </label>
+          <label>
+            Nazwisko:
+            <input
+              className="input-edit-owner"
+              type="text"
+              name="owner_last_name"
+              value={editedData.owner_last_name}
+              onChange={handleInputChange}
+            />
+          </label>
+
+          <label>
+            Adres:
+            <input
+              className="input-edit-owner"
+              type="text"
+              name="owner_address"
+              value={editedData.owner_address}
+              onChange={handleInputChange}
+            />
+          </label>
+
+          <label>
+            Kod pocztowy:
+            <input
+              className="input-edit-owner"
+              type="text"
+              name="owner_postcode"
+              value={editedData.owner_postcode}
+              onChange={handleInputChange}
+            />
+          </label>
+
+          <label>
+            Miasto:
+            <input
+              className="input-edit-owner"
+              type="text"
+              name="owner_city"
+              value={editedData.owner_city}
+              onChange={handleInputChange}
+            />
+          </label>
+
+          <label>
+            Numer telefonu:
+            <input
+              className="input-edit-owner"
+              type="text"
+              name="owner_phone_number"
+              value={editedData.owner_phone_number}
+              onChange={handleInputChange}
+            />
+          </label>
+
+          <label>
+            Email:
+            <input
+              className="input-edit-owner"
+              type="text"
+              name="owner_email"
+              value={editedData.owner_email}
+              onChange={handleInputChange}
+            />
+          </label>
         </div>
-        <div>
-          <label className='owner-label'>Nazwisko:</label>
-          <input type="text" name="owner_last_name" value={editedData.owner_last_name} onChange={handleInputChange} />
-        </div>
-        <div>
-          <label className='owner-label'>Adres:</label>
-          <input type="text" name="owner_address" value={editedData.owner_address} onChange={handleInputChange} />
-        </div>
-        <div>
-          <label className='owner-label'>Kod pocztowy:</label>
-          <input type="text" name="owner_postcode" value={editedData.owner_postcode} onChange={handleInputChange} />
-        </div>
-        <div>
-          <label className='owner-label'>Miasto:</label>
-          <input type="text" name="owner_city" value={editedData.owner_city} onChange={handleInputChange} />
-        </div>
-        <div>
-          <label className='owner-label'>Numer telefonu:</label>
-          <input type="text" name="owner_phone_number" value={editedData.owner_phone_number} onChange={handleInputChange} />
-        </div>
-        <div>
-          <label className='owner-label'>Email:</label>
-          <input type="text" name="owner_email" value={editedData.owner_email} onChange={handleInputChange} />
-        </div>
-        <div className="button-container">
-          <button className="edit-owner-button" type="submit">Zapisz zmiany</button>
-          
-          <button className="edit-owner-button" type="button" onClick={onClose}>Anuluj</button>
-        </div>
+
       </form>
+      <div className="button-container-edit-owner">
+        <button className="edit-owner-button-form" onClick={handleSubmit} type="submit">
+          Zapisz zmiany
+        </button>
+
+        <button className="edit-owner-button-form" type="button" onClick={onClose}>
+          Anuluj
+        </button>
       </div>
-  );
+    </div>
+  </div>
+);
 };
 
 export default EditOwnerForm;

@@ -93,6 +93,19 @@
   border: none;
 }
 
+.form-button-visit{
+  background-color: #4aa587;
+  display: flex;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  align-content: center;
+  margin-top: 20px;
+  margin-right: 10px;
+  border-radius: 8px;
+}
+
 /* Button Hover Styles */
 .popup-form-visit .form-button-visit:hover {
   background-color: #2f6d58;

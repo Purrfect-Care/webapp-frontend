@@ -81,16 +81,16 @@ const IllnessHistoryForm = ({isOpen, onClose, initialValues, onSubmit}) => {
       };
 
       return (
-        <div className="popup-form">        
+        <div className="popup-form-illness-history">        
         <h2>Formularz choroby</h2>
-        <form onSubmit={handleSubmit} className="form-sections">
-        <div className="form-section">
+        <form onSubmit={handleSubmit} className="form-sections-illness-history">
+        <div className="form-section-illness-history">
             <label>
                 <h3>Pacjent</h3>
                 <p className='illnessform-patient'>{patientData.patient_name}</p>
             </label>
         </div>
-        <div className="form-section">
+        <div className="form-section-illness-history">
             <label>
                 <h3>Choroba</h3>
                 <select
@@ -107,7 +107,7 @@ const IllnessHistoryForm = ({isOpen, onClose, initialValues, onSubmit}) => {
                 </select>
             </label>
         </div>
-        <div className="form-section">
+        <div className="form-section-illness-history">
             <label>
                 <h3>Data wystąpienia choroby:</h3>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -123,9 +123,9 @@ const IllnessHistoryForm = ({isOpen, onClose, initialValues, onSubmit}) => {
             </label>
         </div>
     </form>
-    <div className="button-container">
-        {readOnly || <button className="form-button" onClick={handleSubmit} type="submit">Zatwierdź</button>}
-        <button className="form-button" onClick={onClose}>Zamknij</button>
+    <div className="button-container-illness-history">
+        {readOnly || <button className="form-button-illness-history" onClick={handleSubmit} type="submit">Zatwierdź</button>}
+        <button className="form-button-illness-history" onClick={onClose}>Zamknij</button>
       </div>
       
         </div>
