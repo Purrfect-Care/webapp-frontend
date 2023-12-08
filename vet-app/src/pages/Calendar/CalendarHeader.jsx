@@ -19,18 +19,18 @@ const CalendarHeader = () => {
   }
 
   return (
-    <header className="px-4 py-2 flex items-center">
-      <button onClick={handleReset} className="border rounded text-customGreen py-2 px-4 mr-5 select-none transition duration-300 shadow-2xl hover:shadow-md hover:font-bold">Dzisiaj</button>
+    <header className="px-5 py-3 flex items-center bg-emerald-600/25 bg-opacity-20 rounded-md mb-3">
+      <button onClick={handleReset} className="border rounded bg-white text-customGreen py-2 px-4 mr-5 select-none transition duration-300 shadow-2xl hover:shadow-md hover:font-bold">Dzisiaj</button>
       <div className="flex items-center justify-center w-screen">
         <BiIcons.BiLeftArrowAlt
-          className="cursor-pointer text-2xl text-customGreen mx-2"
+          className="cursor-pointer text-4xl text-customGreen mx-2"
           onClick={handlePrevMonth}
         />
-        <h2 className="mr-4 ml-4 w-40 text-x1 text-gray-500 text-center font-bold select-none">
+        <h2 className="mr-4 ml-4 w-80 text-x1 text-gray-500 text-center font-bold select-none">
           {dayjs(new Date(dayjs().year(), monthIndex)).format("MMMM YYYY").replace(/^[a-ząćęłńóśżź]/, (match) => match.toUpperCase())}
         </h2>
         <BiIcons.BiRightArrowAlt
-          className="cursor-pointer text-2xl text-customGreen mx-2"
+          className="cursor-pointer text-4xl text-customGreen mx-2"
           onClick={handleNextMonth}
         />
       </div>

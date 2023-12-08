@@ -28,11 +28,5 @@ export const SidebarData = [
         path: '/prescription',
         icon: <TfiIcons.TfiWrite />,
         className: 'sidebar-text' 
-    },
-    {
-        title: 'Dodaj pacjenta',
-        path: '/add-patient',
-        icon: <TfiIcons.TfiIdBadge />,
-        className: 'sidebar-text' 
     }
 ]

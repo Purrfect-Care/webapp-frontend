@@ -5,7 +5,7 @@ import LabelsCalendar from "./LabelsCalendar";
 
 const CalendarSidebar = () => {
     return (
-        <aside className="border p-5 w-64">
+        <aside className="border p-5 w-64 bg-emerald-600 bg-opacity-20 rounded">
             <CreateEventButton />
             <SmallCalendar />
             <LabelsCalendar />

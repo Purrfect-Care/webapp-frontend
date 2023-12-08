@@ -27,9 +27,9 @@ function SmallCalendar() {
     const slcDay = daySelected && daySelected.format(format);
 
     if (nowDay === currDay) {
-      return "bg-customGreen rounded-full text-white";
+      return "bg-customGreen rounded-full text-white border-2 border-white";
     } else if (currDay === slcDay) {
-      return "bg-green-100 rounded-full text-customGreen font-bold";
+      return "bg-green-200 rounded-full text-customGreen font-bold border-2 border-customGreen ";
     } else {
       return "";
     } 
@@ -76,7 +76,7 @@ function SmallCalendar() {
                   setSmallCalendarMonth(currentMonthIdx);
                   setDaySelected(day);
                 }}
-                className={`py-1 w-full ${getDayClass(day)}`}
+                className={`p-0.5 w-full ${getDayClass(day)}`}
               >
                 <span className="text-small">{day.format("D")}</span>
               </button>

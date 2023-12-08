@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import { addMedicationsRequest } from "../../../api/medicationRequests";
 
-
 const AddMedications = () => {
   const [medication, setMedication] = useState({ medication_name: "" });
 
@@ -34,7 +33,10 @@ const AddMedications = () => {
               name="medication_name"
               value={medication.medication_name}
               onChange={(e) =>
-                setMedication({ ...medication, medication_name: e.target.value })
+                setMedication({
+                  ...medication,
+                  medication_name: e.target.value,
+                })
               }
             />
             <button
