@@ -32,6 +32,12 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
   const [employee, setEmployee] = useState([]);
   const [patientData, setPatient] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(true);
+  const [focusedPatient, setFocusedPatient] = useState(false);
+  const [focusedDuration, setFocusedDuration] = useState(false);
+  const [focusedStatus, setFocusedStatus] = useState(false);
+  const [focusedType, setFocusedType] = useState(false);
+  const [focusedSubtype, setFocusedSubtype] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   dayjs.extend(utc);
   dayjs.extend(timezone);
@@ -112,17 +118,44 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
+    // Check if any required field is empty
+    const requiredFields = ['visits_patient_id', 'visits_visit_type_id', 'visits_visit_subtype_id', 'visit_status', 'visit_datetime', 'visit_duration'];
+    const isEmptyField = requiredFields.some(field => !formValues[field]);
+  
+    if (isEmptyField) {
+      // Display an error message or take appropriate action
+      setErrorMessage('Wypełnij wszystkie wymagane pola.');
+      return;
+    }
+  
     console.log('Form submitted!');
     await onSubmit(formValues);
     console.log(formValues);
     onClose();
     window.location.reload();
   };
+  
 
   const handleClose = () => {
     setIsFormOpen(false);
     onClose();
   };
+  const handleFocusPatient = (e) => {
+    setFocusedPatient(true);
+  }
+  const handleFocusDuration = (e) => {
+    setFocusedDuration(true);
+  }
+  const handleFocusStatus = (e) => {
+    setFocusedStatus(true);
+  }
+  const handleFocusSubtype = (e) => {
+    setFocusedSubtype(true);
+  }
+  const handleFocusType = (e) => {
+    setFocusedType(true);
+  }
 
   return (
     <div>
@@ -133,7 +166,7 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
           <div className="form-section-visit">
             <h3>Weterynarz</h3>
             <label>
-              Imię i nazwisko:
+              Imię i nazwisko
               <div className='name-visit'>
                 <p className='employee-name'>{`${employee.employee_first_name || ''} ${employee.employee_last_name || ''}`}</p>
               </div>
@@ -143,7 +176,7 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
           <div className="form-section-visit">
             <h3>Pacjent</h3>
             <label>
-              Nazwa pacjenta:
+              Nazwa pacjenta (wymagane)
               <div className='name-visit'>
                 <a href={`http://localhost:3000/patients/${formValues.visits_patient_id}`}>
                   {patientData.patient_name}
@@ -156,17 +189,21 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
                 value={formValues.visits_patient_id || ''}
                 onChange={handleChange}
                 disabled={initialValues.visits_patient_id}
+                required="true"
+                onBlur={handleFocusPatient}
+                focused={focusedPatient.toString()}
               >
-                <option value="">Select Patient</option>
+                <option value="">Wybierz pacjenta</option>
                 {sortedPatients.map((patient) => (
                   <option key={patient.id} value={patient.id}>
                     {patient.patient_name} • {patient.patients_owner.owner_first_name} {patient.patients_owner.owner_last_name}
                   </option>
                 ))}
               </select>}
+              <span className='span-visitform'>Należy wybrać pacjenta</span>
             </label>
             <label>
-              Waga pacjenta (kg):
+              Waga pacjenta (kg)
               <input
                 className='input-visitform'
                 type="number"
@@ -179,7 +216,7 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
             </label>
 
             <label>
-              Wzrost pacjenta (cm):
+              Wzrost pacjenta (cm)
               <input
                 className='input-visitform'
                 type="number"
@@ -196,12 +233,15 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
             <h3>Wizyta</h3>
             <div className="form-section-row-visit">
               <label>
-                Typ wizyty:
+                Typ wizyty (wymagane)
                 <select
                   className='select-visitform'
                   name="visits_visit_type_id"
                   value={formValues.visits_visit_type_id || ''}
                   onChange={handleChange}
+                  required="true"
+                  onBlur={handleFocusType}
+                  focused={focusedType.toString()}
                 >
                   <option value="">-Wybierz typ wizyty-</option>
                   {allTypes.map((type) => (
@@ -210,14 +250,18 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
                     </option>
                   ))}
                 </select>
+                <span className='span-visitform'>Należy wybrać typ wizyty</span>
               </label>
               <label>
-                Podtyp wizyty:
+                Podtyp wizyty (wymagane)
                 <select
                   className='select-visitform'
                   name="visits_visit_subtype_id"
                   value={formValues.visits_visit_subtype_id || ''}
                   onChange={handleChange}
+                  required="true"
+                  onBlur={handleFocusSubtype}
+                  focused={focusedSubtype.toString()}
                 >
                   <option value="">-Wybierz podtyp wizyty-</option>
                   {subtypesForSelectedType.map((subtype) => (
@@ -226,24 +270,29 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
                     </option>
                   ))}
                 </select>
+                <span className='span-visitform'>Należy wybrać podtyp wizyty</span>
               </label>
               <label>
-                Status wizyty:
+                Status wizyty (wymagane)
                 <select
                   className='select-visitform'
                   name="visit_status"
                   value={formValues.visit_status || ''}
                   onChange={handleChange}
+                  required="true"
+                  onBlur={handleFocusStatus}
+                  focused={focusedStatus.toString()}
                 >
                   <option value="">-Wybierz status wizyty-</option>
                   <option value="planned">Zaplanowana</option>
                   <option value="cancelled">Odwołana</option>
                   <option value="complete">Zakończona</option>
                 </select>
+                <span className='span-visitform'>Należy wybrać status wizyty</span>
               </label>
               <div className="form-section-column-visit">
                 <label>
-                  Data i godzina wizyty:
+                  Data i godzina wizyty (wymagane)
                   <div>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DateTimePicker
@@ -261,7 +310,7 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
                   </div>
                 </label>
                 <label>
-                  Czas trwania wizyty:
+                  Czas trwania wizyty (wymagane)
                   <div>
                     <input
                       className='input-visitform-duration'
@@ -269,7 +318,12 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
                       name="visit_duration"
                       value={formValues.visit_duration}
                       onChange={handleChange}
+                      required="true"
+                      onBlur={handleFocusDuration}
+                      focused={focusedDuration.toString()}
+                      pattern='^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$'
                     />
+                    <span className='span-visitform'>Należy wypełnić czas trwania wizyty</span>
                   </div>
                 </label>
               </div>
@@ -281,6 +335,7 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
                 value={formValues.visit_description}
                 onChange={handleChange}
               />
+          {errorMessage &&  <span className='span-visitform-error'>{errorMessage}</span>}
             </div>
           </div>
         </form>
