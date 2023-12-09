@@ -1,15 +1,18 @@
 .ownerPage{
     color: #4aa587;
     margin-top: 30px;
+    margin-right: 50px;
     margin-left: 40px;
-    display: flex;
+    display: block;
     font-size: 18px;
     margin-bottom: 10px;
     height: 57vh;
+    overflow: auto;
 }
 
 .owner-info-page > div{
     margin-bottom: 15px;
+    position: relative;
 }
 
 .owner-label {
@@ -46,3 +49,16 @@
     margin-bottom: 10px;
   }
   
+.deleteOwnerButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #f44336;
+    display: flex;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    align-content: center;
+    border-radius: 8px;
+  }

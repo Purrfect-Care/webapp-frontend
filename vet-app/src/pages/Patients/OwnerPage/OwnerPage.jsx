@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { patientRequest } from "../../../api/patientsRequests.js"; 
+import { deleteOwnerById, allOwnersRequest } from "../../../api/ownerRequests.js";
 import "./OwnerPage.css";
 import EditOwnerForm from "../../EditOwnerForm/EditOwnerForm.jsx";
 import PulseLoader from "react-spinners/PulseLoader";
+import ConfirmationPopup from "../../../components/ConifrmationPopup/ConfirmationPopup";
+
 
 const OwnerPage = () => {
     const [ownerData, setOwnerData] = useState(null);
     const [isEditFormOpen, setIsEditFormOpen] = useState(false);
+    const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+    const [ownerToDelete, setOwnerToDelete] = useState(null);
     const navigate = useNavigate();
     const { id: patientId } = useParams();
     const [loading, setLoading] = useState(true);
@@ -44,6 +49,32 @@ const OwnerPage = () => {
 
         const handleEditButtonClick = () => {
           setIsEditFormOpen(true);
+        };
+
+        const deleteOwner = (ownerId) => {
+          setOwnerToDelete(ownerId);
+          setShowDeleteConfirmation(true);
+        }
+      
+      
+        const confirmDeleteOwner = async () => {
+          try {
+            const ownerId = ownerToDelete;
+            console.log(ownerId);
+      
+            await deleteOwnerById(ownerId);
+            console.log("Owner deleted successfully");
+      
+            navigate(`/calendar`, { replace: true });
+          } catch (error) {
+            console.error('Error deleting owner:', error);
+          } finally {
+            setShowDeleteConfirmation(false)
+          }
+        };
+      
+        const cancelDeleteOwner = () => {
+          setShowDeleteConfirmation(false);
         };
 
         if (loading) {
@@ -91,8 +122,14 @@ const OwnerPage = () => {
         return (
             <>
             <div className="ownerPage">
+
               {ownerData ? (
                 <div className="owner-info-page">
+                  <div>
+                    <button className="deleteOwnerButton" onClick={() => deleteOwner(ownerData.id)}>
+                      Usuń właściciela
+                    </button>
+                  </div>
                   <div>
                     <span className="owner-label">Imię:</span>
                     <span className="owner-value">{ownerData.owner_first_name}</span>
@@ -126,6 +163,16 @@ const OwnerPage = () => {
                 ) : (
                 <p>Ładowanie...</p>
               )}
+
+            {showDeleteConfirmation && (
+                    <ConfirmationPopup
+                      message="Czy na pewno chcesz usunąć opiekuna, pacjentów z nim związanych i ich dane? (wizyty, choroby, recepty)"
+                      onConfirm={confirmDeleteOwner}
+                      onCancel={cancelDeleteOwner}
+                      onYes="Tak"
+                      onNo="Nie"
+                    />
+            )}
             </div>
             <EditOwnerForm
               isOpen={isEditFormOpen}
