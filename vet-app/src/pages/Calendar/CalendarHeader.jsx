@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import * as BiIcons from "react-icons/bi";
 import GlobalContext from "../../context/GlobalContext";
 import dayjs from "dayjs";
+import 'dayjs/locale/pl'; // Import the Polish locale
 
 const CalendarHeader = () => {
   const { monthIndex, setMonthIndex } = useContext(GlobalContext);
@@ -14,9 +15,11 @@ const CalendarHeader = () => {
     setMonthIndex(monthIndex + 1);
   }
 
-  function handleReset(){
+  function handleReset() {
     setMonthIndex(monthIndex === dayjs().month() ? monthIndex + Math.random() : dayjs().month());
   }
+
+  dayjs.locale('pl');
 
   return (
     <header className="px-5 py-3 flex items-center bg-emerald-600/25 bg-opacity-20 rounded-md mb-3">
