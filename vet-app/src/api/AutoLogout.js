@@ -23,7 +23,7 @@ const AutoLogout = () => {
                     localStorage.removeItem('authToken');
                     localStorage.removeItem('authTokenExpiration');
                     localStorage.removeItem('employeeData');
-                    // window.location.href = '/login'; 
+                    window.location.href = '/login'; 
                 }
             }
         };
