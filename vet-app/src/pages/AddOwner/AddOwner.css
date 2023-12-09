@@ -6,14 +6,13 @@
 }
 
 .owner-form{
-    height: 100vh;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    margin: auto;
-    width: 80vh;
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  width: 80vh;
+  margin-top: 40px;
 }
 
 .owner-form h3{
@@ -31,9 +30,9 @@
   padding: 10px;
   border: 1px solid #ccc;
   margin-bottom: 3vh;
-  margin-left: 17.5vh;
-  height: 8vh;
-  width: 60vh;
+  margin-left: 15vh;
+  height: 60px;
+  width: 70vh;
   justify-content: center;
   align-content: center;
 }

@@ -6,14 +6,13 @@
 }
 
 .patient-form{
-    height: 110vh;
-    margin-top: 20vh;
+    height: 80vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     margin: auto;
     width: 80vh;
+    margin-top: 40px;
 }
 
 .patient-form h3{
@@ -32,7 +31,7 @@
   border: 1px solid #ccc;
   margin-bottom: 3vh;
   margin-left: 15vh;
-  height: 8vh;
+  height: 60px;
   width: 70vh;
   justify-content: center;
   align-content: center;
@@ -41,13 +40,12 @@
 .patient-form-date {
   display: flex;  
   margin-left: 15vh;
-
-    border-radius: 10px;
-    padding: 10px;
-    justify-content: center;
-    align-content: center;
-    height: 12vh;
-    width: 70vh;
+  border-radius: 10px;
+  padding: 10px;
+  justify-content: center;
+  align-content: center;
+  height: 80px;
+  width: 70vh;
 }
 
 
@@ -61,20 +59,13 @@
     padding: 10px;
     border: 1px solid #ccc;
     margin-bottom: 25px;
-    height: 8vh;
+    height: 60px;
     width: 50vh;
     background-color: #ffffff;
     justify-content: center;
     align-content: center;
 }
 
-#formPatient label{
-    color: #000000;
-    font-size: 1.2em;
-    margin-bottom: 10px;
-    border-bottom: 1px solid #ccc; /* Add underline to the section header */
-    padding-bottom: 5px; /* Adjust as needed */
-}
 
 .submit-button-add-patient {
   background-color: #047857; /* Replace with your desired background color */

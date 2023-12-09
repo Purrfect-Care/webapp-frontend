@@ -130,7 +130,7 @@ const PatientForm = ({ onClose }) => {
       <div className="add-patient">
       <Sidebar />
         <div className='patient-form'>
-          <h2 style={{marginBottom: '3vh', marginTop: '24vh', marginLeft: '15vh'}}>Formularz dodawania pacjenta</h2>
+          <h2 style={{marginBottom: '3vh', marginLeft: '15vh'}}>Formularz dodawania pacjenta</h2>
           <form onSubmit={handleSubmit}
             encType="multipart/form-data">
             <input
