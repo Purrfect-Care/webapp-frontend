@@ -16,6 +16,8 @@ import AddMedications from "./pages/AddPage/AddMedications/AddMedications";
 import AddVisitType from "./pages/AddVisitType/AddVisitType";
 import AddVisitSubtype from "./pages/AddVisitSubtype/AddVisitSubtype";
 import PatientForm from "./pages/PatientForm/PatientForm";
+import AddOwner from "./pages/AddOwner/AddOwner";
+
 const isAuthenticated = () => {
   // Implement your logic to check if the user is authenticated
   // For example, check if the authentication token exists in local storage
@@ -154,6 +156,12 @@ function App() {
             path="/add-patient"
             element={
               <CustomRoute element={<PatientForm />} path="/add-patient" />
+            }
+          />
+          <Route
+            path="/add-owner"
+            element={
+              <CustomRoute element={<AddOwner />} path="/add-owner" />
             }
           />
         </Routes>
