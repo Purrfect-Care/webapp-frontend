@@ -24,6 +24,8 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
   const [allMedications, setAllMedications] = useState([]);
   const [patientData, setPatient] = useState([]);
   const [isFormOpen, setIsFormOpen] = useState(true);
+  const [focusedPatient, setFocusedPatient] = useState(false);
+  const [focusedMecidation, setFocusedMedication] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -112,89 +114,108 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
     onClose();
   };
 
+  const handleFocusPatient = (e) => {
+    setFocusedPatient(true);
+  }
+  const handleFocusMedication = (e) => {
+    setFocusedMedication(true);
+  }
+
   return (
     <div>
-       <div className={`overlay-prescription-form ${isFormOpen ? 'active' : ''}`} onClick={handleClose}></div>
-    <div className="popup-form-pres">
-      <h2>Formularz recepty</h2>
-      <form onSubmit={handleSubmit} className="form-sections-prescription-form">
-        <div className='form-section-patient-prescription'>
-        <label className='prescription-patient-label'>
-          Pacjent
-        </label>
-        <p className="patient-name-prescription">{patientData.patient_name}</p>
-          {!initialPrescriptionValues.prescriptions_patient_id && (
-            <select
-              className='select-prescriptionform'
-              name="prescriptions_patient_id"
-              value={formValues.prescriptions_patient_id}
-              onChange={(e) => setFormValues((prevFormValues) => ({ ...prevFormValues, prescriptions_patient_id: e.target.value }))}
-            >
-              <option value="">Wybierz pacjenta</option>
-              {allPatients.map((patient) => (
-                <option key={patient.id} value={patient.id}>
-                  {patient.patient_name} • {patient.patients_owner.owner_first_name} {patient.patients_owner.owner_last_name}
-                </option>
-              ))}
-            </select>
-          )}
+      <div className={`overlay-prescription-form ${isFormOpen ? 'active' : ''}`} onClick={handleClose}></div>
+      <div className="popup-form-pres">
+        <h2>Formularz recepty</h2>
+        <form onSubmit={handleSubmit} className="form-sections-prescription-form">
+          <div className='form-section-patient-prescription'>
+            <label className='prescription-patient-label'>
+              Pacjent
+            </label>
+            <div className="input-wrapper">
+              <p className="patient-name-prescription">{patientData.patient_name}</p>
+              {!initialPrescriptionValues.prescriptions_patient_id && (
+                <>
+                  <select
+                    className='select-prescriptionform'
+                    name="prescriptions_patient_id"
+                    value={formValues.prescriptions_patient_id}
+                    onChange={(e) => setFormValues((prevFormValues) => ({ ...prevFormValues, prescriptions_patient_id: e.target.value }))}
+                    required="true"
+                    onBlur={handleFocusPatient}
+                    focused={focusedPatient.toString()}
+                  >
+                    <option value="">Wybierz pacjenta</option>
+                    {allPatients.map((patient) => (
+                      <option key={patient.id} value={patient.id}>
+                        {patient.patient_name} • {patient.patients_owner.owner_first_name} {patient.patients_owner.owner_last_name}
+                      </option>
+                    ))}
+                  </select>
+                  <span className='span-prescriptionform'>Należy wybrać pacjenta</span>
+                </>
+              )}
+            </div>
 
-        </div>
-        <div className='form-section-medication'>
-        {formValues.prescribed_medications.map((medication, index) => (
-          <div key={index} className='medication-space'>
-            <label className='medication-name-pres'>
-              Lek:
-              <select
-                className='select-prescriptionform'
-                name="medication_id"
-                value={medication.medication_id}
-                onChange={(e) => handleChange(e, index)}
-              >
-                <option value="">Wybierz lek</option>
-                {allMedications.map((med) => (
-                  <option key={med.id} value={med.id}>
-                    {med.medication_name}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className='medication-amount-pres'>
-              Ilość:
-              <input
-                className='input-prescriptionform'
-                type="number"
-                name="medication_amount"
-                value={medication.medication_amount}
-                onChange={(e) => handleChange(e, index)}
-                min="1"
-                max="5"
-              />
-            </label>
-            {index > 0 && (
-              <button type="button" onClick={() => handleRemoveMedication(index)} className='delete-medication'>
-                <FaTrash />
-              </button>
-            )}
           </div>
-        ))}
+          <div className='form-section-medication'>
+            {formValues.prescribed_medications.map((medication, index) => (
+              <div key={index} className='medication-space'>
+                <label className='medication-name-pres'>
+                  Lek:
+                  <select
+                    className='select-prescriptionform'
+                    name="medication_id"
+                    value={medication.medication_id}
+                    onChange={(e) => handleChange(e, index)}
+                    required="true"
+                    onBlur={handleFocusMedication}
+                    focused={focusedMecidation.toString()}
+                  >
+                    <option value="">Wybierz lek</option>
+                    {allMedications.map((med) => (
+                      <option key={med.id} value={med.id}>
+                        {med.medication_name}
+                      </option>
+                    ))}
+                  </select>
+                  <span className='span-prescriptionform'>Należy wybrać lek</span>
+                </label>
+                <label className='medication-amount-pres'>
+                  Ilość:
+                  <input
+                    className='input-prescriptionform'
+                    type="number"
+                    name="medication_amount"
+                    value={medication.medication_amount}
+                    onChange={(e) => handleChange(e, index)}
+                    min="1"
+                    max="5"
+                  />
+                </label>
+                {index > 0 && (
+                  <button type="button" onClick={() => handleRemoveMedication(index)} className='delete-medication'>
+                    <FaTrash />
+                  </button>
+                )}
+              </div>
+            ))}
 
-        </div>
+          </div>
 
-        <button type="button" onClick={handleAddMedication} className='add-medication'>
-          <FaPlus />
-        </button>
-
-        <div className="button-container-prescription-form">
-          <button className="form-button-prescription-form" type="submit">
-            Zatwierdź
+          <button type="button" onClick={handleAddMedication} className='add-medication'>
+            <FaPlus />
           </button>
-          <button className="form-button-prescription-form" onClick={onClose}>
-            Zamknij
-          </button>
-        </div>
-      </form>
-    </div>
+
+          <div className="button-container-prescription-form">
+            <button className="form-button-prescription-form" type="submit">
+              Zatwierdź
+            </button>
+            <button className="form-button-prescription-form" onClick={onClose}>
+              Zamknij
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
