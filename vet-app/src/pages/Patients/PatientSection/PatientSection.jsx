@@ -16,7 +16,6 @@ import ConfirmationPopup from "../../../components/ConifrmationPopup/Confirmatio
 const PatientSection = ({ patientId}) => {
   const [patient, setPatientData] = useState(null);
   const [activeComponent, setActiveComponent] = useState(null);
-  //const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [patientToDelete, setPatientToDelete] = useState(null);
   const navigate = useNavigate();
@@ -50,23 +49,15 @@ const PatientSection = ({ patientId}) => {
       await deletePatientById(patientId);
       console.log("Patient deleted successfully");
 
-      //setIsDeleting(true);
-      //setShowDeleteConfirmation(true);
-      // Replace the following line with your actual API request or deletion logic
-      
-      // After successful deletion, you may want to redirect or update the UI
-      // For now, let's reload the page for demonstration purposes
       navigate(`/calendar`, { replace: true });
     } catch (error) {
       console.error('Error deleting patient:', error);
     } finally {
-      //setIsDeleting(false);
       setShowDeleteConfirmation(false)
     }
   };
 
   const cancelDeletePatient = () => {
-    // Close the confirmation popup
     setShowDeleteConfirmation(false);
   };
 
@@ -110,7 +101,6 @@ const PatientSection = ({ patientId}) => {
             src={patient.patient_photo}
             alt={`Photo of ${patient.patient_name}`}
             className="patient-photo-patient-section"
-            //style={{ width: '150px', height: '150px' }} // Adjust the width and height as needed
           />
           </div>
           <div className="textInfo">
