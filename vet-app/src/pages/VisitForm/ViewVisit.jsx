@@ -105,9 +105,7 @@ const ViewVisit = ({ onClose, initialValues, setEdit }) => {
             <label>
               Imię i nazwisko:
               <div className='name-static'>
-                <a href={`http://localhost:3000/employees/${employee.id}`}>
-                  {`${employee.employee_first_name || ''} ${employee.employee_last_name || ''}`}
-                </a>
+              <p className='employee-name'>{`${employee.employee_first_name || ''} ${employee.employee_last_name || ''}`}</p>
               </div>
             </label>
             {/* Add other doctor-related fields here */}
