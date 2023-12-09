@@ -74,3 +74,23 @@
     height: 20vh; 
     margin-right: 20px;
 }
+
+.infoContainer {
+    position: relative;
+    margin-top:  3vh;
+    margin-right: 15vh;
+  }
+  
+  .deletePatientButton {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: #f44336;
+    display: flex;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+    align-content: center;
+    border-radius: 8px;
+  }

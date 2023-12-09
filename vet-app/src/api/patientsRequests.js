@@ -67,3 +67,26 @@ export async function createPatientRequest(formData) {
     throw error;
   }
 }
+
+export async function deletePatientById(patientId) {
+  const endpoint = `http://localhost:8000/api/patients/${patientId}/`;
+
+  try {
+    const response = await fetch(endpoint, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      console.log("Patient deleted successfully");
+      return true;
+    } else {
+      throw new Error(`Response ${response.status}: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error("Error deleting patient:", error);
+    throw error;
+  }
+}
