@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { patientRequest } from "../../../api/patientsRequests.js"; 
-import { deleteOwnerById, allOwnersRequest } from "../../../api/ownerRequests.js";
+import { deleteOwnerById, ownerByIdRequest } from "../../../api/ownerRequests.js";
 import "./OwnerPage.css";
 import EditOwnerForm from "../../EditOwnerForm/EditOwnerForm.jsx";
 import PulseLoader from "react-spinners/PulseLoader";
@@ -24,18 +24,8 @@ const OwnerPage = () => {
             const patientData = await patientRequest(patientId);
     
             const ownerId = patientData.patients_owner.id;
-            const ownerEndpoint = `http://127.0.0.1:8000/api/owners/${ownerId}`;
-            const ownerResponse = await fetch(ownerEndpoint);
-
-            if (ownerResponse.ok) {
-                const ownerData = await ownerResponse.json();
-                setOwnerData(ownerData);
-              } else {
-                console.error(
-                  `Error fetching owner data: ${ownerResponse.status} - ${await ownerResponse.text()}`
-                );
-                navigate("/error"); 
-              }
+            const ownerData = await ownerByIdRequest(ownerId);
+            setOwnerData(ownerData);
             } catch (error) {
               console.error(`Error fetching patient data: ${error.message}`);
               navigate("/error"); 
@@ -100,24 +90,19 @@ const OwnerPage = () => {
 
         const fetchData = async () => {
           try {
+            setLoading(true);
             const patientData = await patientRequest(patientId);
+    
             const ownerId = patientData.patients_owner.id;
-            const ownerEndpoint = `http://127.0.0.1:8000/api/owners/${ownerId}`;
-            const ownerResponse = await fetch(ownerEndpoint);
-      
-            if (ownerResponse.ok) {
-              const ownerData = await ownerResponse.json();
-              setOwnerData(ownerData);
-            } else {
-              console.error(`Error fetching owner data: ${ownerResponse.status} - ${await ownerResponse.text()}`);
-              navigate("/error");
+            const ownerData = await ownerByIdRequest(ownerId);
+            setOwnerData(ownerData);
+            } catch (error) {
+              console.error(`Error fetching patient data: ${error.message}`);
+              navigate("/error"); 
+            } finally {
+              setLoading(false);
             }
-          } catch (error) {
-            console.error(`Error fetching patient data: ${error.message}`);
-            navigate("/error");
-          }
-        };
-      
+          };
         
         return (
             <>
