@@ -70,6 +70,7 @@
     box-sizing: border-box;
     margin-top: 5px;
     margin-bottom: 5px;
+    border-radius: 10px;
 }
 
 .popup-form-illness-history select[name="illness_history_patient_id"] {
