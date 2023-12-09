@@ -125,7 +125,7 @@ const IllnessHistoryPage = ({ patient }) => {
   }
 
   return (
-    <div>
+    <div className="illness-history-table">
       <div className="column-bar-illness-history">
         <span
           className="column-illness_history_name"

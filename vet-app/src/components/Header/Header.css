@@ -1,11 +1,18 @@
-.header {
-    display: flex;
-    align-items:center;
-    justify-content: center;
+.header-main {
     background-color: #ffffff;
     padding: 10px 20px;
     width: 100vw;
     user-select:  none;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+}
+
+.header {
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    width: 20vw;
 }
 
 .logo-prescription {

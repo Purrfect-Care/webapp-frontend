@@ -51,7 +51,15 @@ const Day = ({ day, rowIdx }) => {
             <div
               key={idx}
               onClick={() => setSelectedEvent(evt)}
-              className={`bg-${evt.visit_status}-200 p-1 mr-3 text-black text-sm rounded mb-1 truncate`}
+              className={`p-1 mr-3 text-black text-sm rounded mb-1 truncate ${
+                evt.visit_status === "planned"
+                  ? "bg-yellow-200"
+                  : evt.visit_status === "complete"
+                  ? "bg-green-200"
+                  : evt.visit_status === "cancelled"
+                  ? "bg-red-200"
+                  : "" 
+              }`}
             >
               {evt.visits_visit_type.visit_type_name}
             </div>

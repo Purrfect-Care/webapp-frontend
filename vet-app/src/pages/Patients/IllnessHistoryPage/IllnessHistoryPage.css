@@ -146,3 +146,7 @@ body {
 .illness_history_form:hover {
   background-color: #2f6d58;
 }
+
+.illness-history-table {
+  margin-top: 20px;
+}
