@@ -103,6 +103,8 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
         [name]: value,
         visits_visit_subtype_id: "",
       }));
+    } else if (name === "visit_duration" && value.length <= 6) {
+      setFormValues({ ...formValues, [name]: value.replace(/[^0-9]/g, "").replace(/(\d{2})(\d{0,2})/, "$1:$2") });
     } else {
       setFormValues((prevFormValues) => ({
         ...prevFormValues,
@@ -322,8 +324,9 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
                       onBlur={handleFocusDuration}
                       focused={focusedDuration.toString()}
                       pattern='^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$'
+                      maxLength="5"
                     />
-                    <span className='span-visitform'>Należy wypełnić czas trwania wizyty</span>
+                    <span className='span-visitform'>Należy wypełnić czas trwania wizyty (poprawny format to HH:mm)</span>
                   </div>
                 </label>
               </div>
