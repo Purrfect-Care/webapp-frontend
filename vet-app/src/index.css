@@ -2,3 +2,6 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+.black-border {
+    border-color: black;
+  }

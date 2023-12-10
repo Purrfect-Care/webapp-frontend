@@ -52,11 +52,11 @@ const Day = ({ day, rowIdx }) => {
               key={idx}
               onClick={() => setSelectedEvent(evt)}
               className={`p-1 mr-3 text-black text-sm rounded mb-1 truncate ${
-                evt.visit_status === "planned"
+                evt.visit_status === "Zaplanowana"
                   ? "bg-yellow-200"
-                  : evt.visit_status === "complete"
+                  : evt.visit_status === "Zakończona"
                   ? "bg-green-200"
-                  : evt.visit_status === "cancelled"
+                  : evt.visit_status === "Odwołana"
                   ? "bg-red-200"
                   : "" 
               }`}

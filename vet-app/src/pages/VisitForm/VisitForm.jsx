@@ -286,9 +286,9 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
                   focused={focusedStatus.toString()}
                 >
                   <option value="">-Wybierz status wizyty-</option>
-                  <option value="planned">Zaplanowana</option>
-                  <option value="cancelled">Odwołana</option>
-                  <option value="complete">Zakończona</option>
+                  <option value="Zaplanowana">Zaplanowana</option>
+                  <option value="Odwołana">Odwołana</option>
+                  <option value="Zakończona">Zakończona</option>
                 </select>
                 <span className='span-visitform'>Należy wybrać status wizyty</span>
               </label>
