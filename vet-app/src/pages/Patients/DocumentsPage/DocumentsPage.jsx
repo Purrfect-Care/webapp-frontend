@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from "react";
 import DocsCard from "./DocsCard";
 import ConfirmationPopup from "../../../components/ConifrmationPopup/ConfirmationPopup";
-import {prescriptionsByPatientIdRequest, deletePrescriptionRequest} from "../../../api/prescriptionRequests";
+import {prescriptionsByPatientIdRequest, deletePrescriptionRequest, addPrescribedMedicationRequest, addPrescriptionRequest } from "../../../api/prescriptionRequests";
 import "./DocumentsPage.css";
 import PulseLoader from "react-spinners/PulseLoader";
+import PrescriptionForm from "../../../PrescriptionForm/PrescriptionForm";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
 
 const DocumentsPage = ({ patient }) => {
   const [prescriptions, setPrescriptions] = useState([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [prescriptionToDelete, setPrescriptionToDelete] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showPrescriptionForm, setShowPrescriptionForm] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  const [snackbarMessage, setSnackbarMessage] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,8 +49,10 @@ const DocumentsPage = ({ patient }) => {
           (prescription) => prescription.id !== prescriptionToDelete
         )
       );
+      openSnackbar('success', 'Recepta usunięta pomyślnie!');
     } catch (error) {
       console.error("Error deleting prescription: " + error);
+      openSnackbar('error', 'Błąd podczas usuwania recepty.');
     } finally {
       setShowConfirmation(false);
     }
@@ -51,13 +61,56 @@ const DocumentsPage = ({ patient }) => {
   const cancelDelete = () => {
     setShowConfirmation(false);
   };
-  const handlePrescriptionSubmit = (prescriptionData) => {
-    // Handle the submission of prescription data here
-    console.log("Prescription data submitted:", prescriptionData);
+  const handleCreatePrescription = () => {
+    setShowPrescriptionForm(true);
+  };
+
+  const handleClosePrescriptionForm = () => {
+    setShowPrescriptionForm(false);
+  };
+
+  const handleSubmitPrescriptionForm = async (formValues) => {
+    try {
+      const { prescription_date, prescriptions_patient_id } = formValues;
+      const prescriptions_employee_id = JSON.parse(localStorage.getItem('employeeData')).id.toString();
+
+      const addedPrescription = await addPrescriptionRequest({
+        prescription_date,
+        prescriptions_patient_id,
+        prescriptions_employee_id,
+      });
+
+      const prescribedMedicationsData = formValues.prescribed_medications.map((medication) => ({
+        medication_amount: medication.medication_amount,
+        prescribed_medications_prescription_id: addedPrescription.id,
+        prescribed_medications_medication_id: medication.medication_id,
+      }));
+
+      await Promise.all(prescribedMedicationsData.map(addPrescribedMedicationRequest));
+
+      console.log('Prescription and medications added successfully!');
+      openSnackbar('success', 'Recepta przypisana pomyślnie!');
+      const updatedPrescriptions = await prescriptionsByPatientIdRequest(patient.id);
+      setPrescriptions(updatedPrescriptions);
+      handleClosePrescriptionForm();
+      // Optionally, you can do something after successful submission
+    } catch (error) {
+      console.error('Error submitting prescription:', error.message);
+      openSnackbar('error', 'Błąd podczas przypisywania recepty.');
+      // Handle error as needed
+    }
+  };
+
+  const openSnackbar = (severity, message) => {
+    setSnackbarSeverity(severity);
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
   };
 
   return (
+    <>
     <div className="documentsPage">
+      <button onClick={handleCreatePrescription} className="create_prescription_button">Utwórz Receptę</button>
       {loading && (
         <div className="no-data-msg">
         <PulseLoader
@@ -109,7 +162,34 @@ const DocumentsPage = ({ patient }) => {
           onNo="Nie"
         />
       )}
+      {showPrescriptionForm && (
+        <>
+          <PrescriptionForm
+            onClose={handleClosePrescriptionForm}
+            initialPrescriptionValues={{
+              prescriptions_patient_id: patient.id
+            }}
+            onSubmit={handleSubmitPrescriptionForm}
+          />
+        </>
+      )}
     </div>
+        <Snackbar
+        open={snackbarOpen}
+        anchorOrigin={{ vertical:"top", horizontal:"right" }}
+        autoHideDuration={6000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={() => setSnackbarOpen(false)}
+          severity={snackbarSeverity}
+        >
+          {snackbarMessage}
+        </MuiAlert>
+      </Snackbar>
+      </>
   );
 };
 
