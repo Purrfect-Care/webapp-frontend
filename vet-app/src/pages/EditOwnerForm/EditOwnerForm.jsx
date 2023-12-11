@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { ownerByIdRequest, editOwnerRequest } from '../../api/ownerRequests';
 import './EditOwnerForm.css';
 
 const EditOwnerForm = ({ isOpen, ownerId, existingData, onClose}) => {
@@ -25,8 +26,19 @@ const EditOwnerForm = ({ isOpen, ownerId, existingData, onClose}) => {
   const [errorMessage, setErrorMessage] = useState('');
  
   useEffect(() => {
-    setEditedData(existingData || initialData);
-  }, [existingData, initialData]);
+    const fetchData = async () => {
+      try {
+        const data = await ownerByIdRequest(ownerId);
+        setEditedData(data);
+      } catch (error) {
+        console.error('Error fetching owner data:', error.message);
+      }
+    };
+
+    if (isOpen && ownerId) {
+      fetchData();
+    }
+  }, [isOpen, ownerId]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -47,33 +59,13 @@ const handleSubmit = async (e) => {
   e.preventDefault();
   const requiredFields = ['owner_first_name', 'owner_last_name', 'owner_address', 'owner_postcode', 'owner_city', 'owner_phone_number', 'owner_email'];
   const isEmptyField = requiredFields.some(field => !editedData[field]);
-  
-
   try {
-    if (isEmptyField) {
+  if (isEmptyField) {
       // Display an error message or take appropriate action
       setErrorMessage('Wypełnij wszystkie wymagane pola.');
       return;
     }
-    console.log(editedData);
-    const response = await fetch(`http://127.0.0.1:8000/api/owners/${ownerId}/`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(editedData),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Failed to update owner data: ${await response.text()}`);
-    }
-
-    if (response.ok) {
-      console.log('Owner data updated successfully');
-      window.location.reload();
-    } else {
-      console.error(`Failed to update owner data: ${await response.text()}`);
-    }
+    const updatedOwnerData = await editOwnerRequest(ownerId, editedData);
   } catch (error) {
     console.error('Error updating owner data:', error.message);
   }

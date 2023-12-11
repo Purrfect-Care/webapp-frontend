@@ -73,3 +73,26 @@ export async function allOwnersRequest() {
       throw error;
     }
   }
+
+
+  export async function editOwnerRequest(ownerId, formData) {
+    try {
+      const response = await fetch(`http://127.0.0.1:8000/api/owners/${ownerId}/`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to update owner data: ${await response.text()}`);
+      }
+  
+      console.log('Owner data updated successfully');
+      return response.json(); // Assuming the response contains updated owner data
+    } catch (error) {
+      console.error('Error updating owner data:', error.message);
+      throw error; // Re-throw the error for the caller to handle
+    }
+  }
