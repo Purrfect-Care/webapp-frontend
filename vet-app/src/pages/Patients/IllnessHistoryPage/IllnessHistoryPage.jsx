@@ -225,6 +225,7 @@ const IllnessHistoryPage = ({ patient }) => {
           onClose={handleCloseIllnessHistoryForm}
           initialValues={{
             illness_history_patient_id: patient.id,
+            illness_onset_date: dayjs().format('YYYY-MM-DD')
           }}
           onSubmit={submitIllnessForm}
         />

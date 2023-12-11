@@ -29,7 +29,8 @@
   border-radius: 10px;
   padding: 10px;
   border: 1px solid #ccc;
-  margin-bottom: 3vh;
+  margin-bottom: 1vh;
+  margin-top: 1vh;
   margin-left: 15vh;
   height: 60px;
   width: 70vh;
@@ -89,4 +90,29 @@
   margin-top: auto;
   display: flex;
   justify-content: center;
+}
+
+.input-patientform:invalid + .span-patientform,
+.input-patientform:placeholder-shown + .span-patientform {
+  display: block;
+  margin-left: 15vh;
+}
+
+.span-patientform {
+  font-size: 12px;
+  padding: 3px;
+  color: red;
+  display: none;
+  margin-left: 15vh;
+}
+.span-patientform-error{
+  font-size: 15px;
+  padding: 3px;
+  color: red;
+  margin-left: 15vh;
+}
+
+.select-patientform:invalid[focused="true"] ~ .span-patientform{
+  display: block;
+  margin-left: 15vh;
 }

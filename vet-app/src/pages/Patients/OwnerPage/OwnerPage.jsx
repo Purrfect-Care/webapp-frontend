@@ -159,11 +159,12 @@ const OwnerPage = () => {
                     />
             )}
             </div>
-            <EditOwnerForm
+            {isEditFormOpen && (<EditOwnerForm
               isOpen={isEditFormOpen}
               ownerId={ownerData?.id}
               existingData={ownerData}
-              onClose={handleCloseEditForm} />          
+              onClose={handleCloseEditForm} />
+            )}          
           </>          
         );
       };
