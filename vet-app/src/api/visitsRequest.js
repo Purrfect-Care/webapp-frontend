@@ -111,4 +111,22 @@ export async function createVisitRequest(data) {
       throw new Error(`Error in visitsRequest: ${error.message}`);
     }
   }
+
+
+  export async function visitsByEmployeeClinicIdRequest(clinicId) {
+    const url = `http://localhost:8000/api/visits/?clinic_id=${clinicId}`;
+    
+    try {
+      const response = await fetch(url);
+  
+      if (!response.ok) {
+        throw new Error(`Error fetching visits: ${response.statusText}`);
+      }
+  
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      throw new Error(`Error in visitsRequest: ${error.message}`);
+    }
+  }
   
