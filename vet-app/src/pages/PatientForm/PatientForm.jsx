@@ -71,7 +71,7 @@ const PatientForm = ({ onClose }) => {
     const { name, value } = e.target;
     if (name === "patients_species_id") {
       const selectedSpeciesId = parseInt(value);
-      const breedsForSpecies = breeds.filter(breed => breed.breeds_species.id === selectedSpeciesId);
+      const breedsForSpecies = breeds.filter(breed => breed.breeds_species_id === selectedSpeciesId);
       setFilteredBreeds(breedsForSpecies);
       setFormValues((prevFormValues) => ({
         ...prevFormValues,

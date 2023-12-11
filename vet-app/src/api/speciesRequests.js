@@ -15,3 +15,26 @@ export async function allSpeciesRequest() {
     );
   }
   
+  const BASE_URL = "http://localhost:8000/api";
+
+export const addSpeciesRequest = async (species) => {
+  try {
+    const response = await fetch(`${BASE_URL}/species/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(species),
+    });
+    console.log(species);
+
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error("Failed to add species");
+    }
+  } catch (error) {
+    
+    throw new Error(`Error: ${error.message}`);
+  }
+};

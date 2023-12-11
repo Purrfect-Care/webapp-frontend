@@ -15,3 +15,24 @@ export async function allBreedsRequest() {
     );
   }
   
+  export const addBreedRequest = async (breed) => {
+    try {
+      const response = await fetch("http://localhost:8000/api/breeds/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(breed),
+      });
+      console.log(breed);
+  
+      if (response.ok) {
+        return response.json();
+      } else {
+        throw new Error("Failed to add breed");
+      }
+    } catch (error) {
+      
+      throw new Error(`Error: ${error.message}`);
+    }
+  };

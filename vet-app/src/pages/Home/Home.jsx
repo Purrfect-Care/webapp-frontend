@@ -22,7 +22,7 @@ const Home = () => {
 
   return (
     <div className="home">
-      <h2 className="welcome">Welcome to</h2>
+      <h2 className="welcome">Witamy w</h2>
       <svg
       id="logo"
         width="838"

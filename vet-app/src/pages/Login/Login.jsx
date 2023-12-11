@@ -3,7 +3,7 @@ import Header from "../../components/Header/Header";
 import { useNavigate } from "react-router-dom";
 
 
-const Login = () => {
+const Login = ( {isAdministrator} ) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -65,10 +65,6 @@ const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <span className="flex flex-between w-96 items-center">
-          <span className=" flex justify-start whitespace-nowrap text-sm text-emerald-950">
-            <h5>Nie masz konta?</h5>
-            <a href="http://localhost:3000/sign-in" className="ml-1 font-semibold">Zarejestruj się.</a>
-          </span>
           <footer className="flex justify-end w-96">
             <button
               type="submit"

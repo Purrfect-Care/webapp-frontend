@@ -1,12 +1,10 @@
 .addClinic {
-  background-color: #4aa587;
   height: 100vh;
   overflow: hidden;
-  border: 1px solid #080707;
 }
 
 #formClinic {
-  height: 80vh;
+  height: 60vh;
   margin-top: 20px;
   display: flex;
   flex-direction: column;

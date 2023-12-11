@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Sidebar from "../../../components/Sidebar/Sidebar";
-import { addVisitSubtypeRequest } from "../../../api/visitSubtypeRequest";
-import { visitTypeRequest } from "../../../api/visitTypeRequest";
+import Sidebar from "../../components/Sidebar/Sidebar";
+import { addVisitSubtypeRequest } from "../../api/visitSubtypeRequest";
+import { visitTypeRequest } from "../../api/visitTypeRequest";
 
 const AddVisitSubtype = () => {
   const [formValues, setFormValues] = useState({
