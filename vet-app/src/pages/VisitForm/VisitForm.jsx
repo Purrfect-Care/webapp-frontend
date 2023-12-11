@@ -136,7 +136,6 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
     await onSubmit(formValues);
     console.log(formValues);
     onClose();
-    window.location.reload();
   };
   
 

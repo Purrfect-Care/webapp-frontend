@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { visitsByPatientIdRequest, updateVisitRequest, deleteVisitRequest } from '../../../api/visitsRequest';
+import { visitsByPatientIdRequest, updateVisitRequest, deleteVisitRequest, createVisitRequest } from '../../../api/visitsRequest';
 import './VisitsPage.css';
 import VisitForm from '../../../pages/VisitForm/VisitForm';
 import ViewVisit from '../../VisitForm/ViewVisit';
 import ConfirmationPopup from "../../../components/ConifrmationPopup/ConfirmationPopup";
-import { FaPen, FaTrash } from 'react-icons/fa';// Import the VisitForm component
+import { FaPen, FaTrash, FaPlus } from 'react-icons/fa';// Import the VisitForm component
 import PulseLoader from "react-spinners/PulseLoader";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+import dayjs from 'dayjs';
+
 
 const VisitsPage = ({ patient }) => {
   const [visits, setVisits] = useState([]);
@@ -17,6 +21,11 @@ const VisitsPage = ({ patient }) => {
   const [visitToDelete, setVisitToDelete] = useState(null);
   const [editOnly, setEditOnly] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+  
+
 
   useEffect(() => {
     if (patient) {
@@ -79,23 +88,47 @@ const VisitsPage = ({ patient }) => {
 
   const updateForm = async (formData) => {
     try {
-      // Log the form data before sending the request
       console.log('Form Data:', formData);
-  
       if (!selectedVisit || !selectedVisit.id) {
         console.error('No selected visit or visit ID');
         return;
       }
-  
       const visitId = selectedVisit.id;
       await updateVisitRequest(visitId, formData);
       console.log('Form submitted successfully');
+
+      // Fetch updated data after successful submission
+      const updatedData = await visitsByPatientIdRequest(patient.id);
+      setVisits(updatedData);
+
+      openSnackbar('success', 'Wizyta zaktualizowana pomyślnie!');
     } catch (error) {
       console.error('Error submitting form:', error);
+      openSnackbar('error', 'Błąd podczas aktualizacji wizyty.');
     }
-  
-    // Close the form
     closeForm();
+  };
+
+  const submitForm = async (formData) => {
+    try {
+      console.log("Form Data:", formData);
+
+      await createVisitRequest(formData);
+      const updatedData = await visitsByPatientIdRequest(patient.id);
+      setVisits(updatedData);
+
+      openSnackbar('success', 'Wizyta utworzona pomyślnie!');
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      openSnackbar('error', 'Błąd podczas tworzenia wizyty.');
+    }
+
+    closeForm();
+  };
+
+  const handleCreateVisit = () => {
+    setIsFormOpen(true);
+    setIsFormForEdit(true);
   };
   
   const deleteVisit = (visit) => {
@@ -109,17 +142,17 @@ const VisitsPage = ({ patient }) => {
         console.error('No selected visit or visit ID');
         return;
       }
-
       const visitId = visitToDelete.id;
       await deleteVisitRequest(visitId);
       console.log('Visit deleted successfully');
+      openSnackbar('success', 'Usuwanie wizyty zakończone sukcesem!');
       setVisits((prevVisits) =>
         prevVisits.filter((visit) => visit.id !== visitToDelete.id)
       );
     } catch (error) {
       console.error('Error deleting visit:', error);
+      openSnackbar('error', 'Błąd podczas usuwania wizyty.');
     } finally {
-      // Close the form
       closeForm();
       setShowConfirmation(false);
     }
@@ -139,6 +172,13 @@ const VisitsPage = ({ patient }) => {
     );
   }
 
+  const openSnackbar = (severity, message) => {
+    setSnackbarSeverity(severity);
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+  };
+  
+
 
   const sortedVisits = [...visits].sort((a, b) => {
     if (sortBy.column === 'NAZWA') {
@@ -154,6 +194,7 @@ const VisitsPage = ({ patient }) => {
   });
 
   return (
+    <>
     <div className='visits-table'>
       <div className="column-bar">
         <span className="column-visit_name" onClick={() => sortColumn('NAZWA')}>
@@ -168,6 +209,9 @@ const VisitsPage = ({ patient }) => {
         <span className="column-visit_delete">
           USUŃ
         </span>
+            <button onClick={handleCreateVisit} className="column-visit_add">
+          <FaPlus/>
+        </button>
       </div>
       <div className="visit-list">
         {sortedVisits.map((visit) => (
@@ -210,6 +254,22 @@ const VisitsPage = ({ patient }) => {
           editOnly={editOnly}
         />
       )}
+
+      {isFormForEdit && isFormOpen && (
+        <VisitForm
+          onClose={closeForm}
+          onSubmit={submitForm}
+          initialValues={{
+            visits_patient_id: patient.id,
+            visit_datetime: dayjs(),
+            visits_employee_id: JSON.parse(
+              localStorage.getItem("employeeData")
+            ).id.toString(),
+          }}
+          setEdit={setIsFormForEdit}
+          editOnly={editOnly}
+        />
+      )}
       {showConfirmation && (
         <ConfirmationPopup
           message="Czy na pewno chcesz usunąć wizytę?"
@@ -220,6 +280,22 @@ const VisitsPage = ({ patient }) => {
         />
       )}
     </div>
+    <Snackbar
+    open={snackbarOpen}
+    anchorOrigin={{ vertical:"top", horizontal:"right" }}
+    autoHideDuration={6000}
+    onClose={() => setSnackbarOpen(false)}
+  >
+    <MuiAlert
+      elevation={6}
+      variant="filled"
+      onClose={() => setSnackbarOpen(false)}
+      severity={snackbarSeverity}
+    >
+      {snackbarMessage}
+    </MuiAlert>
+  </Snackbar>
+  </>
   );
 };
 
