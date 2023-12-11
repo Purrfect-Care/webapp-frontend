@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import GlobalContext from "./GlobalContext";
 import dayjs from "dayjs";
-import { visitsByEmployeeIdRequest } from "../api/visitsRequest";
+import { visitsByEmployeeIdRequest, visitsByEmployeeClinicIdRequest } from "../api/visitsRequest";
 
 export default function ContextWrapper(props) {
   const [monthIndex, setMonthIndex] = useState(dayjs().month());
@@ -24,8 +24,14 @@ export default function ContextWrapper(props) {
   useEffect(() => {
     async function fetchEvents() {
       try {
-        const eventsData = await visitsByEmployeeIdRequest(JSON.parse(localStorage.getItem('employeeData')).id.toString());
-        setEvents(eventsData);
+        const employeeData = JSON.parse(localStorage.getItem('employeeData'));
+        if(employeeData.employee_role.toString() === 'Administrator'){
+          const eventsData = await visitsByEmployeeClinicIdRequest(employeeData.employees_clinic_id.toString());
+          setEvents(eventsData);
+        } else {
+          const eventsData = await visitsByEmployeeIdRequest(employeeData.id.toString());
+          setEvents(eventsData);
+        }
       } catch (error) {
         console.error("Error fetching events from the server:", error);
       }
