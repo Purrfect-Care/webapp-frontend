@@ -200,8 +200,8 @@ const PatientForm = ({ onClose }) => {
                 focused={focusedGender.toString()}
                 >
                 <option value="">Wybierz płeć</option>
-                <option value="male">Męska</option>
-                <option value="female">Żeńska</option>
+                <option value="samiec">Samiec</option>
+                <option value="samica">Samica</option>
               </select>
               <span className='span-patientform'>Należy wybrać płeć pacjenta</span>
             </label>
