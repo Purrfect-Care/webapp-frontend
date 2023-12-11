@@ -61,6 +61,7 @@ const DocumentsPage = ({ patient }) => {
   const cancelDelete = () => {
     setShowConfirmation(false);
   };
+
   const handleCreatePrescription = () => {
     setShowPrescriptionForm(true);
   };

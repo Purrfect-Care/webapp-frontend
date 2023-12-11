@@ -2,10 +2,10 @@ import React, { useContext } from "react";
 import GlobalContext from "../../context/GlobalContext";
 
 const getCheckboxClass = (label) => {
-  switch (label) {
-    case 'Zaplanowana':
+  switch (label.toLowerCase()) {
+    case 'zaplanowana':
       return 'text-yellow-400';
-    case 'Odwołana':
+    case 'odwołana':
       return 'text-red-400';
     default:
       return 'text-green-400';
@@ -13,10 +13,10 @@ const getCheckboxClass = (label) => {
 };
 
 const getLabelClass = (label) => {
-  switch (label) {
-    case 'Zaplanowana':
+  switch (label.toLowerCase()) {
+    case 'zaplanowana':
       return 'bg-yellow-400';
-    case 'Odwołana':
+    case 'odwołana':
       return 'bg-red-400';
     default:
       return 'bg-green-400';

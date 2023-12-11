@@ -21,7 +21,7 @@ const CalendarPage = () => {
       <React.Fragment>
         {showEventModal && <EventModal />}
         <Sidebar />
-        <div className="h-screen overflow-y-hidden flex flex-col shadow-inner ml-[-5px] mt-[8px] py-[12px] px-[24px] bg-white rounded-lg ">
+        <div className="h-screen flex flex-col shadow-inner ml-[-5px] mt-[8px] py-[12px] px-[24px] bg-white rounded-lg ">
           <CalendarHeader />
           <div className="flex flex-1">
             <CalendarSidebar />
