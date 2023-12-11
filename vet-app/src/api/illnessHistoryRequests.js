@@ -79,3 +79,27 @@ export async function illnessesRequest() {
     "Response ${response.status}: ${response.statusText} - ${await response.text()}"
   );
 }
+
+const BASE_URL = "http://localhost:8000/api";
+
+export const addIllnessRequest = async (illness) => {
+  try {
+    const response = await fetch(`${BASE_URL}/illnesses/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(illness),
+    });
+    console.log(illness);
+
+    if (response.ok) {
+      return response.json();
+    } else {
+      throw new Error("Failed to add illness");
+    }
+  } catch (error) {
+    
+    throw new Error(`Error: ${error.message}`);
+  }
+};

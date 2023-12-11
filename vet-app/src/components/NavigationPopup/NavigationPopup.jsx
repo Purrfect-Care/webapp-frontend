@@ -1,6 +1,7 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import "./NavigationPopup.css";
+import * as AiIcons from "react-icons/ai";
 
 const PopupComponent = () => {
   let navigate = useNavigate();
@@ -30,16 +31,46 @@ const PopupComponent = () => {
     navigate(path);
   };
 
+  const navigateToSpecies = () => {
+    let path = "/add-species";
+    navigate(path);
+  };
+
+  const navigateToBreed = () => {
+    let path = "/add-breed";
+    navigate(path);
+  };
+
+
+  const navigateToSignIn = () => {
+    let path = "/sign-in";
+    navigate(path);
+  };
+
   return (
     <div className="navigationPopup-overlay">
       <div className="popup-content">
-        <p className="navigation-message">Co zamierzasz dodać?</p>
+        <span className="top-popup">
+          <div className="w-8">
+            <Link to="/calendar">
+              <AiIcons.AiOutlineClose className="text-2xl" />
+            </Link>
+          </div>
+          <p className="navigation-message">Co zamierzasz dodać?</p>
+        </span>
         <div className="nav-buttons">
-          <button onClick={navigateToPatient}>Pacjenta</button>
-          <button onClick={navigateToIllness}>Chorobę</button>
-          <button onClick={navigateToMedication}>Lek</button>
-          <button onClick={navigateToVisitType}>Typ wizyty</button>
-          <button onClick={navigateToVisitSubtype}>Podtyp wizyty</button>
+          <div>
+            <button onClick={navigateToPatient}>Pacjenta</button>
+            <button onClick={navigateToSignIn}>Pracownika</button>
+            <button onClick={navigateToIllness}>Chorobę</button>
+            <button onClick={navigateToMedication}>Lek</button>
+          </div>
+          <div>
+            <button onClick={navigateToVisitType}>Typ wizyty</button>
+            <button onClick={navigateToVisitSubtype}>Podtyp wizyty</button>
+            <button onClick={navigateToSpecies}>Gatunek</button>
+            <button onClick={navigateToBreed}>Rasę</button>
+          </div>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import Sidebar from "../../../components/Sidebar/Sidebar";
-import { addVisitTypeRequest } from "../../../api/visitTypeRequest";
+import Sidebar from "../../components/Sidebar/Sidebar";
+import { addVisitTypeRequest } from "../../api/visitTypeRequest";
 
 const AddVisitType = () => {
   const [visitType, setVisitType] = useState({ visit_type_name: "" });
