@@ -15,6 +15,15 @@ const AddOwner = () => {
     owner_email: '',
   });
 
+  const [focusedFirstName, setFocusedFirstName] = useState(false);
+  const [focusedLastName, setFocusedLastName] = useState(false);
+  const [focusedAddress, setFocusedAddress] = useState(false);
+  const [focusedPostcode, setFocusedPostcode] = useState(false);
+  const [focusedCity, setFocusedCity] = useState(false);
+  const [focusedPhoneNumber, setFocusedPhoneNumber] = useState(false);
+  const [focusedEmail, setFocusedEmail] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+ 
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -30,7 +39,14 @@ const AddOwner = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const requiredFields = ['owner_first_name', 'owner_last_name', 'owner_address', 'owner_postcode', 'owner_city', 'owner_phone_number', 'owner_email'];
+    const isEmptyField = requiredFields.some(field => !formValues[field]);
+    
+    if (isEmptyField) {
+      // Display an error message or take appropriate action
+      setErrorMessage('Wypełnij wszystkie wymagane pola.');
+      return;
+    }
     try {
       const formData = new FormData();
       Object.entries(formValues).forEach(([key, value]) => {
@@ -45,12 +61,22 @@ const AddOwner = () => {
     }
   };
 
+  const handleFocusFirstName = (e) => setFocusedFirstName(true);
+  const handleFocusLastName = (e) => setFocusedLastName(true);
+  const handleFocusAddress = (e) => setFocusedAddress(true);
+  const handleFocusPostcode = (e) => setFocusedPostcode(true);
+  const handleFocusCity = (e) => setFocusedCity(true);
+  const handleFocusPhoneNumber = (e) => setFocusedPhoneNumber(true);
+  const handleFocusEmail = (e) => setFocusedEmail(true);
+  
+
   return (
     <div className="add-owner">
       <Sidebar />
       <div className="owner-form">
         <h2 style={{ marginBottom: '3vh', marginLeft: '15vh' }}>Formularz dodawania właściciela</h2>
         <form onSubmit={handleSubmit}>
+          <label>
           <input
             className="input-owner-form"
             type="text"
@@ -58,9 +84,14 @@ const AddOwner = () => {
             value={formValues.owner_first_name}
             placeholder="Imię"
             onChange={handleInputChange}
-            required
+            required="true"
+            onBlur={handleFocusFirstName}
+            focused={focusedFirstName.toString()}
           />
-
+          <span className='span-addowner'>Należy podać imię właściciela</span>
+          </label>
+          
+          <label>
           <input
             className="input-owner-form"
             type="text"
@@ -68,9 +99,14 @@ const AddOwner = () => {
             value={formValues.owner_last_name}
             placeholder="Nazwisko"
             onChange={handleInputChange}
-            required
+            required="true"
+            onBlur={handleFocusLastName}
+            focused={focusedLastName.toString()}
           />
-
+          <span className='span-addowner'>Należy podać nazwisko właściciela</span>
+          </label>
+          
+          <label>
           <input
             className="input-owner-form"
             type="text"
@@ -78,9 +114,14 @@ const AddOwner = () => {
             value={formValues.owner_address}
             placeholder="Adres"
             onChange={handleInputChange}
-            required
+            required="true"
+            onBlur={handleFocusAddress}
+            focused={focusedAddress.toString()}
           />
-
+          <span className='span-addowner'>Należy podać adres właściciela</span>
+          </label>
+          
+          <label>
           <input
             className="input-owner-form"
             type="text"
@@ -88,9 +129,14 @@ const AddOwner = () => {
             value={formValues.owner_postcode}
             placeholder="Kod pocztowy"
             onChange={handleInputChange}
-            required
+            required="true"
+            onBlur={handleFocusPostcode}
+            focused={focusedPostcode.toString()}
           />
-
+          <span className='span-addowner'>Należy podać kod pocztowy właściciela</span>
+          </label>
+          
+          <label>
           <input
             className="input-owner-form"
             type="text"
@@ -98,9 +144,14 @@ const AddOwner = () => {
             value={formValues.owner_city}
             placeholder="Miasto"
             onChange={handleInputChange}
-            required
+            required="true"
+            onBlur={handleFocusCity}
+            focused={focusedCity.toString()}
           />
+          <span className='span-addowner'>Należy podać miasto właściciela</span>
+          </label>
 
+          <label>
           <input
             className="input-owner-form"
             type="text"
@@ -108,18 +159,30 @@ const AddOwner = () => {
             value={formValues.owner_phone_number}
             placeholder="Numer telefonu"
             onChange={handleInputChange}
-            required
+            required="true"
+            onBlur={handleFocusPhoneNumber}
+            focused={focusedPhoneNumber.toString()}
           />
+          <span className='span-addowner'>Należy podać numer telefonu właściciela</span>
+          </label>
 
+          <label>
           <input
             className="input-owner-form"
-            type="text"
+            type="email"
             name="owner_email"
             value={formValues.owner_email}
             placeholder="Email"
             onChange={handleInputChange}
-            required
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+            required="true"
+            onBlur={handleFocusEmail}
+            focused={focusedEmail.toString()}
           />
+          <span className='span-addowner'>Należy podać email właściciela</span>
+          </label>
+          {errorMessage &&  <span className='span-addowner-error'>{errorMessage}</span>}
+
 
           <div className="button-container-add-owner">
             <button type="submit" className="submit-button-add-owner">

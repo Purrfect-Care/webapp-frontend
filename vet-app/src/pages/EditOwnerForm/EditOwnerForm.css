@@ -86,3 +86,24 @@
 .overlay-edit-owner-form.active{
     display: block;
 }
+
+.input-edit-owner:invalid + .span-editowner,
+.input-edit-owner:placeholder-shown + .span-editowner {
+  display: block;
+}
+
+.span-editowner {
+  font-size: 12px;
+  padding: 3px;
+  color: red;
+  display: none;
+}
+.span-editowner-error{
+  font-size: 15px;
+  padding: 3px;
+  color: red;
+}
+
+.select-editowner:invalid[focused="true"] ~ .span-editowner{
+  display: block;
+}

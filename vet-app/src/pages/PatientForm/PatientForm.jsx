@@ -35,6 +35,16 @@ const PatientForm = ({ onClose }) => {
   const [readOnly, setReadOnly] = useState();
   const navigate = useNavigate();
 
+  const [focusedPatientName, setFocusedPatientName] = useState(false);
+  const [focusedGender, setFocusedGender] = useState(false);
+  const [focusedSpecies, setFocusedSpecies] = useState(false);
+  const [focusedBreed, setFocusedBreed] = useState(false);
+  const [focusedOwner, setFocusedOwner] = useState(false);
+  const [focusedClinic, setFocusedClinic] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  
+
+
   dayjs.extend(utc);
   dayjs.extend(timezone);
   // Set the time zone to Warsaw (CET)
@@ -104,6 +114,14 @@ const PatientForm = ({ onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const requiredFields = ['patient_name', 'patient_gender', 'patients_owner_id', 'patients_species_id', 'patients_breed_id', 'patients_clinic_id'];
+    const isEmptyField = requiredFields.some(field => !formValues[field]);
+    
+    if (isEmptyField) {
+      // Display an error message or take appropriate action
+      setErrorMessage('Wypełnij wszystkie wymagane pola.');
+      return;
+    }
     try {
       // Create a FormData object to handle the file upload
       const formData = new FormData();
@@ -124,6 +142,29 @@ const PatientForm = ({ onClose }) => {
     }
   };
 
+
+
+
+  const handleFocusPatientName = (e) => {
+    setFocusedPatientName(true);
+  }
+  const handleFocusGender = (e) => {
+    setFocusedGender(true);
+  }
+  const handleFocusSpecies = (e) => {
+    setFocusedSpecies(true);
+  }
+  const handleFocusBreed = (e) => {
+    setFocusedBreed(true);
+  }
+  const handleFocusOwner = (e) => {
+    setFocusedOwner(true);
+  }
+  const handleFocusClinic = (e) => {
+    setFocusedClinic(true);
+  }
+
+
   return (
     <>
 
@@ -133,29 +174,47 @@ const PatientForm = ({ onClose }) => {
           <h2 style={{marginBottom: '3vh', marginLeft: '15vh'}}>Formularz dodawania pacjenta</h2>
           <form onSubmit={handleSubmit}
             encType="multipart/form-data">
-            <input
-              className='input-patientform'
-              type="text"
-              name="patient_name"
-              value={formValues.patient_name || ""}
-              placeholder="Imię pacjenta"
-              onChange={handleChange}
-              required
-            />
-            <select
-              className='select-patientform'
-              name="patient_gender"
-              value={formValues.patient_gender}
-              onChange={handleChange}>
-              <option value="">Wybierz płeć</option>
-              <option value="male">Męska</option>
-              <option value="female">Żeńska</option>
-            </select>
+            <label>
+              <input
+                className='input-patientform'
+                type="text"
+                name="patient_name"
+                value={formValues.patient_name}
+                placeholder="Imię pacjenta"
+                onChange={handleChange}
+                required="true"
+                onBlur={handleFocusPatientName}
+                focused={focusedPatientName.toString()}
+              />
+              <span className='span-patientform'>Należy podać imię pacjenta</span>
+            </label>
+            
+            <label>
+              <select
+                className='select-patientform'
+                name="patient_gender"
+                value={formValues.patient_gender}
+                onChange={handleChange}
+                required="true"
+                onBlur={handleFocusGender}
+                focused={focusedGender.toString()}
+                >
+                <option value="">Wybierz płeć</option>
+                <option value="male">Męska</option>
+                <option value="female">Żeńska</option>
+              </select>
+              <span className='span-patientform'>Należy wybrać płeć pacjenta</span>
+            </label>
+            
+            <label>
             <select
               className='select-patientform'
               name="patients_species_id"
               value={formValues.patients_species_id}
               onChange={handleChange}
+              required="true"
+              onBlur={handleFocusSpecies}
+              focused={focusedSpecies.toString()}
             >
               <option value="">Wybierz gatunek</option>
               {species.map((specie) => (
@@ -164,12 +223,18 @@ const PatientForm = ({ onClose }) => {
                 </option>
               ))}
             </select>
-
+            <span className='span-patientform'>Należy wybrać gatunek pacjenta</span>
+            </label>
+            
+            <label>
             <select
               className='select-patientform'
               name="patients_breed_id"
               value={formValues.patients_breed_id}
               onChange={handleChange}
+              required="true"
+              onBlur={handleFocusBreed}
+              focused={focusedBreed.toString()}
             >
               <option value="">Wybierz rasę</option>
               {filteredBreeds.map((breed) => (
@@ -178,28 +243,38 @@ const PatientForm = ({ onClose }) => {
                 </option>
               ))}
             </select>
+            <span className='span-patientform'>Należy wybrać rasę pacjenta</span>
+
+            </label>
+            
+            <label>
             <select
               className='select-patientform'
               name="patients_owner_id"
               value={formValues.patients_owner_id}
-              onChange={handleChange}>
+              onChange={handleChange}
+              required="true"
+              onBlur={handleFocusOwner}
+              focused={focusedOwner.toString()}>
               <option value="">Wybierz właściciela</option>
               {owners.map((owner) => (
                 <option key={owner.id} value={owner.id}>
                   {`${owner.owner_first_name} ${owner.owner_last_name}`}
                 </option>
               ))}
-
-
             </select>
-
-
-
+            <span className='span-patientform'>Należy wybrać właściciela pacjenta</span>
+            </label>
+            
+            <label>
             <select
               className='select-patientform'
               name="patients_clinic_id"
               value={formValues.patients_clinic_id}
               onChange={handleChange}
+              required="true"
+              onBlur={handleFocusClinic}
+              focused={focusedClinic.toString()}
             >
               <option value="">Wybierz klinikę</option>
               {clinics.map((clinic) => (
@@ -208,6 +283,12 @@ const PatientForm = ({ onClose }) => {
                 </option>
               ))}
             </select>
+            <span className='span-patientform'>Należy wybrać klinikę, do której pacjent ma zostać przypisany</span>
+            </label>
+
+
+            
+
             <h3>Data urodzenia</h3>
             <div className='patient-form-date'>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -242,6 +323,7 @@ const PatientForm = ({ onClose }) => {
               multiple
               onChange={handlePhotoChange}
             />
+            {errorMessage &&  <span className='span-patientform-error'>{errorMessage}</span>}
 
               <div className='button-container-add-patient'>
               <button

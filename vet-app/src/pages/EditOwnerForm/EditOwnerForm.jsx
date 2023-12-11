@@ -15,15 +15,29 @@ const EditOwnerForm = ({ isOpen, ownerId, existingData, onClose}) => {
   const [editedData, setEditedData] = useState(initialData);
   const [isFormOpen, setIsFormOpen] = useState(isOpen);
 
+  const [focusedFirstName, setFocusedFirstName] = useState(false);
+  const [focusedLastName, setFocusedLastName] = useState(false);
+  const [focusedAddress, setFocusedAddress] = useState(false);
+  const [focusedPostcode, setFocusedPostcode] = useState(false);
+  const [focusedCity, setFocusedCity] = useState(false);
+  const [focusedPhoneNumber, setFocusedPhoneNumber] = useState(false);
+  const [focusedEmail, setFocusedEmail] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+ 
   useEffect(() => {
     setEditedData(existingData || initialData);
   }, [existingData, initialData]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setEditedData((prevData) => ({ ...prevData, [name]: value }));
+    if (name === "owner_postcode" && value.length <= 6) {
+      setEditedData((prevData) => ({ ...prevData, [name]: value.replace(/[^0-9]/g, "").replace(/(\d{2})(\d{0,2})/, "$1-$2") }));
+    } else if (name === "owner_phone_number" && value.length <= 9) {
+      setEditedData((prevData) => ({ ...prevData, [name]: value.replace(/[^0-9]/g, "").replace(/(\d{3})(\d{3})(\d{3})/, "$1 $2 $3")}));
+    } else {
+      setEditedData((prevData) => ({ ...prevData, [name]: value }));
+    }
   };
-
   const handleClose = () => {
     setIsFormOpen(false);
     onClose();
@@ -31,8 +45,16 @@ const EditOwnerForm = ({ isOpen, ownerId, existingData, onClose}) => {
 
 const handleSubmit = async (e) => {
   e.preventDefault();
+  const requiredFields = ['owner_first_name', 'owner_last_name', 'owner_address', 'owner_postcode', 'owner_city', 'owner_phone_number', 'owner_email'];
+  const isEmptyField = requiredFields.some(field => !editedData[field]);
+  
 
   try {
+    if (isEmptyField) {
+      // Display an error message or take appropriate action
+      setErrorMessage('Wypełnij wszystkie wymagane pola.');
+      return;
+    }
     console.log(editedData);
     const response = await fetch(`http://127.0.0.1:8000/api/owners/${ownerId}/`, {
       method: 'PUT',
@@ -59,6 +81,14 @@ const handleSubmit = async (e) => {
 
 };
 
+  const handleFocusFirstName = (e) => setFocusedFirstName(true);
+  const handleFocusLastName = (e) => setFocusedLastName(true);
+  const handleFocusAddress = (e) => setFocusedAddress(true);
+  const handleFocusPostcode = (e) => setFocusedPostcode(true);
+  const handleFocusCity = (e) => setFocusedCity(true);
+  const handleFocusPhoneNumber = (e) => setFocusedPhoneNumber(true);
+  const handleFocusEmail = (e) => setFocusedEmail(true);
+  
 
 return (
 <div>
@@ -78,7 +108,12 @@ return (
               name="owner_first_name"
               value={editedData.owner_first_name}
               onChange={handleInputChange}
+              required="true"
+              onBlur={handleFocusFirstName}
+              focused={focusedFirstName.toString()}
             />
+            <span className='span-editowner'>Należy podać imię właściciela</span>
+
           </label>
           <label>
             Nazwisko:
@@ -88,7 +123,11 @@ return (
               name="owner_last_name"
               value={editedData.owner_last_name}
               onChange={handleInputChange}
+              required="true"
+              onBlur={handleFocusLastName}
+              focused={focusedLastName.toString()}
             />
+            <span className='span-editowner'>Należy podać nazwisko właściciela</span>
           </label>
 
           <label>
@@ -99,7 +138,11 @@ return (
               name="owner_address"
               value={editedData.owner_address}
               onChange={handleInputChange}
+              required="true"
+              onBlur={handleFocusAddress}
+              focused={focusedAddress.toString()}
             />
+            <span className='span-editowner'>Należy podać adres właściciela</span>
           </label>
 
           <label>
@@ -110,7 +153,11 @@ return (
               name="owner_postcode"
               value={editedData.owner_postcode}
               onChange={handleInputChange}
+              required="true"
+              onBlur={handleFocusPostcode}
+              focused={focusedPostcode.toString()}
             />
+            <span className='span-editowner'>Należy podać kod pocztowy właściciela</span>
           </label>
 
           <label>
@@ -121,7 +168,11 @@ return (
               name="owner_city"
               value={editedData.owner_city}
               onChange={handleInputChange}
+              required="true"
+              onBlur={handleFocusCity}
+              focused={focusedCity.toString()}
             />
+            <span className='span-editowner'>Należy podać miasto właściciela</span>
           </label>
 
           <label>
@@ -132,20 +183,30 @@ return (
               name="owner_phone_number"
               value={editedData.owner_phone_number}
               onChange={handleInputChange}
+              required="true"
+              onBlur={handleFocusPhoneNumber}
+              focused={focusedPhoneNumber.toString()}
             />
+            <span className='span-editowner'>Należy podać numer telefonu właściciela</span>
           </label>
 
           <label>
             Email:
             <input
               className="input-edit-owner"
-              type="text"
+              type="email"
               name="owner_email"
               value={editedData.owner_email}
               onChange={handleInputChange}
+              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+              required="true"
+              onBlur={handleFocusEmail}
+              focused={focusedEmail.toString()}
             />
+            <span className='span-editowner'>Należy podać email właściciela</span>
           </label>
         </div>
+        {errorMessage &&  <span className='span-editowner-error'>{errorMessage}</span>}
 
       </form>
       <div className="button-container-edit-owner">

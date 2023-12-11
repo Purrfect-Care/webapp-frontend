@@ -72,6 +72,14 @@
     margin-bottom: 5px;
     border-radius: 10px;
 }
+.illness-history-form-select{
+    width: 100%; /* Adjust the width as needed */
+    padding: 8px;
+    box-sizing: border-box;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+}
 
 .popup-form-illness-history select[name="illness_history_patient_id"] {
     width: 288px; /* Adjust the width as needed */
@@ -106,4 +114,25 @@
 
 .overlay-illness-history-form.active{
     display: block;
+}
+
+.input-edit-owner:invalid + .span-editowner,
+.input-edit-owner:placeholder-shown + .span-editowner {
+  display: block;
+}
+
+.span-illness-history-form {
+  font-size: 12px;
+  padding: 3px;
+  color: red;
+  display: none;
+}
+.span-illness-history-form-error{
+  font-size: 15px;
+  padding: 3px;
+  color: red;
+}
+
+.illness-history-form-select:invalid[focused="true"] ~ .span-illness-history-form{
+  display: block;
 }

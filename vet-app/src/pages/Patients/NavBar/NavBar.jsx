@@ -9,7 +9,6 @@ import dayjs from "dayjs";
 import IllnessHistoryForm from "../../IllnessHistoryForm/IllnessHistoryForm";
 import { createIllnessHistoryRequest } from "../../../api/illnessHistoryRequests";
 
-
 const NavBar = ({ id, onSelectOption, selectedTab }) => {
 
   const [showVisitForm, setShowVisitForm] = useState(false);
@@ -109,6 +108,7 @@ const NavBar = ({ id, onSelectOption, selectedTab }) => {
           onClose={handleCloseIllnessHistoryForm}
           initialValues={{
             illness_history_patient_id: id,
+            illness_onset_date: dayjs().format('YYYY-MM-DD')
           }}
           onSubmit={submitIllnessForm}
         />
