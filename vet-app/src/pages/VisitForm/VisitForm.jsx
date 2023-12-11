@@ -135,7 +135,6 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
     console.log('Form submitted!');
     await onSubmit(formValues);
     console.log(formValues);
-    onClose();
   };
   
 
