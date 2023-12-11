@@ -51,10 +51,7 @@ const DocumentsPage = ({ patient }) => {
   const cancelDelete = () => {
     setShowConfirmation(false);
   };
-  const handlePrescriptionSubmit = (prescriptionData) => {
-    // Handle the submission of prescription data here
-    console.log("Prescription data submitted:", prescriptionData);
-  };
+
 
   return (
     <div className="documentsPage">

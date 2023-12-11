@@ -2,7 +2,6 @@ import React from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home/Home";
-import Prescription from "./pages/Prescription/Prescription";
 import CalendarPage from "./pages/Calendar/CalendarPage";
 import PatientsPage from "./pages/Patients/PatientsPage";
 import VisitTypePage from "./pages/VisitType/VisitType";
