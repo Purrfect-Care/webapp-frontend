@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { createOwnerRequest } from '../../api/ownerRequests'; // Make sure to import your API request function
+import { createOwnerRequest } from '../../../api/ownerRequests'; // Make sure to import your API request function
 import './AddOwner.css'; // Add your CSS file import
-import Sidebar from '../../components/Sidebar/Sidebar';
+import Sidebar from '../../../components/Sidebar/Sidebar';
 import { useNavigate } from 'react-router-dom';
 
 const AddOwner = () => {

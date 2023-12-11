@@ -14,6 +14,9 @@ const AddMedications = () => {
       console.log("Medication added successfully", response);
     } catch (error) {
       console.error("Error:", error.message);
+    } finally {
+      //confirmation popup
+      setMedication({ medication_name: "" });
     }
   };
 

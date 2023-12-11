@@ -12,8 +12,6 @@ const SignIn = () => {
     if (name === "employee_postcode" && value.length <= 6) {
       setFormValues({
         ...formValues,
-        employees_clinic_id: clinicsData[0].id,
-        employee_role: "Weterynarz",
         [name]: value
           .replace(/[^0-9]/g, "")
           .replace(/(\d{2})(\d{0,2})/, "$1-$2"),
@@ -37,6 +35,9 @@ const SignIn = () => {
       await addEmployeeRequest(formValues);
     } catch (error) {
       console.error("Error submitting form: " + error);
+    } finally {
+      //confirmation popup
+      setFormValues({});
     }
   };
 
@@ -145,6 +146,7 @@ const SignIn = () => {
               onChange={handleInputChange}
               value={formValues.employee_role}
             >
+              <option value="">Wybierz rolę</option>
               <option value="Weterynarz">Weterynarz</option>
               <option value="Administrator">Administrator</option>
             </select>
@@ -154,6 +156,7 @@ const SignIn = () => {
               onChange={handleInputChange}
               value={formValues.employees_clinic_id}
             >
+              <option value="">Wybierz klinikę</option>
               {clinicsData.map((clinic) => (
                 <option key={clinic.id} value={clinic.id}>
                   {clinic.clinic_name}

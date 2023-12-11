@@ -12,10 +12,10 @@ import AutoLogout from "./api/AutoLogout";
 import CreatePrescription from "./pages/CreatePrescription/CreatePrescription";
 import AddPage from "./pages/AddPage/AddPage";
 import AddMedications from "./pages/AddPage/AddMedications/AddMedications";
-import AddVisitType from "./pages/AddVisitType/AddVisitType";
-import AddVisitSubtype from "./pages/AddVisitSubtype/AddVisitSubtype";
+import AddVisitType from "./pages/AddPage/AddVisitType/AddVisitType";
+import AddVisitSubtype from "./pages/AddPage/AddVisitSubtype/AddVisitSubtype";
 import PatientForm from "./pages/PatientForm/PatientForm";
-import AddOwner from "./pages/AddOwner/AddOwner";
+import AddOwner from "./pages/AddPage/AddOwner/AddOwner";
 
 const isAuthenticated = () => {
   // Implement your logic to check if the user is authenticated
