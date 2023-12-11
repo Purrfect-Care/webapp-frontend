@@ -18,7 +18,8 @@ const IllnessHistoryForm = ({isOpen, onClose, initialValues, onSubmit}) => {
     const [readOnly, setReadOnly] = useState();
     const [illnesses, setIllnesses] = useState([]);
     const [patientData, setPatient] = useState([]);
-    
+    const [isFormOpen, setIsFormOpen] = useState(true);
+
     dayjs.extend(utc);
     dayjs.extend(timezone);
     // Set the time zone to Warsaw (CET)
@@ -80,8 +81,16 @@ const IllnessHistoryForm = ({isOpen, onClose, initialValues, onSubmit}) => {
         window.location.reload();
       };
 
+      const handleClose = () => {
+        setIsFormOpen(false);
+        onClose();
+      };
+
       return (
-        <div className="popup-form-illness-history">        
+        <div>
+          <div className={`overlay-illness-history-form ${isFormOpen ? 'active' : ''}`} onClick={handleClose}></div>
+
+          <div className="popup-form-illness-history">        
         <h2>Formularz choroby</h2>
         <form onSubmit={handleSubmit} className="form-sections-illness-history">
         <div className="form-section-illness-history">
@@ -129,6 +138,9 @@ const IllnessHistoryForm = ({isOpen, onClose, initialValues, onSubmit}) => {
       </div>
       
         </div>
+
+        </div>
+        
       );
 };
 

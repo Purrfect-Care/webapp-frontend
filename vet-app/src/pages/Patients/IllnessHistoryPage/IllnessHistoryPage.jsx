@@ -12,8 +12,6 @@ const IllnessHistoryPage = ({ patient }) => {
   const [illnessHistory, setIllnessHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState({ column: "DATA", ascending: true });
-
- 
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [illnessHistoryToDelete, setIllnessHistoryToDelete] = useState(null);
 

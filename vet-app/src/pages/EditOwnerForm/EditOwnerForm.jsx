@@ -13,6 +13,7 @@ const EditOwnerForm = ({ isOpen, ownerId, existingData, onClose}) => {
   };
 
   const [editedData, setEditedData] = useState(initialData);
+  const [isFormOpen, setIsFormOpen] = useState(isOpen);
 
   useEffect(() => {
     setEditedData(existingData || initialData);
@@ -23,6 +24,10 @@ const EditOwnerForm = ({ isOpen, ownerId, existingData, onClose}) => {
     setEditedData((prevData) => ({ ...prevData, [name]: value }));
   };
 
+  const handleClose = () => {
+    setIsFormOpen(false);
+    onClose();
+  };
 
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -56,7 +61,11 @@ const handleSubmit = async (e) => {
 
 
 return (
-<div style={{ display: isOpen ? 'block' : 'none', position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', border: '2px solid #ccc', padding: '40px', backgroundColor: '#fff',  width: '50vh', height:'50vh' }}>    
+<div>
+<div className={`overlay-edit-owner-form ${isFormOpen ? 'active' : ''}`} onClick={handleClose}></div>
+
+<div style={{ display: isOpen ? 'block' : 'none', zIndex: '1000',position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', border: '2px solid #ccc', padding: '40px', backgroundColor: '#fff',  width: '50vh', height:'50vh' }}>    
+
 <div className="popup-form-edit-owner">
       <h2 style={{marginBottom : '2vh'}}>Formularz edycji danych właściciela</h2>
       <form onSubmit={handleSubmit} className="form-sections-edit-owner">
@@ -150,6 +159,7 @@ return (
       </div>
     </div>
   </div>
+</div>
 );
 };
 
