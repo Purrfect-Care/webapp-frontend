@@ -62,17 +62,3 @@
   background-color: #072d218d;
 }
 
-.create_visit {
-  background-color: #00897B;
-  color: white;
-  border: none;
-  padding: 10px 15px;
-  cursor: pointer;
-  border-radius: 8px;
-  margin: auto;
-  margin-bottom: 14px;
-}
-
-.create_visit:hover {
-  background-color: #2f6d58;
-}

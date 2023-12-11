@@ -77,7 +77,6 @@ const IllnessHistoryForm = ({isOpen, onClose, initialValues, onSubmit}) => {
         console.log('Form submitted!');
         await onSubmit(formValues);
         onClose();
-        window.location.reload();
       };
 
       return (

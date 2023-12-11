@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { allPatientsRequest } from '../api/patientsRequests';
-import { addPrescribedMedicationRequest, addPrescriptionRequest } from '../api/prescriptionRequests';
+import { allPatientsByClinicIdRequest } from '../api/patientsRequests';
 import { allMedicationsRequest } from '../api/medicationsRequest'; // Assuming you have an API endpoint for fetching medications
 import { patientRequest } from '../api/patientsRequests';
 import { FaPlus, FaTrash } from 'react-icons/fa';
 import './PrescriptionForm.css';
-
 
 
 const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
@@ -30,8 +28,9 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const employeeData = JSON.parse(localStorage.getItem('employeeData'));
         const [patients, medications] = await Promise.all([
-          allPatientsRequest(),
+          allPatientsByClinicIdRequest(employeeData.employees_clinic_id),
           allMedicationsRequest(),
         ]);
 
@@ -49,6 +48,12 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
 
     fetchData();
   }, []);
+
+  const sortedPatients = allPatients.slice().sort((a, b) => {
+    const nameA = a.patient_name.toLowerCase();
+    const nameB = b.patient_name.toLowerCase();
+    return nameA.localeCompare(nameB);
+  });
 
   const handleChange = (e, index) => {
     const { name, value } = e.target;
@@ -83,31 +88,7 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    try {
-      const { prescription_date, prescriptions_patient_id } = formValues;
-      const prescriptions_employee_id = JSON.parse(localStorage.getItem('employeeData')).id.toString();
-
-      const addedPrescription = await addPrescriptionRequest({
-        prescription_date,
-        prescriptions_patient_id,
-        prescriptions_employee_id,
-      });
-
-      const prescribedMedicationsData = formValues.prescribed_medications.map((medication) => ({
-        medication_amount: medication.medication_amount,
-        prescribed_medications_prescription_id: addedPrescription.id,
-        prescribed_medications_medication_id: medication.medication_id,
-      }));
-
-      await Promise.all(prescribedMedicationsData.map(addPrescribedMedicationRequest));
-
-      console.log('Prescription and medications added successfully!');
-      window.location.href = `/patients/${formValues.prescriptions_patient_id}`;
-
-    } catch (error) {
-      console.error('Error submitting prescription:', error.message);
-      // Handle error as needed
-    }
+    await onSubmit(formValues);
   };
   const handleClose = () => {
     setIsFormOpen(false);
@@ -145,7 +126,7 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
                     focused={focusedPatient.toString()}
                   >
                     <option value="">Wybierz pacjenta</option>
-                    {allPatients.map((patient) => (
+                    {sortedPatients.map((patient) => (
                       <option key={patient.id} value={patient.id}>
                         {patient.patient_name} • {patient.patients_owner.owner_first_name} {patient.patients_owner.owner_last_name}
                       </option>

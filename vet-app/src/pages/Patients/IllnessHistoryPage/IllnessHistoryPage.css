@@ -17,11 +17,12 @@ body {
 /* Header styling */
 .column-bar-illness-history {
   display: grid;
-  grid-template-columns: 2fr 2fr 1fr; /* Equal widths for the four columns */
+  grid-template-columns: 2fr 2fr 1fr 1fr; /* Equal widths for the four columns */
   justify-content: space-between;
   cursor: pointer;
   font-weight: bold;
   height: 3vh;
+  width: calc(100% - 15px);
   border-bottom: 1px solid black; /* Bottom border only */
   text-align: center; /* Center the text */
 }
@@ -29,13 +30,21 @@ body {
 /* Styling for each column in the header */
 .column-illness_history_name,
 .column-illness_history_date,
-.column-illness_history_delete {
+.column-illness_history_delete,
+.column-illness_history_create {
   grid-column: span 1; /* Each element takes one column */
+}
+
+.column-illness_history_create {
+  color: #4aa587;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Visit list styling */
 .illness_history_list {
-  max-height: 54vh; /* Adjust the value as needed */
+  max-height: calc(51vh - 20px); /* Adjust the value as needed */
   overflow-y: auto;
   align-items: center; /* Center the items horizontally */
 }
@@ -46,7 +55,7 @@ body {
   width: 100%;
   box-sizing: border-box;
   display: grid;
-  grid-template-columns: 2fr 2fr 1fr; /* Equal widths for the four columns */
+  grid-template-columns: 2fr 2fr 1fr 1fr; /* Equal widths for the four columns */
   align-items: center;
   justify-items: center; /* Center the items horizontally within each cell */ /* Added margin between items for better spacing */
 }

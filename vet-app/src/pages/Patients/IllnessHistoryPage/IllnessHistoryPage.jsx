@@ -1,21 +1,31 @@
 import React, { useState, useEffect } from "react";
 import "./IllnessHistoryPage.css";
-import { FaTrash } from "react-icons/fa";
+import { FaTrash, FaPlus } from "react-icons/fa";
 import {
   illnessHistoryByPatientIdRequest,
   deleteIllnessHistoryRequest,
+  createIllnessHistoryRequest
 } from "../../../api/illnessHistoryRequests.js";
 import ConfirmationPopup from "../../../components/ConifrmationPopup/ConfirmationPopup";
 import PulseLoader from "react-spinners/PulseLoader";
+import IllnessHistoryForm from "../../IllnessHistoryForm/IllnessHistoryForm.jsx";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
+
 
 const IllnessHistoryPage = ({ patient }) => {
   const [illnessHistory, setIllnessHistory] = useState([]);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState({ column: "DATA", ascending: true });
+  const [showIllnessHistoryForm, setShowIllnessHistoryForm] = useState(false);
 
  
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [illnessHistoryToDelete, setIllnessHistoryToDelete] = useState(null);
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  const [snackbarMessage, setSnackbarMessage] = useState('');
 
   useEffect(() => {
     if (patient) {
@@ -59,6 +69,7 @@ const IllnessHistoryPage = ({ patient }) => {
       const itemId = illnessHistoryToDelete.id;
       await deleteIllnessHistoryRequest(itemId);
       console.log("Illness history item deleted successfully");
+      openSnackbar('success', 'Choroba usunięta pomyślnie!');
 
       // Update the illness history list after deletion
       setIllnessHistory((prevHistory) =>
@@ -68,6 +79,7 @@ const IllnessHistoryPage = ({ patient }) => {
       );
     } catch (error) {
       console.error("Error deleting illness history item:", error);
+      openSnackbar('error', 'Błąd podczas usuwania choroby.');
     } finally {
       // Close the confirmation popup
       setShowDeleteConfirmation(false);
@@ -124,7 +136,38 @@ const IllnessHistoryPage = ({ patient }) => {
     );
   }
 
+  const handleIllnessHistoryForm = () => {
+    setShowIllnessHistoryForm(true);
+  };
+  const handleCloseIllnessHistoryForm = () => {
+    setShowIllnessHistoryForm(false);
+  };
+
+  const submitIllnessForm = async (formData) => {
+    try {
+      console.log("Form Data:", formData);
+
+      await createIllnessHistoryRequest(formData);
+      const updatedIllnessHistory = await illnessHistoryByPatientIdRequest(patient.id);
+      setIllnessHistory(updatedIllnessHistory);
+
+      openSnackbar('success', 'Choroba przypisana pomyślnie!');
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      openSnackbar('error', 'Błąd podczas przypisywania choroby.');
+    }
+    handleCloseIllnessHistoryForm();
+  };
+
+  const openSnackbar = (severity, message) => {
+    setSnackbarSeverity(severity);
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+  };
+
+
   return (
+    <>
     <div className="illness-history-table">
       <div className="column-bar-illness-history">
         <span
@@ -141,6 +184,9 @@ const IllnessHistoryPage = ({ patient }) => {
           DATA {sortBy.column === "DATA" && (sortBy.ascending ? "↑" : "↓")}
         </span>
         <span className="column-illness_history_delete">USUŃ</span>
+        <button onClick={handleIllnessHistoryForm} className="column-illness_history_create">
+          <FaPlus/>
+        </button>
       </div>
       <div className="illness_history_list">
         {sortedIllnessHistory.map((historyItem) => (
@@ -172,7 +218,35 @@ const IllnessHistoryPage = ({ patient }) => {
           onNo="Nie"
         />
       )}
+      {showIllnessHistoryForm && (
+        <>
+          <IllnessHistoryForm
+          isOpen={showIllnessHistoryForm}
+          onClose={handleCloseIllnessHistoryForm}
+          initialValues={{
+            illness_history_patient_id: patient.id,
+          }}
+          onSubmit={submitIllnessForm}
+        />
+        </>
+      )}
     </div>
+    <Snackbar
+    open={snackbarOpen}
+    anchorOrigin={{ vertical:"top", horizontal:"right" }}
+    autoHideDuration={6000}
+    onClose={() => setSnackbarOpen(false)}
+  >
+    <MuiAlert
+      elevation={6}
+      variant="filled"
+      onClose={() => setSnackbarOpen(false)}
+      severity={snackbarSeverity}
+    >
+      {snackbarMessage}
+    </MuiAlert>
+  </Snackbar>
+  </>
   );
 };
 
