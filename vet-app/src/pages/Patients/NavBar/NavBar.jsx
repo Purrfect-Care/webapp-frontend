@@ -6,7 +6,6 @@ import PrescriptionForm from "../../../PrescriptionForm/PrescriptionForm";
 import IllnessHistoryForm from "../../IllnessHistoryForm/IllnessHistoryForm";
 import { createIllnessHistoryRequest } from "../../../api/illnessHistoryRequests";
 
-
 const NavBar = ({ id, onSelectOption, selectedTab }) => {
   const [showPrescriptionForm, setShowPrescriptionForm] = useState(false);
 

@@ -21,6 +21,10 @@ function EventModal() {
     window.location.href = '/calendar'; 
   };
 
+  const closeEventModal = () => {
+    setShowEventModal(false);
+  }
+
   const updateForm = async (formData) => {
     try {
       const EventData = {
@@ -38,7 +42,7 @@ function EventModal() {
       console.log(EventData);
       if (selectedEvent) await updateVisitRequest(selectedEvent.id, EventData);
       else await createVisitRequest(EventData);
-      openSnackbar('success', 'Wizyta przypisana pomyślnie!');
+      openSnackbar('success', 'Wizyta przypisana pomyślnie! Trwa odświeżanie strony...');
       setIsFormVisible(false);
     } catch (error) {
       console.error('Error submitting form:', error);
@@ -74,13 +78,13 @@ function EventModal() {
         {isFormVisible ? (
           !isFormForEdit ? (
             <ViewVisit
-              onClose={closeForm}
+              onClose={closeEventModal}
               setEdit={setIsFormForEdit}
               initialValues={selectedEvent ? selectedEvent : newEvent}
             />
           ) : (
             <VisitForm
-              onClose={closeForm}
+              onClose={closeEventModal}
               onSubmit={updateForm}
               setEdit={setIsFormForEdit}
               initialValues={selectedEvent ? selectedEvent : newEvent}

@@ -72,6 +72,14 @@
     margin-bottom: 5px;
     border-radius: 10px;
 }
+.illness-history-form-select{
+    width: 100%; /* Adjust the width as needed */
+    padding: 8px;
+    box-sizing: border-box;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 10px;
+}
 
 .popup-form-illness-history select[name="illness_history_patient_id"] {
     width: 288px; /* Adjust the width as needed */
@@ -91,4 +99,40 @@
   
 .form-button-illness-history:hover {
     background-color: #2f6d58;
+}
+
+.overlay-illness-history-form{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+    z-index: 999; /* Ensure the overlay is below the form but above other content */
+    display: none; /* Initially hide the overlay */
+}
+
+.overlay-illness-history-form.active{
+    display: block;
+}
+
+.input-edit-owner:invalid + .span-editowner,
+.input-edit-owner:placeholder-shown + .span-editowner {
+  display: block;
+}
+
+.span-illness-history-form {
+  font-size: 12px;
+  padding: 3px;
+  color: red;
+  display: none;
+}
+.span-illness-history-form-error{
+  font-size: 15px;
+  padding: 3px;
+  color: red;
+}
+
+.illness-history-form-select:invalid[focused="true"] ~ .span-illness-history-form{
+  display: block;
 }

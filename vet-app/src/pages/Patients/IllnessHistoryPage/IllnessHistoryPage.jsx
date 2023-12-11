@@ -11,6 +11,8 @@ import PulseLoader from "react-spinners/PulseLoader";
 import IllnessHistoryForm from "../../IllnessHistoryForm/IllnessHistoryForm.jsx";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import dayjs from 'dayjs';
+
 
 
 const IllnessHistoryPage = ({ patient }) => {
@@ -225,6 +227,7 @@ const IllnessHistoryPage = ({ patient }) => {
           onClose={handleCloseIllnessHistoryForm}
           initialValues={{
             illness_history_patient_id: patient.id,
+            illness_onset_date: dayjs().format('YYYY-MM-DD')
           }}
           onSubmit={submitIllnessForm}
         />
