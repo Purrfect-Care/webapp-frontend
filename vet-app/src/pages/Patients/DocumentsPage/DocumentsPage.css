@@ -21,10 +21,9 @@
 }
 
 .create-presc {
-    width: 100%;
+
     display: flex;
     justify-content: center;
-    margin-top: 8px;
 }
 
 .create_prescription_button {

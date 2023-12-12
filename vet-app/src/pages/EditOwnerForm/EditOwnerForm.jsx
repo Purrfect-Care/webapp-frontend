@@ -92,6 +92,7 @@ return (
       <h2 style={{marginBottom : '2vh'}}>Formularz edycji danych właściciela</h2>
       <form onSubmit={handleSubmit} className="form-sections-edit-owner">
         <div className="form-section-edit-owner">
+          <div>
           <label>
             Imię:
             <input
@@ -105,8 +106,10 @@ return (
               focused={focusedFirstName.toString()}
             />
             <span className='span-editowner'>Należy podać imię właściciela</span>
-
           </label>
+          </div>
+          
+          <div>
           <label>
             Nazwisko:
             <input
@@ -121,7 +124,9 @@ return (
             />
             <span className='span-editowner'>Należy podać nazwisko właściciela</span>
           </label>
-
+          </div>
+          
+          <div>
           <label>
             Adres:
             <input
@@ -136,7 +141,9 @@ return (
             />
             <span className='span-editowner'>Należy podać adres właściciela</span>
           </label>
-
+          </div>
+          
+          <div>
           <label>
             Kod pocztowy:
             <input
@@ -151,7 +158,9 @@ return (
             />
             <span className='span-editowner'>Należy podać kod pocztowy właściciela</span>
           </label>
-
+          </div>
+          
+          <div>
           <label>
             Miasto:
             <input
@@ -166,7 +175,9 @@ return (
             />
             <span className='span-editowner'>Należy podać miasto właściciela</span>
           </label>
-
+          </div>
+          
+          <div>
           <label>
             Numer telefonu:
             <input
@@ -181,7 +192,9 @@ return (
             />
             <span className='span-editowner'>Należy podać numer telefonu właściciela</span>
           </label>
-
+          </div>
+          
+          <div>
           <label>
             Email:
             <input
@@ -197,6 +210,8 @@ return (
             />
             <span className='span-editowner'>Należy podać email właściciela</span>
           </label>
+          </div>
+          
         </div>
         {errorMessage &&  <span className='span-editowner-error'>{errorMessage}</span>}
 
