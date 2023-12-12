@@ -136,3 +136,15 @@ body {
 .visits-table {
   margin-top: 20px;
 }
+
+.create-visit-button {
+  background-color: #00897B;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.create-visit-button:hover {
+  background-color: #2f6d58;
+}

@@ -162,24 +162,15 @@ const VisitsPage = ({ patient }) => {
     setShowConfirmation(false);
   };
 
-  if (!visits.length) {
-    return (
-      <div className="no-data-msg">
-        <h1 className="no-documents-msg">
-          Brak wcześniejszych wizyt pacjenta
-        </h1>
-      </div>
-    );
-  }
-
+  
   const openSnackbar = (severity, message) => {
     setSnackbarSeverity(severity);
     setSnackbarMessage(message);
     setSnackbarOpen(true);
   };
   
-
-
+  
+  
   const sortedVisits = [...visits].sort((a, b) => {
     if (sortBy.column === 'NAZWA') {
       const nameA = a.visits_visit_type.visit_type_name.toLowerCase();
@@ -192,7 +183,51 @@ const VisitsPage = ({ patient }) => {
     }
     return 0;
   });
-
+  
+  if (!visits.length) {
+    return (
+      <>
+      <div className="no-data-msg">
+        <h1 className="no-documents-msg">
+          Brak wcześniejszych wizyt pacjenta
+        </h1>
+        <button onClick={handleCreateVisit} className="create-visit-button">
+          Dodaj wizytę
+        </button>
+        {isFormForEdit && isFormOpen && (
+        <VisitForm
+          onClose={closeForm}
+          onSubmit={submitForm}
+          initialValues={{
+            visits_patient_id: patient.id,
+            visit_datetime: dayjs(),
+            visits_employee_id: JSON.parse(
+              localStorage.getItem("employeeData")
+            ).id.toString(),
+          }}
+          setEdit={setIsFormForEdit}
+          editOnly={editOnly}
+        />
+      )}
+      </div>
+          <Snackbar
+          open={snackbarOpen}
+          anchorOrigin={{ vertical:"top", horizontal:"right" }}
+          autoHideDuration={6000}
+          onClose={() => setSnackbarOpen(false)}
+        >
+          <MuiAlert
+            elevation={6}
+            variant="filled"
+            onClose={() => setSnackbarOpen(false)}
+            severity={snackbarSeverity}
+          >
+            {snackbarMessage}
+          </MuiAlert>
+        </Snackbar>
+        </>
+    );
+  }
   return (
     <>
     <div className='visits-table'>
