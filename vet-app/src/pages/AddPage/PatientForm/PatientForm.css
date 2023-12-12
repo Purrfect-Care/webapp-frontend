@@ -1,5 +1,5 @@
 .add-patient{
-    background-color: #4aa587;
+  background-color: #45846f4f;
     height: 100vh;
     overflow: auto;
     border: 1px solid #080707;
@@ -12,13 +12,12 @@
     align-items: center;
     margin: auto;
     width: 80vh;
-    margin-top: 40px;
+    margin-top: 10px;
 }
 
 .patient-form h3{
   margin-left: 15vh;
   display: flex;
-  font-size: 1.2em;
   justify-content: center;
   align-content: center;
   padding-bottom: 5px;
@@ -32,7 +31,7 @@
   margin-bottom: 1vh;
   margin-top: 1vh;
   margin-left: 15vh;
-  height: 60px;
+  height: 50px;
   width: 70vh;
   justify-content: center;
   align-content: center;
@@ -46,7 +45,7 @@
   justify-content: center;
   align-content: center;
   height: 80px;
-  width: 70vh;
+
 }
 
 
@@ -60,7 +59,7 @@
     padding: 10px;
     border: 1px solid #ccc;
     margin-bottom: 25px;
-    height: 60px;
+    height: 50px;
     width: 50vh;
     background-color: #ffffff;
     justify-content: center;
@@ -92,11 +91,6 @@
   justify-content: center;
 }
 
-.input-patientform:invalid + .span-patientform,
-.input-patientform:placeholder-shown + .span-patientform {
-  display: block;
-  margin-left: 15vh;
-}
 
 .span-patientform {
   font-size: 12px;
@@ -113,6 +107,11 @@
 }
 
 .select-patientform:invalid[focused="true"] ~ .span-patientform{
+  display: block;
+  margin-left: 15vh;
+}
+
+.input-patientform:invalid[focused="true"] ~ .span-patientform{
   display: block;
   margin-left: 15vh;
 }

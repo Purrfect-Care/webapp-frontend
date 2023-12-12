@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { patientRequest } from "../../../api/patientsRequests.js"; 
-import { deleteOwnerById, ownerByIdRequest } from "../../../api/ownerRequests.js";
+import { deleteOwnerById, ownerByIdRequest, editOwnerRequest } from "../../../api/ownerRequests.js";
 import "./OwnerPage.css";
 import EditOwnerForm from "../../EditOwnerForm/EditOwnerForm.jsx";
 import PulseLoader from "react-spinners/PulseLoader";
 import ConfirmationPopup from "../../../components/ConifrmationPopup/ConfirmationPopup";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
-
-const OwnerPage = () => {
+const OwnerPage = ({patient}) => {
     const [ownerData, setOwnerData] = useState(null);
     const [isEditFormOpen, setIsEditFormOpen] = useState(false);
     const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
@@ -17,13 +18,17 @@ const OwnerPage = () => {
     const { id: patientId } = useParams();
     const [loading, setLoading] = useState(true);
 
+    //const [showEditOwnerForm, setShowEditOwnerForm] = useState(false);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+    const [snackbarMessage, setSnackbarMessage] = useState('');
+
     useEffect(() => {
         const fetchData = async () => {
           try {
             setLoading(true);
-            const patientData = await patientRequest(patientId);
     
-            const ownerId = patientData.patients_owner.id;
+            const ownerId = patient.patients_owner.id;
             const ownerData = await ownerByIdRequest(ownerId);
             setOwnerData(ownerData);
             } catch (error) {
@@ -54,10 +59,14 @@ const OwnerPage = () => {
       
             await deleteOwnerById(ownerId);
             console.log("Owner deleted successfully");
-      
-            navigate(`/calendar`, { replace: true });
+            openSnackbar('success', 'Właściciel usunięty pomyślnie!');
+
+            setTimeout(() => {
+              navigate(`/calendar`, { replace: true });
+            }, 3000);
           } catch (error) {
             console.error('Error deleting owner:', error);
+            openSnackbar('error', 'Błąd podczas usuwania właściciela.');
           } finally {
             setShowDeleteConfirmation(false)
           }
@@ -85,30 +94,34 @@ const OwnerPage = () => {
       
         const handleCloseEditForm = () => {
           setIsEditFormOpen(false);
-          fetchData();
         };
 
-        const fetchData = async () => {
+        const submitEditOwnerForm = async (ownerId, ownerData) => {
           try {
-            setLoading(true);
-            const patientData = await patientRequest(patientId);
-    
-            const ownerId = patientData.patients_owner.id;
-            const ownerData = await ownerByIdRequest(ownerId);
-            setOwnerData(ownerData);
-            } catch (error) {
-              console.error(`Error fetching patient data: ${error.message}`);
-              navigate("/error"); 
-            } finally {
-              setLoading(false);
-            }
-          };
+            console.log("Owner Data:", ownerData);
+            const ownerId = ownerData.id;
+            await editOwnerRequest(ownerId, ownerData);
+            const updatedOwner = await ownerByIdRequest(ownerId);
+            setOwnerData(updatedOwner);
+            openSnackbar('success', 'Pomyślnie zmieniono dane właściciela!');
+          } catch (error) {
+            console.error("Error submitting form:", error);
+            openSnackbar('error', 'Błąd podczas edycji danych właściciela.');
+          }
+          handleCloseEditForm();
+        };
+
+        const openSnackbar = (severity, message) => {
+          setSnackbarSeverity(severity);
+          setSnackbarMessage(message);
+          setSnackbarOpen(true);
+        };
+
+        console.log("loading: ", loading);
         
         return (
             <>
             <div className="ownerPage">
-
-              {ownerData ? (
                 <div className="owner-info-page">
                   <div>
                     <button className="deleteOwnerButton" onClick={() => deleteOwner(ownerData.id)}>
@@ -145,9 +158,6 @@ const OwnerPage = () => {
                     <button className="edit-owner-button" onClick={handleEditButtonClick}>Zmień dane właściciela</button>
                   </div>
                 </div>
-                ) : (
-                <p>Ładowanie...</p>
-              )}
 
             {showDeleteConfirmation && (
                     <ConfirmationPopup
@@ -163,8 +173,24 @@ const OwnerPage = () => {
               isOpen={isEditFormOpen}
               ownerId={ownerData?.id}
               existingData={ownerData}
-              onClose={handleCloseEditForm} />
-            )}          
+              onClose={handleCloseEditForm} 
+              onSubmit={submitEditOwnerForm}/>
+            )} 
+            <Snackbar
+    open={snackbarOpen}
+    anchorOrigin={{ vertical:"top", horizontal:"right" }}
+    autoHideDuration={6000}
+    onClose={() => setSnackbarOpen(false)}
+  >
+    <MuiAlert
+      elevation={6}
+      variant="filled"
+      onClose={() => setSnackbarOpen(false)}
+      severity={snackbarSeverity}
+    >
+      {snackbarMessage}
+    </MuiAlert>
+  </Snackbar>         
           </>          
         );
       };

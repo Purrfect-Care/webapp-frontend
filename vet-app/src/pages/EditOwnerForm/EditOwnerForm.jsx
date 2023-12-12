@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ownerByIdRequest, editOwnerRequest } from '../../api/ownerRequests';
 import './EditOwnerForm.css';
 
-const EditOwnerForm = ({ isOpen, ownerId, existingData, onClose}) => {
+const EditOwnerForm = ({ isOpen, ownerId, existingData, onClose, onSubmit}) => {
   const initialData = existingData || {
     owner_first_name: '',
     owner_last_name: '',
@@ -65,7 +65,7 @@ const handleSubmit = async (e) => {
       setErrorMessage('Wypełnij wszystkie wymagane pola.');
       return;
     }
-    const updatedOwnerData = await editOwnerRequest(ownerId, editedData);
+    await onSubmit(ownerId,editedData);
   } catch (error) {
     console.error('Error updating owner data:', error.message);
   }
@@ -86,7 +86,6 @@ return (
 <div>
 <div className={`overlay-edit-owner-form ${isFormOpen ? 'active' : ''}`}></div>
 
-<div style={{ display: isOpen ? 'block' : 'none', zIndex: '1000',position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', border: '2px solid #ccc', padding: '40px', backgroundColor: '#fff',  width: '50vh', height:'50vh' }}>    
 
 <div className="popup-form-edit-owner">
       <h2 style={{marginBottom : '2vh'}}>Formularz edycji danych właściciela</h2>
@@ -227,7 +226,6 @@ return (
       </div>
     </div>
   </div>
-</div>
 );
 };
 

@@ -3,6 +3,8 @@ import { createOwnerRequest } from '../../../api/ownerRequests'; // Make sure to
 import './AddOwner.css'; // Add your CSS file import
 import Sidebar from '../../../components/Sidebar/Sidebar';
 import { useNavigate } from 'react-router-dom';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 const AddOwner = () => {
   const [formValues, setFormValues] = useState({
@@ -24,6 +26,10 @@ const AddOwner = () => {
   const [focusedEmail, setFocusedEmail] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
  
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -55,9 +61,14 @@ const AddOwner = () => {
       console.log(formValues);
       const response = await createOwnerRequest(formData);
       console.log('Owner added successfully', response);
-      navigate(`/calendar`, { replace: true });
+      openSnackbar('success', 'Właściciel dodany pomyślnie!');
+      setTimeout(() => {
+        navigate(`/calendar`, { replace: true });
+      }, 3000);
     } catch (error) {
       console.error('Error:', error.message);
+      openSnackbar('error', 'Błąd podczas dodawania właściciela.');
+
     }
   };
 
@@ -69,12 +80,20 @@ const AddOwner = () => {
   const handleFocusPhoneNumber = (e) => setFocusedPhoneNumber(true);
   const handleFocusEmail = (e) => setFocusedEmail(true);
   
+  const openSnackbar = (severity, message) => {
+    setSnackbarSeverity(severity);
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+  };
 
   return (
     <div className="add-owner">
       <Sidebar />
       <div className="owner-form">
-        <h2 style={{ marginBottom: '3vh', marginLeft: '15vh' }}>Formularz dodawania właściciela</h2>
+        {/* <h2 style={{ marginBottom: '3vh', marginLeft: '15vh' }}>Formularz dodawania właściciela</h2> */}
+        <h3 className="text-3xl font-semibold mt-10 mb-10 text-emerald-600">
+              Formularz dodawania nowego właściciela
+            </h3>
         <form onSubmit={handleSubmit}>
           <label>
           <input
@@ -105,7 +124,6 @@ const AddOwner = () => {
           />
           <span className='span-addowner'>Należy podać nazwisko właściciela</span>
           </label>
-          
           <label>
           <input
             className="input-owner-form"
@@ -165,7 +183,6 @@ const AddOwner = () => {
           />
           <span className='span-addowner'>Należy podać numer telefonu właściciela</span>
           </label>
-
           <label>
           <input
             className="input-owner-form"
@@ -191,6 +208,21 @@ const AddOwner = () => {
           </div>
         </form>
       </div>
+      <Snackbar
+        open={snackbarOpen}
+        anchorOrigin={{ vertical:"top", horizontal:"right" }}
+        autoHideDuration={6000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={() => setSnackbarOpen(false)}
+          severity={snackbarSeverity}
+        >
+          {snackbarMessage}
+        </MuiAlert>
+      </Snackbar>
     </div>
   );
 };
