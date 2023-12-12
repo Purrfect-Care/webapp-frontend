@@ -3,26 +3,17 @@ import GlobalContext from "../../context/GlobalContext";
 import VisitForm from '../../pages/VisitForm/VisitForm';
 import ViewVisit from '../../pages/VisitForm/ViewVisit';
 import { createVisitRequest, updateVisitRequest, deleteVisitRequest } from '../../api/visitsRequest';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
 import ConfirmationPopup from "../../components/ConifrmationPopup/ConfirmationPopup";
 
 
 
-function EventModal() {
-  const { setShowEventModal, selectedEvent, daySelected } = useContext(GlobalContext);
+function EventModal({snackbar}) {
+  const { setShowEventModal, selectedEvent, daySelected, updateEvent } = useContext(GlobalContext);
   const [isFormForEdit, setIsFormForEdit] = useState(selectedEvent ? false : true);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
-  const [snackbarMessage, setSnackbarMessage] = useState('');
   const [isFormVisible, setIsFormVisible] = useState(true);
   const [visitToDelete, setVisitToDelete] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-  const closeEventReload = () => {
-    setShowEventModal(false);
-    window.location.href = '/calendar'; 
-  };
 
   const closeForm = () => {
     setIsFormVisible(false);
@@ -49,20 +40,14 @@ function EventModal() {
       console.log(EventData);
       if (selectedEvent) await updateVisitRequest(selectedEvent.id, EventData);
       else await createVisitRequest(EventData);
-      openSnackbar('success', 'Wizyta przypisana pomyślnie! Trwa odświeżanie strony...');
+      snackbar('success', 'Wizyta przypisana pomyślnie!');
       setIsFormVisible(false);
+      updateEvent();
     } catch (error) {
       console.error('Error submitting form:', error);
-      openSnackbar('error', 'Błąd podczas przypisywania wizyty.');
+      snackbar('error', 'Błąd podczas przypisywania wizyty.');
     }
-    setTimeout(() => {
-      closeEventReload();
-    }, 6000);
-  };
-  const openSnackbar = (severity, message) => {
-    setSnackbarSeverity(severity);
-    setSnackbarMessage(message);
-    setSnackbarOpen(true);
+    closeEventModal();
   };
 
   const newEvent = {
@@ -86,16 +71,15 @@ function EventModal() {
         return;
       }
       await deleteVisitRequest(visitToDelete.id);
-      openSnackbar('success', 'Usuwanie wizyty zakończone sukcesem!');
+      snackbar('success', 'Usuwanie wizyty zakończone sukcesem!');
       setShowConfirmation(false);
+      updateEvent();
     } catch (error) {
       console.error('Error deleting visit:', error);
-      openSnackbar('error', 'Błąd podczas usuwania wizyty.');
+      snackbar('error', 'Błąd podczas usuwania wizyty.');
     } finally {
       // Close the form
-      setTimeout(() => {
-        closeEventReload();
-      }, 6000);
+      closeEventModal()
     }
   };
   const cancelDeleteVisit = () => {
@@ -103,7 +87,6 @@ function EventModal() {
   };
 
   return (
-    <>
       <div>
         {isFormVisible ? (
           !isFormForEdit ? (
@@ -135,22 +118,6 @@ function EventModal() {
           />
         )}
       </div>
-      <Snackbar
-        open={snackbarOpen}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-        autoHideDuration={6000}
-        onClose={() => setSnackbarOpen(false)}
-      >
-        <MuiAlert
-          elevation={6}
-          variant="filled"
-          onClose={() => setSnackbarOpen(false)}
-          severity={snackbarSeverity}
-        >
-          {snackbarMessage}
-        </MuiAlert>
-      </Snackbar>
-    </>
   );
 }
 

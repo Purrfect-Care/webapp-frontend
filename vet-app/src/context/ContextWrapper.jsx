@@ -40,6 +40,21 @@ export default function ContextWrapper(props) {
     fetchEvents();
   }, []); // Fetch events on component mount
 
+
+  const updateEvent = async () => {
+    try {
+      const employeeData = JSON.parse(localStorage.getItem('employeeData'));
+      if(employeeData.employee_role.toString() === 'Administrator'){
+        const eventsData = await visitsByEmployeeClinicIdRequest(employeeData.employees_clinic_id.toString());
+        setEvents(eventsData);
+      } else {
+        const eventsData = await visitsByEmployeeIdRequest(employeeData.id.toString());
+        setEvents(eventsData);
+      }
+    } catch (error) {
+      console.error("Error fetching events from the server:", error);
+    }
+  }
   useEffect(() => {
     setLabels((prevLabels) => {
       return [...new Set(events.map((evt) => evt.visit_status))].map((label) => {
@@ -82,6 +97,7 @@ export default function ContextWrapper(props) {
         labels,
         updateLabel,
         filteredEvents,
+        updateEvent,
       }}
     >
       {props.children}
