@@ -44,7 +44,7 @@ body {
   font-size: 2rem;
 }
 
-.create-presc {
+.create-illness {
   height: 100%;
 
 }
@@ -165,4 +165,16 @@ body {
 
 .illness-history-table {
   margin-top: 10px;
+}
+
+.create-illness-button {
+  background-color: #00897B;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  border-radius: 8px;
+}
+.create-illness-button:hover {
+  background-color: #2f6d58;
 }

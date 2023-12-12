@@ -111,16 +111,7 @@ const IllnessHistoryPage = ({ patient }) => {
     );
   }
 
-  if (!illnessHistory.length) {
-    return (
-      <div className="no-data-msg">
-        <h1 className="no-documents-msg">
-          Brak historii chorób dla tego pacjenta
-        </h1>
-      </div>
-    );
-  }
-
+  
   const sortedIllnessHistory = [...illnessHistory].sort((a, b) => {
     if (sortBy.column === "DATA") {
       const dateA = new Date(a.illness_onset_date);
@@ -130,31 +121,21 @@ const IllnessHistoryPage = ({ patient }) => {
     return 0;
   });
 
-  if (!sortedIllnessHistory.length) {
-    return (
-      <div className="no-data-msg">
-        <h1 className="no-documents-msg">
-          Brak dodanych dokumentów dla tego pacjenta
-        </h1>
-      </div>
-    );
-  }
-
   const handleIllnessHistoryForm = () => {
     setShowIllnessHistoryForm(true);
   };
   const handleCloseIllnessHistoryForm = () => {
     setShowIllnessHistoryForm(false);
   };
-
+  
   const submitIllnessForm = async (formData) => {
     try {
       console.log("Form Data:", formData);
-
+      
       await createIllnessHistoryRequest(formData);
       const updatedIllnessHistory = await illnessHistoryByPatientIdRequest(patient.id);
       setIllnessHistory(updatedIllnessHistory);
-
+      
       openSnackbar('success', 'Choroba przypisana pomyślnie!');
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -162,14 +143,56 @@ const IllnessHistoryPage = ({ patient }) => {
     }
     handleCloseIllnessHistoryForm();
   };
-
+  
   const openSnackbar = (severity, message) => {
     setSnackbarSeverity(severity);
     setSnackbarMessage(message);
     setSnackbarOpen(true);
   };
-
-
+  
+  
+  if (!sortedIllnessHistory.length) {
+    return (
+      <>
+      <div className="no-data-msg">
+        <h1 className="no-documents-msg">
+          Brak historii chorób dla tego pacjenta
+        </h1>
+        <button onClick={handleIllnessHistoryForm} className="create-illness-button">
+          Dodaj chorobę
+        </button>
+        {showIllnessHistoryForm && (
+        <>
+          <IllnessHistoryForm
+          isOpen={showIllnessHistoryForm}
+          onClose={handleCloseIllnessHistoryForm}
+          initialValues={{
+            illness_history_patient_id: patient.id,
+            illness_onset_date: dayjs().format('YYYY-MM-DD')
+          }}
+          onSubmit={submitIllnessForm}
+        />
+        </>
+      )}
+      </div>
+      <Snackbar
+      open={snackbarOpen}
+      anchorOrigin={{ vertical:"top", horizontal:"right" }}
+      autoHideDuration={6000}
+      onClose={() => setSnackbarOpen(false)}
+    >
+      <MuiAlert
+        elevation={6}
+        variant="filled"
+        onClose={() => setSnackbarOpen(false)}
+        severity={snackbarSeverity}
+      >
+        {snackbarMessage}
+      </MuiAlert>
+    </Snackbar>
+    </>
+    );
+  }
   return (
     <>
     <div className="illness-history-table">
@@ -188,7 +211,7 @@ const IllnessHistoryPage = ({ patient }) => {
           DATA {sortBy.column === "DATA" && (sortBy.ascending ? "↑" : "↓")}
         </span>
         <span className="column-illness_history_delete">USUŃ</span>
-        <div className="create-presc">
+        <div className="create-illness">
     <IoAddCircle onClick={handleIllnessHistoryForm} className="column-illness_history_create" />
     </div>
         
