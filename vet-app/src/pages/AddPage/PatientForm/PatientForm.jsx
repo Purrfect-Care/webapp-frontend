@@ -13,7 +13,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 import { useNavigate } from 'react-router-dom';
-
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 const PatientForm = ({ onClose }) => {
   const [formValues, setFormValues] = useState({
@@ -43,6 +44,9 @@ const PatientForm = ({ onClose }) => {
   const [focusedClinic, setFocusedClinic] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  const [snackbarMessage, setSnackbarMessage] = useState('');
 
 
   dayjs.extend(utc);
@@ -136,9 +140,13 @@ const PatientForm = ({ onClose }) => {
 
       const response = await createPatientRequest(formData);
       console.log('Form submitted!', response);
-      navigate(`/patients/${response.id}`, { replace: true });
+      openSnackbar('success', 'Pacjent dodany pomyślnie!');
+      setTimeout(() => {
+        navigate(`/patients/${response.id}`, { replace: true });
+      }, 3000);
     } catch (error) {
       console.error('Error:', error.message);
+      openSnackbar('error', 'Błąd podczas dodawania pacjenta.');
     }
   };
 
@@ -163,6 +171,12 @@ const PatientForm = ({ onClose }) => {
   const handleFocusClinic = (e) => {
     setFocusedClinic(true);
   }
+
+  const openSnackbar = (severity, message) => {
+    setSnackbarSeverity(severity);
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+  };
 
 
   return (
@@ -338,7 +352,21 @@ const PatientForm = ({ onClose }) => {
         </div>
 
       </div>
-
+      <Snackbar
+        open={snackbarOpen}
+        anchorOrigin={{ vertical:"top", horizontal:"right" }}
+        autoHideDuration={6000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={() => setSnackbarOpen(false)}
+          severity={snackbarSeverity}
+        >
+          {snackbarMessage}
+        </MuiAlert>
+      </Snackbar>
     </>
 
   );
