@@ -55,6 +55,10 @@
     width: 100%;
   }
   
+  .form-sections-prescription-form label {
+    display: block;
+    margin-bottom: 5px;
+  }
   
   .form-section-medication {
     display: flex;
@@ -65,10 +69,7 @@
     display: flex;
     align-items: center;
   }
-  label {
-    display: block;
-    margin-bottom: 5px;
-  }
+  
   
   .select-prescriptionform,
   .input-prescriptionform {

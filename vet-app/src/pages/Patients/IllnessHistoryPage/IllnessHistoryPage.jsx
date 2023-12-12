@@ -12,6 +12,7 @@ import IllnessHistoryForm from "../../IllnessHistoryForm/IllnessHistoryForm.jsx"
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 import dayjs from 'dayjs';
+import { IoAddCircle } from "react-icons/io5";
 
 
 
@@ -28,6 +29,7 @@ const IllnessHistoryPage = ({ patient }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
+ 
 
   useEffect(() => {
     if (patient) {
@@ -186,9 +188,10 @@ const IllnessHistoryPage = ({ patient }) => {
           DATA {sortBy.column === "DATA" && (sortBy.ascending ? "↑" : "↓")}
         </span>
         <span className="column-illness_history_delete">USUŃ</span>
-        <button onClick={handleIllnessHistoryForm} className="column-illness_history_create">
-          <FaPlus/>
-        </button>
+        <div className="create-presc">
+    <IoAddCircle onClick={handleIllnessHistoryForm} className="column-illness_history_create" />
+    </div>
+        
       </div>
       <div className="illness_history_list">
         {sortedIllnessHistory.map((historyItem) => (

@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
@@ -15,7 +15,7 @@ const Sidebar = () => {
 
   useEffect(() => {
     // Fetch employee data from local storage
-    const storedEmployeeData = localStorage.getItem('employeeData');
+    const storedEmployeeData = localStorage.getItem("employeeData");
     if (storedEmployeeData) {
       setEmployeeData(JSON.parse(storedEmployeeData));
     }
@@ -24,9 +24,9 @@ const Sidebar = () => {
   const showSidebarTab = () => setSidebarTab(!sidebarTab);
   const handleExit = () => {
     // Clear localStorage data
-    localStorage.removeItem('employeeData');
-    localStorage.removeItem('authToken');
-    localStorage.removeItem('authTokenExpiration');
+    localStorage.removeItem("employeeData");
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("authTokenExpiration");
   };
 
   return (
@@ -37,7 +37,7 @@ const Sidebar = () => {
         </Link>
         <Header />
       </div>
-      <IconContext.Provider value={{ color: "#fff", className: "icons"}}>
+      <IconContext.Provider value={{ color: "#fff", className: "icons" }}>
         <nav className={sidebarTab ? "side-menu active" : "side-menu"}>
           <ul className="side-menu-items" onClick={showSidebarTab}>
             <li className="sidebar-toggle">
@@ -48,15 +48,20 @@ const Sidebar = () => {
             {SidebarData.map((item, index) => {
               // Check if the role is Administrator or if the item is not "Dodaj"
               const shouldRenderItem =
-                employeeData?.employee_role === "Administrator" || item.title !== "Dodaj";
+                (employeeData?.employee_role === "Administrator" &&
+                  item.title !== "Recepta") ||
+                (employeeData?.employee_role !== "Administrator" &&
+                  item.title !== "Dodaj");
 
-              return shouldRenderItem && (
-                <li key={index} className={item.className}>
-                  <Link to={item.path}>
-                    {item.icon }
-                    <span className="item-title">{item.title}</span>
-                  </Link>
-                </li>
+              return (
+                shouldRenderItem && (
+                  <li key={index} className={item.className}>
+                    <Link to={item.path}>
+                      {item.icon}
+                      <span className="item-title">{item.title}</span>
+                    </Link>
+                  </li>
+                )
               );
             })}
             <Link to="/login" className="exit" onClick={handleExit}>

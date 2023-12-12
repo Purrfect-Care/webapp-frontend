@@ -7,6 +7,7 @@ import PulseLoader from "react-spinners/PulseLoader";
 import PrescriptionForm from "../../../PrescriptionForm/PrescriptionForm";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import { IoAddCircle } from "react-icons/io5";
 
 
 const DocumentsPage = ({ patient }) => {
@@ -111,7 +112,9 @@ const DocumentsPage = ({ patient }) => {
   return (
     <>
     <div className="documentsPage">
-      <button onClick={handleCreatePrescription} className="create_prescription_button">Utwórz Receptę</button>
+      <div className="create-presc">
+    <IoAddCircle onClick={handleCreatePrescription} className="create_prescription_button" />
+    </div>
       {loading && (
         <div className="no-data-msg">
         <PulseLoader

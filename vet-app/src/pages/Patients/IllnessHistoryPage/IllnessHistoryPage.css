@@ -21,10 +21,11 @@ body {
   justify-content: space-between;
   cursor: pointer;
   font-weight: bold;
-  height: 3vh;
+  height: 5vh;
   width: calc(100% - 15px);
   border-bottom: 1px solid black; /* Bottom border only */
   text-align: center; /* Center the text */
+  margin-bottom: 1px;
 }
 
 /* Styling for each column in the header */
@@ -38,8 +39,14 @@ body {
 .column-illness_history_create {
   color: #4aa587;
   display: flex;
-  align-items: center;
   justify-content: center;
+  margin-bottom: 2px;
+  font-size: 2rem;
+}
+
+.create-presc {
+  height: 100%;
+
 }
 
 /* Visit list styling */
@@ -157,5 +164,5 @@ body {
 }
 
 .illness-history-table {
-  margin-top: 20px;
+  margin-top: 10px;
 }

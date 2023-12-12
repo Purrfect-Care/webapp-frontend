@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "./SignIn.css";
-import { getClinicsRequest } from "../../api/clinicRequests";
-import { addEmployeeRequest } from "../../api/employeeRequests";
-import Sidebar from "../../components/Sidebar/Sidebar";
+import { getClinicsRequest } from "../../../api/clinicRequests";
+import { addEmployeeRequest } from "../../../api/employeeRequests";
+import Sidebar from "../../../components/Sidebar/Sidebar";
+
 const SignIn = () => {
   const [clinicsData, setClinicsData] = useState([]);
   const [formValues, setFormValues] = useState({});

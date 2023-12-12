@@ -1,0 +1,58 @@
+.patientForm {
+  height: 100vh;
+  overflow: hidden;
+}
+
+#patientForm {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 567px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+#patientForm select{
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 15px;
+}
+
+#patientForm input {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.patientForm-name{
+  margin-top: 14px;
+  padding: 10px 30px;
+}
+
+.patient-gender {
+  padding: 10px 82px;
+  margin-right: 20px;
+}
+
+.patient-species {
+  padding: 10px 68px;
+  margin-right: 20px;
+}
+
+.patient-breed {
+  padding: 10px 50px;
+}
+
+.patientForm-owner {
+  padding: 10px 42px;
+}
+
+.patientForm-clinic {
+  padding: 10px 50px;
+}
+
+.patient-form-photo {
+  padding: 20px 60px;
+  background-color: #05966947;
+}

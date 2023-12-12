@@ -15,8 +15,8 @@ const AddVisitType = () => {
     } catch (error) {
       console.error("Error:", error.message);
     } finally {
-      //confiramtion popup
-      setVisitType({visit_type_name: "" });
+      // Confirmation popup
+      setVisitType({ visit_type_name: "" });
     }
   };
 
@@ -39,13 +39,24 @@ const AddVisitType = () => {
                 setVisitType({ ...visitType, visit_type_name: e.target.value })
               }
             />
-            <button
-              type="submit"
-              onClick={handleAddVisitType}
-              className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md"
-            >
-              Dodaj
-            </button>
+            <div className="flex justify-between w-96 items-center">
+              <div className="text-sm text-emerald-950">
+                <h5>Potrzebny typ wizyty jest już dodany?</h5>
+                <a
+                  href="http://localhost:3000/add-visit-subtype"
+                  className="font-semibold"
+                >
+                  Dodaj podtyp wizyty.
+                </a>
+              </div>
+              <button
+                type="submit"
+                onClick={handleAddVisitType}
+                className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md"
+              >
+                Dodaj
+              </button>
+            </div>
           </div>
         </div>
       </div>

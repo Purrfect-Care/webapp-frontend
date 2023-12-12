@@ -20,20 +20,19 @@
     font-size: larger;
 }
 
+.create-presc {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 8px;
+}
 
 .create_prescription_button {
-    background-color: #00897B;
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    cursor: pointer;
-    border-radius: 8px;
-    margin: auto;
-    margin-bottom: 5px;
-    margin-top: 5px;
-    margin-left: 10px;
+    color: #00897B;
+    font-size: 3rem;
+    align-items: center;
 }
 
 .create_prescription_button:hover {
-    background-color: #2f6d58;
+    color: #2f6d58;
 }

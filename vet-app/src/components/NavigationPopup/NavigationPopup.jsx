@@ -21,8 +21,8 @@ const PopupComponent = () => {
     navigate(path);
   };
 
-  const navigateToVisitType = () => {
-    let path = "/add-visit-type";
+  const navigateToOwner = () => {
+    let path = "/add-owner";
     navigate(path);
   };
 
@@ -40,7 +40,6 @@ const PopupComponent = () => {
     let path = "/add-breed";
     navigate(path);
   };
-
 
   const navigateToSignIn = () => {
     let path = "/sign-in";
@@ -61,12 +60,12 @@ const PopupComponent = () => {
         <div className="nav-buttons">
           <div>
             <button onClick={navigateToPatient}>Pacjenta</button>
+            <button onClick={navigateToOwner}>Właściciela</button>
             <button onClick={navigateToSignIn}>Pracownika</button>
-            <button onClick={navigateToIllness}>Chorobę</button>
             <button onClick={navigateToMedication}>Lek</button>
           </div>
           <div>
-            <button onClick={navigateToVisitType}>Typ wizyty</button>
+            <button onClick={navigateToIllness}>Chorobę</button>
             <button onClick={navigateToVisitSubtype}>Podtyp wizyty</button>
             <button onClick={navigateToSpecies}>Gatunek</button>
             <button onClick={navigateToBreed}>Rasę</button>

@@ -58,6 +58,7 @@ export async function createPatientRequest(formData) {
     });
     if (response.ok) {
       const updatedData = await response.json();
+      console.log(updatedData);
       return updatedData;
     } else {
       throw new Error(`Response ${response.status}: ${response.statusText}`);

@@ -56,7 +56,7 @@ const AddVisitSubtype = () => {
             </h3>
             <select
               name="visit_subtypes_visit_type_id"
-              className="mb-6 rounded-md h-12"
+              className="rounded-md h-12"
               onChange={handleInputChange}
               value={formValues.visit_subtypes_visit_type_id}
             >
@@ -67,8 +67,17 @@ const AddVisitSubtype = () => {
                 </option>
               ))}
             </select>
+            <span className="flex w-full justify-end mr-32 mb-7 mt-1 whitespace-nowrap text-sm text-emerald-950">
+                  <h5>Nie ma typu wizyty, który chcesz wybrać?</h5>
+                  <a
+                    href="http://localhost:3000/add-visit-type"
+                    className="ml-1 font-semibold"
+                  >
+                    Dodaj go.
+                  </a>
+                </span>
             <input
-              className="rounded h-12 w-96 border-none mb-10"
+              className="rounded h-12 w-96 border-none mb-6"
               type="text"
               placeholder="Nazwa podtypu wizyty"
               name="visit_subtype_name"

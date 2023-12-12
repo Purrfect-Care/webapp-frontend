@@ -6,7 +6,7 @@ import CalendarPage from "./pages/Calendar/CalendarPage";
 import PatientsPage from "./pages/Patients/PatientsPage";
 import VisitTypePage from "./pages/VisitType/VisitType";
 import Login from "./pages/Login/Login";
-import SignIn from "./pages/SignIn/SignIn";
+import SignIn from "./pages/AddPage/SignIn/SignIn";
 import AddClinic from "./pages/AddPage/AddClinic/AddClinic";
 import AutoLogout from "./api/AutoLogout";
 import CreatePrescription from "./pages/CreatePrescription/CreatePrescription";
@@ -14,7 +14,7 @@ import AddPage from "./pages/AddPage/AddPage";
 import AddMedications from "./pages/AddPage/AddMedications";
 import AddVisitType from "./pages/AddPage/AddVisitType";
 import AddVisitSubtype from "./pages/AddPage/AddVisitSubtype";
-import PatientForm from "./pages/PatientForm/PatientForm";
+import PatientForm from "./pages/AddPage/PatientForm/PatientForm";
 import AddOwner from "./pages/AddPage/AddOwner/AddOwner";
 import AddIllness from "./pages/AddPage/AddIllness";
 import AddSpecies from "./pages/AddPage/AddSpecies";
@@ -30,10 +30,7 @@ const CustomRoute = ({ element, path }) => {
   const employeeData = JSON.parse(localStorage.getItem("employeeData"));
   const isAdministrator = employeeData?.employee_role === "Administrator";
 
-  if (
-    path === "/login" ||
-    path === "/"
-  ) {
+  if (path === "/login" || path === "/") {
     // For public routes, redirect to home if the user is authenticated
     return isAuthenticated() ? <Navigate to="/calendar" replace /> : element;
   } else if (
@@ -42,6 +39,11 @@ const CustomRoute = ({ element, path }) => {
       path === "/add-clinic" ||
       path === "/add-visit-type" ||
       path === "/add-visit-subtype" ||
+      path === "/add-medication" ||
+      path === "/add-species" ||
+      path === "/add-breed" ||
+      path === "/add-patient" ||
+      path === "/add-owner" ||
       path === "/add-medication" ||
       path === "/add-illness") &&
     !isAdministrator
@@ -161,9 +163,7 @@ function App() {
           />
           <Route
             path="/add-owner"
-            element={
-              <CustomRoute element={<AddOwner />} path="/add-owner" />
-            }
+            element={<CustomRoute element={<AddOwner />} path="/add-owner" />}
           />
           <Route
             path="/add-species"
@@ -173,9 +173,7 @@ function App() {
           />
           <Route
             path="/add-breed"
-            element={
-              <CustomRoute element={<AddBreed />} path="/add-breed" />
-            }
+            element={<CustomRoute element={<AddBreed />} path="/add-breed" />}
           />
         </Routes>
       </BrowserRouter>

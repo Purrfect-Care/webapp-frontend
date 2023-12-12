@@ -21,8 +21,14 @@
     margin-bottom: 15px;
 }
 
+
 .main {
     margin-top: 15px;
+    width: 100%;
+}
+
+.species-breed {
+    width: 100%;
 }
 
 .firstNameSignIn {
@@ -36,12 +42,12 @@
 
 .roles {
     margin-right: 15px;
-    padding: 8px 50px;
+    padding: 10px 50px;
     border-radius: 10px;
 }
 
 .clinics {
-    padding: 8px 100px;
+    padding: 10px 100px;
     border-radius: 10px;
 }
 
