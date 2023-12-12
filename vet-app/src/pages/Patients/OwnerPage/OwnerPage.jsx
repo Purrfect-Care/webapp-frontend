@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { patientRequest } from "../../../api/patientsRequests.js"; 
-import { deleteOwnerById, ownerByIdRequest } from "../../../api/ownerRequests.js";
+import { deleteOwnerById, ownerByIdRequest, editOwnerRequest } from "../../../api/ownerRequests.js";
 import "./OwnerPage.css";
 import EditOwnerForm from "../../EditOwnerForm/EditOwnerForm.jsx";
 import PulseLoader from "react-spinners/PulseLoader";
 import ConfirmationPopup from "../../../components/ConifrmationPopup/ConfirmationPopup";
-
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 const OwnerPage = () => {
     const [ownerData, setOwnerData] = useState(null);
@@ -16,6 +17,11 @@ const OwnerPage = () => {
     const navigate = useNavigate();
     const { id: patientId } = useParams();
     const [loading, setLoading] = useState(true);
+
+    //const [showEditOwnerForm, setShowEditOwnerForm] = useState(false);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+    const [snackbarMessage, setSnackbarMessage] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
@@ -86,6 +92,25 @@ const OwnerPage = () => {
         const handleCloseEditForm = () => {
           setIsEditFormOpen(false);
           fetchData();
+        };
+
+        const submitEditOwnerForm = async (ownerId, ownerData) => {
+          try {
+            console.log("Owner Data:", ownerData);
+            const ownerId = ownerData.id;
+            await editOwnerRequest(ownerId, ownerData);
+            openSnackbar('success', 'Pomyślnie zmieniono dane właściciela!');
+          } catch (error) {
+            console.error("Error submitting form:", error);
+            openSnackbar('error', 'Błąd podczas edycji danych właściciela.');
+          }
+          handleCloseEditForm();
+        };
+
+        const openSnackbar = (severity, message) => {
+          setSnackbarSeverity(severity);
+          setSnackbarMessage(message);
+          setSnackbarOpen(true);
         };
 
         const fetchData = async () => {
@@ -163,8 +188,24 @@ const OwnerPage = () => {
               isOpen={isEditFormOpen}
               ownerId={ownerData?.id}
               existingData={ownerData}
-              onClose={handleCloseEditForm} />
-            )}          
+              onClose={handleCloseEditForm} 
+              onSubmit={submitEditOwnerForm}/>
+            )} 
+            <Snackbar
+    open={snackbarOpen}
+    anchorOrigin={{ vertical:"top", horizontal:"right" }}
+    autoHideDuration={6000}
+    onClose={() => setSnackbarOpen(false)}
+  >
+    <MuiAlert
+      elevation={6}
+      variant="filled"
+      onClose={() => setSnackbarOpen(false)}
+      severity={snackbarSeverity}
+    >
+      {snackbarMessage}
+    </MuiAlert>
+  </Snackbar>         
           </>          
         );
       };
