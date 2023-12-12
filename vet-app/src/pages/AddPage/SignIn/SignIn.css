@@ -16,39 +16,45 @@
 
 #siginForm input {
     border-radius: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    margin-bottom: 15px;
+    padding: 8px;
 }
 
 
 .main {
-    margin-top: 15px;
+    display: flex;
     width: 100%;
+    align-items: center;
+}
+
+.code-city {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.role-clinics {
+    display: flex;
+    width: 100%;
+    align-items: center;
 }
 
 .species-breed {
     width: 100%;
 }
 
-.firstNameSignIn {
-    margin-right: 20px;
-}
 
-.addressSignin {
-    width: 100%; 
-    max-width: 400px !important; 
-}
 
 .roles {
     margin-right: 15px;
     padding: 10px 50px;
     border-radius: 10px;
+    border: 1px solid #ccc;
 }
 
 .clinics {
     padding: 10px 100px;
     border-radius: 10px;
+    border: 1px solid #ccc;
 }
 
 .links {

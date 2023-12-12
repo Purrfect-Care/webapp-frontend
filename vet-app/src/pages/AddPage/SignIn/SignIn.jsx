@@ -3,13 +3,128 @@ import "./SignIn.css";
 import { getClinicsRequest } from "../../../api/clinicRequests";
 import { addEmployeeRequest } from "../../../api/employeeRequests";
 import Sidebar from "../../../components/Sidebar/Sidebar";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 const SignIn = () => {
   const [clinicsData, setClinicsData] = useState([]);
   const [formValues, setFormValues] = useState({});
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [errors, setErrors] = useState({
+    employee_first_name: "",
+    employee_last_name: "",
+    employee_email: "",
+    employee_password: "",
+    employee_address: "",
+  });
+
+  const openSnackbar = (severity, message) => {
+    setSnackbarSeverity(severity);
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+  };
+
+  const clearErrors = (name) => {
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: "",
+    }));
+  };
+
+  const validateForm = () => {
+    let valid = true;
+    const newErrors = { ...errors };
+
+    if (
+      !formValues.employee_first_name ||
+      !formValues.employee_first_name.trim()
+    ) {
+      newErrors.employee_first_name = "Podaj imię pracownika.";
+      valid = false;
+    } else {
+      newErrors.employee_first_name = "";
+    }
+
+    if (
+      !formValues.employee_last_name ||
+      !formValues.employee_last_name.trim()
+    ) {
+      newErrors.employee_last_name = "Podaj nazwisko pracownika.";
+      valid = false;
+    } else {
+      newErrors.employee_last_name = "";
+    }
+
+    if (!formValues.employee_email || !formValues.employee_email.trim()) {
+      newErrors.employee_email = "Podaj email pracownika.";
+      valid = false;
+    } else {
+      newErrors.employee_email = "";
+    }
+
+    if (!formValues.employee_password || !formValues.employee_password.trim()) {
+      newErrors.employee_password = "Podaj hasło pracownika.";
+      valid = false;
+    } else {
+      newErrors.employee_password = "";
+    }
+
+    if (!formValues.employee_address || !formValues.employee_address.trim()) {
+      newErrors.employee_address = "Podaj adres pracownika.";
+      valid = false;
+    } else {
+      newErrors.employee_address = "";
+    }
+
+    if (!formValues.employee_postcode || !formValues.employee_postcode.trim()) {
+      newErrors.employee_postcode = "Podaj kod pocztowy pracownika.";
+      valid = false;
+    } else {
+      newErrors.employee_postcode = "";
+    }
+
+    if (!formValues.employee_city || !formValues.employee_city.trim()) {
+      newErrors.employee_city = "Podaj maisto pracownika.";
+      valid = false;
+    } else {
+      newErrors.employee_city = "";
+    }
+
+    if (
+      !formValues.employee_phone_number ||
+      !formValues.employee_phone_number.trim()
+    ) {
+      newErrors.employee_phone_number = "Podaj numer telefonu pracownika.";
+      valid = false;
+    } else {
+      newErrors.employee_phone_number = "";
+    }
+
+    if (!formValues.employee_role || !formValues.employee_role.trim()) {
+      newErrors.employee_role = "Wybierz rolę pracownika.";
+      valid = false;
+    } else {
+      newErrors.employee_role = "";
+    }
+    if (
+      !formValues.employees_clinic_id ||
+      !formValues.employees_clinic_id.trim()
+    ) {
+      newErrors.employees_clinic_id = "Wybierz klinikę pracownika.";
+      valid = false;
+    } else {
+      newErrors.employees_clinic_id = "";
+    }
+
+    setErrors(newErrors);
+    return valid;
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+    clearErrors(name);
     if (name === "employee_postcode" && value.length <= 6) {
       setFormValues({
         ...formValues,
@@ -32,13 +147,17 @@ const SignIn = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!validateForm()) {
+      return;
+    }
+
     try {
       await addEmployeeRequest(formValues);
+      openSnackbar("success", "Pracownik dodany pomyślnie");
+      setFormValues({});
     } catch (error) {
       console.error("Error submitting form: " + error);
-    } finally {
-      //confirmation popup
-      setFormValues({});
+      openSnackbar("error", "Błąd podczas dodawania pracownika");
     }
   };
 
@@ -56,144 +175,260 @@ const SignIn = () => {
   }, []);
 
   return (
-    <div className="signIn">
-      <Sidebar />
-      <div className="mainPart">
-        <div className="flex flex-col items-center">
-          <h3 className="text-3xl font-semibold mt-6 text-emerald-600">
-            Formularz dodawania nowego pracownika
-          </h3>
-          <div className="formSignIn">
-            <form id="siginForm" onSubmit={handleSubmit}>
-              <div className="main">
-                <input
-                  className="firstNameSignIn"
-                  name="employee_first_name"
-                  type="text"
-                  placeholder="Imię"
-                  value={formValues.employee_first_name || ""}
-                  onChange={handleInputChange}
-                  required
-                />
-                <input
-                  className="lastName"
-                  name="employee_last_name"
-                  type="text"
-                  placeholder="Nazwisko"
-                  onChange={handleInputChange}
-                  value={formValues.employee_last_name || ""}
-                  required
-                />
-              </div>
-              <input
-                className="email"
-                name="employee_email"
-                type="email"
-                placeholder="Email"
-                onChange={handleInputChange}
-                value={formValues.employee_email || ""}
-                required
-              />
-              <input
-                className="password"
-                name="employee_password"
-                type="password"
-                placeholder="Hasło"
-                onChange={handleInputChange}
-                value={formValues.employee_password || ""}
-                required
-              />
-              <input
-                className="addressSignin"
-                type="text"
-                placeholder="Adres"
-                name="employee_address"
-                onChange={handleInputChange}
-                value={formValues.employee_address || ""}
-                required
-              />
-              <div className="cityCode">
-                <input
-                  type="text"
-                  name="employee_postcode"
-                  className="postcode"
-                  placeholder="Kod pocztowy"
-                  onChange={handleInputChange}
-                  value={formValues.employee_postcode || ""}
-                  maxLength="6"
-                  required
-                />
-                <input
-                  className="city"
-                  type="text"
-                  placeholder="Miasto"
-                  onChange={handleInputChange}
-                  value={formValues.employee_city || ""}
-                  name="employee_city"
-                  required
-                />
-              </div>
-              <input
-                className="phone"
-                type="text"
-                placeholder="Telefon"
-                onChange={handleInputChange}
-                value={formValues.employee_phone_number || ""}
-                name="employee_phone_number"
-                maxLength="9"
-                required
-              />
-              <div>
-                <select
-                  name="employee_role"
-                  className="roles"
-                  onChange={handleInputChange}
-                  value={formValues.employee_role}
-                >
-                  <option value="">Wybierz rolę</option>
-                  <option value="Weterynarz">Weterynarz</option>
-                  <option value="Administrator">Administrator</option>
-                </select>
-                <select
-                  name="employees_clinic_id"
-                  className="clinics"
-                  onChange={handleInputChange}
-                  value={formValues.employees_clinic_id}
-                >
-                  <option value="">Wybierz klinikę</option>
-                  {clinicsData.map((clinic) => (
-                    <option key={clinic.id} value={clinic.id}>
-                      {clinic.clinic_name}
-                    </option>
-                  ))}
-                </select>
-                <span className=" flex mt-2 justify-end whitespace-nowrap text-sm text-emerald-950">
-                  <h5>Nie ma Twojej kliniki?</h5>
+    <>
+      <div className="signIn">
+        <Sidebar />
+        <div className="mainPart">
+          <div className="flex flex-col items-center">
+            <h3 className="text-2xl font-semibold mr-6 mt-2 text-emerald-600">
+              Formularz dodawania nowego pracownika
+            </h3>
+            <div className="formSignIn">
+              <form id="siginForm" onSubmit={handleSubmit}>
+                <div className="main">
+                  <div className="relative pb-7 mr-10 w-56">
+                    <input
+                      className={`rounded ${
+                        errors.employee_first_name
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      }`}
+                      name="employee_first_name"
+                      type="text"
+                      placeholder="Imię"
+                      value={formValues.employee_first_name || ""}
+                      onChange={handleInputChange}
+                    />
+                    {errors.employee_first_name && (
+                      <span className="text-red-500 text-sm absolute right-0">
+                        {errors.employee_first_name}
+                      </span>
+                    )}
+                  </div>
+                  <div className="relative pb-7 w-56">
+                    <input
+                      className={`rounded ${
+                        errors.employee_first_name
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      }`}
+                      name="employee_last_name"
+                      type="text"
+                      placeholder="Nazwisko"
+                      onChange={handleInputChange}
+                      value={formValues.employee_last_name || ""}
+                    />
+                    {errors.employee_last_name && (
+                      <span className="text-red-500 text-sm absolute right-0">
+                        {errors.employee_last_name}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="relative pb-7 w-56">
+                  <input
+                    className={`rounded ${
+                      errors.employee_email
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    }`}
+                    name="employee_email"
+                    type="email"
+                    placeholder="Email"
+                    onChange={handleInputChange}
+                    value={formValues.employee_email || ""}
+                  />
+                  {errors.employee_email && (
+                    <span className="text-red-500 text-sm absolute right-0">
+                      {errors.employee_email}
+                    </span>
+                  )}
+                </div>
+                <div className="relative pb-7 w-56">
+                  <input
+                    className={`rounded ${
+                      errors.employee_password
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    }`}
+                    name="employee_password"
+                    type="password"
+                    placeholder="Hasło"
+                    onChange={handleInputChange}
+                    value={formValues.employee_password || ""}
+                  />
+                  {errors.employee_password && (
+                    <span className="text-red-500 text-sm absolute right-0">
+                      {errors.employee_password}
+                    </span>
+                  )}
+                </div>
+                <div className="relative pb-7 w-96">
+                  <input
+                    className={`rounded w-96 ${
+                      errors.employee_address
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    }`}
+                    type="text"
+                    placeholder="Adres"
+                    name="employee_address"
+                    onChange={handleInputChange}
+                    value={formValues.employee_address || ""}
+                  />
+                  {errors.employee_address && (
+                    <span className="text-red-500 text-sm absolute bottom-0 right-0 mb-2 mr-2">
+                      {errors.employee_address}
+                    </span>
+                  )}
+                </div>
+                <div className="code-city">
+                  <div className="relative pb-7 mr-10 w-56">
+                    <input
+                      type="text"
+                      name="employee_postcode"
+                      className={`rounded ${
+                        errors.employee_postcode
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      }`}
+                      placeholder="Kod pocztowy"
+                      onChange={handleInputChange}
+                      value={formValues.employee_postcode || ""}
+                      maxLength="6"
+                    />
+                    {errors.employee_postcode && (
+                      <span className="text-red-500 text-sm absolute right-0">
+                        {errors.employee_postcode}
+                      </span>
+                    )}
+                  </div>
+                  <div className="relative pb-7 mr-10 w-56">
+                    <input
+                      className={`rounded ${
+                        errors.employee_city
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      }`}
+                      type="text"
+                      placeholder="Miasto"
+                      onChange={handleInputChange}
+                      value={formValues.employee_city || ""}
+                      name="employee_city"
+                    />
+                    {errors.employee_city && (
+                      <span className="text-red-500 text-sm absolute right-0">
+                        {errors.employee_city}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="relative pb-7 w-56">
+                  <input
+                    className={`rounded ${
+                      errors.employee_phone_number
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    }`}
+                    type="text"
+                    placeholder="Telefon"
+                    onChange={handleInputChange}
+                    value={formValues.employee_phone_number || ""}
+                    name="employee_phone_number"
+                    maxLength="9"
+                  />
+                  {errors.employee_phone_number && (
+                    <span className="text-red-500 text-sm absolute right-0">
+                      {errors.employee_phone_number}
+                    </span>
+                  )}
+                </div>
+                <div className="role-clinics">
+                  <div className="relative pb-7 mr-10 w-56">
+                    <select
+                      name="employee_role"
+                      className={`rounded w-56 ${
+                        errors.employee_role
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      }`}
+                      onChange={handleInputChange}
+                      value={formValues.employee_role}
+                    >
+                      <option value="">Wybierz rolę</option>
+                      <option value="Weterynarz">Weterynarz</option>
+                      <option value="Administrator">Administrator</option>
+                    </select>
+                    {errors.employee_role && (
+                      <span className="text-red-500 text-sm absolute bottom-0 right-0 mb-2 mr-2">
+                        {errors.employee_role}
+                      </span>
+                    )}
+                  </div>
+                  <div className="relative pb-7 w-72">
+                    <select
+                      name="employees_clinic_id"
+                      className={`rounded w-72 ${
+                        errors.employees_clinic_id
+                          ? "border-red-500"
+                          : "border-gray-300"
+                      }`}
+                      onChange={handleInputChange}
+                      value={formValues.employees_clinic_id}
+                    >
+                      <option value="">Wybierz klinikę</option>
+                      {clinicsData.map((clinic) => (
+                        <option key={clinic.id} value={clinic.id}>
+                          {clinic.clinic_name}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.employees_clinic_id && (
+                      <span className="text-red-500 text-sm absolute bottom-0 right-0 mb-2 mr-2">
+                        {errors.employees_clinic_id}
+                      </span>
+                    )}
+                    </div>
+                  </div>
+                  <div className="flex justify-between w-full items-center">
+                <div className="text-sm text-emerald-950 whitespace-nowrap ">
+                  <h5>Nie ma odpowiedniej kliniki?</h5>
                   <a
                     href="http://localhost:3000/add-clinic"
-                    className="ml-1 font-semibold"
+                    className="font-semibold"
                   >
                     Dodaj ją.
                   </a>
-                </span>
+                </div>
+                <button
+                  type="submit"
+                  onClick={handleSubmit}
+                  className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md"
+                >
+                  Dodaj
+                </button>
               </div>
-              <span className="flex mt-3 flex-end items-center w-full">
-                <footer className="flex justify-end w-full">
-                  <div className="buttonContainer">
-                    <button
-                      type="submit"
-                      className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded  text-white hover:shadow-md"
-                    >
-                      Zarejestruj się
-                    </button>
-                  </div>
-                </footer>
-              </span>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <Snackbar
+        open={snackbarOpen}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        autoHideDuration={6000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={() => setSnackbarOpen(false)}
+          severity={snackbarSeverity}
+        >
+          {snackbarMessage}
+        </MuiAlert>
+      </Snackbar>
+    </>
   );
 };
 

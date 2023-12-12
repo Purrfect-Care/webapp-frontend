@@ -9,7 +9,29 @@ const AddPage = () => {
       <Sidebar />
       <div className="mainPart">
         <div className="addPageNav">
-            <NavigationPopup />
+          <NavigationPopup
+            message={"Co zamierzasz dodać?"}
+            buttonNames={[
+              "Pacjenta",
+              "Właściciela",
+              "Pracownika",
+              "Lek",
+              "Chorobę",
+              "Podtyp wizyty",
+              "Gatunek",
+              "Rasę",
+            ]}
+            urls={[
+              "/add-patient",
+              "/add-owner",
+              "/sign-in",
+              "/add-medication",
+              "/add-illness",
+              "/add-visit-subtype",
+              "/add-species",
+              "/add-breed",
+            ]}
+          />
         </div>
       </div>
     </div>

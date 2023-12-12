@@ -19,6 +19,7 @@ import AddOwner from "./pages/AddPage/AddOwner/AddOwner";
 import AddIllness from "./pages/AddPage/AddIllness";
 import AddSpecies from "./pages/AddPage/AddSpecies";
 import AddBreed from "./pages/AddPage/AddBreed";
+import ShowPage from "./pages/ShowPage/ShowPage";
 
 const isAuthenticated = () => {
   // Implement your logic to check if the user is authenticated
@@ -174,6 +175,10 @@ function App() {
           <Route
             path="/add-breed"
             element={<CustomRoute element={<AddBreed />} path="/add-breed" />}
+          />
+          <Route
+            path="/show"
+            element={<CustomRoute element={<ShowPage/>} path="/show" />}
           />
         </Routes>
       </BrowserRouter>

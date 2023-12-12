@@ -3,47 +3,11 @@ import { useNavigate, Link } from "react-router-dom";
 import "./NavigationPopup.css";
 import * as AiIcons from "react-icons/ai";
 
-const PopupComponent = () => {
+const PopupComponent = ({ message, buttonNames, urls }) => {
   let navigate = useNavigate();
 
-  const navigateToPatient = () => {
-    let path = "/add-patient";
-    navigate(path);
-  };
-
-  const navigateToIllness = () => {
-    let path = "/add-illness";
-    navigate(path);
-  };
-
-  const navigateToMedication = () => {
-    let path = "/add-medication";
-    navigate(path);
-  };
-
-  const navigateToOwner = () => {
-    let path = "/add-owner";
-    navigate(path);
-  };
-
-  const navigateToVisitSubtype = () => {
-    let path = "/add-visit-subtype";
-    navigate(path);
-  };
-
-  const navigateToSpecies = () => {
-    let path = "/add-species";
-    navigate(path);
-  };
-
-  const navigateToBreed = () => {
-    let path = "/add-breed";
-    navigate(path);
-  };
-
-  const navigateToSignIn = () => {
-    let path = "/sign-in";
-    navigate(path);
+  const handleButtonClick = (url) => {
+    navigate(url);
   };
 
   return (
@@ -55,21 +19,21 @@ const PopupComponent = () => {
               <AiIcons.AiOutlineClose className="text-2xl" />
             </Link>
           </div>
-          <p className="navigation-message">Co zamierzasz dodać?</p>
+          <p className="navigation-message">{message}</p>
         </span>
         <div className="nav-buttons">
-          <div>
-            <button onClick={navigateToPatient}>Pacjenta</button>
-            <button onClick={navigateToOwner}>Właściciela</button>
-            <button onClick={navigateToSignIn}>Pracownika</button>
-            <button onClick={navigateToMedication}>Lek</button>
-          </div>
-          <div>
-            <button onClick={navigateToIllness}>Chorobę</button>
-            <button onClick={navigateToVisitSubtype}>Podtyp wizyty</button>
-            <button onClick={navigateToSpecies}>Gatunek</button>
-            <button onClick={navigateToBreed}>Rasę</button>
-          </div>
+          {buttonNames.slice(0, 4).map((buttonName, index) => (
+            <button key={index} onClick={() => handleButtonClick(urls[index])}>
+              {buttonName}
+            </button>
+          ))}
+        </div>
+        <div className="nav-buttons">
+          {buttonNames.slice(4).map((buttonName, index) => (
+            <button key={index + 4} onClick={() => handleButtonClick(urls[index + 4])}>
+              {buttonName}
+            </button>
+          ))}
         </div>
       </div>
     </div>
