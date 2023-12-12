@@ -65,7 +65,7 @@ const handleSubmit = async (e) => {
       setErrorMessage('Wypełnij wszystkie wymagane pola.');
       return;
     }
-    await onSubmit(ownerId, editedData);
+    await onSubmit(ownerId,editedData);
   } catch (error) {
     console.error('Error updating owner data:', error.message);
   }
@@ -86,7 +86,6 @@ return (
 <div>
 <div className={`overlay-edit-owner-form ${isFormOpen ? 'active' : ''}`} onClick={handleClose}></div>
 
-<div style={{ display: isOpen ? 'block' : 'none', zIndex: '1000',position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', border: '2px solid #ccc', padding: '40px', backgroundColor: '#fff',  width: '50vh', height:'50vh' }}>    
 
 <div className="popup-form-edit-owner">
       <h2 style={{marginBottom : '2vh'}}>Formularz edycji danych właściciela</h2>
@@ -227,7 +226,6 @@ return (
       </div>
     </div>
   </div>
-</div>
 );
 };
 
