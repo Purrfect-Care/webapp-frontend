@@ -3,6 +3,8 @@ import { createOwnerRequest } from '../../../api/ownerRequests'; // Make sure to
 import './AddOwner.css'; // Add your CSS file import
 import Sidebar from '../../../components/Sidebar/Sidebar';
 import { useNavigate } from 'react-router-dom';
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 const AddOwner = () => {
   const [formValues, setFormValues] = useState({
@@ -24,6 +26,10 @@ const AddOwner = () => {
   const [focusedEmail, setFocusedEmail] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
  
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -55,9 +61,14 @@ const AddOwner = () => {
       console.log(formValues);
       const response = await createOwnerRequest(formData);
       console.log('Owner added successfully', response);
-      navigate(`/calendar`, { replace: true });
+      openSnackbar('success', 'Właściciel dodany pomyślnie!');
+      setTimeout(() => {
+        navigate(`/calendar`, { replace: true });
+      }, 3000);
     } catch (error) {
       console.error('Error:', error.message);
+      openSnackbar('error', 'Błąd podczas dodawania właściciela.');
+
     }
   };
 
@@ -69,6 +80,11 @@ const AddOwner = () => {
   const handleFocusPhoneNumber = (e) => setFocusedPhoneNumber(true);
   const handleFocusEmail = (e) => setFocusedEmail(true);
   
+  const openSnackbar = (severity, message) => {
+    setSnackbarSeverity(severity);
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+  };
 
   return (
     <div className="add-owner">
@@ -191,6 +207,21 @@ const AddOwner = () => {
           </div>
         </form>
       </div>
+      <Snackbar
+        open={snackbarOpen}
+        anchorOrigin={{ vertical:"top", horizontal:"right" }}
+        autoHideDuration={6000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={() => setSnackbarOpen(false)}
+          severity={snackbarSeverity}
+        >
+          {snackbarMessage}
+        </MuiAlert>
+      </Snackbar>
     </div>
   );
 };
