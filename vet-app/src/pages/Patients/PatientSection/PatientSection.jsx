@@ -11,6 +11,8 @@ import * as Fa6Icons from "react-icons/fa6";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import ConfirmationPopup from "../../../components/ConifrmationPopup/ConfirmationPopup";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 
 const PatientSection = ({ patientId}) => {
@@ -19,6 +21,9 @@ const PatientSection = ({ patientId}) => {
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [patientToDelete, setPatientToDelete] = useState(null);
   const navigate = useNavigate();
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  const [snackbarMessage, setSnackbarMessage] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -48,10 +53,15 @@ const PatientSection = ({ patientId}) => {
 
       await deletePatientById(patientId);
       console.log("Patient deleted successfully");
+      openSnackbar('success', 'Pacjent usunięty pomyślnie!');
 
-      navigate(`/calendar`, { replace: true });
+      setTimeout(() => {
+        navigate(`/calendar`, { replace: true });
+      }, 3000);
+
     } catch (error) {
       console.error('Error deleting patient:', error);
+      openSnackbar('error', 'Błąd podczas usuwania pacjenta.');
     } finally {
       setShowDeleteConfirmation(false)
     }
@@ -89,6 +99,12 @@ const PatientSection = ({ patientId}) => {
 
   const handleSelectOption = (selectedComponent) => {
     setActiveComponent(selectedComponent);
+  };
+
+  const openSnackbar = (severity, message) => {
+    setSnackbarSeverity(severity);
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
   };
 
   return (
@@ -146,6 +162,21 @@ const PatientSection = ({ patientId}) => {
           onNo="Nie"
         />
       )}
+      <Snackbar
+        open={snackbarOpen}
+        anchorOrigin={{ vertical:"top", horizontal:"right" }}
+        autoHideDuration={6000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={() => setSnackbarOpen(false)}
+          severity={snackbarSeverity}
+        >
+          {snackbarMessage}
+        </MuiAlert>
+      </Snackbar>
     </div>
 
     
