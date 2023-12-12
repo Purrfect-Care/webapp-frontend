@@ -211,7 +211,7 @@ const IllnessHistoryPage = ({ patient }) => {
           DATA {sortBy.column === "DATA" && (sortBy.ascending ? "↑" : "↓")}
         </span>
         <span className="column-illness_history_delete">USUŃ</span>
-        <div className="create-illness">
+        <div className="create-presc">
     <IoAddCircle onClick={handleIllnessHistoryForm} className="column-illness_history_create" />
     </div>
         

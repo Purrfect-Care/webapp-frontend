@@ -44,11 +44,6 @@ body {
   font-size: 2rem;
 }
 
-.create-illness {
-  height: 100%;
-
-}
-
 /* Visit list styling */
 .illness_history_list {
   max-height: calc(51vh - 20px); /* Adjust the value as needed */
