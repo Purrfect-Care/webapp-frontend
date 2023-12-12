@@ -9,17 +9,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
   margin: auto;
   width: 500px;
 }
 
 #formClinic input {
-  border-radius: 10px;
+  border-radius: 8px;
   padding: 10px;
-  border: 1px solid #ccc;
-  margin-bottom: 25px;
-  height: 45px;
 }
 
 .name, .address{
@@ -28,4 +25,10 @@
 
 .postcode {
     margin-right: 20px;
+}
+
+.code-city {
+  display: flex;
+  width: 100%;
+  align-items: center;
 }

@@ -12,13 +12,7 @@ const SignIn = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [errors, setErrors] = useState({
-    employee_first_name: "",
-    employee_last_name: "",
-    employee_email: "",
-    employee_password: "",
-    employee_address: "",
-  });
+  const [errors, setErrors] = useState({});
 
   const openSnackbar = (severity, message) => {
     setSnackbarSeverity(severity);
@@ -71,6 +65,14 @@ const SignIn = () => {
       newErrors.employee_password = "";
     }
 
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (formValues.employee_email && !emailRegex.test(formValues.employee_email)) {
+      newErrors.employee_email = "Podaj poprawny adres email.";
+      valid = false;
+    } else {
+      newErrors.employee_email = "";
+    }
+
     if (!formValues.employee_address || !formValues.employee_address.trim()) {
       newErrors.employee_address = "Podaj adres pracownika.";
       valid = false;
@@ -86,7 +88,7 @@ const SignIn = () => {
     }
 
     if (!formValues.employee_city || !formValues.employee_city.trim()) {
-      newErrors.employee_city = "Podaj maisto pracownika.";
+      newErrors.employee_city = "Podaj miasto pracownika.";
       valid = false;
     } else {
       newErrors.employee_city = "";
@@ -108,6 +110,24 @@ const SignIn = () => {
     } else {
       newErrors.employee_role = "";
     }
+    const phoneRegex = /^\d{3} \d{3} \d{3}$/;
+    if (
+      formValues.employee_phone_number &&
+      !phoneRegex.test(formValues.employee_phone_number)
+    ) {
+      newErrors.employee_phone_number = "Zły format numeru telefonu.";
+      valid = false;
+    }
+
+    const postcodeRegex = /^\d{2}-\d{3}$/;
+    if (
+      formValues.employee_postcode &&
+      !postcodeRegex.test(formValues.employee_postcode)
+    ) {
+      newErrors.employee_postcode = "Zły format kodu pocztowego.";
+      valid = false;
+    }
+
     if (
       !formValues.employees_clinic_id ||
       !formValues.employees_clinic_id.trim()
@@ -388,26 +408,26 @@ const SignIn = () => {
                         {errors.employees_clinic_id}
                       </span>
                     )}
-                    </div>
                   </div>
-                  <div className="flex justify-between w-full items-center">
-                <div className="text-sm text-emerald-950 whitespace-nowrap ">
-                  <h5>Nie ma odpowiedniej kliniki?</h5>
-                  <a
-                    href="http://localhost:3000/add-clinic"
-                    className="font-semibold"
-                  >
-                    Dodaj ją.
-                  </a>
                 </div>
-                <button
-                  type="submit"
-                  onClick={handleSubmit}
-                  className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md"
-                >
-                  Dodaj
-                </button>
-              </div>
+                <div className="flex justify-between w-full items-center">
+                  <div className="text-sm text-emerald-950 whitespace-nowrap ">
+                    <h5>Nie ma odpowiedniej kliniki?</h5>
+                    <a
+                      href="http://localhost:3000/add-clinic"
+                      className="font-semibold"
+                    >
+                      Dodaj ją.
+                    </a>
+                  </div>
+                  <button
+                    type="submit"
+                    onClick={handleSubmit}
+                    className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md"
+                  >
+                    Dodaj
+                  </button>
+                </div>
               </form>
             </div>
           </div>
