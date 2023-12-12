@@ -24,7 +24,7 @@ const VisitsPage = ({ patient }) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  
+
 
 
   useEffect(() => {
@@ -71,7 +71,7 @@ const VisitsPage = ({ patient }) => {
   const editVisit = (visit) => {
     setSelectedVisit(visit);
     setIsFormForEdit(true);
-    setEditOnly(true);    
+    setEditOnly(true);
   };
 
   const openForm = (visit) => {
@@ -130,7 +130,7 @@ const VisitsPage = ({ patient }) => {
     setIsFormOpen(true);
     setIsFormForEdit(true);
   };
-  
+
   const deleteVisit = (visit) => {
     setVisitToDelete(visit);
     setShowConfirmation(true);
@@ -146,6 +146,7 @@ const VisitsPage = ({ patient }) => {
       await deleteVisitRequest(visitId);
       console.log('Visit deleted successfully');
       openSnackbar('success', 'Usuwanie wizyty zakończone sukcesem!');
+      console.log("snackbar: ", snackbarMessage, snackbarSeverity)
       setVisits((prevVisits) =>
         prevVisits.filter((visit) => visit.id !== visitToDelete.id)
       );
@@ -153,7 +154,6 @@ const VisitsPage = ({ patient }) => {
       console.error('Error deleting visit:', error);
       openSnackbar('error', 'Błąd podczas usuwania wizyty.');
     } finally {
-      closeForm();
       setShowConfirmation(false);
     }
   };
@@ -161,16 +161,16 @@ const VisitsPage = ({ patient }) => {
   const cancelDeleteVisit = () => {
     setShowConfirmation(false);
   };
-
-  
   const openSnackbar = (severity, message) => {
     setSnackbarSeverity(severity);
     setSnackbarMessage(message);
     setSnackbarOpen(true);
   };
-  
-  
-  
+
+
+  const closeFormForDelete = () => {
+    setIsFormOpen(false);
+  }
   const sortedVisits = [...visits].sort((a, b) => {
     if (sortBy.column === 'NAZWA') {
       const nameA = a.visits_visit_type.visit_type_name.toLowerCase();
@@ -228,109 +228,117 @@ const VisitsPage = ({ patient }) => {
         </>
     );
   }
+
+  const handleEdit = () => {
+    setIsFormForEdit(true);
+    setIsFormOpen(false);
+  }
   return (
     <>
-    <div className='visits-table'>
-      <div className="column-bar">
-        <span className="column-visit_name" onClick={() => sortColumn('NAZWA')}>
-          NAZWA {sortBy.column === 'NAZWA' && (sortBy.ascending ? '↑' : '↓')}
-        </span>
-        <span className="column-visit_date" onClick={() => sortColumn('DATA')}>
-          DATA {sortBy.column === 'DATA' && (sortBy.ascending ? '↑' : '↓')}
-        </span>
-        <span className="column-visit_edit">
-          EDYTUJ
-        </span>
-        <span className="column-visit_delete">
-          USUŃ
-        </span>
-            <button onClick={handleCreateVisit} className="column-visit_add">
-          <FaPlus/>
-        </button>
-      </div>
-      <div className="visit-list">
-        {sortedVisits.map((visit) => (
-          <div key={visit.id} className="visit-item">
-            <div className="visit-name">
-              {/* Adjust the link as needed */}
-              <a href='#' onClick={() => openForm(visit)}>
-                {visit.visits_visit_type.visit_type_name} - {visit.visits_visit_subtype.visit_subtype_name}
-              </a>
+      <div className='visits-table'>
+        <div className="column-bar">
+          <span className="column-visit_name" onClick={() => sortColumn('NAZWA')}>
+            NAZWA {sortBy.column === 'NAZWA' && (sortBy.ascending ? '↑' : '↓')}
+          </span>
+          <span className="column-visit_date" onClick={() => sortColumn('DATA')}>
+            DATA {sortBy.column === 'DATA' && (sortBy.ascending ? '↑' : '↓')}
+          </span>
+          <span className="column-visit_edit">
+            EDYTUJ
+          </span>
+          <span className="column-visit_delete">
+            USUŃ
+          </span>
+          <button onClick={handleCreateVisit} className="column-visit_add">
+            <FaPlus />
+          </button>
+        </div>
+        <div className="visit-list">
+          {sortedVisits.map((visit) => (
+            <div key={visit.id} className="visit-item">
+              <div className="visit-name">
+                {/* Adjust the link as needed */}
+                <a href='#' onClick={() => openForm(visit)}>
+                  {visit.visits_visit_type.visit_type_name} - {visit.visits_visit_subtype.visit_subtype_name}
+                </a>
+              </div>
+              <div className="visit-date">
+                {new Date(visit.visit_datetime).toLocaleDateString('en-GB')}
+              </div>
+              <div className="visit-edit">
+                <button onClick={() => editVisit(visit)}>
+                  <FaPen />
+                </button>
+              </div>
+              <div className="visit-delete">
+                <button onClick={() => deleteVisit(visit)} className="delete-button">
+                  <FaTrash />
+                </button>
+              </div>
             </div>
-            <div className="visit-date">
-              {new Date(visit.visit_datetime).toLocaleDateString('en-GB')}
-            </div>
-            <div className="visit-edit">
-              <button onClick={() => editVisit(visit)}>
-                <FaPen />
-              </button>
-            </div>
-            <div className="visit-delete">
-              <button onClick={() => deleteVisit(visit)} className="delete-button">
-                <FaTrash />
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-      {isFormOpen && selectedVisit && (
-        <ViewVisit
-          onClose={closeForm}
-          setEdit={setIsFormForEdit}
-          initialValues={selectedVisit}
-        />
-      )}
-      {isFormForEdit && selectedVisit && (
-        <VisitForm
-          onClose={closeForm}
-          onSubmit={updateForm}
-          initialValues={selectedVisit}
-          setEdit={setIsFormForEdit}
-          editOnly={editOnly}
-        />
-      )}
+          ))}
+        </div>
+        {isFormOpen && selectedVisit && (
+          <ViewVisit
+            onClose={closeForm}
+            setEdit={handleEdit}
+            initialValues={selectedVisit}
+            setVisit={setVisitToDelete}
+            setConfirmation={setShowConfirmation}
+            setFormVisible={closeFormForDelete}
+          />
+        )}
+        {isFormForEdit && selectedVisit && (
+          <VisitForm
+            onClose={closeForm}
+            onSubmit={updateForm}
+            initialValues={selectedVisit}
+            setEdit={setIsFormForEdit}
+            editOnly={editOnly}
+          />
+        )}
 
-      {isFormForEdit && isFormOpen && (
-        <VisitForm
-          onClose={closeForm}
-          onSubmit={submitForm}
-          initialValues={{
-            visits_patient_id: patient.id,
-            visit_datetime: dayjs(),
-            visits_employee_id: JSON.parse(
-              localStorage.getItem("employeeData")
-            ).id.toString(),
-          }}
-          setEdit={setIsFormForEdit}
-          editOnly={editOnly}
-        />
-      )}
-      {showConfirmation && (
-        <ConfirmationPopup
-          message="Czy na pewno chcesz usunąć wizytę?"
-          onConfirm={confirmDeleteVisit}
-          onCancel={cancelDeleteVisit}
-          onYes = "Tak"
-          onNo = "Nie"
-        />
-      )}
-    </div>
-    <Snackbar
-    open={snackbarOpen}
-    anchorOrigin={{ vertical:"top", horizontal:"right" }}
-    autoHideDuration={6000}
-    onClose={() => setSnackbarOpen(false)}
-  >
-    <MuiAlert
-      elevation={6}
-      variant="filled"
-      onClose={() => setSnackbarOpen(false)}
-      severity={snackbarSeverity}
-    >
-      {snackbarMessage}
-    </MuiAlert>
-  </Snackbar>
-  </>
+        {isFormForEdit && isFormOpen && (
+          <VisitForm
+            onClose={closeForm}
+            onSubmit={submitForm}
+            initialValues={{
+              visits_patient_id: patient.id,
+              visit_datetime: dayjs(),
+              visits_employee_id: JSON.parse(
+                localStorage.getItem("employeeData")
+              ).id.toString(),
+            }}
+            setEdit={setIsFormForEdit}
+            editOnly={editOnly}
+          />
+        )}
+        {showConfirmation && (
+          <ConfirmationPopup
+            message="Czy na pewno chcesz usunąć wizytę?"
+            onConfirm={confirmDeleteVisit}
+            onCancel={cancelDeleteVisit}
+            onYes="Tak"
+            onNo="Nie"
+          />
+        )}
+      </div>
+      <Snackbar
+        open={snackbarOpen}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        autoHideDuration={6000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={() => setSnackbarOpen(false)}
+          severity={snackbarSeverity}
+        >
+          {snackbarMessage}
+        </MuiAlert>
+      </Snackbar>
+    </>
   );
 };
 

@@ -10,7 +10,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';  // Import the utc plugin
 import timezone from 'dayjs/plugin/timezone';
 
-const ViewVisit = ({ onClose, initialValues, setEdit }) => {
+const ViewVisit = ({ onClose, initialValues, setEdit, setVisit, setConfirmation, setFormVisible }) => {
   const [formValues, setFormValues] = useState({
     visit_datetime: null,
     visit_duration: null,
@@ -64,8 +64,9 @@ const ViewVisit = ({ onClose, initialValues, setEdit }) => {
   }, [initialValues]);
 
   const deleteVisit = (visit) => {
-    setVisitToDelete(visit);
-    setShowConfirmation(true);
+    setVisit(visit);
+    setConfirmation(true);
+    setFormVisible();
   };
 
   const confirmDeleteVisit = async () => {
@@ -180,7 +181,7 @@ const ViewVisit = ({ onClose, initialValues, setEdit }) => {
           </div>
           <div className="button-container-static">
             <button className="delete-button" onClick={() => deleteVisit(initialValues)}>Usuń</button>
-            <button className="form-button-static" onClick={() => setEdit(true)}>Edytuj</button>
+            <button className="form-button-static" onClick={setEdit}>Edytuj</button>
             <button className="form-button-static" onClick={onClose}>Zamknij</button>
           </div>
         </form>

@@ -2,9 +2,10 @@ import React, { useState, useContext } from "react";
 import GlobalContext from "../../context/GlobalContext";
 import VisitForm from '../../pages/VisitForm/VisitForm';
 import ViewVisit from '../../pages/VisitForm/ViewVisit';
-import { createVisitRequest, updateVisitRequest } from '../../api/visitsRequest';
+import { createVisitRequest, updateVisitRequest, deleteVisitRequest } from '../../api/visitsRequest';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import ConfirmationPopup from "../../components/ConifrmationPopup/ConfirmationPopup";
 
 
 
@@ -15,11 +16,17 @@ function EventModal() {
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [isFormVisible, setIsFormVisible] = useState(true);
+  const [visitToDelete, setVisitToDelete] = useState(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
-  const closeForm = () => {
+  const closeEventReload = () => {
     setShowEventModal(false);
     window.location.href = '/calendar'; 
   };
+
+  const closeForm = () => {
+    setIsFormVisible(false);
+  }
 
   const closeEventModal = () => {
     setShowEventModal(false);
@@ -49,7 +56,7 @@ function EventModal() {
       openSnackbar('error', 'Błąd podczas przypisywania wizyty.');
     }
     setTimeout(() => {
-      closeForm();
+      closeEventReload();
     }, 6000);
   };
   const openSnackbar = (severity, message) => {
@@ -72,6 +79,29 @@ function EventModal() {
 
   };
 
+  const confirmDeleteVisit = async () => {
+    try {
+      if (!visitToDelete || !visitToDelete.id) {
+        console.error('No selected visit or visit ID');
+        return;
+      }
+      await deleteVisitRequest(visitToDelete.id);
+      openSnackbar('success', 'Usuwanie wizyty zakończone sukcesem!');
+      setShowConfirmation(false);
+    } catch (error) {
+      console.error('Error deleting visit:', error);
+      openSnackbar('error', 'Błąd podczas usuwania wizyty.');
+    } finally {
+      // Close the form
+      setTimeout(() => {
+        closeEventReload();
+      }, 6000);
+    }
+  };
+  const cancelDeleteVisit = () => {
+    setShowConfirmation(false);
+  };
+
   return (
     <>
       <div>
@@ -81,6 +111,9 @@ function EventModal() {
               onClose={closeEventModal}
               setEdit={setIsFormForEdit}
               initialValues={selectedEvent ? selectedEvent : newEvent}
+              setVisit={setVisitToDelete}
+              setConfirmation={setShowConfirmation}
+              setFormVisible={closeForm}
             />
           ) : (
             <VisitForm
@@ -92,6 +125,15 @@ function EventModal() {
             />
           )
         ) : null}
+        {showConfirmation && (
+          <ConfirmationPopup
+            message="Czy na pewno chcesz usunąć wizytę?"
+            onConfirm={confirmDeleteVisit}
+            onCancel={cancelDeleteVisit}
+            onYes="Tak"
+            onNo="Nie"
+          />
+        )}
       </div>
       <Snackbar
         open={snackbarOpen}
