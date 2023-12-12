@@ -31,27 +31,20 @@
 }
 
 .input-owner-form {
+  width:40vh;
   border-radius: 10px;
   padding: 10px;
   border: 1px solid #ccc;
   margin-bottom: 1vh;
   margin-top: 1vh;
+  margin-left: 15vh;
   height: 50px;
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-content: center;
 }
 
-.input-owner-form-left-column{
-  border-radius: 10px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  margin-bottom: 1vh;
-  margin-top: 1vh;
-  height: 50px;
-  justify-content: center;
-  align-content: center;
-  margin-right: 2vh;
-}
 
 .submit-button-add-owner {
   margin-top: 2vh;
@@ -103,4 +96,8 @@
   padding: 3px;
   color: red;
   margin-left: 15vh;
+}
+
+.input-owner-form:invalid[focused="true"] ~ .span-addowner{
+  display: block;
 }

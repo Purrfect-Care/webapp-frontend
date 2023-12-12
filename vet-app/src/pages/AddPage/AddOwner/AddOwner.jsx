@@ -95,9 +95,9 @@ const AddOwner = () => {
               Formularz dodawania nowego właściciela
             </h3>
         <form onSubmit={handleSubmit}>
-          <div>
+          <label>
           <input
-            className="input-owner-form-left-column"
+            className="input-owner-form"
             type="text"
             name="owner_first_name"
             value={formValues.owner_first_name}
@@ -108,7 +108,9 @@ const AddOwner = () => {
             focused={focusedFirstName.toString()}
           />
           <span className='span-addowner'>Należy podać imię właściciela</span>
-
+          </label>
+          
+          <label>
           <input
             className="input-owner-form"
             type="text"
@@ -121,9 +123,8 @@ const AddOwner = () => {
             focused={focusedLastName.toString()}
           />
           <span className='span-addowner'>Należy podać nazwisko właściciela</span>
-          </div>
-          
-          <div>
+          </label>
+          <label>
           <input
             className="input-owner-form"
             type="text"
@@ -136,11 +137,11 @@ const AddOwner = () => {
             focused={focusedAddress.toString()}
           />
           <span className='span-addowner'>Należy podać adres właściciela</span>
-          </div>
+          </label>
           
-          <div>
+          <label>
           <input
-            className="input-owner-form-left-column"
+            className="input-owner-form"
             type="text"
             name="owner_postcode"
             value={formValues.owner_postcode}
@@ -151,7 +152,9 @@ const AddOwner = () => {
             focused={focusedPostcode.toString()}
           />
           <span className='span-addowner'>Należy podać kod pocztowy właściciela</span>
-
+          </label>
+          
+          <label>
           <input
             className="input-owner-form"
             type="text"
@@ -164,9 +167,9 @@ const AddOwner = () => {
             focused={focusedCity.toString()}
           />
           <span className='span-addowner'>Należy podać miasto właściciela</span>
-          </div>
+          </label>
 
-          <div>
+          <label>
           <input
             className="input-owner-form"
             type="text"
@@ -179,9 +182,8 @@ const AddOwner = () => {
             focused={focusedPhoneNumber.toString()}
           />
           <span className='span-addowner'>Należy podać numer telefonu właściciela</span>
-          </div>
-
-          <div>
+          </label>
+          <label>
           <input
             className="input-owner-form"
             type="email"
@@ -195,7 +197,7 @@ const AddOwner = () => {
             focused={focusedEmail.toString()}
           />
           <span className='span-addowner'>Należy podać email właściciela</span>
-          </div>
+          </label>
           {errorMessage &&  <span className='span-addowner-error'>{errorMessage}</span>}
 
 

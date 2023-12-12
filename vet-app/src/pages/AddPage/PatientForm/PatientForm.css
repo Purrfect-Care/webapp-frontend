@@ -91,11 +91,6 @@
   justify-content: center;
 }
 
-.input-patientform:invalid + .span-patientform,
-.input-patientform:placeholder-shown + .span-patientform {
-  display: block;
-  margin-left: 15vh;
-}
 
 .span-patientform {
   font-size: 12px;
@@ -112,6 +107,11 @@
 }
 
 .select-patientform:invalid[focused="true"] ~ .span-patientform{
+  display: block;
+  margin-left: 15vh;
+}
+
+.input-patientform:invalid[focused="true"] ~ .span-patientform{
   display: block;
   margin-left: 15vh;
 }
