@@ -71,7 +71,7 @@ const ViewPrescriptionForm = ({ onClose, prescriptionDetails }) => {
 
     return (
         <div>
-             <div className={`overlay-prescription-view ${isFormOpen ? 'active' : ''}`} onClick={handleClose}></div>
+             <div className={`overlay-prescription-view ${isFormOpen ? 'active' : ''}`}></div>
         <div className="popup-form-prescription">
             <form className="form-sections-prescription" id="prescription-form">
                 {/* Section 1: Date */}

@@ -97,7 +97,7 @@ const ViewVisit = ({ onClose, initialValues, setEdit, setVisit, setConfirmation,
 
   return (
     <div>
-      <div className={`overlay-visit-view ${isFormOpen ? 'active' : ''}`} onClick={handleClose}></div>
+      <div className={`overlay-visit-view ${isFormOpen ? 'active' : ''}`} ></div>
       <div className="popup-form-static">
         <h2>Formularz wizyty</h2>
         <form className="form-sections-static">

@@ -104,7 +104,7 @@ const IllnessHistoryForm = ({isOpen, onClose, initialValues, onSubmit}) => {
 
       return (
         <div>
-          <div className={`overlay-illness-history-form ${isFormOpen ? 'active' : ''}`} onClick={handleClose}></div>
+          <div className={`overlay-illness-history-form ${isFormOpen ? 'active' : ''}`}></div>
 
           <div className="popup-form-illness-history">        
         <h2>Formularz choroby</h2>

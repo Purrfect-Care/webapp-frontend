@@ -138,10 +138,6 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
   };
   
 
-  const handleClose = () => {
-    setIsFormOpen(false);
-    onClose();
-  };
   const handleFocusPatient = (e) => {
     setFocusedPatient(true);
   }
@@ -160,7 +156,7 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
 
   return (
     <div>
-      <div className={`overlay-visit-form ${isFormOpen ? 'active' : ''}`} onClick={handleClose}></div>
+      <div className={`overlay-visit-form ${isFormOpen ? 'active' : ''}`}></div>
       <div className="popup-form-visit">
         <h2>Formularz wizyty</h2>
         <form onSubmit={handleSubmit} className="form-sections-visit">
