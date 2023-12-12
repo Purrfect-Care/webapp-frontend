@@ -109,6 +109,47 @@ const DocumentsPage = ({ patient }) => {
     setSnackbarOpen(true);
   };
 
+  if (!prescriptions.length) {
+    return (
+      <>
+      <div className="no-data-msg">
+        <h1 className="no-documents-msg">
+          Brak dodanych dokumentów dla tego pacjenta
+        </h1>
+        <button onClick={handleCreatePrescription} className="create-visit-button">
+          Dodaj receptę
+        </button>
+        {showPrescriptionForm && (
+        <>
+          <PrescriptionForm
+            onClose={handleClosePrescriptionForm}
+            initialPrescriptionValues={{
+              prescriptions_patient_id: patient.id
+            }}
+            onSubmit={handleSubmitPrescriptionForm}
+          />
+        </>
+      )}
+      </div>
+      <Snackbar
+      open={snackbarOpen}
+      anchorOrigin={{ vertical:"top", horizontal:"right" }}
+      autoHideDuration={6000}
+      onClose={() => setSnackbarOpen(false)}
+    >
+      <MuiAlert
+        elevation={6}
+        variant="filled"
+        onClose={() => setSnackbarOpen(false)}
+        severity={snackbarSeverity}
+      >
+        {snackbarMessage}
+      </MuiAlert>
+    </Snackbar>
+    </>
+    );
+  }
+
   return (
     <>
     <div className="documentsPage">
