@@ -1,58 +1,118 @@
-.patientForm {
-  height: 100vh;
-  overflow: hidden;
+.add-patient{
+    background-color: #4aa587;
+    height: 100vh;
+    overflow: auto;
+    border: 1px solid #080707;
 }
 
-#patientForm {
-  height: 100vh;
+.patient-form{
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+    width: 80vh;
+    margin-top: 40px;
+}
+
+.patient-form h3{
+  margin-left: 15vh;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  width: 567px;
-  margin: 0 auto;
-  padding: 20px;
+  font-size: 1.2em;
+  justify-content: center;
+  align-content: center;
+  padding-bottom: 5px;
 }
 
-#patientForm select{
+.select-patientform,
+.input-patientform {
   border-radius: 10px;
+  padding: 10px;
   border: 1px solid #ccc;
-  margin-bottom: 15px;
+  margin-bottom: 1vh;
+  margin-top: 1vh;
+  margin-left: 15vh;
+  height: 60px;
+  width: 70vh;
+  justify-content: center;
+  align-content: center;
 }
 
-#patientForm input {
+.patient-form-date {
+  display: flex;  
+  margin-left: 15vh;
   border-radius: 10px;
-  border: 1px solid #ccc;
+  padding: 10px;
+  justify-content: center;
+  align-content: center;
+  height: 80px;
+  width: 70vh;
 }
 
-.patientForm-name{
-  margin-top: 14px;
-  padding: 10px 30px;
-}
 
-.patient-gender {
-  padding: 10px 82px;
-  margin-right: 20px;
-}
 
-.patient-species {
-  padding: 10px 68px;
-  margin-right: 20px;
-}
-
-.patient-breed {
-  padding: 10px 50px;
-}
-
-.patientForm-owner {
-  padding: 10px 42px;
-}
-
-.patientForm-clinic {
-  padding: 10px 50px;
-}
-
+/* Styles for Photo Upload */
 .patient-form-photo {
-  padding: 20px 60px;
-  background-color: #05966947;
+  flex-wrap: wrap;
+  display: flex; 
+    margin-left: 25vh;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 25px;
+    height: 60px;
+    width: 50vh;
+    background-color: #ffffff;
+    justify-content: center;
+    align-content: center;
+}
+
+
+.submit-button-add-patient {
+  background-color: #047857; /* Replace with your desired background color */
+  color: #ffffff; /* Replace with your desired text color */
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  justify-content: center;
+  align-content: center;
+  margin-bottom: 8vh;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    background-color: #005240; /* Replace with your desired hover background color */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.button-container-add-patient{
+  margin-left: 15vh;
+  margin-top: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.input-patientform:invalid + .span-patientform,
+.input-patientform:placeholder-shown + .span-patientform {
+  display: block;
+  margin-left: 15vh;
+}
+
+.span-patientform {
+  font-size: 12px;
+  padding: 3px;
+  color: red;
+  display: none;
+  margin-left: 15vh;
+}
+.span-patientform-error{
+  font-size: 15px;
+  padding: 3px;
+  color: red;
+  margin-left: 15vh;
+}
+
+.select-patientform:invalid[focused="true"] ~ .span-patientform{
+  display: block;
+  margin-left: 15vh;
 }
