@@ -11,10 +11,12 @@
     max-width: 500px;
     width: 100%;
     box-sizing: border-box;
-    height: 58vh;
+    height: 60vh;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
+    border-radius: 10px;
+
 }
 
 .form-section-edit-owner{

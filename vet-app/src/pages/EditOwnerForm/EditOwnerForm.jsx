@@ -88,7 +88,7 @@ return (
 
 
 <div className="popup-form-edit-owner">
-      <h2 style={{marginBottom : '2vh'}}>Formularz edycji danych właściciela</h2>
+      <h2 className="text-3xl font-semibold mt-5 mb-5 text-emerald-600">Formularz edycji danych właściciela</h2>
       <form onSubmit={handleSubmit} className="form-sections-edit-owner">
         <div className="form-section-edit-owner">
           <div>
