@@ -12,6 +12,9 @@ export default function ContextWrapper(props) {
   const [labels, setLabels] = useState([]);
   const [events, setEvents] = useState([]);
   const [updatePatientBar, setUpdatePatientBar] = useState(false);
+  const [comesFromLogin, setComesFromLogin] = useState(false);
+  const [loggingOut, setLoggingOut] = useState(false);
+
 
   const filteredEvents = useMemo(() => {
     return events.filter((evt) =>
@@ -101,6 +104,10 @@ export default function ContextWrapper(props) {
         updateEvent,
         updatePatientBar,
         setUpdatePatientBar,
+        setComesFromLogin,
+        comesFromLogin,
+        loggingOut,
+        setLoggingOut,
       }}
     >
       {props.children}
