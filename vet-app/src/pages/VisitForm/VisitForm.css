@@ -20,6 +20,7 @@
   transform: translate(-50%, -50%);
   background-color: white;
   padding: 20px;
+  padding-right: 0px;
   border: 1px solid #ccc;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
@@ -27,9 +28,14 @@
   width: 100%;
   box-sizing: border-box;
   height: 75vh;
-  overflow-y: auto;
   display: flex;
   flex-direction: column;
+}
+
+.scrollable-area {
+  flex: 1;
+  padding-right: 20px;
+  overflow-y: auto;
 }
 
 
@@ -37,7 +43,7 @@
 .popup-form-visit input:disabled,
 .popup-form-visit textarea:disabled {
   background-color: #f4f4f4;
-  color: #999;
+  color: #000000;
 }
 
 /* Form Sections Container Styles */
@@ -224,6 +230,8 @@
   font-size: 15px;
   padding: 3px;
   color: red;
+  margin-right: auto;
+  margin-top: 25px;
 }
 
 .select-visitform:invalid[focused="true"] ~ .span-visitform{
@@ -232,4 +240,33 @@
 
 .input-visitform-duration:invalid[focused="true" ] ~ .span-visitform{
   display: block;
+}
+
+.photo-column:last-child {
+  margin-left: auto;
+}
+
+.delete-photo-row {
+  color: red;
+  border: none;
+  padding: 10px 10px;
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.input-visitform-image {
+  flex-wrap: wrap;
+  display: flex;
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  height: 50px;
+  width: 100%;
+  background-color: #ffffff;
+  justify-content: center;
+  align-content: center;
+}
+
+.add-photo-row {
+  color: #4aa587;
 }

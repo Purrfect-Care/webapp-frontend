@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { visitsByPatientIdRequest, updateVisitRequest, deleteVisitRequest, createVisitRequest } from '../../../api/visitsRequest';
+import { createPhotoRequest } from '../../../api/photosRequests';
 import './VisitsPage.css';
 import VisitForm from '../../../pages/VisitForm/VisitForm';
 import ViewVisit from '../../VisitForm/ViewVisit';
@@ -111,9 +112,41 @@ const VisitsPage = ({ patient }) => {
 
   const submitForm = async (formData) => {
     try {
-      console.log("Form Data:", formData);
+      const EventData = {
+        visit_datetime: formData.visit_datetime,
+        visit_duration: formData.visit_duration,
+        visit_status: formData.visit_status,
+        visit_description: formData.visit_description,
+        patient_weight: formData.patient_weight,
+        patient_height: formData.patient_height,
+        visits_patient_id: formData.visits_patient_id,
+        visits_visit_type_id: formData.visits_visit_type_id,
+        visits_visit_subtype_id: formData.visits_visit_subtype_id,
+        visits_employee_id: formData.visits_employee_id,
+      }
+      
+      const photosData = formData.photos.map((photo) => ({
+        image: photo.image,
+        description: photo.description,
+      }));
 
-      await createVisitRequest(formData);
+      const createdEvent = await createVisitRequest(EventData);
+      if (photosData) {
+        for (const photo of photosData) {
+          const photoData = {
+            photo_description: photo.description,
+            image: photo.image,
+            photos_visit_id: createdEvent.id,
+          };
+
+          const finalPhotoData = new FormData();
+          Object.entries(photoData).forEach(([key, value]) => {
+            finalPhotoData.append(key, value);
+          });
+          await createPhotoRequest(finalPhotoData);
+        }
+      }      
+
       const updatedData = await visitsByPatientIdRequest(patient.id);
       setVisits(updatedData);
 
