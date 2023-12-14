@@ -10,6 +10,7 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';  // Import the utc plugin
 import timezone from 'dayjs/plugin/timezone';
+import { FaPlus, FaTrash } from 'react-icons/fa';
 
 
 const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false }) => {
@@ -24,7 +25,6 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
     visits_visit_type_id: '',
     visits_visit_subtype_id: '',
     visits_employee_id: '',
-    photo: null,
   });
   const [allTypes, setAllTypes] = useState([]);
   const [allPatients, setAllPatients] = useState([]);
@@ -39,6 +39,38 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
   const [focusedType, setFocusedType] = useState(false);
   const [focusedSubtype, setFocusedSubtype] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const [photos, setPhotos] = useState([]);
+
+  const addPhotoField = () => {
+    setPhotos((prevPhotos) => [...prevPhotos, { image: null, description: '' }]);
+  };
+
+  const removePhotoField = (index) => {
+    setPhotos((prevPhotos) => {
+      const updatedPhotos = [...prevPhotos];
+      updatedPhotos.splice(index, 1);
+      return updatedPhotos;
+    });
+  };
+
+  const handlePhotoChange = (index, e) => {
+    const file = e.target.files[0];
+    setPhotos((prevPhotos) => {
+      const updatedPhotos = [...prevPhotos];
+      updatedPhotos[index].image = file;
+      return updatedPhotos;
+    });
+  };
+
+  const handleDescriptionChange = (index, e) => {
+    const { name, value } = e.target;
+    setPhotos((prevPhotos) => {
+      const updatedPhotos = [...prevPhotos];
+      updatedPhotos[index].description = value;
+      return updatedPhotos;
+    });
+  };
 
   dayjs.extend(utc);
   dayjs.extend(timezone);
@@ -126,15 +158,16 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
     // Check if any required field is empty
     const requiredFields = ['visits_patient_id', 'visits_visit_type_id', 'visits_visit_subtype_id', 'visit_status', 'visit_datetime', 'visit_duration'];
     const isEmptyField = requiredFields.some(field => !formValues[field]);
+    const isPhotoEmpty = photos.some(photo => !photo.image);
   
-    if (isEmptyField) {
+    if (isEmptyField || isPhotoEmpty) {
       // Display an error message or take appropriate action
       setErrorMessage('Wypełnij wszystkie wymagane pola.');
       return;
     }
   
     console.log('Form submitted!');
-    await onSubmit(formValues);
+    await onSubmit({ ...formValues, photos });
     console.log(formValues);
   };
   
@@ -154,14 +187,6 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
   const handleFocusType = (e) => {
     setFocusedType(true);
   }
-
-  const handlePhotoChange = (e) => {
-    const file = e.target.files[0];
-    setFormValues((prevFormValues) => ({
-      ...prevFormValues,
-      photo: file,
-    }));
-  };
 
 
   return (
@@ -343,18 +368,52 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
                 name="visit_description"
                 value={formValues.visit_description}
                 onChange={handleChange}
-              />          
+              />
             </div>
             <div className="form-section-visit">
               <h3>Zdjęcia</h3>
-              <input
-                className='visit-form-photo'
-                type="file"
-                accept="image/*"
-                name="patient_photo"
-                multiple
-                onChange={handlePhotoChange}
-              />
+              <div className="form-section-row-visit">
+                {photos.map((photo, index) => (
+                  <>
+                    <div className="form-section-column-visit photo-column">
+                      <label>
+                        Wybierz zdjęcie (wymagane)
+                        <div>
+                          <input
+                            className="input-visitform-image"
+                            type="file"
+                            accept="image/*"
+                            name={"image"}
+                            onChange={(e) => handlePhotoChange(index, e)}
+                          />
+                          <span className='span-visitform'>Należy wybrać zdjęcie</span>
+                        </div>
+                      </label>
+                      <div>
+                        &zwnj; 
+                        <div>
+                          <button className='delete-photo-row' type="button" onClick={() => removePhotoField(index)}>
+                            <FaTrash />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="form-section-column-visit">
+                      <label>
+                        Opis zdjęcia
+                        <div>
+                        <textarea
+                          name={`photo_description`}
+                          value={photo.description}
+                          onChange={(e) => handleDescriptionChange(index, e)}
+                        />
+                        </div>
+                      </label>
+                    </div>                    
+                    </>
+                ))}
+                <button className="add-photo-row" type="button" onClick={addPhotoField}><FaPlus /></button>
+            </div>
             </div>
           </div>
         </form>
