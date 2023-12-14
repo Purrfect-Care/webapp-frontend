@@ -109,7 +109,7 @@ export async function allPatientsByClinicIdRequest(clinicId){
 
 
 export async function updatePatientPhotoRequest(patientId, formData) {
-  const endpoint = `http://localhost:8000/api/patients/${patientId}`;
+  const endpoint = `http://localhost:8000/api/patients/${patientId}/`;
   try{
   const response = await fetch(endpoint, {
     method: 'PUT',
