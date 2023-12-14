@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useEffect } from "react";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
@@ -8,10 +8,12 @@ import "./Sidebar.css";
 import { IconContext } from "react-icons";
 import Header from "../Header/Header";
 import * as IoIcons from "react-icons/io";
+import GlobalContext from "../../context/GlobalContext";
 
 const Sidebar = () => {
   const [sidebarTab, setSidebarTab] = useState(false);
   const [employeeData, setEmployeeData] = useState(null);
+  const { setLoggingOut, loggingOut } = useContext(GlobalContext);
 
   useEffect(() => {
     // Fetch employee data from local storage
@@ -23,10 +25,16 @@ const Sidebar = () => {
 
   const showSidebarTab = () => setSidebarTab(!sidebarTab);
   const handleExit = () => {
+    setLoggingOut(true);
+    console.log(loggingOut)
+    
+    
     // Clear localStorage data
     localStorage.removeItem("employeeData");
     localStorage.removeItem("authToken");
     localStorage.removeItem("authTokenExpiration");
+   
+    
   };
 
   return (

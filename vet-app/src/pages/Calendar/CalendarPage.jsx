@@ -12,20 +12,32 @@ import MuiAlert from '@mui/material/Alert';
 
 const CalendarPage = () => {
   const [currentMonth, setCurrentMonth] = useState(getMonth());
-  const { monthIndex, showEventModal } = useContext(GlobalContext);
+  const { monthIndex, showEventModal, comesFromLogin, setComesFromLogin } = useContext(GlobalContext);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
 
+
   useEffect(() => {
     setCurrentMonth(getMonth(monthIndex));
-  }, [monthIndex]);
+      if (comesFromLogin) {
+        openSnackbarLog("success", "Zalogowano pomyślnie!");
+        setComesFromLogin(false); 
+      }
+  }, [monthIndex, comesFromLogin]);
 
   const openSnackbar = (severity, message) => {
     setSnackbarSeverity(severity);
     setSnackbarMessage(message);
     setSnackbarOpen(true);
   };
+
+  const openSnackbarLog = (severity, message) => {
+    setSnackbarSeverity(severity);
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+  };
+
 
   return (
     <>

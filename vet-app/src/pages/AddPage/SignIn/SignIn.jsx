@@ -65,13 +65,7 @@ const SignIn = () => {
       newErrors.employee_password = "";
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (formValues.employee_email && !emailRegex.test(formValues.employee_email)) {
-      newErrors.employee_email = "Podaj poprawny adres email.";
-      valid = false;
-    } else {
-      newErrors.employee_email = "";
-    }
+    
 
     if (!formValues.employee_address || !formValues.employee_address.trim()) {
       newErrors.employee_address = "Podaj adres pracownika.";
@@ -127,6 +121,12 @@ const SignIn = () => {
       newErrors.employee_postcode = "Zły format kodu pocztowego.";
       valid = false;
     }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (formValues.employee_email && !emailRegex.test(formValues.employee_email)) {
+      newErrors.employee_email = "Podaj poprawny adres e-mail.";
+      valid = false;
+    } 
 
     if (
       !formValues.employees_clinic_id ||

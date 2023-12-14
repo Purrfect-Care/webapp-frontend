@@ -93,11 +93,9 @@ const AddClinic = () => {
     
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (formValues.clinic_email && !emailRegex.test(formValues.clinic_email)) {
-      newErrors.clinic_email = "Podaj poprawny adres email.";
+      newErrors.clinic_email = "Podaj poprawny adres e-mail.";
       valid = false;
-    } else {
-      newErrors.clinic_email = "";
-    }
+    } 
 
     setErrors(newErrors);
     return valid;
