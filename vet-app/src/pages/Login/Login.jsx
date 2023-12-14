@@ -43,6 +43,13 @@ const Login = ( {isAdministrator} ) => {
       let path = '/calendar';
       navigate(path);
   }
+
+  const handleEnterPress = (event) => {
+    if (event.key === 'Enter') {
+      // Call your login function here
+      handleLogin();
+    }
+  };
   
   return (
     <div className="bg-customGreen h-screen overflow-hidden">
@@ -56,6 +63,7 @@ const Login = ( {isAdministrator} ) => {
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          onKeyDown={handleEnterPress}
         />
         <input
           className="rounded h-12 w-96 border-none"
@@ -63,6 +71,7 @@ const Login = ( {isAdministrator} ) => {
           placeholder="Hasło"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={handleEnterPress}
         />
         <span className="flex flex-between w-96 items-center">
           <footer className="flex justify-end w-96">
