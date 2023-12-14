@@ -3,6 +3,7 @@ import GlobalContext from "../../context/GlobalContext";
 import VisitForm from '../../pages/VisitForm/VisitForm';
 import ViewVisit from '../../pages/VisitForm/ViewVisit';
 import { createVisitRequest, updateVisitRequest, deleteVisitRequest } from '../../api/visitsRequest';
+import { createPhotoRequest } from '../../api/photosRequests';
 import ConfirmationPopup from "../../components/ConifrmationPopup/ConfirmationPopup";
 
 
@@ -37,9 +38,38 @@ function EventModal({snackbar}) {
         visits_visit_subtype_id: formData.visits_visit_subtype_id,
         visits_employee_id: formData.visits_employee_id,
       }
-      console.log(EventData);
-      if (selectedEvent) await updateVisitRequest(selectedEvent.id, EventData);
-      else await createVisitRequest(EventData);
+
+      const photosData = formData.photos.map((photo) => ({
+        image: photo.image,
+        description: photo.description,
+      }));
+
+      if (selectedEvent) {
+        await updateVisitRequest(selectedEvent.id, EventData);
+        if (photosData) {
+          for (const photo of photosData) {
+            await createPhotoRequest(selectedEvent.id, photo);
+          }
+        }
+      }
+      else {
+        const createdEvent = await createVisitRequest(EventData);
+        if (photosData) {
+          for (const photo of photosData) {
+            const photoData = {
+              photo_description: photo.description,
+              image: photo.image,
+              photos_visit_id: createdEvent.id
+            }
+
+            const finalPhotoData = new FormData();
+            Object.entries(photoData).forEach(([key, value]) => {
+              finalPhotoData.append(key, value);
+            });
+            await createPhotoRequest(finalPhotoData);
+          }
+        }
+      }
       snackbar('success', 'Wizyta przypisana pomyślnie!');
       setIsFormVisible(false);
       updateEvent();
