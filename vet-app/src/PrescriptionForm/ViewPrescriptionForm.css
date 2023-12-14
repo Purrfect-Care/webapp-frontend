@@ -111,11 +111,44 @@
     margin: 0;
   }
   
-  .medication-item {
-    display: flex;
-    justify-content: space-between;
+  .medication-name {
+    font-size: larger; /* Adjust the font size as needed */
+    font-weight: bold; /* Make the font bold */
   }
   
+  .medication-amount {
+    color: #555; /* Adjust the color as needed */
+  }
+  .medication-item {
+    align-items: center; /* Center align items vertically */
+    border: 1px solid #ccc; /* Add border style */
+    padding: 5px; /* Add padding for better appearance */
+    border-radius: 5px; /* Optional: Add border-radius for rounded corners */
+    margin: 4px;
+  }
+
+  .medication-items{
+    margin: 15px;
+  }
+  
+  
+  .medication-info {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .medication-row {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  
+  .medication-dosage {
+    color: #555;
+    padding: 5px;
+    margin-top: 5px; /* Adjust the margin-top as needed */
+  }
   
   .button-container-prescription {
     display: flex;

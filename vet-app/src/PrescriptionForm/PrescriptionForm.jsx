@@ -15,6 +15,7 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
     prescribed_medications: Array.from({ length: 1 }, () => ({
       medication_id: '',
       medication_amount: 1,
+      medication_dosage: '',
     })),
   });
 
@@ -33,6 +34,7 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
           allPatientsByClinicIdRequest(employeeData.employees_clinic_id),
           allMedicationsRequest(),
         ]);
+
 
         if (initialPrescriptionValues.prescriptions_patient_id != null) {
           const patientJSON = await patientRequest(initialPrescriptionValues.prescriptions_patient_id);
@@ -59,19 +61,21 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
     const { name, value } = e.target;
     const updatedMedications = [...formValues.prescribed_medications];
     updatedMedications[index][name] = name === 'medication_amount' ? Math.max(1, Math.min(5, parseInt(value, 10))) : value;
-
+    
     setFormValues((prevFormValues) => ({
       ...prevFormValues,
       prescribed_medications: updatedMedications,
     }));
+    console.log('handlechange: ', updatedMedications);
   };
 
   const handleAddMedication = () => {
     if (formValues.prescribed_medications.length < MAX_MEDICATIONS) {
       setFormValues((prevFormValues) => ({
         ...prevFormValues,
-        prescribed_medications: [...prevFormValues.prescribed_medications, { medication_id: '', medication_amount: 1 }],
+        prescribed_medications: [...prevFormValues.prescribed_medications, { medication_id: '', medication_amount: 1, medication_dosage: '' }],
       }));
+      console.log('handleaddmedication: ', formValues);
     }
   };
 
@@ -87,7 +91,7 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log('handlesubmith: ', formValues);
     await onSubmit(formValues);
   };
   const handleClose = () => {
@@ -171,6 +175,16 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
                     onChange={(e) => handleChange(e, index)}
                     min="1"
                     max="5"
+                  />
+                </label>
+                  <label className='medication-dosage-pres'>
+                  Dawkowanie:
+                  <input
+                    className='input-prescriptionform'
+                    type="text"
+                    name="medication_dosage"
+                    value={medication.medication_dosage}
+                    onChange={(e) => handleChange(e, index)}
                   />
                 </label>
                 {index > 0 && (

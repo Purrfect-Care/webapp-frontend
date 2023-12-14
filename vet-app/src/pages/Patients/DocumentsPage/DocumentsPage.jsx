@@ -73,6 +73,7 @@ const DocumentsPage = ({ patient }) => {
 
   const handleSubmitPrescriptionForm = async (formValues) => {
     try {
+      console.log('handlesubmith: ', formValues);
       const { prescription_date, prescriptions_patient_id } = formValues;
       const prescriptions_employee_id = JSON.parse(localStorage.getItem('employeeData')).id.toString();
 
@@ -84,6 +85,7 @@ const DocumentsPage = ({ patient }) => {
 
       const prescribedMedicationsData = formValues.prescribed_medications.map((medication) => ({
         medication_amount: medication.medication_amount,
+        medication_dosage: medication.medication_dosage,
         prescribed_medications_prescription_id: addedPrescription.id,
         prescribed_medications_medication_id: medication.medication_id,
       }));

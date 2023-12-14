@@ -85,8 +85,13 @@
     margin-right: 10px;
   }
 
+  .medication-dosage-pres{
+    margin-left: 10px;
+  }
+
   .medication-name-pres,
-  .medication-amount-pres{
+  .medication-amount-pres,
+  .medication-dosage-pres{
     height: 80px;
   }
   

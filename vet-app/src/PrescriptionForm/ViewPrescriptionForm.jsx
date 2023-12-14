@@ -113,12 +113,21 @@ const ViewPrescriptionForm = ({ onClose, prescriptionDetails }) => {
                 {/* Section 4: Medications */}
                 <div className="form-section-info">
                 <label className='label-prescription'>Wypisane leki</label>
-                    {prescriptionDetails.prescribed_medications.map((medication, index) => (
-                        <div key={index} className="medication-item">
-                            <p className="medication-name">{medication.medication_name.medication_name}</p>
-                            <p className="medication-amount">{medication.medication_amount}</p>
-                        </div>
-                    ))}
+                <div className='medication-items'>
+                {prescriptionDetails.prescribed_medications.map((medication, index) => (
+                    <div key={index} className="medication-item">
+                    <div className="medication-info">
+                      <div className="medication-row">
+                        <p className="medication-name">{medication.medication_name.medication_name}</p>
+                        <p className="medication-amount">{medication.medication_amount}</p>
+                      </div>
+                      <p className="medication-dosage">Dawkowanie: {medication.medication_dosage}</p>
+                    </div>
+                  </div>
+                  ))}
+                </div>
+                    
+                    
                 </div>
                 <div className='logo-prescription'>
                         <p className='generated'>Wygenerowano za pomocą</p>
