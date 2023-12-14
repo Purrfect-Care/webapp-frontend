@@ -6,7 +6,7 @@ import ViewPrescriptionForm from "../../../PrescriptionForm/ViewPrescriptionForm
 const DocsCard = ({ prescId, medications, date, onDelete, employee, patient, owner }) => {
   const [showPrescriptionForm, setShowPrescriptionForm] = useState(false);
   
-  const cardHeight = 100 + medications.length * 40;
+  const cardHeight = 100 + medications.length * 50;
 
   const handleDelete = () => {
     onDelete(prescId);
