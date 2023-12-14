@@ -19,6 +19,7 @@
   transform: translate(-50%, -50%);
   background-color: white;
   padding: 20px;
+  padding-right: 0px;
   border: 1px solid #ccc;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   z-index: 1000;
@@ -38,11 +39,12 @@
 
 .popup-form-static textarea:disabled {
     background-color: #f4f4f4; /* Adjust the background color as needed */
-    color: #999; /* Adjust the text color as needed */
+    color: #000000; /* Adjust the text color as needed */
 }
 
 .button-container-static {
     display: flex;
+    padding-right: 20px;
     justify-content: flex-end; /* Align buttons to the right */
     width: 100%; /* Ensure full width */
 }

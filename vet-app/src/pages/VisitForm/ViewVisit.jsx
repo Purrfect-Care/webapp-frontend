@@ -99,7 +99,8 @@ const ViewVisit = ({ onClose, initialValues, setEdit, setVisit, setConfirmation,
     <div>
       <div className={`overlay-visit-view ${isFormOpen ? 'active' : ''}`} onClick={handleClose}></div>
       <div className="popup-form-static">
-        <h2>Formularz wizyty</h2>
+        <div className="scrollable-area">
+        <h2>Wizyta</h2>
         <form className="form-sections-static">
           <div className="form-section-static">
             <h3>Weterynarz</h3>
@@ -179,12 +180,13 @@ const ViewVisit = ({ onClose, initialValues, setEdit, setVisit, setConfirmation,
               />
             </div>
           </div>
+          </form>
+          </div>
           <div className="button-container-static">
             <button className="delete-button" onClick={() => deleteVisit(initialValues)}>Usuń</button>
             <button className="form-button-static" onClick={setEdit}>Edytuj</button>
             <button className="form-button-static" onClick={onClose}>Zamknij</button>
-          </div>
-        </form>
+          </div>        
         {showConfirmation && (
           <ConfirmationPopup
             message="Czy na pewno chcesz usunąć wizytę?"
