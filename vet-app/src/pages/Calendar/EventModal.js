@@ -37,7 +37,11 @@ function EventModal({snackbar}) {
         visits_visit_subtype_id: formData.visits_visit_subtype_id,
         visits_employee_id: formData.visits_employee_id,
       }
-      console.log(EventData);
+      
+      const PhotoData = {
+
+      }
+
       if (selectedEvent) await updateVisitRequest(selectedEvent.id, EventData);
       else await createVisitRequest(EventData);
       snackbar('success', 'Wizyta przypisana pomyślnie!');

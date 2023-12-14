@@ -21,6 +21,3 @@ RUN npm install react-scripts -g --silent
 
 # Copy all project files to the container
 COPY . .
-
-# Specify the port that the container should listen on
-EXPOSE 3000

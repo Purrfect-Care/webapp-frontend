@@ -24,6 +24,7 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
     visits_visit_type_id: '',
     visits_visit_subtype_id: '',
     visits_employee_id: '',
+    photo: null,
   });
   const [allTypes, setAllTypes] = useState([]);
   const [allPatients, setAllPatients] = useState([]);
@@ -154,10 +155,20 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
     setFocusedType(true);
   }
 
+  const handlePhotoChange = (e) => {
+    const file = e.target.files[0];
+    setFormValues((prevFormValues) => ({
+      ...prevFormValues,
+      photo: file,
+    }));
+  };
+
+
   return (
     <div>
       <div className={`overlay-visit-form ${isFormOpen ? 'active' : ''}`}></div>
       <div className="popup-form-visit">
+        <div className="scrollable-area">
         <h2>Formularz wizyty</h2>
         <form onSubmit={handleSubmit} className="form-sections-visit">
           <div className="form-section-visit">
@@ -332,12 +343,24 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
                 name="visit_description"
                 value={formValues.visit_description}
                 onChange={handleChange}
+              />          
+            </div>
+            <div className="form-section-visit">
+              <h3>Zdjęcia</h3>
+              <input
+                className='visit-form-photo'
+                type="file"
+                accept="image/*"
+                name="patient_photo"
+                multiple
+                onChange={handlePhotoChange}
               />
-          {errorMessage &&  <span className='span-visitform-error'>{errorMessage}</span>}
             </div>
           </div>
         </form>
+        </div>
         <div className="button-container-visit">
+          {errorMessage &&  <span className='span-visitform-error'>{errorMessage}</span>}
           <button className="form-button-visit" onClick={handleSubmit} type="submit">Zatwierdź</button>
           <button className="form-button-visit" onClick={() => {
             if (editOnly) onClose();
