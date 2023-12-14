@@ -1,5 +1,5 @@
 export async function patientRequest(patientId) {
-  const endpoint = `http://localhost:8000/api/patients/${patientId}`;
+  const endpoint = `http://localhost:8000/api/patients/${patientId}/`;
 
   const response = await fetch(endpoint);
   if (response.ok) {
@@ -93,7 +93,7 @@ export async function deletePatientById(patientId) {
 }
 
 export async function allPatientsByClinicIdRequest(clinicId){
-  const endpoint = `http://127.0.0.1:8000/api/patients/?clinic_id=${clinicId}`
+  const endpoint = `http://127.0.0.1:8000/api/patients/?clinic_id=${clinicId}/`
 
   const response = await fetch(endpoint, { 
       method: "GET"
@@ -105,4 +105,24 @@ export async function allPatientsByClinicIdRequest(clinicId){
   }
 
   throw new Error('Response ${response.status}: ${response.statusText} - ${await response.text()}');
+}
+
+
+export async function updatePatientPhotoRequest(patientId, formData) {
+  const endpoint = `http://localhost:8000/api/patients/${patientId}/`;
+  try{
+  const response = await fetch(endpoint, {
+    method: 'PUT',
+    body: formData,
+  });
+  if (response.ok) {
+    const updatedData = await response.json();
+    return updatedData;
+  } else {
+    throw new Error(`Response ${response.status}: ${response.statusText}`);
+  }
+} catch (error) {
+  console.error('Error updating patient:', error);
+  throw error;
+}
 }

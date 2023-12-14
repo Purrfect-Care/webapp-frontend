@@ -185,7 +185,7 @@ const PatientForm = ({ onClose }) => {
       <div className="add-patient">
       <Sidebar />
         <div className='patient-form'>
-        <h3 className="text-3xl font-semibold mt-10 mb-10 text-emerald-600">
+        <h3 className="text-3xl font-semibold mt-5 mb-5 text-emerald-600">
           Formularz dodawania pacjenta</h3>
           <form onSubmit={handleSubmit}
             encType="multipart/form-data">

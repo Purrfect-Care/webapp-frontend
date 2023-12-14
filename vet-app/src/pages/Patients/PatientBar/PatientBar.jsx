@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./PatientBar.css";
 import PatientRow from "../PatientRow/PatientRow";
 import { patientsSideBarRequest } from "../../../api/patientsRequests";
 import SearchBar from "../SearchBar/SearchBar";
 import * as FiIcons from "react-icons/fi";
+import GlobalContext from "../../../context/GlobalContext";
 
 const PatientBar = () => {
   const [patients, setPatients] = useState([]);
   const [filteredPatients, setFilteredPatients] = useState([]);
   const [searchBar, setSearchBar] = useState(false);
   const [input, setInput] = useState("");
+  const {setUpdatePatientBar, updatePatientBar} = useContext(GlobalContext);
 
   const showSearchResults = () => setSearchBar(true);
 
@@ -30,12 +32,13 @@ const PatientBar = () => {
         });
         setPatients(sortedPatients);
         setFilteredPatients(sortedPatients);
+        setUpdatePatientBar(false);
       } catch (error) {
         console.error("Error fetching data: " + error);
       }
     };
     fetchData();
-  }, []);
+  }, [updatePatientBar]);
 
   useEffect(() => {
     setFilteredPatients(

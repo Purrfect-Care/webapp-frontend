@@ -11,6 +11,7 @@ export default function ContextWrapper(props) {
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [labels, setLabels] = useState([]);
   const [events, setEvents] = useState([]);
+  const [updatePatientBar, setUpdatePatientBar] = useState(false);
 
   const filteredEvents = useMemo(() => {
     return events.filter((evt) =>
@@ -98,6 +99,8 @@ export default function ContextWrapper(props) {
         updateLabel,
         filteredEvents,
         updateEvent,
+        updatePatientBar,
+        setUpdatePatientBar,
       }}
     >
       {props.children}

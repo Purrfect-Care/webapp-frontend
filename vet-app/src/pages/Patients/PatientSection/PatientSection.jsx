@@ -1,11 +1,11 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect, useContext} from "react";
 import "./PatientSection.css";
 import NavBar from "../NavBar/NavBar";
 import VisitsPage from "../VisitsPage/VisitsPage";
 import DocumentsPage from "../DocumentsPage/DocumentsPage";
 import OwnerPage from "../OwnerPage/OwnerPage";
 import IllnessHistoryPage from "../IllnessHistoryPage/IllnessHistoryPage";
-import { patientRequest, deletePatientById } from "../../../api/patientsRequests";
+import { patientRequest, deletePatientById, updatePatientPhotoRequest } from "../../../api/patientsRequests";
 import PulseLoader from "react-spinners/PulseLoader";
 import * as Fa6Icons from "react-icons/fa6";
 import dayjs from "dayjs";
@@ -13,17 +13,22 @@ import { useNavigate } from "react-router-dom";
 import ConfirmationPopup from "../../../components/ConifrmationPopup/ConfirmationPopup";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-
+import UpdatePatientPhoto from "../../../components/UpdatePatientPhoto/UpdatePatientPhoto";
+import GlobalContext from "../../../context/GlobalContext";
 
 const PatientSection = ({ patientId}) => {
   const [patient, setPatientData] = useState(null);
   const [activeComponent, setActiveComponent] = useState(null);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [patientToDelete, setPatientToDelete] = useState(null);
+  const [isEditFormOpen, setIsEditFormOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null); // Add this line
+  
   const navigate = useNavigate();
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const {setUpdatePatientBar} = useContext(GlobalContext);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,6 +43,7 @@ const PatientSection = ({ patientId}) => {
       }
     };
     fetchData();
+
   }, [patientId]);
 
   const deletePatient = (patientId) => {
@@ -49,7 +55,6 @@ const PatientSection = ({ patientId}) => {
   const confirmDeletePatient = async () => {
     try {
       const patientId = patientToDelete;
-      console.log(patientId);
 
       await deletePatientById(patientId);
       console.log("Patient deleted successfully");
@@ -74,7 +79,7 @@ const PatientSection = ({ patientId}) => {
   if (!patientId) {
     return (
       <div className="no-patient-msg">
-        <Fa6Icons.FaShieldDog className="dog-msg" />
+        <Fa6Icons.FaShieldDog className="dog-msg"/>
         <h1 className="patient-msg">Wybierz pacjenta z listy</h1>
       </div>
     );
@@ -107,6 +112,36 @@ const PatientSection = ({ patientId}) => {
     setSnackbarOpen(true);
   };
 
+
+  const handlePhotoChange= async () => {
+    setIsEditFormOpen(true);
+  }
+
+  const handleCloseEditForm = () => {
+    setIsEditFormOpen(false);
+  };
+
+  const submitChangePhotoForm = async ( formValues ) => {
+    try {
+      const formData = new FormData();
+      Object.entries(formValues).forEach(([key, value]) => {
+        if (key === 'patient_photo' && value === null) {
+          return;
+        }
+        formData.append(key, value);
+      });
+      await updatePatientPhotoRequest(patientId, formData);
+      const updatedPatient = await patientRequest(patientId);
+      setPatientData(updatedPatient);
+      setUpdatePatientBar(true);
+      openSnackbar('success', 'Pomyślnie zmieniono dane właściciela!');
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      openSnackbar('error', 'Błąd podczas edycji danych właściciela.');
+    }
+    handleCloseEditForm();
+  };
+
   return (
     <div className="patientSection">
       <div className="patientSection-top">
@@ -134,11 +169,17 @@ const PatientSection = ({ patientId}) => {
             </span>
           </div>
         </div>
-        
+        <div className="patient-section-button-container">
+        <button 
+        className="changePhotoButton"
+          onClick={(handlePhotoChange)}>
+            Zmień zdjęcie</button>
           <button 
           className="deletePatientButton"
           onClick={() => deletePatient(patientId)}>
             Usuń pacjenta</button>
+          </div> 
+
         </div>
         <NavBar id={patientId} onSelectOption={handleSelectOption} selectedTab={activeComponent} />
       </div>
@@ -162,6 +203,13 @@ const PatientSection = ({ patientId}) => {
           onNo="Nie"
         />
       )}
+      {isEditFormOpen && (<UpdatePatientPhoto
+      isOpen={isEditFormOpen}
+      patientId={patientId}
+      existingData={patient}
+      onClose={handleCloseEditForm} 
+      onSubmit={submitChangePhotoForm}/>
+    )} 
       <Snackbar
         open={snackbarOpen}
         anchorOrigin={{ vertical:"top", horizontal:"right" }}
