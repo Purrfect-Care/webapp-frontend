@@ -114,6 +114,7 @@ function EventModal({snackbar}) {
   };
   const cancelDeleteVisit = () => {
     setShowConfirmation(false);
+    setShowEventModal(false);
   };
 
   return (
