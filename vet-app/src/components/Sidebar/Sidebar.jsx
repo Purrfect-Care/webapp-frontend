@@ -13,7 +13,7 @@ import GlobalContext from "../../context/GlobalContext";
 const Sidebar = () => {
   const [sidebarTab, setSidebarTab] = useState(false);
   const [employeeData, setEmployeeData] = useState(null);
-  const { setLoggingOut, loggingOut } = useContext(GlobalContext);
+  const {setLoggingOut} = useContext(GlobalContext);
 
   useEffect(() => {
     // Fetch employee data from local storage
@@ -25,16 +25,10 @@ const Sidebar = () => {
 
   const showSidebarTab = () => setSidebarTab(!sidebarTab);
   const handleExit = () => {
-    setLoggingOut(true);
-    console.log(loggingOut)
-    
-    
-    // Clear localStorage data
     localStorage.removeItem("employeeData");
     localStorage.removeItem("authToken");
-    localStorage.removeItem("authTokenExpiration");
-   
-    
+    localStorage.removeItem("authTokenExpiration"); 
+    setLoggingOut(true);
   };
 
   return (

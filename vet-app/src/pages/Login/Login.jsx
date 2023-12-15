@@ -11,11 +11,17 @@ const Login = () => {
   const [snackbarOpenlog, setSnackbarOpenlog] = useState(false);
   const [snackbarSeveritylog, setSnackbarSeveritylog] = useState("success");
   const [snackbarMessagelog, setSnackbarMessagelog] = useState("");
-  const { setComesFromLogin, setLoggingOut, loggingOut } = useContext(GlobalContext);
+  const { setComesFromLogin, setLoggingOut, loggingOut, setEvents, setIsLoggedIn, isLoggedIn } = useContext(GlobalContext);
   const [errors, setErrors] = useState({
     email: "",
     password: "",
   });
+
+  const handleEnterPress = (event) => {
+    if (event.key === 'Enter') {
+      handleLogin();
+    }
+  };
 
   const openSnackbar = (severity, message) => {
     setSnackbarSeveritylog(severity);
@@ -61,13 +67,14 @@ const Login = () => {
 
   useEffect(() => {
     if (loggingOut) {
+      setEvents([]);
       openSnackbar("success", "Wylogowano pomyślnie!");
+      setIsLoggedIn(false);
       setLoggingOut(false);
     }
   }, [loggingOut]);
 
   const handleLogin = async (e) => {
-    e.preventDefault();
 
     if (!validateForm()) {
       return;
@@ -85,15 +92,12 @@ const Login = () => {
         }),
         
       });
-        console.log(JSON.stringify({
-          email,
-          password,
-        }));
+        
       if (response.ok) {
         const data = await response.json();
+        setIsLoggedIn(true);
         setComesFromLogin(true);
-
-        console.log(data.message); // Handle success
+        console.log(isLoggedIn);
 
         // Store employee data in local storage
         localStorage.setItem("employeeData", JSON.stringify(data.employee));
@@ -144,6 +148,7 @@ const Login = () => {
             placeholder="Email"
             value={email}
             onChange={(e) => {clearErrors(email); setEmail(e.target.value)}}
+            onKeyDown={handleEnterPress}
           />
           {errors.email && (
                   <span className="text-red-900 text-base absolute bottom-0 right-0 mb-2 mr-2">
@@ -162,6 +167,7 @@ const Login = () => {
             placeholder="Hasło"
             value={password}
             onChange={(e) => {clearErrors(password); setPassword(e.target.value)}}
+            onKeyDown={handleEnterPress}
           />
           {errors.password && (
                   <span className="text-red-900 text-base absolute bottom-0 right-0 mb-2 mr-2">

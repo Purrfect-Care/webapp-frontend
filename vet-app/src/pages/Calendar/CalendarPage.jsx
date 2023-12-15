@@ -12,7 +12,7 @@ import MuiAlert from '@mui/material/Alert';
 
 const CalendarPage = () => {
   const [currentMonth, setCurrentMonth] = useState(getMonth());
-  const { monthIndex, showEventModal, comesFromLogin, setComesFromLogin } = useContext(GlobalContext);
+  const { monthIndex, showEventModal, comesFromLogin, setComesFromLogin, showCalendarSidebar } = useContext(GlobalContext);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -47,7 +47,7 @@ const CalendarPage = () => {
         <div className="h-screen flex flex-col shadow-inner ml-[-5px] mt-[8px] py-[12px] px-[24px] bg-white rounded-lg ">
           <CalendarHeader />
           <div className="flex flex-1">
-            <CalendarSidebar />
+            {showCalendarSidebar && <CalendarSidebar />}
             <Month month={currentMonth} />
           </div>
         </div>

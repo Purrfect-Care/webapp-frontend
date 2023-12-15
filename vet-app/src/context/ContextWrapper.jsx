@@ -1,7 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
 import GlobalContext from "./GlobalContext";
 import dayjs from "dayjs";
-import { visitsByEmployeeIdRequest, visitsByEmployeeClinicIdRequest } from "../api/visitsRequest";
+import {
+  visitsByEmployeeIdRequest,
+  visitsByEmployeeClinicIdRequest,
+} from "../api/visitsRequest";
 
 export default function ContextWrapper(props) {
   const [monthIndex, setMonthIndex] = useState(dayjs().month());
@@ -14,7 +17,8 @@ export default function ContextWrapper(props) {
   const [updatePatientBar, setUpdatePatientBar] = useState(false);
   const [comesFromLogin, setComesFromLogin] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
-
+  const [showCalendarSidebar, setShowCalendarSidebar] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const filteredEvents = useMemo(() => {
     return events.filter((evt) =>
@@ -25,46 +29,68 @@ export default function ContextWrapper(props) {
     );
   }, [events, labels]);
 
-  useEffect(() => {
-    async function fetchEvents() {
-      try {
-        const employeeData = JSON.parse(localStorage.getItem('employeeData'));
-        if(employeeData.employee_role.toString() === 'Administrator'){
-          const eventsData = await visitsByEmployeeClinicIdRequest(employeeData.employees_clinic_id.toString());
+  async function fetchEvents() {
+    try {
+      const employeeData = JSON.parse(localStorage.getItem("employeeData"));
+      if (employeeData) {
+        // Check if employeeData exists
+        setIsLoggedIn(true); // Set isLoggedIn to true
+        if (employeeData.employee_role.toString() === "Administrator") {
+          const eventsData = await visitsByEmployeeClinicIdRequest(
+            employeeData.employees_clinic_id.toString()
+          );
           setEvents(eventsData);
         } else {
-          const eventsData = await visitsByEmployeeIdRequest(employeeData.id.toString());
+          const eventsData = await visitsByEmployeeIdRequest(
+            employeeData.id.toString()
+          );
           setEvents(eventsData);
         }
-      } catch (error) {
-        console.error("Error fetching events from the server:", error);
-      }
-    }
-
-    fetchEvents();
-  }, []); // Fetch events on component mount
-
-
-  const updateEvent = async () => {
-    try {
-      const employeeData = JSON.parse(localStorage.getItem('employeeData'));
-      if(employeeData.employee_role.toString() === 'Administrator'){
-        const eventsData = await visitsByEmployeeClinicIdRequest(employeeData.employees_clinic_id.toString());
-        setEvents(eventsData);
       } else {
-        const eventsData = await visitsByEmployeeIdRequest(employeeData.id.toString());
-        setEvents(eventsData);
+        console.log("No employee data found");
+        setIsLoggedIn(false); // Set isLoggedIn to false
       }
     } catch (error) {
       console.error("Error fetching events from the server:", error);
     }
   }
+
+  useEffect(() => {fetchEvents();}, []);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetchEvents();
+    } else {
+      setEvents([]);
+    }
+  }, [isLoggedIn]);
+
+  const updateEvent = async () => {
+    try {
+      const employeeData = JSON.parse(localStorage.getItem("employeeData"));
+      if (employeeData.employee_role.toString() === "Administrator") {
+        const eventsData = await visitsByEmployeeClinicIdRequest(
+          employeeData.employees_clinic_id.toString()
+        );
+        setEvents(eventsData);
+      } else {
+        const eventsData = await visitsByEmployeeIdRequest(
+          employeeData.id.toString()
+        );
+        setEvents(eventsData);
+      }
+    } catch (error) {
+      console.error("Error fetching events from the server:", error);
+    }
+  };
   useEffect(() => {
     setLabels((prevLabels) => {
-      return [...new Set(events.map((evt) => evt.visit_status))].map((label) => {
-        const currentLabel = prevLabels.find((lbl) => lbl.label === label);
-        return { label, checked: currentLabel ? currentLabel.checked : true };
-      });
+      return [...new Set(events.map((evt) => evt.visit_status))].map(
+        (label) => {
+          const currentLabel = prevLabels.find((lbl) => lbl.label === label);
+          return { label, checked: currentLabel ? currentLabel.checked : true };
+        }
+      );
     });
   }, [events]);
 
@@ -108,6 +134,11 @@ export default function ContextWrapper(props) {
         comesFromLogin,
         loggingOut,
         setLoggingOut,
+        showCalendarSidebar,
+        setShowCalendarSidebar,
+        setEvents,
+        isLoggedIn,
+        setIsLoggedIn,
       }}
     >
       {props.children}

@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ConfirmationPopup from '../components/ConifrmationPopup/ConfirmationPopup';
+import GlobalContext from "../context/GlobalContext";
 
 const AutoLogout = () => {
     const [showWarning, setShowWarning] = useState(false);
     const [warningSeen, setWarningSeen] = useState(false);
+    const { setLoggingOut } = useContext(GlobalContext);
     useEffect(() => {
         const checkExpiration = () => {
             const expirationTime = localStorage.getItem('authTokenExpiration');
@@ -23,6 +25,7 @@ const AutoLogout = () => {
                     localStorage.removeItem('authToken');
                     localStorage.removeItem('authTokenExpiration');
                     localStorage.removeItem('employeeData');
+                    setLoggingOut(true);
                     window.location.href = '/login'; 
                 }
             }
