@@ -17,6 +17,7 @@ const ShowPage = () => {
               "Pracowników",
               "Leki",
               "Choroby",
+              "Typy wizyt",
               "Podtypy wizyt",
               "Gatunki",
               "Rasy",
