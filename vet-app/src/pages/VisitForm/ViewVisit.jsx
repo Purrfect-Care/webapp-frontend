@@ -4,10 +4,11 @@ import { typeIdRequest } from '../../api/visitTypeRequest'
 import { subtypeIdRequest } from '../../api/visitSubtypeRequest'
 import { employeeRequest } from '../../api/employeeRequest';
 import { deleteVisitRequest } from '../../api/visitsRequest';
+import { getPhotosByVisitId } from '../../api/photosRequests'
 import ConfirmationPopup from "../../components/ConifrmationPopup/ConfirmationPopup";
 import './ViewVisit.css';
 import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';  // Import the utc plugin
+import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 
 const ViewVisit = ({ onClose, initialValues, setEdit, setVisit, setConfirmation, setFormVisible }) => {
@@ -30,6 +31,8 @@ const ViewVisit = ({ onClose, initialValues, setEdit, setVisit, setConfirmation,
   const [visitToDelete, setVisitToDelete] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isFormOpen, setIsFormOpen] =useState(true);
+  const [visitPhotos, setVisitPhotos] = useState([]);
+  const [sortBy, setSortBy] = useState({ column: 'DATA', ascending: true });
 
   dayjs.extend(utc);
   dayjs.extend(timezone);
@@ -49,6 +52,9 @@ const ViewVisit = ({ onClose, initialValues, setEdit, setVisit, setConfirmation,
         setPatient(patientJSON);
         setType(visitTypes);
         setSubtype(visitSubtypes);
+
+        const photos = await getPhotosByVisitId(initialValues.id);
+        setVisitPhotos(photos);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -93,6 +99,14 @@ const ViewVisit = ({ onClose, initialValues, setEdit, setVisit, setConfirmation,
   const handleClose = () => {
     setIsFormOpen(false);
     onClose();
+  };
+
+  const sortColumn = (column) => {
+    if (sortBy.column === column) {
+      setSortBy({ column, ascending: !sortBy.ascending });
+    } else {
+      setSortBy({ column, ascending: true });
+    }
   };
 
   return (
@@ -179,6 +193,34 @@ const ViewVisit = ({ onClose, initialValues, setEdit, setVisit, setConfirmation,
                 disabled={true}
               />
             </div>
+            {visitPhotos.length > 0 && (
+            <div className="form-section-static">
+              <h3>Zdjęcia</h3>
+              <div className='photos-table'>
+                <div className="photos-column-bar">
+                  <span className="column-file" onClick={() => sortColumn('PLIK')}>
+                    NAZWA {sortBy.column === 'PLIK' && (sortBy.ascending ? '↑' : '↓')}
+                  </span>
+                  <span className="column-description" onClick={() => sortColumn('OPIS')}>
+                    OPIS {sortBy.column === 'OPIS' && (sortBy.ascending ? '↑' : '↓')}
+                  </span>
+                </div>
+                <div className="photo-list">
+                  {visitPhotos.map((photo) => (
+                    <div key={photo.id} className="photo-item">
+                      <div className="photo-name">
+                        <a href={photo.image} target="_blank" rel="noopener noreferrer">
+                        {photo.image.split('/').pop()}
+                        </a>
+                      </div>
+                      
+                      <div className="photo-description">
+                        {photo.photo_description}
+                      </div>
+                    </div>))}
+                </div>
+              </div>                   
+            </div>)}
           </div>
           </form>
           </div>
