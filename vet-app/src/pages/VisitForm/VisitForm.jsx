@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { patientRequest, allPatientsByClinicIdRequest } from '../../api/patientsRequests';
+import { patientRequest, allPatientsRequest } from '../../api/patientsRequests';
 import { visitTypeRequest } from '../../api/visitTypeRequest'
 import { visitSubtypeRequest } from '../../api/visitSubtypeRequest'
 import { employeeRequest } from '../../api/employeeRequest';
@@ -25,6 +25,10 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
     visits_visit_type_id: '',
     visits_visit_subtype_id: '',
     visits_employee_id: '',
+    visits_clinic_id: JSON.parse(
+      localStorage.getItem("employeeData")
+    ).employees_clinic_id
+    .toString(),
   });
   const [allTypes, setAllTypes] = useState([]);
   const [allPatients, setAllPatients] = useState([]);
@@ -81,11 +85,10 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const employeeData = JSON.parse(localStorage.getItem('employeeData'));
         const [visitTypes, visitSubtypes, patients, employeeJSON] = await Promise.all([
           visitTypeRequest(),
           visitSubtypeRequest(),
-          allPatientsByClinicIdRequest(employeeData.employees_clinic_id),
+          allPatientsRequest(),
           employeeRequest(initialValues.visits_employee_id),
         ]);
 

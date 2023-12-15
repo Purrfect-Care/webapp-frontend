@@ -123,6 +123,7 @@ const VisitsPage = ({ patient }) => {
         visits_visit_type_id: formData.visits_visit_type_id,
         visits_visit_subtype_id: formData.visits_visit_subtype_id,
         visits_employee_id: formData.visits_employee_id,
+        visits_clinic_id: formData.visits_clinic_id,
       }
       
       const photosData = formData.photos.map((photo) => ({
@@ -237,6 +238,10 @@ const VisitsPage = ({ patient }) => {
             visits_employee_id: JSON.parse(
               localStorage.getItem("employeeData")
             ).id.toString(),
+            visits_clinic_id: JSON.parse(
+              localStorage.getItem("employeeData")
+            ).employees_clinic_id
+            .toString(),
           }}
           setEdit={setIsFormForEdit}
           editOnly={editOnly}
@@ -341,6 +346,10 @@ const VisitsPage = ({ patient }) => {
               visits_employee_id: JSON.parse(
                 localStorage.getItem("employeeData")
               ).id.toString(),
+              visits_clinic_id: JSON.parse(
+                localStorage.getItem("employeeData")
+              ).employees_clinic_id
+              .toString(),
             }}
             setEdit={setIsFormForEdit}
             editOnly={editOnly}

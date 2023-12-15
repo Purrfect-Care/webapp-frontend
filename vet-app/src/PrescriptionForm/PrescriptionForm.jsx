@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { allPatientsByClinicIdRequest } from '../api/patientsRequests';
+import { allPatientsRequest } from '../api/patientsRequests';
 import { allMedicationsRequest } from '../api/medicationsRequest'; // Assuming you have an API endpoint for fetching medications
 import { patientRequest } from '../api/patientsRequests';
 import { FaPlus, FaTrash } from 'react-icons/fa';
@@ -29,9 +29,8 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const employeeData = JSON.parse(localStorage.getItem('employeeData'));
         const [patients, medications] = await Promise.all([
-          allPatientsByClinicIdRequest(employeeData.employees_clinic_id),
+          allPatientsRequest(),
           allMedicationsRequest(),
         ]);
 
