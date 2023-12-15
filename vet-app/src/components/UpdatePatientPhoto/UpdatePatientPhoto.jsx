@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { patientRequest, updatePatientPhotoRequest } from '../../api/patientsRequests';
+import { patientRequest, updatePatientPhotoRequest, deleteOldPhotoRequest } from '../../api/patientsRequests';
 import './UpdatePatientPhoto.css';
 import Sidebar from '../Sidebar/Sidebar';
 
@@ -11,7 +11,6 @@ const UpdatePatientPhoto = ({ isOpen, patientId, existingData, onClose, onSubmit
       patients_owner_id: null,
       patients_species_id: null,
       patients_breed_id: null,
-      patients_clinic_id: null,
       patient_photo: null,  
       });
 
@@ -29,6 +28,9 @@ const UpdatePatientPhoto = ({ isOpen, patientId, existingData, onClose, onSubmit
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      const fileName = existingData.patient_photo.substring(existingData.patient_photo.lastIndexOf('/') + 1);
+      console.log("file name: ", fileName);
+      await deleteOldPhotoRequest(fileName);
       await onSubmit(formValues);
       onClose();
     } catch (error) {

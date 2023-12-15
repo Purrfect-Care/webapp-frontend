@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { createPatientRequest} from '../../../api/patientsRequests';
+import { createPatientRequest, updatePatientPhotoRequest, deleteOldPhotoRequest } from '../../../api/patientsRequests';
 import { getClinicsRequest } from '../../../api/clinicRequests';
 import { allBreedsRequest } from '../../../api/breedRequests';
 import { allSpeciesRequest } from '../../../api/speciesRequests';
@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
-const PatientForm = ({ onClose }) => {
+const PatientForm = ({ onClose, initialValues }) => {
   const [formValues, setFormValues] = useState({
     patient_name: '',
     patient_gender: null,
@@ -24,7 +24,6 @@ const PatientForm = ({ onClose }) => {
     patients_owner_id: null,
     patients_species_id: null,
     patients_breed_id: null,
-    patients_clinic_id: null,
     patient_photo: null,  // Add this line for the patient photo
   });
 
@@ -43,7 +42,7 @@ const PatientForm = ({ onClose }) => {
   const [focusedOwner, setFocusedOwner] = useState(false);
   const [focusedClinic, setFocusedClinic] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  
+
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -80,6 +79,29 @@ const PatientForm = ({ onClose }) => {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const updateFormValues = async () => {
+      if (initialValues) {
+        setFormValues(initialValues);
+      }
+
+      try {
+        const response = await fetch(initialValues.patient_photo);
+        const blob = await response.blob();
+        const fileName = initialValues.patient_photo.substring(initialValues.patient_photo.lastIndexOf('/') + 1);
+        const urlFile = new File([blob], fileName, { type: 'image/*' });
+
+        setFormValues((prevFormValues) => ({
+          ...prevFormValues,
+          patient_photo: urlFile,
+        }));
+      } catch (error) {
+        console.error('Error fetching photo from URL:', error);
+      }
+    }
+    updateFormValues();
+  }, [initialValues]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -118,15 +140,16 @@ const PatientForm = ({ onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const requiredFields = ['patient_name', 'patient_gender', 'patients_owner_id', 'patients_species_id', 'patients_breed_id', 'patients_clinic_id'];
+    const requiredFields = ['patient_name', 'patient_gender', 'patients_owner_id', 'patients_species_id', 'patients_breed_id'];
     const isEmptyField = requiredFields.some(field => !formValues[field]);
-    
+
     if (isEmptyField) {
       // Display an error message or take appropriate action
       setErrorMessage('Wypełnij wszystkie wymagane pola.');
       return;
     }
     try {
+      console.log("form values in submit", formValues);
       // Create a FormData object to handle the file upload
       const formData = new FormData();
       Object.entries(formValues).forEach(([key, value]) => {
@@ -138,12 +161,24 @@ const PatientForm = ({ onClose }) => {
 
       console.log(formValues);
 
-      const response = await createPatientRequest(formData);
-      console.log('Form submitted!', response);
-      openSnackbar('success', 'Pacjent dodany pomyślnie!');
-      setTimeout(() => {
-        navigate(`/patients/${response.id}`, { replace: true });
-      }, 3000);
+      if (!initialValues) {
+
+        const response = await createPatientRequest(formData);
+        console.log('Form submitted!', response);
+        openSnackbar('success', 'Pacjent dodany pomyślnie!');
+        setTimeout(() => {
+          navigate(`/patients/${response.id}`, { replace: true });
+        }, 3000);
+      } else {
+        const fileName = initialValues.patient_photo.substring(initialValues.patient_photo.lastIndexOf('/') + 1);
+        await deleteOldPhotoRequest(fileName);
+        const response = await updatePatientPhotoRequest(initialValues.id, formData);
+        console.log('Form submitted!', response);
+        openSnackbar('success', 'Dane pacjenta zmienione pomyślnie!');
+        setTimeout(() => {
+          navigate(`/show-patient`, { replace: true });
+        }, 3000);
+      }
     } catch (error) {
       console.error('Error:', error.message);
       openSnackbar('error', 'Błąd podczas dodawania pacjenta.');
@@ -183,10 +218,10 @@ const PatientForm = ({ onClose }) => {
     <>
 
       <div className="add-patient">
-      <Sidebar />
+        <Sidebar />
         <div className='patient-form'>
-        <h3 className="text-3xl font-semibold mt-5 mb-5 text-emerald-600">
-          Formularz dodawania pacjenta</h3>
+          <h3 className="text-3xl font-semibold mt-10 mb-10 text-emerald-600">
+            Formularz dodawania pacjenta</h3>
           <form onSubmit={handleSubmit}
             encType="multipart/form-data">
             <label>
@@ -203,7 +238,7 @@ const PatientForm = ({ onClose }) => {
               />
               <span className='span-patientform'>Należy podać imię pacjenta</span>
             </label>
-            
+
             <label>
               <select
                 className='select-patientform'
@@ -213,96 +248,74 @@ const PatientForm = ({ onClose }) => {
                 required="true"
                 onBlur={handleFocusGender}
                 focused={focusedGender.toString()}
-                >
+              >
                 <option value="">Wybierz płeć</option>
                 <option value="samiec">Samiec</option>
                 <option value="samica">Samica</option>
               </select>
               <span className='span-patientform'>Należy wybrać płeć pacjenta</span>
             </label>
-            
-            <label>
-            <select
-              className='select-patientform'
-              name="patients_species_id"
-              value={formValues.patients_species_id}
-              onChange={handleChange}
-              required="true"
-              onBlur={handleFocusSpecies}
-              focused={focusedSpecies.toString()}
-            >
-              <option value="">Wybierz gatunek</option>
-              {species.map((specie) => (
-                <option key={specie.id} value={specie.id}>
-                  {specie.species_name}
-                </option>
-              ))}
-            </select>
-            <span className='span-patientform'>Należy wybrać gatunek pacjenta</span>
-            </label>
-            
-            <label>
-            <select
-              className='select-patientform'
-              name="patients_breed_id"
-              value={formValues.patients_breed_id}
-              onChange={handleChange}
-              required="true"
-              onBlur={handleFocusBreed}
-              focused={focusedBreed.toString()}
-            >
-              <option value="">Wybierz rasę</option>
-              {filteredBreeds.map((breed) => (
-                <option key={breed.id} value={breed.id}>
-                  {breed.breed_name}
-                </option>
-              ))}
-            </select>
-            <span className='span-patientform'>Należy wybrać rasę pacjenta</span>
 
-            </label>
-            
             <label>
-            <select
-              className='select-patientform'
-              name="patients_owner_id"
-              value={formValues.patients_owner_id}
-              onChange={handleChange}
-              required="true"
-              onBlur={handleFocusOwner}
-              focused={focusedOwner.toString()}>
-              <option value="">Wybierz właściciela</option>
-              {owners.map((owner) => (
-                <option key={owner.id} value={owner.id}>
-                  {`${owner.owner_first_name} ${owner.owner_last_name}`}
-                </option>
-              ))}
-            </select>
-            <span className='span-patientform'>Należy wybrać właściciela pacjenta</span>
-            </label>
-            
-            <label>
-            <select
-              className='select-patientform'
-              name="patients_clinic_id"
-              value={formValues.patients_clinic_id}
-              onChange={handleChange}
-              required="true"
-              onBlur={handleFocusClinic}
-              focused={focusedClinic.toString()}
-            >
-              <option value="">Wybierz klinikę</option>
-              {clinics.map((clinic) => (
-                <option key={clinic.id} value={clinic.id}>
-                  {clinic.clinic_name}
-                </option>
-              ))}
-            </select>
-            <span className='span-patientform'>Należy wybrać klinikę, do której pacjent ma zostać przypisany</span>
+              <select
+                className='select-patientform'
+                name="patients_species_id"
+                value={formValues.patients_species_id}
+                onChange={handleChange}
+                required="true"
+                onBlur={handleFocusSpecies}
+                focused={focusedSpecies.toString()}
+              >
+                <option value="">Wybierz gatunek</option>
+                {species.map((specie) => (
+                  <option key={specie.id} value={specie.id}>
+                    {specie.species_name}
+                  </option>
+                ))}
+              </select>
+              <span className='span-patientform'>Należy wybrać gatunek pacjenta</span>
             </label>
 
+            <label>
+              <select
+                className='select-patientform'
+                name="patients_breed_id"
+                value={formValues.patients_breed_id}
+                onChange={handleChange}
+                required="true"
+                onBlur={handleFocusBreed}
+                focused={focusedBreed.toString()}
+              >
+                <option value="">Wybierz rasę</option>
+                {filteredBreeds.map((breed) => (
+                  <option key={breed.id} value={breed.id}>
+                    {breed.breed_name}
+                  </option>
+                ))}
+              </select>
+              <span className='span-patientform'>Należy wybrać rasę pacjenta</span>
 
-            
+            </label>
+
+            <label>
+              <select
+                className='select-patientform'
+                name="patients_owner_id"
+                value={formValues.patients_owner_id}
+                onChange={handleChange}
+                required="true"
+                onBlur={handleFocusOwner}
+                focused={focusedOwner.toString()}>
+                <option value="">Wybierz właściciela</option>
+                {owners.map((owner) => (
+                  <option key={owner.id} value={owner.id}>
+                    {`${owner.owner_first_name} ${owner.owner_last_name}`}
+                  </option>
+                ))}
+              </select>
+              <span className='span-patientform'>Należy wybrać właściciela pacjenta</span>
+            </label>
+
 
             <h3>Data urodzenia</h3>
             <div className='patient-form-date'>
@@ -317,8 +330,8 @@ const PatientForm = ({ onClose }) => {
                   disabled={!!readOnly}
                   dayOfWeekFormatter={(_day, weekday) => `${weekday.format('dd')}`}
                   sx={{
-                    backgroundColor:"white",
-                    borderRadius:"10px",
+                    backgroundColor: "white",
+                    borderRadius: "10px",
 
                     "& fieldset": { border: 'none' },
                   }}
@@ -338,14 +351,19 @@ const PatientForm = ({ onClose }) => {
               multiple
               onChange={handlePhotoChange}
             />
-            {errorMessage &&  <span className='span-patientform-error'>{errorMessage}</span>}
+            {errorMessage && <span className='span-patientform-error'>{errorMessage}</span>}
 
-              <div className='button-container-add-patient'>
-              <button
-              type="submit"
-              className="submit-button-add-patient">
-              Dodaj pacjenta
-            </button>
+            <div className='button-container-add-patient'>
+              {!initialValues && (<button
+                type="submit"
+                className="submit-button-add-patient">
+                Dodaj pacjenta
+              </button>)}
+              {initialValues && (<button
+                type='submit'
+                className="submit-button-add-patient">
+                Edytuj dane pacjenta
+              </button>)}
             </div>
 
 
@@ -355,7 +373,7 @@ const PatientForm = ({ onClose }) => {
       </div>
       <Snackbar
         open={snackbarOpen}
-        anchorOrigin={{ vertical:"top", horizontal:"right" }}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
         autoHideDuration={6000}
         onClose={() => setSnackbarOpen(false)}
       >
