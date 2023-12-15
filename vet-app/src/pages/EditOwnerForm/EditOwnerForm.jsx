@@ -207,7 +207,7 @@ return (
               onBlur={handleFocusEmail}
               focused={focusedEmail.toString()}
             />
-            <span className='span-editowner'>Należy podać email właściciela</span>
+            <span className='span-editowner'>Należy podać email właściciela we właściwym formacie</span>
           </label>
           </div>
           

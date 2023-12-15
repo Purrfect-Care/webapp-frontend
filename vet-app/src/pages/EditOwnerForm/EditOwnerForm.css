@@ -1,4 +1,4 @@
-.popup-form-edit-owner{
+.popup-form-edit-owner {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -8,7 +8,7 @@
     border: 1px solid #ccc;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
-    max-width: 500px;
+    max-width: 50vh;
     width: 100%;
     box-sizing: border-box;
     height: 60vh;
@@ -16,21 +16,29 @@
     display: flex;
     flex-direction: column;
     border-radius: 10px;
-
-}
-
-.form-section-edit-owner{
-    flex: 1 1 100%;
-    margin-bottom: 20px;
-    box-sizing: border-box;
-}
-
-.form-sections-edit-owner{
-    flex: 1;
-    display: flex;
-    flex-wrap: wrap;
+  }
+  
+  .form-sections-edit-owner {
     justify-content: space-between;
-}
+  }
+  
+  .form-section-edit-owner {
+    flex-basis: calc(50% - 10px); /* Two columns with 10px margin between them */
+    box-sizing: border-box;
+  }
+  
+  .input-edit-owner {
+    width: 100%; /* Make the input fields take the full width of their container */
+    border-radius: 10px;
+    border: 1px solid #000000;
+    padding: 8px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+  }
+  
+  /* Add other styles as needed */
+  
+
 
 .edit-owner-button-form {
     background-color: #4aa587;
@@ -66,13 +74,7 @@
     margin-bottom: 8px;
 }
 
-.input-edit-owner{
-    border-radius: 10px;
-    border: 1px solid #000000;
-    padding: 8px;
-    margin-bottom: 5px;
-    margin-left: 5px;
-}
+
 
 .overlay-edit-owner-form{
     position: fixed;
