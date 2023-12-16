@@ -50,3 +50,48 @@ export async function subtypeIdRequest(id) {
       throw new Error(`Error: ${error.message}`);
     }
   };
+
+  const BASE_URL = "http://localhost:8000/api";
+
+  export const deleteVisitSubtypeRequest = async (visit_subtypeId) => {
+    try {
+      const response = await fetch(`${BASE_URL}/visit_subtypes/${visit_subtypeId}/`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      if (response.ok) {
+        // Check if there is JSON data in the response before parsing
+        const jsonData = await response.text();
+        return jsonData ? JSON.parse(jsonData) : null;
+      } else {
+        throw new Error("Failed to delete visit_subtype");
+      }
+    } catch (error) {
+      throw new Error(`Error: ${error.message}`);
+    }
+  };
+  
+  export const updateVisitSubtypeRequest = async (visit_subtypeId, visit_subtype) => {
+    try {
+      const response = await fetch(`${BASE_URL}/visit_subtypes/${visit_subtypeId}/`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(visit_subtype),
+      });
+      console.log(visit_subtype);
+  
+      if (response.ok) {
+        console.log("VisitSubtype deleted successfully");
+      } else {
+        throw new Error("Failed to update visit_subtype");
+      }
+    } catch (error) {
+      
+      throw new Error(`Error: ${error.message}`);
+    }
+  };

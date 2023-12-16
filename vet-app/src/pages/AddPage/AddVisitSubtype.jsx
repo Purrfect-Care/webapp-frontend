@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar";
-import { addVisitSubtypeRequest } from "../../api/visitSubtypeRequest";
+import { addVisitSubtypeRequest, updateVisitSubtypeRequest } from "../../api/visitSubtypeRequest";
 import { visitTypeRequest } from "../../api/visitTypeRequest";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
-const AddVisitSubtype = () => {
+const AddVisitSubtype = ({initialValues, onClose}) => {
   const [formValues, setFormValues] = useState({
     visit_subtype_name: "",
     visit_subtypes_visit_type_id: "",
@@ -18,6 +18,15 @@ const AddVisitSubtype = () => {
     visit_subtype_name: "",
     visit_subtypes_visit_type_id: "",
   });
+
+  useEffect(() => {
+    const updateFormValues = async () => {
+      if (initialValues) {
+        setFormValues(initialValues);
+      }
+    }
+    updateFormValues();
+  }, [initialValues]);
 
   const openSnackbar = (severity, message) => {
     setSnackbarSeverity(severity);
@@ -68,13 +77,22 @@ const AddVisitSubtype = () => {
     }
 
     try {
-      const response = await addVisitSubtypeRequest(formValues);
-      console.log("Visit subtype added successfully", response);
-      openSnackbar("success", "Podtyp wizyty dodany pomyślnie");
-      setFormValues({
-        visit_subtype_name: "",
-        visit_subtypes_visit_type_id: "",
-      });
+      if(initialValues) {
+        const response = await updateVisitSubtypeRequest(initialValues.id, formValues);
+        console.log("Visit subtype updated successfully", response);
+        openSnackbar("success", "Podtyp wizyty dodany pomyślnie");
+        onClose();
+
+      } else {
+
+        const response = await addVisitSubtypeRequest(formValues);
+        console.log("Visit subtype added successfully", response);
+        openSnackbar("success", "Podtyp wizyty dodany pomyślnie");
+        setFormValues({
+          visit_subtype_name: "",
+          visit_subtypes_visit_type_id: "",
+        });
+      }
     } catch (error) {
       console.error("Error:", error.message);
       openSnackbar("error", "Błąd podczas dodawania podtypu wizyty");
