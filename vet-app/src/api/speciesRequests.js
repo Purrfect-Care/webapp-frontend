@@ -38,3 +38,46 @@ export const addSpeciesRequest = async (species) => {
     throw new Error(`Error: ${error.message}`);
   }
 };
+
+export const deleteSpecieRequest = async (specieId) => {
+  try {
+    const response = await fetch(`${BASE_URL}/species/${specieId}/`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      // Check if there is JSON data in the response before parsing
+      const jsonData = await response.text();
+      return jsonData ? JSON.parse(jsonData) : null;
+    } else {
+      throw new Error("Failed to delete specie");
+    }
+  } catch (error) {
+    throw new Error(`Error: ${error.message}`);
+  }
+};
+
+export const updateSpecieRequest = async (specieId, specie) => {
+  try {
+    const response = await fetch(`${BASE_URL}/species/${specieId}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(specie),
+    });
+    console.log(specie);
+
+    if (response.ok) {
+      console.log("Specie deleted successfully");
+    } else {
+      throw new Error("Failed to update specie");
+    }
+  } catch (error) {
+    
+    throw new Error(`Error: ${error.message}`);
+  }
+};

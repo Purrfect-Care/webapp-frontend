@@ -20,8 +20,6 @@ const AddIllness = ({initialValues, onClose}) => {
     updateFormValues();
   }, [initialValues]);
 
-  console.log("illness: ", illness);
-
   
   const openSnackbar = (severity, message) => {
     setSnackbarSeverity(severity);
