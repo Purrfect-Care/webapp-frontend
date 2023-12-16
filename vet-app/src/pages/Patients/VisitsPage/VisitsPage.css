@@ -17,30 +17,23 @@ body {
 /* Header styling */
 .column-bar {
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr 1fr; /* Equal widths for the five columns */
+  grid-template-columns: 2fr 1fr 1fr 1fr; /* Equal widths for the five columns */
   justify-content: space-between;
-  width: calc(100% - 15px);
+  width: 100%;
   cursor: pointer;
   font-weight: bold;
 
-  height: 3vh;
+  height: 4vh;
   border-bottom: 1px solid black; /* Bottom border only */
   text-align: center; /* Center the text */
 }
 
-.column-visit_add{
-  color: #4aa587;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 
 /* Styling for each column in the header */
 .column-visit_name,
 .column-visit_date,
 .column-visit_edit,
-.column-visit_delete,
-.columnt-visit_add {
+.column-visit_delete{
   grid-column: span 1; /* Each element takes one column */
 }
 
@@ -59,7 +52,7 @@ body {
   box-sizing: border-box;
   justify-content: space-between;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr 1fr; /* Equal widths for the four columns */
+  grid-template-columns: 2fr 1fr 1fr 1fr; /* Equal widths for the four columns */
   align-items: center;
   text-align: center;
   justify-items: center; /* Center the items horizontally within each cell */ /* Added margin between items for better spacing */
@@ -144,7 +137,15 @@ body {
   padding: 10px 15px;
   cursor: pointer;
   border-radius: 8px;
+  margin-top: 16px; 
+  margin-left: 8px;
+  margin-right: 8px;
 }
 .create-visit-button:hover {
   background-color: #2f6d58;
+}
+
+.button-container-visits-patient{
+  display: flex;
+  justify-content: center;
 }

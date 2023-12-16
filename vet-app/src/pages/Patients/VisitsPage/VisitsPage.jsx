@@ -273,6 +273,11 @@ const VisitsPage = ({ patient }) => {
   }
   return (
     <>
+      <div className="button-container-visits-patient">
+        <button onClick={handleCreateVisit} className="create-visit-button">
+          Dodaj wizytę
+        </button>
+      </div>
       <div className='visits-table'>
         <div className="column-bar">
           <span className="column-visit_name" onClick={() => sortColumn('NAZWA')}>
@@ -287,9 +292,6 @@ const VisitsPage = ({ patient }) => {
           <span className="column-visit_delete">
             USUŃ
           </span>
-          <button onClick={handleCreateVisit} className="column-visit_add">
-            <FaPlus />
-          </button>
         </div>
         <div className="visit-list">
           {sortedVisits.map((visit) => (

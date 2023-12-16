@@ -196,7 +196,7 @@ const AddOwner = () => {
             onBlur={handleFocusEmail}
             focused={focusedEmail.toString()}
           />
-          <span className='span-addowner'>Należy podać email właściciela</span>
+          <span className='span-addowner'>Należy podać email właściciela we właściwym formacie</span>
           </label>
           {errorMessage &&  <span className='span-addowner-error'>{errorMessage}</span>}
 

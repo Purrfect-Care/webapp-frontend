@@ -111,7 +111,13 @@ const DocumentsPage = ({ patient }) => {
     setSnackbarOpen(true);
   };
 
-  if (!prescriptions.length) {
+  const sortedPrescriptions = prescriptions.slice().sort((a, b) => {
+    const dateA = new Date(a.prescription_date);
+    const dateB = new Date(b.prescription_date);
+    return dateB - dateA;
+  });
+
+  if (!sortedPrescriptions.length) {
     return (
       <>
       <div className="no-data-msg">
@@ -156,7 +162,9 @@ const DocumentsPage = ({ patient }) => {
     <>
     <div className="documentsPage">
       <div className="create-presc">
-    <IoAddCircle onClick={handleCreatePrescription} className="create_prescription_button" />
+      <button onClick={handleCreatePrescription} className="create_prescription_button">
+      Dodaj nową receptę
+    </button>    
     </div>
       {loading && (
         <div className="no-data-msg">
@@ -175,7 +183,7 @@ const DocumentsPage = ({ patient }) => {
         </div>
       )}
 
-      {!prescriptions.length && !loading && (
+      {!sortedPrescriptions.length && !loading && (
         <div className="no-data-msg">
           <h1 className="no-documents-msg">
             Brak dodanych dokumentów dla tego pacjenta
@@ -183,10 +191,9 @@ const DocumentsPage = ({ patient }) => {
         </div>
       )}
 
-      {!loading && prescriptions.length > 0 && (
+      {!loading && sortedPrescriptions.length > 0 && (
         <div className="cards">
-          {prescriptions.map((prescription) => (
-            <DocsCard
+            {sortedPrescriptions.map((prescription) => (            <DocsCard
               key={prescription.id}
               prescId={prescription.id}
               medications={prescription.prescribed_medications}

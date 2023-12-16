@@ -123,7 +123,7 @@ const OwnerPage = ({patient}) => {
             <>
             <div className="ownerPage">
                 <div className="owner-info-page">
-                  <div>
+                  <div  className="button-container-delete-owner">
                     <button className="deleteOwnerButton" onClick={() => deleteOwner(ownerData.id)}>
                       Usuń właściciela
                     </button>

@@ -195,6 +195,11 @@ const IllnessHistoryPage = ({ patient }) => {
   }
   return (
     <>
+        <div className="button-container-illness-history-patient">
+    <button onClick={handleIllnessHistoryForm} className="create-illness-history-button">
+      Przypisz chorobę
+    </button>
+    </div>
     <div className="illness-history-table">
       <div className="column-bar-illness-history">
         <span
@@ -211,10 +216,6 @@ const IllnessHistoryPage = ({ patient }) => {
           DATA {sortBy.column === "DATA" && (sortBy.ascending ? "↑" : "↓")}
         </span>
         <span className="column-illness_history_delete">USUŃ</span>
-        <div className="create-presc">
-    <IoAddCircle onClick={handleIllnessHistoryForm} className="column-illness_history_create" />
-    </div>
-        
       </div>
       <div className="illness_history_list">
         {sortedIllnessHistory.map((historyItem) => (
