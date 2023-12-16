@@ -1,15 +1,27 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import { addMedicationsRequest } from "../../api/medicationRequests";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
-const AddMedications = () => {
+import { updateMedicationRequest } from "../../api/medicationsRequest";
+
+const AddMedications = ({initialValues, onClose}) => {
   const [medication, setMedication] = useState({ medication_name: "" });
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+
+  useEffect(() => {
+    const updateFormValues = async () => {
+      if (initialValues) {
+        setMedication(initialValues);
+      }
+    }
+    updateFormValues();
+  }, [initialValues]);
 
   const openSnackbar = (severity, message) => {
     setSnackbarSeverity(severity);
@@ -32,11 +44,22 @@ const AddMedications = () => {
     }
 
     try {
-      const response = await addMedicationsRequest(medication);
 
-      console.log("Medication added successfully", response);
-      openSnackbar("success", "Lek dodany pomyślnie");
-      setMedication({ medication_name: "" });
+      if(initialValues){
+        const response = await updateMedicationRequest(initialValues.id, medication);
+  
+        console.log("Medication updated successfully", response);
+        openSnackbar("success", "Lek dodany pomyślnie");
+        onClose();
+
+      } else {
+
+        const response = await addMedicationsRequest(medication);
+  
+        console.log("Medication added successfully", response);
+        openSnackbar("success", "Lek dodany pomyślnie");
+        setMedication({ medication_name: "" });
+      }
     } catch (error) {
       console.error("Error:", error.message);
       openSnackbar("error", "Błąd podczas dodawania leku");
