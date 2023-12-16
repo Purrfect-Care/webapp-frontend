@@ -2,17 +2,34 @@ import React, { useState, useEffect } from "react";
 import "./SignIn.css";
 import { getClinicsRequest } from "../../../api/clinicRequests";
 import { addEmployeeRequest } from "../../../api/employeeRequests";
+import { editEmployeeRequest } from "../../../api/employeesRequest";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import { useNavigate } from 'react-router-dom';
 
-const SignIn = () => {
+
+const SignIn = ({onClose, initialValues}) => {
+  const [formValues, setFormValues] = useState({
+    employee_role: '',
+    employee_first_name: '',
+    employee_last_name: '',
+    employee_address: '',
+    employee_postcode: '',
+    employee_city: '',
+    employee_phone_number: '',  // Add this line for the patient photo
+    employee_email: '',
+    employee_password: '',
+    employees_clinic_id: null,
+  });
+
   const [clinicsData, setClinicsData] = useState([]);
-  const [formValues, setFormValues] = useState({});
+  //const [formValues, setFormValues] = useState({});
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const openSnackbar = (severity, message) => {
     setSnackbarSeverity(severity);
@@ -129,8 +146,7 @@ const SignIn = () => {
     } 
 
     if (
-      !formValues.employees_clinic_id ||
-      !formValues.employees_clinic_id.trim()
+      !formValues.employees_clinic_id
     ) {
       newErrors.employees_clinic_id = "Wybierz klinikę pracownika.";
       valid = false;
@@ -164,21 +180,34 @@ const SignIn = () => {
     }
   };
 
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validateForm()) {
       return;
     }
+    if (!initialValues){
+      try {
+        await addEmployeeRequest(formValues);
+        openSnackbar("success", "Pracownik dodany pomyślnie");
+        setFormValues({});
+      } catch (error) {
+        console.error("Error submitting form: " + error);
+        openSnackbar("error", "Błąd podczas dodawania pracownika");
+      }
+    } else {
+        const response = await editEmployeeRequest(initialValues.id, formValues);
+        console.log('Form submitted!', response);
+        openSnackbar('success', 'Dane pracownika zmienione pomyślnie!');
+        setTimeout(() => {
+          navigate(`/show-employee`, { replace: true });
+        }, 3000);
+      }
+    
 
-    try {
-      await addEmployeeRequest(formValues);
-      openSnackbar("success", "Pracownik dodany pomyślnie");
-      setFormValues({});
-    } catch (error) {
-      console.error("Error submitting form: " + error);
-      openSnackbar("error", "Błąd podczas dodawania pracownika");
-    }
+    
   };
 
   useEffect(() => {
@@ -193,6 +222,15 @@ const SignIn = () => {
     };
     fetchData();
   }, []);
+
+  useEffect(() => {
+    const updateFormValues = async () => {
+      if (initialValues) {
+        setFormValues(initialValues);
+      }
+    }
+    updateFormValues();
+  }, [initialValues]);
 
   return (
     <>

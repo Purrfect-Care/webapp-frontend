@@ -24,6 +24,7 @@ import ShowPatientComponent from "./pages/ShowPage/ShowPatients/ShowPatientCompo
 import ShowOwnerComponent from "./pages/ShowPage/ShowOwners/ShowOwnerComponent";
 import ShowIllnessComponent from "./pages/ShowPage/ShowIllness/ShowIllnessComponent";
 import ShowSpecieComponent from "./pages/ShowPage/ShowSpecie/ShowSpecieComponent";
+import ShowEmployeeComponent from "./pages/ShowPage/ShowEmployee/ShowEmployeeComponent";
 import ShowBreedComponent from "./pages/ShowPage/ShowBreed/ShowBreedComponent";
 import ShowMedicationComponent from "./pages/ShowPage/ShowMedication/ShowMedicationComponent";
 import ShowVisitTypeComponent from "./pages/ShowPage/ShowVisitType/ShowVisitTypeComponent";
@@ -234,6 +235,12 @@ function App() {
             path="/show-visit-subtype"
             element={
               <CustomRoute element={<ShowVisitSubtypeComponent />} path="/show-visit-subtype" />
+            }
+          />
+          <Route
+            path="/show-employee"
+            element={
+              <CustomRoute element={<ShowEmployeeComponent />} path="/show-employee" />
             }
           />
         </Routes>
