@@ -23,8 +23,7 @@ const PatientBar = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const employeeData = JSON.parse(localStorage.getItem('employeeData'));
-        const patientsData = await patientsSideBarRequest(employeeData.employees_clinic_id);
+        const patientsData = await patientsSideBarRequest();
         const sortedPatients = patientsData.slice().sort((a, b) => {
           const nameA = a.patient_name.toLowerCase();
           const nameB = b.patient_name.toLowerCase();

@@ -22,6 +22,17 @@ const ShowPage = () => {
               "Gatunki",
               "Rasy",
             ]}
+            urls={[
+              "/show-patient",
+              "/show-owner",
+              "/show-employee",
+              "/show-medication",
+              "/show-illness",
+              "/show-visit-type",
+              "/show-visit-subtype",
+              "/show-species",
+              "/show-breed",
+            ]}
           />
         </div>
       </div>

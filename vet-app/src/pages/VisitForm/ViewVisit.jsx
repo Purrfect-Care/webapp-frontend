@@ -23,6 +23,10 @@ const ViewVisit = ({ onClose, initialValues, setEdit, setVisit, setConfirmation,
     visits_visit_type_id: null,
     visits_visit_subtype_id: null,
     visits_employee_id: null,
+    visits_clinic_id: JSON.parse(
+      localStorage.getItem("employeeData")
+    ).employees_clinic_id
+    .toString(),
   });
   const [type, setType] = useState({});
   const [subtype, setSubtype] = useState({});

@@ -1,16 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar";
-import { addIllnessRequest } from "../../api/illnessHistoryRequests";
+import { addIllnessRequest, updateIllnessRequest } from "../../api/illnessHistoryRequests";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
-const AddIllness = () => {
+const AddIllness = ({initialValues, onClose}) => {
   const [illness, setIllness] = useState({ illness_name: "" });
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
+  useEffect(() => {
+    const updateFormValues = async () => {
+      if (initialValues) {
+        setIllness(initialValues);
+      }
+    }
+    updateFormValues();
+  }, [initialValues]);
+
+  
   const openSnackbar = (severity, message) => {
     setSnackbarSeverity(severity);
     setSnackbarMessage(message);
@@ -32,11 +42,21 @@ const AddIllness = () => {
     }
 
     try {
-      const response = await addIllnessRequest(illness);
+      if(initialValues){
+        const response = await updateIllnessRequest(illness.id, illness);
+  
+        console.log("Illness updated successfully", response);
+        openSnackbar("success", "Choroba dodana pomyślnie");
+        onClose();
 
-      console.log("Illness added successfully", response);
-      setIllness({ illness_name: "" });
-      openSnackbar("success", "Choroba dodana pomyślnie");
+      } else{
+
+        const response = await addIllnessRequest(illness);
+  
+        console.log("Illness added successfully", response);
+        setIllness({ illness_name: "" });
+        openSnackbar("success", "Choroba dodana pomyślnie");
+      }
     } catch (error) {
       console.error("Error:", error.message);
       openSnackbar("error", "Błąd podczas dodawania choroby");

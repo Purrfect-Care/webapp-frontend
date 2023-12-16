@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar";
-import { addBreedRequest } from "../../api/breedRequests";
+import { addBreedRequest, updateBreedRequest } from "../../api/breedRequests";
 import { allSpeciesRequest } from "../../api/speciesRequests";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
-const AddBreed = () => {
+const AddBreed = ({ initialValues, onClose }) => {
   const [formValues, setFormValues] = useState({
     breed_name: "",
     breeds_species_id: "",
@@ -19,6 +19,15 @@ const AddBreed = () => {
     breeds_species_id: "",
   });
 
+  useEffect(() => {
+    const updateFormValues = async () => {
+      if (initialValues) {
+        setFormValues(initialValues);
+      }
+    }
+    updateFormValues();
+  }, [initialValues]);
+
   const openSnackbar = (severity, message) => {
     setSnackbarSeverity(severity);
     setSnackbarMessage(message);
@@ -31,7 +40,7 @@ const AddBreed = () => {
       [name]: "",
     }));
   };
-  
+
 
   const validateForm = () => {
     let valid = true;
@@ -69,13 +78,20 @@ const AddBreed = () => {
     }
 
     try {
-      const response = await addBreedRequest(formValues);
-      console.log("Breed added successfully", response);
-      openSnackbar("success", "Rasa dodana pomyślnie");
-      setFormValues({
-        breed_name: "",
-        breeds_species_id: "",
-      });
+      if (initialValues) {
+        const response = await updateBreedRequest(initialValues.id, formValues);
+        console.log("Breed updated successfully", response);
+        openSnackbar("success", "Rasa dodana pomyślnie");
+        onClose();
+      } else {
+        const response = await addBreedRequest(formValues);
+        console.log("Breed added successfully", response);
+        openSnackbar("success", "Rasa dodana pomyślnie");
+        setFormValues({
+          breed_name: "",
+          breeds_species_id: "",
+        });
+      }
     } catch (error) {
       console.error("Error:", error.message);
       openSnackbar("error", "Błąd podczas dodawania rasy");
@@ -108,8 +124,7 @@ const AddBreed = () => {
               <div className="relative pb-8 mb-2">
                 <select
                   name="breeds_species_id"
-                  className={`rounded-md h-12 w-96 ${
-                    errors.breeds_species_id ? 'border-red-500' : 'border-gray-300'}`}
+                  className={`rounded-md h-12 w-96 ${errors.breeds_species_id ? 'border-red-500' : 'border-gray-300'}`}
                   onChange={handleInputChange}
                   value={formValues.breeds_species_id}
                 >
@@ -119,7 +134,7 @@ const AddBreed = () => {
                       {species.species_name}
                     </option>
                   ))}
-                  
+
                 </select>
                 {errors.breeds_species_id && (
                   <span className="text-red-500 text-sm absolute bottom-0 right-0 mb-2 mr-2">
@@ -129,8 +144,7 @@ const AddBreed = () => {
               </div>
               <div className="relative pb-8 mb-2">
                 <input
-                  className={`rounded h-12 w-96 ${
-                    errors.breed_name ? 'border-red-500' : 'border-gray-300'}`}
+                  className={`rounded h-12 w-96 ${errors.breed_name ? 'border-red-500' : 'border-gray-300'}`}
                   type="text"
                   placeholder="Nazwa rasy"
                   name="breed_name"

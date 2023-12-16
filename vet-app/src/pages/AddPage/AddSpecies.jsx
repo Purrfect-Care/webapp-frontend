@@ -1,15 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar";
-import { addSpeciesRequest } from "../../api/speciesRequests";
+import { addSpeciesRequest, updateSpecieRequest } from "../../api/speciesRequests";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
-const AddSpecies = () => {
+const AddSpecies = ({initialValues, onClose}) => {
   const [species, setSpecies] = useState({ species_name: "" });
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+
+  useEffect(() => {
+    const updateFormValues = async () => {
+      if (initialValues) {
+        setSpecies(initialValues);
+      }
+    }
+    updateFormValues();
+  }, [initialValues]);
 
   const openSnackbar = (severity, message) => {
     setSnackbarSeverity(severity);
@@ -32,11 +42,21 @@ const AddSpecies = () => {
     }
 
     try {
-      const response = await addSpeciesRequest(species);
+      if(initialValues) {
+        const response = await updateSpecieRequest(species.id, species);
+  
+        console.log("Species updated successfully", response);
+        openSnackbar("success", "Gatunek dodany pomyślnie");
+        onClose();
 
-      console.log("Species added successfully", response);
-      openSnackbar("success", "Gatunek dodany pomyślnie");
-      setSpecies({ species_name: "" });
+      } else {
+
+        const response = await addSpeciesRequest(species);
+  
+        console.log("Species added successfully", response);
+        openSnackbar("success", "Gatunek dodany pomyślnie");
+        setSpecies({ species_name: "" });
+      }
     } catch (error) {
       console.error("Error:", error.message);
       openSnackbar("error", "Błąd podczas dodawania gatunku");

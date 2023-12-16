@@ -15,8 +15,8 @@ export async function patientRequest(patientId) {
   );
 }
 
-export async function patientsSideBarRequest(clinicId) {
-  const endpoint = `http://localhost:8000/api/patients_sidebar_list/?clinic_id=${clinicId}`;
+export async function patientsSideBarRequest() {
+  const endpoint = `http://localhost:8000/api/patients_sidebar_list/`;
 
   const response = await fetch(endpoint, {
     method: "GET",
@@ -125,4 +125,22 @@ export async function updatePatientPhotoRequest(patientId, formData) {
   console.error('Error updating patient:', error);
   throw error;
 }
+
 }
+
+export async function deleteOldPhotoRequest(photoFileName) {
+  const endpoint = `http://localhost:8000/delete_old_photo/${photoFileName}/`;
+  try {
+    const response = await fetch(endpoint, {
+      method: 'DELETE',
+    });
+
+    if (!response.ok) {
+      console.error('Failed to delete old photo:', response.status, response.statusText);
+    }
+  } catch (error) {
+    console.error('Error deleting old photo:', error);
+  }
+}
+
+

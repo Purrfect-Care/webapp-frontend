@@ -20,6 +20,15 @@ import AddIllness from "./pages/AddPage/AddIllness";
 import AddSpecies from "./pages/AddPage/AddSpecies";
 import AddBreed from "./pages/AddPage/AddBreed";
 import ShowPage from "./pages/ShowPage/ShowPage";
+import ShowPatientComponent from "./pages/ShowPage/ShowPatients/ShowPatientComponent";
+import ShowOwnerComponent from "./pages/ShowPage/ShowOwners/ShowOwnerComponent";
+import ShowIllnessComponent from "./pages/ShowPage/ShowIllness/ShowIllnessComponent";
+import ShowSpecieComponent from "./pages/ShowPage/ShowSpecie/ShowSpecieComponent";
+import ShowEmployeeComponent from "./pages/ShowPage/ShowEmployee/ShowEmployeeComponent";
+import ShowBreedComponent from "./pages/ShowPage/ShowBreed/ShowBreedComponent";
+import ShowMedicationComponent from "./pages/ShowPage/ShowMedication/ShowMedicationComponent";
+import ShowVisitTypeComponent from "./pages/ShowPage/ShowVisitType/ShowVisitTypeComponent";
+import ShowVisitSubtypeComponent from "./pages/ShowPage/ShowVisitSubtypes/ShowVisitSubtypesComponent";
 
 const isAuthenticated = () => {
   // Implement your logic to check if the user is authenticated
@@ -179,6 +188,60 @@ function App() {
           <Route
             path="/show"
             element={<CustomRoute element={<ShowPage/>} path="/show" />}
+          />
+          <Route
+            path="/show-patient"
+            element={
+              <CustomRoute element={<ShowPatientComponent />} path="/show-patient" />
+            }
+          />
+        <Route
+            path="/show-owner"
+            element={
+              <CustomRoute element={<ShowOwnerComponent />} path="/show-owner" />
+            }
+          />
+          <Route
+            path="/show-illness"
+            element={
+              <CustomRoute element={<ShowIllnessComponent />} path="/show-illness" />
+            }
+          />
+          <Route
+            path="/show-species"
+            element={
+              <CustomRoute element={<ShowSpecieComponent />} path="/show-species" />
+            }
+          />
+          <Route
+            path="/show-breed"
+            element={
+              <CustomRoute element={<ShowBreedComponent />} path="/show-breed" />
+            }
+          />
+          <Route
+            path="/show-medication"
+            element={
+              <CustomRoute element={<ShowMedicationComponent />} path="/show-medication" />
+            }
+          />
+          <Route
+            path="/show-visit-type"
+            element={
+              <CustomRoute element={<ShowVisitTypeComponent />} path="/show-visit-type" />
+            }
+          />
+          <Route
+            path="/show-visit-subtype"
+            element={
+              <CustomRoute element={<ShowVisitSubtypeComponent />} path="/show-visit-subtype" />
+            }
+          />
+          <Route
+            path="/show-employee"
+            element={
+              <CustomRoute element={<ShowEmployeeComponent />} path="/show-employee" />
+            }
           />
         </Routes>
       </BrowserRouter>
