@@ -22,6 +22,7 @@ import AddBreed from "./pages/AddPage/AddBreed";
 import ShowPage from "./pages/ShowPage/ShowPage";
 import ShowPatientComponent from "./pages/ShowPage/ShowPatients/ShowPatientComponent";
 import ShowOwnerComponent from "./pages/ShowPage/ShowOwners/ShowOwnerComponent";
+import ShowIllnessComponent from "./pages/ShowPage/ShowIllness/ShowIllnessComponent";
 
 const isAuthenticated = () => {
   // Implement your logic to check if the user is authenticated
@@ -192,6 +193,12 @@ function App() {
             path="/show-owner"
             element={
               <CustomRoute element={<ShowOwnerComponent />} path="/show-owner" />
+            }
+          />
+          <Route
+            path="/show-illness"
+            element={
+              <CustomRoute element={<ShowIllnessComponent />} path="/show-illness" />
             }
           />
         </Routes>

@@ -103,3 +103,46 @@ export const addIllnessRequest = async (illness) => {
     throw new Error(`Error: ${error.message}`);
   }
 };
+
+export const updateIllnessRequest = async (illnessId, illness) => {
+  try {
+    const response = await fetch(`${BASE_URL}/illnesses/${illnessId}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(illness),
+    });
+    console.log(illness);
+
+    if (response.ok) {
+      console.log("Illness deleted successfully");
+    } else {
+      throw new Error("Failed to update illness");
+    }
+  } catch (error) {
+    
+    throw new Error(`Error: ${error.message}`);
+  }
+};
+
+export const deleteIllnessRequest = async (illnessId) => {
+  try {
+    const response = await fetch(`${BASE_URL}/illnesses/${illnessId}/`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      // Check if there is JSON data in the response before parsing
+      const jsonData = await response.text();
+      return jsonData ? JSON.parse(jsonData) : null;
+    } else {
+      throw new Error("Failed to delete illness");
+    }
+  } catch (error) {
+    throw new Error(`Error: ${error.message}`);
+  }
+};
