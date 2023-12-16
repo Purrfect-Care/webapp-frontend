@@ -55,7 +55,7 @@ const ShowMedicationComponent = () => {
 
     return (
         <div>
-            <h2>Choroby</h2>
+            <h2>Leki</h2>
             <DynamicTable columns={columns} data={medicationData} onDelete={handleDelete} onEdit={editMedication} />
             {openEditForm && (<AddMedications initialValues={selectedMedication} onClose={closeForm}/>)}
 

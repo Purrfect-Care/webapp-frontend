@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../../components/Sidebar/Sidebar";
-import { addVisitTypeRequest } from "../../api/visitTypeRequest";
+import { addVisitTypeRequest, updateVisitTypeRequest } from "../../api/visitTypeRequest";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
-const AddVisitType = () => {
+const AddVisitType = ({initialValues, onClose}) => {
   const [visitType, setVisitType] = useState({ visit_type_name: "" });
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    const updateFormValues = async () => {
+      if (initialValues) {
+        setVisitType(initialValues);
+      }
+    }
+    updateFormValues();
+  }, [initialValues]);
 
   const openSnackbar = (severity, message) => {
     setSnackbarSeverity(severity);
@@ -32,11 +41,21 @@ const AddVisitType = () => {
     }
 
     try {
-      const response = await addVisitTypeRequest(visitType);
+      if(initialValues) {
+        const response = await updateVisitTypeRequest(initialValues.id, visitType);
+  
+        console.log("Visit type updated successfully", response);
+        openSnackbar("success", "Typ wizyty dodany pomyślnie");
+        onClose();
 
-      console.log("Visit type added successfully", response);
-      openSnackbar("success", "Typ wizyty dodany pomyślnie");
-      setVisitType({ visit_type_name: "" });
+      } else {
+
+        const response = await addVisitTypeRequest(visitType);
+  
+        console.log("Visit type added successfully", response);
+        openSnackbar("success", "Typ wizyty dodany pomyślnie");
+        setVisitType({ visit_type_name: "" });
+      }
     } catch (error) {
       console.error("Error:", error.message);
       openSnackbar("error", "Błąd podczas dodawania typu wizyty");
