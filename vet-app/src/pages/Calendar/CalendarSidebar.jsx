@@ -5,13 +5,13 @@ import LabelsCalendar from "./LabelsCalendar";
 import FilterAdminVisits from "./FilterAdminVisits";
 
 const CalendarSidebar = () => {
-    const userRole = localStorage.getItem('role');
+    const employeeData = JSON.parse(localStorage.getItem('employeeData')); // replace 'employeeData' with the key you used to store the employee data
 
     return (
         <aside className="border p-5 w-64 bg-emerald-600 bg-opacity-20 rounded">
             <CreateEventButton />
             <SmallCalendar />
-            {userRole === 'Administrator' && <FilterAdminVisits />}
+            {employeeData && employeeData.employee_role === 'Administrator' && <FilterAdminVisits />}
             <LabelsCalendar />
         </aside>
     );
