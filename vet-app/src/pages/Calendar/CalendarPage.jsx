@@ -8,6 +8,7 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import EventModal from "./EventModal";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import FilterAdminVisits from "./FilterAdminVisits";
 
 
 const CalendarPage = () => {
@@ -16,6 +17,7 @@ const CalendarPage = () => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  
 
 
   useEffect(() => {
@@ -51,6 +53,7 @@ const CalendarPage = () => {
             <Month month={currentMonth} />
           </div>
         </div>
+        
       </React.Fragment>
       <Snackbar
         open={snackbarOpen}

@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import GlobalContext from "../../context/GlobalContext";
 
 const getCheckboxClass = (label) => {
+  if (!label) return '';
   switch (label.toLowerCase()) {
     case 'zaplanowana':
       return 'text-yellow-400';
@@ -13,6 +14,7 @@ const getCheckboxClass = (label) => {
 };
 
 const getLabelClass = (label) => {
+  if (!label) return ''; 
   switch (label.toLowerCase()) {
     case 'zaplanowana':
       return 'bg-yellow-400';
@@ -22,6 +24,7 @@ const getLabelClass = (label) => {
       return 'bg-green-400';
   }
 };
+
 
 
 const LabelsCalendar = () => {

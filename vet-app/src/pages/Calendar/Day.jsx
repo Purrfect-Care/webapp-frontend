@@ -25,8 +25,8 @@ const Day = ({ day, rowIdx }) => {
     let hours = date_obj.getHours();
     let minutes = date_obj.getMinutes();
 
-    hours = hours < 10 ? '0' + hours : hours;
-    minutes = minutes < 10 ? '0' + minutes : minutes;
+    hours = hours < 10 ? "0" + hours : hours;
+    minutes = minutes < 10 ? "0" + minutes : minutes;
 
     let time_str = hours + ":" + minutes;
     return time_str;
@@ -44,12 +44,11 @@ const Day = ({ day, rowIdx }) => {
     let sumHours = Math.floor(sumInMinutes / 60);
     let sumMinutes = sumInMinutes % 60;
 
-    sumHours = sumHours < 10 ? '0' + sumHours : sumHours;
-    sumMinutes = sumMinutes < 10 ? '0' + sumMinutes : sumMinutes;
+    sumHours = sumHours < 10 ? "0" + sumHours : sumHours;
+    sumMinutes = sumMinutes < 10 ? "0" + sumMinutes : sumMinutes;
 
     return time1 + " - " + sumHours + ":" + sumMinutes;
-}
-
+  }
 
   function getCurrentDayClass() {
     return day.format("DD-MM-YY") === dayjs().format("DD-MM-YY")
@@ -58,7 +57,10 @@ const Day = ({ day, rowIdx }) => {
   }
 
   return (
-    <div className="border border-gray-200 flex flex-col">
+    <div className="border border-gray-200 flex flex-col cursor-pointer" onClick={() => {
+      setDaySelected(day);
+      setShowEventModal(true);
+    }}>
       <header className="flex flex-col items-center">
         {rowIdx === 0 && (
           <p className="text-sm mt-1 select-none">
@@ -72,44 +74,45 @@ const Day = ({ day, rowIdx }) => {
         </p>
       </header>
       <div
-        className="flex-1 cursor-pointer"
-        onClick={() => {
-          setDaySelected(day);
-          setShowEventModal(true);
-        }}
+        className="flex-1 pb-10"    
       >
         {dayEvents.map((evt, idx) => {
           return (
             <div
               key={idx}
               onClick={() => setSelectedEvent(evt)}
-              className={`p-1 mr-3 text-black text-sm rounded mb-1 truncate ${
+              className={`p-1 mr-3 text-black text-xs rounded mb-1 truncate ${
                 evt.visit_status.toLowerCase() === "zaplanowana"
                   ? "bg-yellow-200"
                   : evt.visit_status.toLowerCase() === "zakończona"
                   ? "bg-green-200"
                   : evt.visit_status.toLowerCase() === "odwołana"
                   ? "bg-red-200"
-                  : "" 
+                  : ""
               }`}
             >
-               <div
-              onClick={() => setSelectedEvent(evt)}
-              className={`p-1 text-black text-sm rounded mb-1 truncate ${
-                evt.visit_status.toLowerCase() === "zaplanowana"
-                  ? "bg-yellow-300"
-                  : evt.visit_status.toLowerCase() === "zakończona"
-                  ? "bg-green-300"
-                  : evt.visit_status.toLowerCase() === "odwołana"
-                  ? "bg-red-300"
-                  : "" 
-              }`}
-            >   
-              {evt.visits_visit_type.visit_type_name}
+              <div
+                onClick={() => setSelectedEvent(evt)}
+                className={`p-1 text-black text-sm rounded mb-1 truncate ${
+                  evt.visit_status.toLowerCase() === "zaplanowana"
+                    ? "bg-yellow-300"
+                    : evt.visit_status.toLowerCase() === "zakończona"
+                    ? "bg-green-300"
+                    : evt.visit_status.toLowerCase() === "odwołana"
+                    ? "bg-red-300"
+                    : ""
+                }`}
+              >
+                {evt.visits_visit_type.visit_type_name}
               </div>
-              <div>
-              {addTimes(formatToTime(evt.visit_datetime), evt.visit_duration)}
-              </div>
+              <span style={{ marginRight: "15px", marginLeft: "6px" }}>
+                {addTimes(formatToTime(evt.visit_datetime), evt.visit_duration)}
+              </span>
+              <span>
+                {evt.visits_employee.employee_first_name.charAt(0) +
+                  "." +
+                  evt.visits_employee.employee_last_name}
+              </span>
             </div>
           );
         })}

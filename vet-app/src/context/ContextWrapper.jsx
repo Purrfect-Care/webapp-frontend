@@ -13,21 +13,29 @@ export default function ContextWrapper(props) {
   const [showEventModal, setShowEventModal] = useState(false);
   const [selectedEvent, setSelectedEvent] = useState(null);
   const [labels, setLabels] = useState([]);
+  const [vets, setVets] = useState([]);
   const [events, setEvents] = useState([]);
   const [updatePatientBar, setUpdatePatientBar] = useState(false);
   const [comesFromLogin, setComesFromLogin] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
   const [showCalendarSidebar, setShowCalendarSidebar] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [selectAll, setSelectAll] = useState(true);
 
   const filteredEvents = useMemo(() => {
     return events.filter((evt) =>
       labels
         .filter((lbl) => lbl.checked)
         .map((lbl) => lbl.label)
-        .includes(evt.visit_status)
+        .includes(evt.visit_status) &&
+      vets
+        .filter((vet) => vet.checked)
+        .map((vet) => vet.id)
+        .includes(evt.visits_employee.id)
     );
-  }, [events, labels]);
+  }, [events, labels, vets]);
+  
+  
 
   async function fetchEvents() {
     try {
@@ -95,6 +103,26 @@ export default function ContextWrapper(props) {
   }, [events]);
 
   useEffect(() => {
+    setVets((prevVets) => {
+      const uniqueVetsMap = events.reduce((acc, evt) => {
+        acc[evt.visits_employee.id] = evt.visits_employee;
+        return acc;
+      }, {});
+      const uniqueVets = Object.values(uniqueVetsMap);
+      return uniqueVets.map((selectedVet) => {
+        const currentVet = prevVets.find((vet) => vet.id === selectedVet.id);
+        return { 
+          id: selectedVet.id, 
+          firstName: selectedVet.employee_first_name, 
+          lastName: selectedVet.employee_last_name, 
+          checked: currentVet ? currentVet.checked : true 
+        };
+      });
+    });
+  }, [events]);
+  
+
+  useEffect(() => {
     if (!showEventModal) {
       setSelectedEvent(null);
     }
@@ -110,6 +138,15 @@ export default function ContextWrapper(props) {
     setLabels(labels.map((lbl) => (lbl.label === label.label ? label : lbl)));
   }
 
+  function updateVets(updatedVet) {
+    setVets((prevVets) => {
+      const updatedVets = prevVets.map((vet) => (vet.id === updatedVet.id ? updatedVet : vet));
+      setSelectAll(updatedVets.every((vet) => vet.checked));
+      return updatedVets;
+    });
+  }
+  
+  
   return (
     <GlobalContext.Provider
       value={{
@@ -126,6 +163,9 @@ export default function ContextWrapper(props) {
         setLabels,
         labels,
         updateLabel,
+        setVets,
+        vets,
+        updateVets,
         filteredEvents,
         updateEvent,
         updatePatientBar,
@@ -139,6 +179,8 @@ export default function ContextWrapper(props) {
         setEvents,
         isLoggedIn,
         setIsLoggedIn,
+        setSelectAll,
+        selectAll,
       }}
     >
       {props.children}
