@@ -56,7 +56,7 @@ const ShowSpecieComponent = () => {
 
     return (
         <div>
-            <h2>Choroby</h2>
+            <h2>Gatunki</h2>
             <DynamicTable columns={columns} data={specieData} onDelete={handleDelete} onEdit={editSpecie} />
             {openEditForm && (<AddSpecies initialValues={selectedSpecie} onClose={closeForm}/>)}
 
