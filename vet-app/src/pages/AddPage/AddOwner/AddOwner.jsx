@@ -218,9 +218,15 @@ const AddOwner = ({initialValues, onClose}) => {
 
 
           <div className="button-container-add-owner">
-            <button type="submit" className="submit-button-add-owner">
+            {!initialValues && <button type="submit" className="submit-button-add-owner">
               Dodaj właściciela
-            </button>
+            </button>}
+            {initialValues && <button type="submit" className="submit-button-update-owner">
+              Edytuj właściciela
+            </button>}
+            {initialValues && <button className="cancel-button-owner" onClick={() => onClose()}>
+              Anuluj
+            </button>}
           </div>
         </form>
       </div>

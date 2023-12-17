@@ -46,9 +46,30 @@
 }
 
 
-.submit-button-add-owner {
+.submit-button-add-owner,
+.submit-button-update-owner {
   margin-top: 2vh;
   background-color: #047857;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  justify-content: center;
+  align-content: center;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    background-color: #005240;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+}
+.submit-button-update-owner {
+  margin-right: 10px;
+}
+
+.cancel-button-owner {
+  margin-top: 2vh;
+  background-color: red;
   color: #ffffff;
   padding: 10px;
   border-radius: 5px;
@@ -69,6 +90,7 @@
   margin-bottom: 5vh;
   display: flex;
   justify-content: center;
+  
 }
 
 .input-container {
