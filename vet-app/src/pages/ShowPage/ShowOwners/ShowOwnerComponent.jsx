@@ -76,7 +76,7 @@ const ShowOwnerComponent = () => {
         <>
         <div>
             {openTable && <DynamicTable columns={columns} data={ownerData} onDelete={handleDelete} onEdit={editOwner} title={"Właściciele"} />}
-            {openEditForm && (<AddOwner initialValues={selectedOwner} onClose={closeForm} />)}
+            {openEditForm && (<AddOwner initialValues={selectedOwner} onClose={closeForm} snackbar={openSnackbar}/>)}
         </div>
         <Snackbar
         open={snackbarOpen}

@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
-const AddOwner = ({initialValues, onClose}) => {
+const AddOwner = ({initialValues, onClose, snackbar}) => {
   const [formValues, setFormValues] = useState({
     owner_first_name: '',
     owner_last_name: '',
@@ -71,6 +71,7 @@ const AddOwner = ({initialValues, onClose}) => {
         const response = await editOwnerRequest(initialValues.id, formValues);
         console.log('Owner edited successfully', response);
         onClose();
+        snackbar("success", "Właściciel zmodyfikowany pomyślnie!");
       } else {
 
         console.log(formValues);
