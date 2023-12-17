@@ -76,10 +76,14 @@ function EventModal({snackbar}) {
       updateEvent();
     } catch (error) {
       console.error('Error submitting form:', error);
-      snackbar('error', 'Błąd podczas przypisywania wizyty.');
+      if (error.message === "This vet already has a visit at this time.") {
+        snackbar('error', 'Ten weterynarz już ma wizytę o tej porze.');
+      } else {
+        snackbar('error', 'Błąd podczas przypisywania wizyty.');
+      }
     }
-    closeEventModal();
   };
+    
 
   const newEvent = {
     visit_datetime: daySelected,

@@ -29,7 +29,6 @@ import ShowBreedComponent from "./pages/ShowPage/ShowBreed/ShowBreedComponent";
 import ShowMedicationComponent from "./pages/ShowPage/ShowMedication/ShowMedicationComponent";
 import ShowVisitTypeComponent from "./pages/ShowPage/ShowVisitType/ShowVisitTypeComponent";
 import ShowVisitSubtypeComponent from "./pages/ShowPage/ShowVisitSubtypes/ShowVisitSubtypesComponent";
-import PrivacyPolicyPage from "./pages/PrivacyPolicyPage/PrivacyPolicyPage";
 import ShowClinicComponent from "./pages/ShowPage/ShowClinic/ShowClinicComponent";
 
 const isAuthenticated = () => {
@@ -251,12 +250,7 @@ function App() {
               <CustomRoute element={<ShowClinicComponent />} path="/show-clinic" />
             }
           />
-          <Route
-            path="/privacy-policy"
-            element={
-              <CustomRoute element={<PrivacyPolicyPage />} path="/privacy-policy" />
-            }
-          />
+          
         </Routes>
       </BrowserRouter>
     </div>

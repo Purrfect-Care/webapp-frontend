@@ -62,7 +62,7 @@ export async function updateVisitRequest(id, data) {
   }
 
 
-export async function createVisitRequest(data) {
+  export async function createVisitRequest(data) {
     const endpoint = `http://localhost:8000/api/visits/`;
   
     try {
@@ -78,13 +78,16 @@ export async function createVisitRequest(data) {
         const updatedData = await response.json();
         return updatedData;
       } else {
-        throw new Error(`Response ${response.status}: ${response.statusText}`);
+        // If the server returns a 400 Bad Request response, parse the response to get the error message
+        const errorData = await response.json();
+        throw new Error(errorData.message);
       }
     } catch (error) {
       console.error('Error updating visit:', error);
       throw error;
     }
-  }
+}
+
 
   export async function visitsRequest() {
     const response = await fetch("http://localhost:8000/api/visits/");

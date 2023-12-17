@@ -170,9 +170,19 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
     }
   
     console.log('Form submitted!');
-    await onSubmit({ ...formValues, photos });
-    console.log(formValues);
-  };
+    try {
+        await onSubmit({ ...formValues, photos });
+        console.log(formValues);
+    } catch (error) {
+        // Handle the error returned by the server
+        if (error.message === "This vet already has a visit at this time.") {
+            setErrorMessage('This vet already has a visit at this time.');
+        } else {
+            setErrorMessage('An error occurred while creating the visit.');
+        }
+    }
+};
+
   
 
   const handleFocusPatient = (e) => {
