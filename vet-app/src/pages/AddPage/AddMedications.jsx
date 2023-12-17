@@ -6,7 +6,7 @@ import MuiAlert from "@mui/material/Alert";
 
 import { updateMedicationRequest } from "../../api/medicationsRequest";
 
-const AddMedications = ({initialValues, onClose}) => {
+const AddMedications = ({ initialValues, onClose, snackbar }) => {
   const [medication, setMedication] = useState({ medication_name: "" });
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
@@ -45,17 +45,17 @@ const AddMedications = ({initialValues, onClose}) => {
 
     try {
 
-      if(initialValues){
+      if (initialValues) {
         const response = await updateMedicationRequest(initialValues.id, medication);
-  
+
         console.log("Medication updated successfully", response);
-        openSnackbar("success", "Lek dodany pomyślnie");
         onClose();
+        snackbar("success", "Lek dodany pomyślnie!");
 
       } else {
 
         const response = await addMedicationsRequest(medication);
-  
+
         console.log("Medication added successfully", response);
         openSnackbar("success", "Lek dodany pomyślnie");
         setMedication({ medication_name: "" });
@@ -63,6 +63,7 @@ const AddMedications = ({initialValues, onClose}) => {
     } catch (error) {
       console.error("Error:", error.message);
       openSnackbar("error", "Błąd podczas dodawania leku");
+      snackbar("error", "Błąd podczas dodawania leku");
     }
   };
 
@@ -80,9 +81,8 @@ const AddMedications = ({initialValues, onClose}) => {
               </h3>
               <div className="relative pb-8 mb-2">
                 <input
-                  className={`rounded h-12 w-96 ${
-                    isError ? "border-red-500" : "border-gray-300"
-                  }`}
+                  className={`rounded h-12 w-96 ${isError ? "border-red-500" : "border-gray-300"
+                    }`}
                   type="text"
                   placeholder="Nazwa leku"
                   name="medication_name"
@@ -101,13 +101,32 @@ const AddMedications = ({initialValues, onClose}) => {
                   </span>
                 )}
               </div>
-              <button
+              {!initialValues && <button
                 type="submit"
                 onClick={handleAddMedication}
                 className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md"
               >
                 Dodaj
-              </button>
+              </button>}
+              {initialValues && (
+                <div className="mx-15vh mt-auto mb-5vh flex justify-center">
+                  <button
+                    type="submit"
+                    onClick={handleAddMedication}
+                    className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md mr-10"
+                  >
+                    Edytuj
+                  </button>
+                  <button
+                    type="submit"
+                    onClick={() => onClose()}
+                    className="bg-red-600 hover:bg-red-800 px-10 py-2 rounded text-white hover:shadow-md"
+                  >
+                    Anuluj
+                  </button>
+                </div>
+              )}
+
             </div>
           </div>
         </div>

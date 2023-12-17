@@ -78,3 +78,22 @@ export const addPrescribedMedicationRequest = async (prescriptionmedData) => {
     throw new Error(`Error: ${error.message}`);
   }
 };
+
+export const deleteEmptyPrescriptionsRequest = async () => {
+  try {
+    const response = await fetch("http://localhost:8000/empty_prescriptions/", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      console.log("Empty prescriptions deleted successfully");
+    } else {
+      throw new Error(`Error deleting empty prescriptions: ${response.statusText}`);
+    }
+  } catch (error) {
+    throw new Error(`Error deleting empty prescriptions: ${error.message}`);
+  }
+};
