@@ -4,7 +4,7 @@ import { addSpeciesRequest, updateSpecieRequest } from "../../api/speciesRequest
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
-const AddSpecies = ({initialValues, onClose}) => {
+const AddSpecies = ({initialValues, onClose, snackbar}) => {
   const [species, setSpecies] = useState({ species_name: "" });
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
@@ -46,7 +46,7 @@ const AddSpecies = ({initialValues, onClose}) => {
         const response = await updateSpecieRequest(species.id, species);
   
         console.log("Species updated successfully", response);
-        openSnackbar("success", "Gatunek dodany pomyślnie");
+        snackbar("success", "Gatunek dodany pomyślnie");
         onClose();
 
       } else {
@@ -54,12 +54,12 @@ const AddSpecies = ({initialValues, onClose}) => {
         const response = await addSpeciesRequest(species);
   
         console.log("Species added successfully", response);
-        openSnackbar("success", "Gatunek dodany pomyślnie");
+        snackbar("success", "Gatunek dodany pomyślnie");
         setSpecies({ species_name: "" });
       }
     } catch (error) {
       console.error("Error:", error.message);
-      openSnackbar("error", "Błąd podczas dodawania gatunku");
+      snackbar("error", "Błąd podczas dodawania gatunku");
     }
   };
 
@@ -95,13 +95,31 @@ const AddSpecies = ({initialValues, onClose}) => {
                 </span>
               )}
             </div>
-            <button
+            {!initialValues && <button
               type="submit"
               onClick={handleAddSpecies}
               className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md"
             >
               Dodaj
-            </button>
+            </button>}
+            {initialValues && (
+                <div className="mx-15vh mt-auto mb-5vh flex justify-center">
+                  <button
+                    type="submit"
+                    onClick={handleAddSpecies}
+                    className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md mr-10"
+                  >
+                    Edytuj
+                  </button>
+                  <button
+                    type="submit"
+                    onClick={() => onClose()}
+                    className="bg-red-600 hover:bg-red-800 px-10 py-2 rounded text-white hover:shadow-md"
+                  >
+                    Anuluj
+                  </button>
+                </div>
+              )}
           </div>
         </div>
       </div>
