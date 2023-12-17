@@ -29,6 +29,8 @@ import ShowBreedComponent from "./pages/ShowPage/ShowBreed/ShowBreedComponent";
 import ShowMedicationComponent from "./pages/ShowPage/ShowMedication/ShowMedicationComponent";
 import ShowVisitTypeComponent from "./pages/ShowPage/ShowVisitType/ShowVisitTypeComponent";
 import ShowVisitSubtypeComponent from "./pages/ShowPage/ShowVisitSubtypes/ShowVisitSubtypesComponent";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage/PrivacyPolicyPage";
+import ShowClinicComponent from "./pages/ShowPage/ShowClinic/ShowClinicComponent";
 
 const isAuthenticated = () => {
   // Implement your logic to check if the user is authenticated
@@ -241,6 +243,18 @@ function App() {
             path="/show-employee"
             element={
               <CustomRoute element={<ShowEmployeeComponent />} path="/show-employee" />
+            }
+          />
+          <Route
+            path="/show-clinic"
+            element={
+              <CustomRoute element={<ShowClinicComponent />} path="/show-clinic" />
+            }
+          />
+          <Route
+            path="/privacy-policy"
+            element={
+              <CustomRoute element={<PrivacyPolicyPage />} path="/privacy-policy" />
             }
           />
         </Routes>

@@ -54,3 +54,48 @@ export async function getClinicByIdRequest(id) {
     `Response ${response.status}: ${response.statusText} - ${await response.text()}`
   );
 }
+
+export async function deleteClinicById(clinicId) {
+  const endpoint = `http://localhost:8000/api/clinics/${clinicId}`;
+
+  try {
+    const response = await fetch(endpoint, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      console.log("Clinic deleted successfully");
+      return true;
+    } else {
+      throw new Error(`Response ${response.status}: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error("Error deleting clinic:", error);
+    throw error;
+  }
+}
+
+export async function updateClinicRequest(clinicId, formData) {
+  try {
+    const response = await fetch(`http://127.0.0.1:8000/api/clinics/${clinicId}/`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to update clinic data: ${await response.text()}`);
+    }
+
+    console.log('Clinic data updated successfully');
+    return response.json(); // Assuming the response contains updated clinic data
+  } catch (error) {
+    console.error('Error updating clinic data:', error.message);
+    throw error; // Re-throw the error for the caller to handle
+  }
+}
