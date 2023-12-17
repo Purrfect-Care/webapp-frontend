@@ -29,6 +29,7 @@ import ShowBreedComponent from "./pages/ShowPage/ShowBreed/ShowBreedComponent";
 import ShowMedicationComponent from "./pages/ShowPage/ShowMedication/ShowMedicationComponent";
 import ShowVisitTypeComponent from "./pages/ShowPage/ShowVisitType/ShowVisitTypeComponent";
 import ShowVisitSubtypeComponent from "./pages/ShowPage/ShowVisitSubtypes/ShowVisitSubtypesComponent";
+import SuperadminPage from "./pages/SuperadminPage/SuperadminPage";
 
 const isAuthenticated = () => {
   // Implement your logic to check if the user is authenticated
@@ -39,11 +40,41 @@ const isAuthenticated = () => {
 const CustomRoute = ({ element, path }) => {
   const employeeData = JSON.parse(localStorage.getItem("employeeData"));
   const isAdministrator = employeeData?.employee_role === "Administrator";
+  const isSuperadmin = employeeData?.employee_role === "superadmin";
+
+  const allowedPathsSuperadmin = [
+    "/show-patient",
+    "/show-owner",
+    "/show-employee",
+    "/show-medication",
+    "/show-illness",
+    "/show-visit-type",
+    "/show-visit-subtype",
+    "/show-species",
+    "/show-breed",
+    "/add-patient",
+    "/add-owner",
+    "/sign-in",
+    "/add-medication",
+    "/add-illness",
+    "/add-visit-type",
+    "/add-visit-subtype",
+    "/add-species",
+    "/add-breed",
+    "/add",
+    "/show",
+    "/superadmin",
+  ];
 
   if (path === "/login" || path === "/") {
-    // For public routes, redirect to home if the user is authenticated
     return isAuthenticated() ? <Navigate to="/calendar" replace /> : element;
+  } else if (!isAuthenticated()) {
+    return <Navigate to="/login" replace />;
+  } else if (isSuperadmin && !allowedPathsSuperadmin.includes(path)) {
+    // Redirect away if the user is superadmin and trying to access a restricted path
+    return <Navigate to="/superadmin" replace />;
   } else if (
+    !isAdministrator &&
     (path === "/add" ||
       path === "/sign-in" ||
       path === "/add-clinic" ||
@@ -55,16 +86,17 @@ const CustomRoute = ({ element, path }) => {
       path === "/add-patient" ||
       path === "/add-owner" ||
       path === "/add-medication" ||
-      path === "/add-illness") &&
-    !isAdministrator
+      path === "/add-illness")
   ) {
-    // Redirect away from "/add" if the user is not an administrator
+    return <Navigate to="/calendar" replace />;
+  } else if (isAdministrator && (path === "/superadmin")) {
+    // Redirect away if the user is superadmin and trying to access a restricted path
     return <Navigate to="/calendar" replace />;
   } else {
-    // For private routes, redirect to login if the user is not authenticated
-    return isAuthenticated() ? element : <Navigate to="/login" replace />;
+    return element;
   }
 };
+
 
 function App() {
   return (
@@ -241,6 +273,12 @@ function App() {
             path="/show-employee"
             element={
               <CustomRoute element={<ShowEmployeeComponent />} path="/show-employee" />
+            }
+          />
+          <Route
+            path="/superadmin"
+            element={
+              <CustomRoute element={<SuperadminPage />} path="/superadmin" />
             }
           />
         </Routes>

@@ -48,12 +48,19 @@ const Sidebar = () => {
               </Link>
             </li>
             {SidebarData.map((item, index) => {
-              // Check if the role is Administrator or if the item is not "Dodaj"
               const shouldRenderItem =
+                // Check if the role is "superadmin" and the title is either "Dodaj" or "Wyświetl"
+                (employeeData?.employee_role === "superadmin" &&
+                  (item.title === "Dodaj" || item.title === "Wyświetl")) ||
+                // Check if the role is "Administrator" and the title is not "Recepta"
                 (employeeData?.employee_role === "Administrator" &&
                   item.title !== "Recepta") ||
-                (employeeData?.employee_role !== "Administrator" &&
-                  item.title !== "Dodaj");
+                // Check if the role is not "Administrator" and the title is not "Dodaj" or "Wyświetl"
+                (
+                  employeeData?.employee_role !== "Administrator" &&
+                  employeeData?.employee_role !== "superadmin" &&
+                  (item.title !== "Dodaj" && item.title !== "Wyświetl")
+                );
 
               return (
                 shouldRenderItem && (
