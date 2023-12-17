@@ -43,9 +43,11 @@ const ShowPatientComponent = () => {
       };
 
 
-      const closeForm = () => {
+      const closeForm = async () => {
         setOpenEditForm(false);
         setSelectedPatient(null);
+        const updatedData = await allPatientsRequest();
+        setPatientData(updatedData);
       };
 
 
@@ -58,8 +60,7 @@ const ShowPatientComponent = () => {
 
     return (
         <div>
-            <h2>Pacjenci</h2>
-            <DynamicTable columns={columns} data={patientData} onDelete={handleDelete} onEdit={editPatient} />
+            <DynamicTable columns={columns} data={patientData} onDelete={handleDelete} onEdit={editPatient} title={"Pacjenci"} />
             {openEditForm && (<PatientForm initialValues={selectedPatient} onClose={closeForm}/>)}
 
         </div>

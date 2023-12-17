@@ -60,8 +60,7 @@ const ShowVisitTypeComponent = () => {
 
     return (
         <div>
-            <h2>Typy wizyt</h2>
-            <DynamicTable columns={columns} data={visit_typeData} onDelete={handleDelete} onEdit={editVisitType} />
+            <DynamicTable columns={columns} data={visit_typeData} onDelete={handleDelete} onEdit={editVisitType} title={"Typy wizyt"} />
             {openEditForm && (<AddVisitType initialValues={selectedVisitType} onClose={closeForm}/>)}
 
         </div>

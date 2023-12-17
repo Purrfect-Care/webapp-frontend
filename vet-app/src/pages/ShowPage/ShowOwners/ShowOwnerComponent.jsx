@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import DynamicTable from '../DynamicTable';
 import { allOwnersRequest, deleteOwnerById, editOwnerRequest } from '../../../api/ownerRequests';
-import EditOwnerForm from '../../EditOwnerForm/EditOwnerForm';
+import AddOwner from '../../AddPage/AddOwner/AddOwner';
 
 const ShowOwnerComponent = () => {
     const [ownerData, setOwnerData] = useState([]);
@@ -41,22 +41,11 @@ const ShowOwnerComponent = () => {
       };
 
 
-      const closeForm = () => {
+      const closeForm = async () => {
         setOpenEditForm(false);
         setSelectedOwner(null);
-      };
-
-      const submitEditOwnerForm = async (ownerId, ownerData) => {
-        try {
-          console.log("Owner Data:", ownerData);
-          const ownerId = ownerData.id;
-          await editOwnerRequest(ownerId, ownerData);
-          const updatedData = await allOwnersRequest(ownerId);
-          setOwnerData(updatedData);
-        } catch (error) {
-          console.error("Error submitting form:", error);
-        }
-        closeForm();
+        const data = await allOwnersRequest();
+        setOwnerData(data);
       };
 
 
@@ -69,9 +58,8 @@ const ShowOwnerComponent = () => {
 
     return (
         <div>
-            <h2>Właściciele</h2>
-            <DynamicTable columns={columns} data={ownerData} onDelete={handleDelete} onEdit={editOwner} />
-            {openEditForm && (<EditOwnerForm isOpen={openEditForm} ownerId={ownerData?.id}  existingData={selectedOwner} onClose={closeForm} onSubmit={submitEditOwnerForm}/>)}
+            <DynamicTable columns={columns} data={ownerData} onDelete={handleDelete} onEdit={editOwner} title={"Właściciele"} />
+            {openEditForm && (<AddOwner initialValues={selectedOwner} onClose={closeForm} />)}
 
         </div>
     );

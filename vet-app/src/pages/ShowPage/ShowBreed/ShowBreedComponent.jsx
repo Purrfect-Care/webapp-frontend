@@ -55,8 +55,7 @@ const ShowBreedComponent = () => {
 
     return (
         <div>
-            <h2>Rasy</h2>
-            <DynamicTable columns={columns} data={breedData} onDelete={handleDelete} onEdit={editBreed} />
+            <DynamicTable columns={columns} data={breedData} onDelete={handleDelete} onEdit={editBreed} title={"Rasy"} />
             {openEditForm && (<AddBreed initialValues={selectedBreed} onClose={closeForm}/>)}
 
         </div>

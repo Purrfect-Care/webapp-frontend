@@ -174,10 +174,7 @@ const PatientForm = ({ onClose, initialValues }) => {
         await deleteOldPhotoRequest(fileName);
         const response = await updatePatientPhotoRequest(initialValues.id, formData);
         console.log('Form submitted!', response);
-        openSnackbar('success', 'Dane pacjenta zmienione pomyślnie!');
-        setTimeout(() => {
-          navigate(`/show-patient`, { replace: true });
-        }, 3000);
+        onClose();
       }
     } catch (error) {
       console.error('Error:', error.message);

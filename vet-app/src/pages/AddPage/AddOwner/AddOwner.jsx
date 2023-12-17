@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { createOwnerRequest } from '../../../api/ownerRequests'; // Make sure to import your API request function
+import React, { useEffect, useState } from 'react';
+import { createOwnerRequest, editOwnerRequest } from '../../../api/ownerRequests'; // Make sure to import your API request function
 import './AddOwner.css'; // Add your CSS file import
 import Sidebar from '../../../components/Sidebar/Sidebar';
 import { useNavigate } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
-const AddOwner = () => {
+const AddOwner = ({initialValues, onClose}) => {
   const [formValues, setFormValues] = useState({
     owner_first_name: '',
     owner_last_name: '',
@@ -16,6 +16,15 @@ const AddOwner = () => {
     owner_phone_number: '',
     owner_email: '',
   });
+
+  useEffect(() => {
+    const updateFormValues = async () => {
+      if (initialValues) {
+        setFormValues(initialValues);
+      }
+    }
+    updateFormValues();
+  }, [initialValues]);
 
   const [focusedFirstName, setFocusedFirstName] = useState(false);
   const [focusedLastName, setFocusedLastName] = useState(false);
@@ -58,13 +67,20 @@ const AddOwner = () => {
       Object.entries(formValues).forEach(([key, value]) => {
         formData.append(key, value);
       });
-      console.log(formValues);
-      const response = await createOwnerRequest(formData);
-      console.log('Owner added successfully', response);
-      openSnackbar('success', 'Właściciel dodany pomyślnie!');
-      setTimeout(() => {
-        navigate(`/calendar`, { replace: true });
-      }, 3000);
+      if (initialValues){
+        const response = await editOwnerRequest(initialValues.id, formValues);
+        console.log('Owner edited successfully', response);
+        onClose();
+      } else {
+
+        console.log(formValues);
+        const response = await createOwnerRequest(formData);
+        console.log('Owner added successfully', response);
+        openSnackbar('success', 'Właściciel dodany pomyślnie!');
+        setTimeout(() => {
+          navigate(`/calendar`, { replace: true });
+        }, 3000);
+      }
     } catch (error) {
       console.error('Error:', error.message);
       openSnackbar('error', 'Błąd podczas dodawania właściciela.');

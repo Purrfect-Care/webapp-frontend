@@ -57,8 +57,7 @@ const ShowVisitSubtypeComponent = () => {
 
     return (
         <div>
-            <h2>Podtypy wizyt</h2>
-            <DynamicTable columns={columns} data={visit_subtypeData} onDelete={handleDelete} onEdit={editVisitSubtype} />
+            <DynamicTable columns={columns} data={visit_subtypeData} onDelete={handleDelete} onEdit={editVisitSubtype} title={"Podtypy wizyt"} />
             {openEditForm && (<AddVisitSubtype initialValues={selectedVisitSubtype} onClose={closeForm}/>)}
 
         </div>

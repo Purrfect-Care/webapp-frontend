@@ -59,8 +59,7 @@ const ShowEmployeeComponent = () => {
 
     return (
         <div>
-            <h2>Pracownicy</h2>
-            <DynamicTable columns={columns} data={employeeData} onDelete={handleDelete} onEdit={editEmployee} />
+            <DynamicTable columns={columns} data={employeeData} onDelete={handleDelete} onEdit={editEmployee} title={"Pracownicy"} />
             {openEditForm && (<SignIn initialValues={selectedEmployee} onClose={closeForm}/>)}
 
         </div>
