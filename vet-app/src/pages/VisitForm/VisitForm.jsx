@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { patientRequest, allPatientsRequest } from '../../api/patientsRequests';
 import { visitTypeRequest } from '../../api/visitTypeRequest'
 import { visitSubtypeRequest } from '../../api/visitSubtypeRequest'
-import { employeeRequest } from '../../api/employeeRequest';
+import { employeeRequest } from '../../api/employeesRequest';
 import './VisitForm.css';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
