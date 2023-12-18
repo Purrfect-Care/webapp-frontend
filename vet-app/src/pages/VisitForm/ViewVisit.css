@@ -174,11 +174,70 @@
   .photos-table {
     margin-top: 20px;
   }
-  .photo-description,
+
+  .photos-column-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: space-between;
+    width: 100%;
+    cursor: pointer;
+    font-weight: bold;
+  
+    height: 3vh;
+    border-bottom: 1px solid black;
+    text-align: center;
+  }
+
+  .column-description,
+  .column-file {
+    grid-column: span 1;
+  }
+
+  .photo-list {
+    align-items: center;
+  }
+
+  .photo-item {
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 50% 50%;
+    align-items: center;
+    text-align: center;
+    justify-items: center;
+  }
+  .photo-item:nth-child(even) {
+    background-color: lightgray;
+  }
+  .photo-item:nth-child(odd) {
+    background-color: white;
+  }
+  
   .photo-name {
     grid-column: span 1;
+    font-weight: bold;
+    max-width: 95%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     text-align: left;
     font-weight: bold;
+  }
+
+  .photo-name a {
+    display: inline-block;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-decoration: none;
+    color: #4aa587;
+    font-weight: bold;
+    transition: color 0.3s;
+    position: relative;
   }
   .photo-name a:hover::after {
     width: 100%;
@@ -197,55 +256,10 @@
     left: 0;
     transition: width 0.3s;
   }
-  .photo-name a {
-    text-decoration: none;
-    color: #4aa587;
-    font-weight: bold;
-    position: relative;
-    transition: color 0.3s;
-  }
-  .photo-item:nth-child(even) {
-    background-color: lightgray; /* Apply light gray background */
-  }
-  .photo-item:nth-child(odd) {
-    background-color: white; /* Apply white background */
-  }
-  .photo-item {
-    height: 100%;
-    width: 100%;
-    box-sizing: border-box;
-    justify-content: space-between;
-    display: grid;
-    grid-template-columns: 50% 50%; /* Equal widths for the four columns */
-    align-items: center;
-    text-align: center;
-    justify-items: center; /* Center the items horizontally within each cell */ /* Added margin between items for better spacing */
-  }
-  .photo-list {
-    align-items: center; /* Center the items horizontally */
-  }
-  .column-description,
-  .column-file {
-    grid-column: span 1; /* Each element takes one column */
-  }
-  .photos-column-bar {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    justify-content: space-between;
-    width: 100%;
-    cursor: pointer;
-    font-weight: bold;
-  
-    height: 3vh;
-    border-bottom: 1px solid black; /* Bottom border only */
-    text-align: center; /* Center the text */
-  }
-  .photo-name {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
   
   .photo-description {
+    grid-column: span 1;
+    text-align: left;
+    font-weight: bold;
     white-space: normal;
   }

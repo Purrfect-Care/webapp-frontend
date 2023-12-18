@@ -40,7 +40,7 @@ body {
 .column-visit_date,
 .column-visit_edit,
 .column-visit_delete,
-.columnt-visit_add {
+.column-visit_add {
   grid-column: span 1; /* Each element takes one column */
 }
 
@@ -145,6 +145,7 @@ body {
   cursor: pointer;
   border-radius: 8px;
 }
+
 .create-visit-button:hover {
   background-color: #2f6d58;
 }

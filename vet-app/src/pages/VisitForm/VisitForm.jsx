@@ -3,6 +3,7 @@ import { patientRequest, allPatientsByClinicIdRequest } from '../../api/patients
 import { visitTypeRequest } from '../../api/visitTypeRequest'
 import { visitSubtypeRequest } from '../../api/visitSubtypeRequest'
 import { employeeRequest } from '../../api/employeeRequest';
+import { getPhotosByVisitId, deletePhotoById, createPhotoRequest } from '../../api/photosRequests';
 import './VisitForm.css';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -10,8 +11,11 @@ import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';  // Import the utc plugin
 import timezone from 'dayjs/plugin/timezone';
-import { FaPlus, FaTrash } from 'react-icons/fa';
-
+import { FaPen, FaTrash, FaPlus } from 'react-icons/fa';
+import ConfirmationPopup from "../../components/ConifrmationPopup/ConfirmationPopup";
+import PhotoAddPopup from "../../components/addVisitPhoto/addVisitPhoto";
+import Snackbar from '@mui/material/Snackbar';
+import MuiAlert from '@mui/material/Alert';
 
 const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false }) => {
   const [formValues, setFormValues] = useState({
@@ -39,11 +43,31 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
   const [focusedType, setFocusedType] = useState(false);
   const [focusedSubtype, setFocusedSubtype] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [vets, setVets] = useState([]);
+  const [isPhotoAddPopupOpen, setIsPhotoAddPopupOpen] = useState(false);
 
   const [photos, setPhotos] = useState([]);
+  const [sortBy, setSortBy] = useState({ column: 'DATA', ascending: true });
+  const [photoToDelete, setPhotoToDelete] = useState(null);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
+  const [snackbarMessage, setSnackbarMessage] = useState('');
+
+  const openSnackbar = (severity, message) => {
+    setSnackbarSeverity(severity);
+    setSnackbarMessage(message);
+    setSnackbarOpen(true);
+  };
+
+  const formatDuration = (duration) => {
+    const [hours, minutes] = duration.split(':');
+  
+    return `${hours}:${minutes}`;
+  };
 
   const addPhotoField = () => {
-    setPhotos((prevPhotos) => [...prevPhotos, { image: null, description: '' }]);
+    setPhotos((prevPhotos) => [...prevPhotos, { image: null, photo_description: '', id: null, photos_visit_id: null}]);
   };
 
   const removePhotoField = (index) => {
@@ -67,7 +91,7 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
     const { name, value } = e.target;
     setPhotos((prevPhotos) => {
       const updatedPhotos = [...prevPhotos];
-      updatedPhotos[index].description = value;
+      updatedPhotos[index].photo_description = value;
       return updatedPhotos;
     });
   };
@@ -117,8 +141,14 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
       const typeId = initialValues.visits_visit_type_id;
       const subtypes = allSubtypes.filter((subtype) => subtype.visit_subtypes_visit_type_id === typeId);
       setSubtypesForSelectedType(subtypes);
-    }
 
+      const fetchPhotos = async () => {
+        const visitPhotos = await getPhotosByVisitId(initialValues.id);
+        setPhotos(visitPhotos);
+      }
+
+      if(initialValues.id) fetchPhotos();
+    }
   }, [initialValues, allSubtypes]);
 
 
@@ -168,7 +198,6 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
   
     console.log('Form submitted!');
     await onSubmit({ ...formValues, photos });
-    console.log(formValues);
   };
   
 
@@ -187,6 +216,72 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
   const handleFocusType = (e) => {
     setFocusedType(true);
   }
+
+  const editPhoto = (photo) => {
+    return 0;
+  };
+
+  const addPhoto = () => {
+    setIsPhotoAddPopupOpen(true);
+  }
+
+  const deletePhoto = (photo) => {
+    setPhotoToDelete(photo);
+    setShowConfirmation(true);
+  };
+
+  const cancelDeletePhoto = () => {
+    setShowConfirmation(false);
+  };
+
+  const sortColumn = (column) => {
+    if (sortBy.column === column) {
+      setSortBy({ column, ascending: !sortBy.ascending });
+    } else {
+      setSortBy({ column, ascending: true });
+    }
+  };
+
+  const confirmDeletePhoto = async () => {
+    try {
+      if (!photoToDelete || !photoToDelete.id) {
+        console.error('No selected visit or visit ID');
+        return;
+      }
+      const photoId = photoToDelete.id;
+      await deletePhotoById(photoId);     
+      openSnackbar('success', 'Usuwanie zdjęcia zakończone sukcesem!');
+      console.log("snackbar: ", snackbarMessage, snackbarSeverity)
+      setPhotos((prevPhotos) => prevPhotos.filter((photo) => photo.id !== photoToDelete.id));
+    } catch (error) {
+      console.error('Error deleting photo:', error);
+      openSnackbar('error', 'Błąd podczas usuwania zdjęcia.');
+    } finally {
+      setShowConfirmation(false);
+    }
+  };
+
+  const sortedPhotos = [...photos].sort((a, b) => {
+    if (sortBy.column === 'PLIK') {
+      const nameA = a.image;
+      const nameB = b.image;
+      return sortBy.ascending ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+    } else if (sortBy.column === 'OPIS') {
+      const descA = a.photo_description;
+      const descB = b.photo_description;
+      return sortBy.ascending ? descA.localeCompare(descB) : descB.localeCompare(descA);
+    }
+    return 0;
+  });
+
+  const handlePhotoAddPopupSave = (newPhoto) => {
+    createPhotoRequest(newPhoto);
+    setIsPhotoAddPopupOpen(false);
+  };
+
+  const handlePhotoAddPopupCancel = () => {
+    setIsPhotoAddPopupOpen(false);
+  };
 
 
   return (
@@ -349,7 +444,7 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
                       className='input-visitform-duration'
                       type="text"
                       name="visit_duration"
-                      value={formValues.visit_duration}
+                      value={formatDuration(formValues.visit_duration)}
                       onChange={handleChange}
                       required="true"
                       onBlur={handleFocusDuration}
@@ -370,6 +465,7 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
                 onChange={handleChange}
               />
             </div>
+            {initialValues.id == null ? (
             <div className="form-section-visit">
               <h3>Zdjęcia</h3>
               <div className="form-section-row-visit">
@@ -404,7 +500,7 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
                         <div>
                         <textarea
                           name={`photo_description`}
-                          value={photo.description}
+                          value={photo.photo_description}
                           onChange={(e) => handleDescriptionChange(index, e)}
                         />
                         </div>
@@ -413,8 +509,56 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
                     </>
                 ))}
                 <button className="add-photo-row" type="button" onClick={addPhotoField}><FaPlus /></button>
+              </div>
+            </div>) : photos.length > 0 ? (
+            <div className="form-section-visit">
+            <h3>Zdjęcia</h3>
+              <div className='photos-table'>
+                <div className="edit-photos-column-bar">
+                  <span className="column-file" onClick={() => sortColumn('PLIK')}>
+                    PLIK {sortBy.column === 'PLIK' && (sortBy.ascending ? '↑' : '↓')}
+                  </span>
+                  <span className="column-description" onClick={() => sortColumn('OPIS')}>
+                    OPIS {sortBy.column === 'OPIS' && (sortBy.ascending ? '↑' : '↓')}
+                  </span>
+                  <span className="column-photo_edit">
+                    EDYTUJ
+                  </span>
+                  <span className="column-photo_delete">
+                    USUŃ
+                  </span>
+                  <div className="photo-add">
+                    <button onClick={() => addPhoto()} className="phot-add-button" type="button">
+                      <FaPlus />
+                    </button>
+                  </div>
+                </div>
+                <div className="photo-list">
+                  {sortedPhotos.map((photo) => (                    
+                    <div key={photo.id} className="edit-photo-item">
+                      <div className="photo-name">
+                        <a href={photo.image} target="_blank" rel="noopener noreferrer">
+                        {photo.image.split('/').pop()}
+                        </a>                        
+                      </div>
+                      <div className="photo-description">
+                        {photo.photo_description}
+                      </div>
+                      <div className="photo-edit">
+                        <button  type="button" onClick={() => editPhoto(photo)}>
+                          <FaPen />
+                        </button>
+                      </div>
+                      <div className="photo-delete">
+                        <button onClick={() => deletePhoto(photo)} className="delete-button" type="button">
+                          <FaTrash />
+                        </button>
+                      </div>                      
+                    </div>))}
+                </div>
+              </div>
             </div>
-            </div>
+            ) : (null)}
           </div>
         </form>
         </div>
@@ -427,6 +571,38 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
           }}>Anuluj</button>
         </div>
       </div>
+      {showConfirmation && (
+          <ConfirmationPopup
+            message="Czy na pewno chcesz usunąć zdjęcie?"
+            onConfirm={confirmDeletePhoto}
+            onCancel={cancelDeletePhoto}
+            onYes="Tak"
+            onNo="Nie"
+          />
+        )}
+      <Snackbar
+        open={snackbarOpen}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        autoHideDuration={6000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={() => setSnackbarOpen(false)}
+          severity={snackbarSeverity}
+        >
+          {snackbarMessage}
+        </MuiAlert>
+      </Snackbar>
+    {isPhotoAddPopupOpen && (
+        <PhotoAddPopup
+          onAdd={handlePhotoAddPopupSave}
+          onCancel={handlePhotoAddPopupCancel}
+          isFormOpen={isPhotoAddPopupOpen}
+          visitId={initialValues.id}
+        />
+      )}
     </div>
   );
 };
