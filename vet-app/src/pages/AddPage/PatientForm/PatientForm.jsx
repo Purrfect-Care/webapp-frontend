@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router-dom';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
 
-const PatientForm = ({ onClose, initialValues }) => {
+const PatientForm = ({ initialValues, onClose, snackbar }) => {
   const [formValues, setFormValues] = useState({
     patient_name: '',
     patient_gender: null,
@@ -144,13 +144,11 @@ const PatientForm = ({ onClose, initialValues }) => {
     const isEmptyField = requiredFields.some(field => !formValues[field]);
 
     if (isEmptyField) {
-      // Display an error message or take appropriate action
       setErrorMessage('Wypełnij wszystkie wymagane pola.');
       return;
     }
     try {
       console.log("form values in submit", formValues);
-      // Create a FormData object to handle the file upload
       const formData = new FormData();
       Object.entries(formValues).forEach(([key, value]) => {
         if (key === 'patient_photo' && value === null) {
@@ -174,6 +172,7 @@ const PatientForm = ({ onClose, initialValues }) => {
         await deleteOldPhotoRequest(fileName);
         const response = await updatePatientPhotoRequest(initialValues.id, formData);
         console.log('Form submitted!', response);
+        snackbar('success', 'Dane pacjenta zmodyfikowane pomyślnie!');
         onClose();
       }
     } catch (error) {
@@ -350,20 +349,30 @@ const PatientForm = ({ onClose, initialValues }) => {
             />
             {errorMessage && <span className='span-patientform-error'>{errorMessage}</span>}
 
-            <div className='button-container-add-patient'>
-              {!initialValues && (<button
+            <div className="button-container-add-patient">
+              {!initialValues && 
+              <button
                 type="submit"
+                onClick={handleSubmit}
                 className="submit-button-add-patient">
-                Dodaj pacjenta
-              </button>)}
-              {initialValues && (<button
+                Dodaj
+              </button>}
+              {initialValues && 
+
+                <button
                 type='submit'
-                className="submit-button-add-patient">
-                Edytuj dane pacjenta
-              </button>)}
-            </div>
-
-
+                onClick={handleSubmit}
+                className="submit-button-update-patient">
+                Edytuj
+              </button>}
+              {initialValues && <button
+                    type="submit"
+                    onClick={() => onClose()}
+                    className="submit-button-cancel-patient"
+                  >
+                    Anuluj
+                  </button>}
+              </div>
           </form>
         </div>
 

@@ -47,7 +47,7 @@ const AddIllness = ({initialValues, onClose, snackbar}) => {
   
         console.log("Illness updated successfully", response);
         onClose();
-        snackbar("success", "Choroba dodana pomyślnie!");
+        snackbar("success", "Choroba zmodyfikowana pomyślnie!");
       } else{
 
         const response = await addIllnessRequest(illness);

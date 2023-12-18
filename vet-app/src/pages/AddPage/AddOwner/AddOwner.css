@@ -69,7 +69,7 @@
 
 .cancel-button-owner {
   margin-top: 2vh;
-  background-color: red;
+  background-color: rgb(220 38 38); 
   color: #ffffff;
   padding: 10px;
   border-radius: 5px;
@@ -79,7 +79,7 @@
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
-    background-color: #005240;
+    background-color: rgb(153 27 27);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   }
 }

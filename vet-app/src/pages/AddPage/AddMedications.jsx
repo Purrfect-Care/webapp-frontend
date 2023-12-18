@@ -50,7 +50,7 @@ const AddMedications = ({ initialValues, onClose, snackbar }) => {
 
         console.log("Medication updated successfully", response);
         onClose();
-        snackbar("success", "Lek dodany pomyślnie!");
+        snackbar("success", "Lek zmodyfikowany pomyślnie!");
 
       } else {
 

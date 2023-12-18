@@ -67,19 +67,40 @@
 }
 
 
-.submit-button-add-patient {
-  background-color: #047857; /* Replace with your desired background color */
+.submit-button-add-patient,
+.submit-button-update-patient{
+  background-color: #047857;
+  color: #ffffff;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  margin-left: 1vh;
+  display: flex;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    background-color: #005240;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.submit-button-cancel-patient {
+  background-color: rgb(220 38 38); /* Replace with your desired background color */
   color: #ffffff; /* Replace with your desired text color */
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
   justify-content: center;
   align-content: center;
+  margin-left: 1vh;
   margin-bottom: 8vh;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
-    background-color: #005240; /* Replace with your desired hover background color */
+    background-color: rgb(153 27 27); /* Replace with your desired hover background color */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   }
 }
@@ -87,8 +108,10 @@
 .button-container-add-patient{
   margin-left: 15vh;
   margin-top: auto;
+  margin-bottom: 5vh;
   display: flex;
   justify-content: center;
+  align-items: baseline;
 }
 
 

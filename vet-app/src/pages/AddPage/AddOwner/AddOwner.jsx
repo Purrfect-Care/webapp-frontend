@@ -220,10 +220,10 @@ const AddOwner = ({initialValues, onClose, snackbar}) => {
 
           <div className="button-container-add-owner">
             {!initialValues && <button type="submit" className="submit-button-add-owner">
-              Dodaj właściciela
+              Dodaj
             </button>}
             {initialValues && <button type="submit" className="submit-button-update-owner">
-              Edytuj właściciela
+              Edytuj
             </button>}
             {initialValues && <button className="cancel-button-owner" onClick={() => onClose()}>
               Anuluj
