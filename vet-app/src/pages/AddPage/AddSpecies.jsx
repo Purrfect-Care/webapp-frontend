@@ -46,7 +46,7 @@ const AddSpecies = ({initialValues, onClose, snackbar}) => {
         const response = await updateSpecieRequest(species.id, species);
   
         console.log("Species updated successfully", response);
-        snackbar("success", "Gatunek dodany pomyślnie");
+        snackbar("success", "Gatunek zmodyfikowany pomyślnie");
         onClose();
 
       } else {
@@ -54,12 +54,12 @@ const AddSpecies = ({initialValues, onClose, snackbar}) => {
         const response = await addSpeciesRequest(species);
   
         console.log("Species added successfully", response);
-        snackbar("success", "Gatunek dodany pomyślnie");
+        openSnackbar("success", "Gatunek dodany pomyślnie");
         setSpecies({ species_name: "" });
       }
     } catch (error) {
       console.error("Error:", error.message);
-      snackbar("error", "Błąd podczas dodawania gatunku");
+      openSnackbar("error", "Błąd podczas dodawania gatunku");
     }
   };
 

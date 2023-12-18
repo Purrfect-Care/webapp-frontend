@@ -55,7 +55,6 @@ const AddIllness = ({initialValues, onClose, snackbar}) => {
         console.log("Illness added successfully", response);
         setIllness({ illness_name: "" });
         openSnackbar("success", "Choroba dodana pomyślnie");
-        snackbar("error", "Błąd podczas dodawania choroby");
       }
     } catch (error) {
       console.error("Error:", error.message);

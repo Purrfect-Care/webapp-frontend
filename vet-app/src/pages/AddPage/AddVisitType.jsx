@@ -45,7 +45,7 @@ const AddVisitType = ({initialValues, onClose, snackbar}) => {
         const response = await updateVisitTypeRequest(initialValues.id, visitType);
   
         console.log("Visit type updated successfully", response);
-        snackbar("success", "Typ wizyty dodany pomyślnie");
+        snackbar("success", "Typ wizyty zmodyfikowany pomyślnie");
         onClose();
 
       } else {
@@ -53,12 +53,12 @@ const AddVisitType = ({initialValues, onClose, snackbar}) => {
         const response = await addVisitTypeRequest(visitType);
   
         console.log("Visit type added successfully", response);
-        snackbar("success", "Typ wizyty dodany pomyślnie");
+        openSnackbar("success", "Typ wizyty dodany pomyślnie");
         setVisitType({ visit_type_name: "" });
       }
     } catch (error) {
       console.error("Error:", error.message);
-      snackbar("error", "Błąd podczas dodawania typu wizyty");
+      openSnackbar("error", "Błąd podczas dodawania typu wizyty");
     }
   };
 

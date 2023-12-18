@@ -9,7 +9,7 @@ import MuiAlert from "@mui/material/Alert";
 import { useNavigate } from 'react-router-dom';
 
 
-const SignIn = ({onClose, initialValues}) => {
+const SignIn = ({initialValues, onClose, snackbar}) => {
   const [formValues, setFormValues] = useState({
     employee_role: '',
     employee_first_name: '',
@@ -200,10 +200,8 @@ const SignIn = ({onClose, initialValues}) => {
     } else {
         const response = await editEmployeeRequest(initialValues.id, formValues);
         console.log('Form submitted!', response);
-        openSnackbar('success', 'Dane pracownika zmienione pomyślnie!');
-        setTimeout(() => {
-          navigate(`/show-employee`, { replace: true });
-        }, 3000);
+        snackbar('success', 'Dane pracownika zmienione pomyślnie!');
+        onClose();
       }
     
 
@@ -458,13 +456,31 @@ const SignIn = ({onClose, initialValues}) => {
                       Dodaj ją.
                     </a>
                   </div>
-                  <button
+                  {!initialValues && <button
                     type="submit"
                     onClick={handleSubmit}
                     className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md"
                   >
                     Dodaj
+                  </button>}
+                  {initialValues && (
+                <div className="mx-15vh mt-auto mb-5vh flex justify-center">
+                  <button
+                    type="submit"
+                    onClick={handleSubmit}
+                    className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md mr-10"
+                  >
+                    Edytuj
                   </button>
+                  <button
+                    type="submit"
+                    onClick={() => onClose()}
+                    className="bg-red-600 hover:bg-red-800 px-10 py-2 rounded text-white hover:shadow-md"
+                  >
+                    Anuluj
+                  </button>
+                </div>
+              )}
                 </div>
               </form>
             </div>

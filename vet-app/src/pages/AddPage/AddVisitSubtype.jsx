@@ -80,14 +80,14 @@ const AddVisitSubtype = ({initialValues, onClose, snackbar}) => {
       if(initialValues) {
         const response = await updateVisitSubtypeRequest(initialValues.id, formValues);
         console.log("Visit subtype updated successfully", response);
-        snackbar("success", "Podtyp wizyty dodany pomyślnie");
+        snackbar("success", "Podtyp wizyty zmodyfikowany pomyślnie");
         onClose();
 
       } else {
 
         const response = await addVisitSubtypeRequest(formValues);
         console.log("Visit subtype added successfully", response);
-        snackbar("success", "Podtyp wizyty dodany pomyślnie");
+        openSnackbar("success", "Podtyp wizyty dodany pomyślnie");
         setFormValues({
           visit_subtype_name: "",
           visit_subtypes_visit_type_id: "",
@@ -95,7 +95,7 @@ const AddVisitSubtype = ({initialValues, onClose, snackbar}) => {
       }
     } catch (error) {
       console.error("Error:", error.message);
-      snackbar("error", "Błąd podczas dodawania podtypu wizyty");
+      openSnackbar("error", "Błąd podczas dodawania podtypu wizyty");
     }
   };
 

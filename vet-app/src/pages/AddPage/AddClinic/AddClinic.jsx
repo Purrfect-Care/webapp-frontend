@@ -4,6 +4,7 @@ import { addClinic, updateClinicRequest } from "../../../api/clinicRequests";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import { useNavigate } from 'react-router-dom';
 
 const AddClinic = ({initialValues, onClose, snackbar}) => {
   const [formValues, setFormValues] = useState({
@@ -19,7 +20,8 @@ const AddClinic = ({initialValues, onClose, snackbar}) => {
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [errors, setErrors] = useState({});
-
+  const navigate = useNavigate();
+  
   const openSnackbar = (severity, message) => {
     setSnackbarSeverity(severity);
     setSnackbarMessage(message);
@@ -152,7 +154,9 @@ const AddClinic = ({initialValues, onClose, snackbar}) => {
         const response = await addClinic(formValues);
         console.log("Clinic added successfully", response);
         openSnackbar("success", "Klinika dodana pomyślnie");
-        onClose();
+        setTimeout(() => {
+          navigate(`/calendar`, { replace: true });
+        }, 3000);
       } else {
         const response = await updateClinicRequest(initialValues.id, formValues);
         console.log("Clinic updated successfully", response);
@@ -161,7 +165,7 @@ const AddClinic = ({initialValues, onClose, snackbar}) => {
       }
     } catch (error) {
       console.error("Error:", error.message);
-      snackbar("error", "Błąd podczas dodawania kliniki");
+      openSnackbar("error", "Błąd podczas dodawania kliniki");
     }
   };
 

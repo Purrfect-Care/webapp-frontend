@@ -81,12 +81,12 @@ const AddBreed = ({ initialValues, onClose, snackbar }) => {
       if (initialValues) {
         const response = await updateBreedRequest(initialValues.id, formValues);
         console.log("Breed updated successfully", response);
-        snackbar("success", "Rasa dodana pomyślnie");
+        snackbar("success", "Rasa zmodyfikowana pomyślnie");
         onClose();
       } else {
         const response = await addBreedRequest(formValues);
         console.log("Breed added successfully", response);
-        snackbar("success", "Rasa dodana pomyślnie");
+        openSnackbar("success", "Rasa dodana pomyślnie");
         setFormValues({
           breed_name: "",
           breeds_species_id: "",
@@ -94,7 +94,7 @@ const AddBreed = ({ initialValues, onClose, snackbar }) => {
       }
     } catch (error) {
       console.error("Error:", error.message);
-      snackbar("error", "Błąd podczas dodawania rasy");
+      openSnackbar("error", "Błąd podczas dodawania rasy");
     }
   };
 
