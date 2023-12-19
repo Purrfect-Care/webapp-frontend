@@ -277,7 +277,7 @@
 
 .edit-photos-column-bar {
   display: grid;
-  grid-template-columns: 2fr 5fr 1fr 1fr 1fr;
+  grid-template-columns: 20% 50% 10% 10% 10%;
   justify-content: space-between;
   width: 100%;
   cursor: pointer;
@@ -306,15 +306,15 @@
   box-sizing: border-box;
   justify-content: space-between;
   display: grid;
-  grid-template-columns: 2fr 5fr 1fr 1fr 1fr;
+  grid-template-columns: 20% 50% 10% 10% 10%;
   align-items: center;
   text-align: center;
   justify-items: center;
 }
-.photo-item:nth-child(even) {
+.edit-photo-item:nth-child(even) {
   background-color: lightgray;
 }
-.photo-item:nth-child(odd) {
+.edit-photo-item:nth-child(odd) {
   background-color: white;
 }
 
@@ -380,9 +380,13 @@
   padding: 5px 10px;
   cursor: pointer;
 }
-.photo-add button {
+.photo-add-button {
   color: #4aa587;
   border: none;
   cursor: pointer;
   border-radius: 8px;
+}
+
+.select-employee {
+  max-width: 95%;
 }

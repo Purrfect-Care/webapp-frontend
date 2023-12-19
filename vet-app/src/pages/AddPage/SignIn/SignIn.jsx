@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./SignIn.css";
 import { getClinicsRequest } from "../../../api/clinicRequests";
-import { addEmployeeRequest } from "../../../api/employeeRequests";
+import { addEmployeeRequest } from "../../../api/employeesRequests";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";

@@ -177,7 +177,7 @@
 
   .photos-column-bar {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 25% 75%;
     justify-content: space-between;
     width: 100%;
     cursor: pointer;
@@ -203,7 +203,7 @@
     box-sizing: border-box;
     justify-content: space-between;
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 25% 75%;
     align-items: center;
     text-align: center;
     justify-items: center;
