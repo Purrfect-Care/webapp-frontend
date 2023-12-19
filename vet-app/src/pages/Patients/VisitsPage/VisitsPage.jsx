@@ -5,7 +5,7 @@ import './VisitsPage.css';
 import VisitForm from '../../../pages/VisitForm/VisitForm';
 import ViewVisit from '../../VisitForm/ViewVisit';
 import ConfirmationPopup from "../../../components/ConifrmationPopup/ConfirmationPopup";
-import { FaPen, FaTrash, FaPlus } from 'react-icons/fa';// Import the VisitForm component
+import { FaPen, FaTrash, FaPlus } from 'react-icons/fa';
 import PulseLoader from "react-spinners/PulseLoader";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -128,14 +128,14 @@ const VisitsPage = ({ patient }) => {
       
       const photosData = formData.photos.map((photo) => ({
         image: photo.image,
-        description: photo.description,
+        photo_description: photo.photo_description,
       }));
 
       const createdEvent = await createVisitRequest(EventData);
       if (photosData) {
         for (const photo of photosData) {
           const photoData = {
-            photo_description: photo.description,
+            photo_description: photo.photo_description,
             image: photo.image,
             photos_visit_id: createdEvent.id,
           };

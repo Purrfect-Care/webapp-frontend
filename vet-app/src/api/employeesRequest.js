@@ -94,3 +94,22 @@ export async function employeeRequest(id) {
     `Response ${response.status}: ${response.statusText} - ${await response.text()}`
   );
 }
+
+export async function employeesByRole(role, clinic_id) {
+  const endpoint = `http://localhost:8000/api/employees/?employee_role=${role}&employees_clinic_id=${clinic_id}`;
+
+  const response = await fetch(endpoint, {
+    method: "GET",
+  });
+
+  if (response.ok) {
+    const json = await response.json();
+    return json;
+  }
+
+  throw new Error(
+    `Response ${response.status}: ${
+      response.statusText
+    } - ${await response.text()}`
+  );
+}

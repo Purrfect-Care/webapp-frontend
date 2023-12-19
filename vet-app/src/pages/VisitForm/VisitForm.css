@@ -270,3 +270,123 @@
 .add-photo-row {
   color: #4aa587;
 }
+
+.photos-table {
+  margin-top: 20px;
+}
+
+.edit-photos-column-bar {
+  display: grid;
+  grid-template-columns: 20% 50% 10% 10% 10%;
+  justify-content: space-between;
+  width: 100%;
+  cursor: pointer;
+  font-weight: bold;
+
+  height: 3vh;
+  border-bottom: 1px solid black;
+  text-align: center;
+}
+
+.column-photo_delete,
+.column-photo_edit,
+.column-description,
+.column-visit_add,
+.column-file {
+  grid-column: span 1;
+}
+
+.photo-list {
+  align-items: center;
+}
+
+.edit-photo-item {
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 20% 50% 10% 10% 10%;
+  align-items: center;
+  text-align: center;
+  justify-items: center;
+}
+.edit-photo-item:nth-child(even) {
+  background-color: lightgray;
+}
+.edit-photo-item:nth-child(odd) {
+  background-color: white;
+}
+
+.photo-name {
+  grid-column: span 1;
+  font-weight: bold;
+  max-width: 95%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: left;
+  font-weight: bold;
+}
+
+.photo-name a {
+  display: inline-block;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-decoration: none;
+  color: #4aa587;
+  font-weight: bold;
+  transition: color 0.3s;
+  position: relative;
+}
+.photo-name a:hover::after {
+  width: 100%;
+}
+.photo-name a:hover {
+  color: #072d21;
+}
+.photo-name a::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background-color: #072d21;
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  transition: width 0.3s;
+}
+
+.photo-description {
+  grid-column: span 1;
+  text-align: left;
+  font-weight: bold;
+  white-space: normal;
+}
+
+.photo-edit,
+.photo-delete,
+.photo-add {
+  text-align: center;
+  grid-column: span 1;
+}
+
+.photo-delete button {
+  color: red;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+.photo-add-button {
+  color: #4aa587;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+}
+
+.select-employee {
+  max-width: 95%;
+}

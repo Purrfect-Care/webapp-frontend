@@ -33,7 +33,8 @@ body {
 .column-visit_name,
 .column-visit_date,
 .column-visit_edit,
-.column-visit_delete{
+.column-visit_delete,
+.column-visit_add {
   grid-column: span 1; /* Each element takes one column */
 }
 
@@ -141,6 +142,7 @@ body {
   margin-left: 8px;
   margin-right: 8px;
 }
+
 .create-visit-button:hover {
   background-color: #2f6d58;
 }

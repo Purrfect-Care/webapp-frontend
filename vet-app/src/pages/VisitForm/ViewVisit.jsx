@@ -4,7 +4,7 @@ import { typeIdRequest } from '../../api/visitTypeRequest'
 import { subtypeIdRequest } from '../../api/visitSubtypeRequest'
 import { employeeRequest } from '../../api/employeesRequest';
 import { deleteVisitRequest } from '../../api/visitsRequest';
-import { getPhotosByVisitId } from '../../api/photosRequests'
+import { getPhotosByVisitId } from '../../api/photosRequests';
 import ConfirmationPopup from "../../components/ConifrmationPopup/ConfirmationPopup";
 import './ViewVisit.css';
 import dayjs from 'dayjs';
@@ -113,6 +113,19 @@ const ViewVisit = ({ onClose, initialValues, setEdit, setVisit, setConfirmation,
     }
   };
 
+  const sortedPhotos = [...visitPhotos].sort((a, b) => {
+    if (sortBy.column === 'PLIK') {
+      const nameA = a.image;
+      const nameB = b.image;
+      return sortBy.ascending ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+    } else if (sortBy.column === 'OPIS') {
+      const descA = a.photo_description;
+      const descB = b.photo_description;
+      return sortBy.ascending ? descA.localeCompare(descB) : descB.localeCompare(descA);
+    }
+    return 0;
+  });
+
   return (
     <div>
       <div className={`overlay-visit-view ${isFormOpen ? 'active' : ''}`} ></div>
@@ -203,21 +216,20 @@ const ViewVisit = ({ onClose, initialValues, setEdit, setVisit, setConfirmation,
               <div className='photos-table'>
                 <div className="photos-column-bar">
                   <span className="column-file" onClick={() => sortColumn('PLIK')}>
-                    NAZWA {sortBy.column === 'PLIK' && (sortBy.ascending ? '↑' : '↓')}
+                    PLIK {sortBy.column === 'PLIK' && (sortBy.ascending ? '↑' : '↓')}
                   </span>
                   <span className="column-description" onClick={() => sortColumn('OPIS')}>
                     OPIS {sortBy.column === 'OPIS' && (sortBy.ascending ? '↑' : '↓')}
                   </span>
                 </div>
                 <div className="photo-list">
-                  {visitPhotos.map((photo) => (
+                  {sortedPhotos.map((photo) => (
                     <div key={photo.id} className="photo-item">
                       <div className="photo-name">
                         <a href={photo.image} target="_blank" rel="noopener noreferrer">
                         {photo.image.split('/').pop()}
-                        </a>
+                        </a>                        
                       </div>
-                      
                       <div className="photo-description">
                         {photo.photo_description}
                       </div>
