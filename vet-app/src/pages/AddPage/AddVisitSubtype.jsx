@@ -5,7 +5,7 @@ import { visitTypeRequest } from "../../api/visitTypeRequest";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
-const AddVisitSubtype = ({initialValues, onClose}) => {
+const AddVisitSubtype = ({initialValues, onClose, snackbar}) => {
   const [formValues, setFormValues] = useState({
     visit_subtype_name: "",
     visit_subtypes_visit_type_id: "",
@@ -80,7 +80,7 @@ const AddVisitSubtype = ({initialValues, onClose}) => {
       if(initialValues) {
         const response = await updateVisitSubtypeRequest(initialValues.id, formValues);
         console.log("Visit subtype updated successfully", response);
-        openSnackbar("success", "Podtyp wizyty dodany pomyślnie");
+        snackbar("success", "Podtyp wizyty zmodyfikowany pomyślnie");
         onClose();
 
       } else {
@@ -177,13 +177,31 @@ const AddVisitSubtype = ({initialValues, onClose}) => {
                   </a>
                 </span>
 
-                <button
+                {!initialValues && <button
                   type="submit"
                   onClick={handleAddVisitSubtype}
                   className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md"
                 >
                   Dodaj
-                </button>
+                </button>}
+                {initialValues && (
+                <div className="mx-15vh mt-auto mb-5vh flex justify-center">
+                  <button
+                    type="submit"
+                    onClick={handleAddVisitSubtype}
+                    className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md mr-10"
+                  >
+                    Edytuj
+                  </button>
+                  <button
+                    type="submit"
+                    onClick={() => onClose()}
+                    className="bg-red-600 hover:bg-red-800 px-10 py-2 rounded text-white hover:shadow-md"
+                  >
+                    Anuluj
+                  </button>
+                </div>
+              )}
               </div>
             </div>
           </div>

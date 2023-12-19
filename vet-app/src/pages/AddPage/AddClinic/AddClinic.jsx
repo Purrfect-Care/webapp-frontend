@@ -4,8 +4,9 @@ import { addClinic, updateClinicRequest } from "../../../api/clinicRequests";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import { useNavigate } from 'react-router-dom';
 
-const AddClinic = ({onClose, initialValues}) => {
+const AddClinic = ({initialValues, onClose, snackbar}) => {
   const [formValues, setFormValues] = useState({
     clinic_name: "",
     clinic_address: "",
@@ -19,7 +20,8 @@ const AddClinic = ({onClose, initialValues}) => {
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [errors, setErrors] = useState({});
-
+  const navigate = useNavigate();
+  
   const openSnackbar = (severity, message) => {
     setSnackbarSeverity(severity);
     setSnackbarMessage(message);
@@ -152,10 +154,14 @@ const AddClinic = ({onClose, initialValues}) => {
         const response = await addClinic(formValues);
         console.log("Clinic added successfully", response);
         openSnackbar("success", "Klinika dodana pomyślnie");
+        setTimeout(() => {
+          navigate(`/calendar`, { replace: true });
+        }, 3000);
       } else {
         const response = await updateClinicRequest(initialValues.id, formValues);
         console.log("Clinic updated successfully", response);
-        openSnackbar("success", "Dane kliniki zmienione pomyślnie");
+        snackbar("success", "Dane kliniki zmienione pomyślnie");
+        onClose();
       }
     } catch (error) {
       console.error("Error:", error.message);
@@ -307,15 +313,26 @@ const AddClinic = ({onClose, initialValues}) => {
                       onClick={handleSubmit}
                       className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded  text-white hover:shadow-md"
                     >
-                      Dodaj klinikę
+                      Dodaj
                     </button>)}
-                    {initialValues && (<button
+                    {initialValues && (
+                    <div className="mx-15vh mt-auto mb-5vh flex justify-center">
+                      <button
                       type="submit"
                       onClick={handleSubmit}
                       className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded  text-white hover:shadow-md"
                     >
-                      Edytuj dane kliniki
-                    </button>)}
+                      Edytuj
+                    </button>
+                    <button
+                    type="submit"
+                    onClick={() => onClose()}
+                    className="bg-red-600 hover:bg-red-800 px-10 py-2 rounded text-white hover:shadow-md"
+                  >
+                    Anuluj
+                  </button>
+                    </div>
+                    )}
                   </footer>
                 </span>
               </form>

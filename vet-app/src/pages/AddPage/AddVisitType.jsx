@@ -4,7 +4,7 @@ import { addVisitTypeRequest, updateVisitTypeRequest } from "../../api/visitType
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
-const AddVisitType = ({initialValues, onClose}) => {
+const AddVisitType = ({initialValues, onClose, snackbar}) => {
   const [visitType, setVisitType] = useState({ visit_type_name: "" });
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
@@ -45,7 +45,7 @@ const AddVisitType = ({initialValues, onClose}) => {
         const response = await updateVisitTypeRequest(initialValues.id, visitType);
   
         console.log("Visit type updated successfully", response);
-        openSnackbar("success", "Typ wizyty dodany pomyślnie");
+        snackbar("success", "Typ wizyty zmodyfikowany pomyślnie");
         onClose();
 
       } else {
@@ -107,13 +107,31 @@ const AddVisitType = ({initialValues, onClose}) => {
                     Dodaj podtyp wizyty.
                   </a>
                 </div>
-                <button
+                {!initialValues && <button
                   type="submit"
                   onClick={handleAddVisitType}
                   className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md"
                 >
                   Dodaj
-                </button>
+                </button>}
+                {initialValues && (
+                <div className="mx-15vh mt-auto mb-5vh flex justify-center">
+                  <button
+                    type="submit"
+                    onClick={handleAddVisitType}
+                    className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md mr-10"
+                  >
+                    Edytuj
+                  </button>
+                  <button
+                    type="submit"
+                    onClick={() => onClose()}
+                    className="bg-red-600 hover:bg-red-800 px-10 py-2 rounded text-white hover:shadow-md"
+                  >
+                    Anuluj
+                  </button>
+                </div>
+              )}
               </div>
             </div>
           </div>

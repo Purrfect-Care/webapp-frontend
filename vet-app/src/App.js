@@ -250,7 +250,6 @@ function App() {
               <CustomRoute element={<ShowClinicComponent />} path="/show-clinic" />
             }
           />
-          
         </Routes>
       </BrowserRouter>
     </div>

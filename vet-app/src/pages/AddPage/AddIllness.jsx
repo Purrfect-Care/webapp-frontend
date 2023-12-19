@@ -4,7 +4,7 @@ import { addIllnessRequest, updateIllnessRequest } from "../../api/illnessHistor
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
-const AddIllness = ({initialValues, onClose}) => {
+const AddIllness = ({initialValues, onClose, snackbar}) => {
   const [illness, setIllness] = useState({ illness_name: "" });
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
@@ -46,9 +46,8 @@ const AddIllness = ({initialValues, onClose}) => {
         const response = await updateIllnessRequest(illness.id, illness);
   
         console.log("Illness updated successfully", response);
-        openSnackbar("success", "Choroba dodana pomyślnie");
         onClose();
-
+        snackbar("success", "Choroba zmodyfikowana pomyślnie!");
       } else{
 
         const response = await addIllnessRequest(illness);
@@ -77,8 +76,7 @@ const AddIllness = ({initialValues, onClose}) => {
               </h3>
               <div className="relative pb-8 mb-2">
                 <input
-                  className={`rounded h-12 w-96 ${
-                    isError ? "border-red-500" : "border-gray-300"
+                   className={`rounded h-12 w-96 ${isError ? "border-red-500" : "border-gray-300"
                   }`}
                   type="text"
                   placeholder="Nazwa choroby"
@@ -98,13 +96,31 @@ const AddIllness = ({initialValues, onClose}) => {
                   </span>
                 )}
               </div>
-              <button
+              {!initialValues && <button
                 type="submit"
                 onClick={handleAddIllness}
                 className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md"
               >
                 Dodaj
-              </button>
+              </button>}
+              {initialValues && (
+                <div className="mx-15vh mt-auto mb-5vh flex justify-center">
+                  <button
+                    type="submit"
+                    onClick={handleAddIllness}
+                    className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md mr-10"
+                  >
+                    Edytuj
+                  </button>
+                  <button
+                    type="submit"
+                    onClick={() => onClose()}
+                    className="bg-red-600 hover:bg-red-800 px-10 py-2 rounded text-white hover:shadow-md"
+                  >
+                    Anuluj
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>

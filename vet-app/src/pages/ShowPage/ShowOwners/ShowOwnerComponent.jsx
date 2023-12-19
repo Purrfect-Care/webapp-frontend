@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import DynamicTable from '../DynamicTable';
 import { allOwnersRequest, deleteOwnerById, editOwnerRequest } from '../../../api/ownerRequests';
-import EditOwnerForm from '../../EditOwnerForm/EditOwnerForm';
+import AddOwner from '../../AddPage/AddOwner/AddOwner';
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 const ShowOwnerComponent = () => {
     const [ownerData, setOwnerData] = useState([]);
     const [openEditForm, setOpenEditForm] = useState(false);
     const [selectedOwner, setSelectedOwner] = useState([]);
+    const [openTable, setOpenTable] = useState(true);
+    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+    const [snackbarMessage, setSnackbarMessage] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -23,41 +29,40 @@ const ShowOwnerComponent = () => {
         fetchData();
     }, []);
 
+    const openSnackbar = (severity, message) => {
+        setSnackbarSeverity(severity);
+        setSnackbarMessage(message);
+        setSnackbarOpen(true);
+      };
+
     const handleDelete = async (ownerId) => {
         try {
             // Call the delete function from the provided onDelete prop
             await deleteOwnerById(ownerId);
             console.log('Owner deleted successfully');
+            openSnackbar("success", "Właściciel usunięty pomyślnie!");
             const data = await allOwnersRequest();
             setOwnerData(data);
         } catch (error) {
             console.error('Error deleting owner:', error);
+            openSnackbar("error", "Błąd podczas usuwania właściciela.");
         }
     };
 
     const editOwner = (owner) => {
         setSelectedOwner(owner);
         setOpenEditForm(true);
-      };
+        setOpenTable(false);
+    };
 
 
-      const closeForm = () => {
+    const closeForm = async () => {
         setOpenEditForm(false);
         setSelectedOwner(null);
-      };
-
-      const submitEditOwnerForm = async (ownerId, ownerData) => {
-        try {
-          console.log("Owner Data:", ownerData);
-          const ownerId = ownerData.id;
-          await editOwnerRequest(ownerId, ownerData);
-          const updatedData = await allOwnersRequest(ownerId);
-          setOwnerData(updatedData);
-        } catch (error) {
-          console.error("Error submitting form:", error);
-        }
-        closeForm();
-      };
+        setOpenTable(true);
+        const data = await allOwnersRequest();
+        setOwnerData(data);
+    };
 
 
 
@@ -68,12 +73,27 @@ const ShowOwnerComponent = () => {
 
 
     return (
+        <>
         <div>
-            <h2>Właściciele</h2>
-            <DynamicTable columns={columns} data={ownerData} onDelete={handleDelete} onEdit={editOwner} />
-            {openEditForm && (<EditOwnerForm isOpen={openEditForm} ownerId={ownerData?.id}  existingData={selectedOwner} onClose={closeForm} onSubmit={submitEditOwnerForm}/>)}
-
+            {openTable && <DynamicTable columns={columns} data={ownerData} onDelete={handleDelete} onEdit={editOwner} title={"Właściciele"} />}
+            {openEditForm && (<AddOwner initialValues={selectedOwner} onClose={closeForm} snackbar={openSnackbar}/>)}
         </div>
+        <Snackbar
+        open={snackbarOpen}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        autoHideDuration={6000}
+        onClose={() => setSnackbarOpen(false)}
+      >
+        <MuiAlert
+          elevation={6}
+          variant="filled"
+          onClose={() => setSnackbarOpen(false)}
+          severity={snackbarSeverity}
+        >
+          {snackbarMessage}
+        </MuiAlert>
+      </Snackbar>
+        </>
     );
 };
 
