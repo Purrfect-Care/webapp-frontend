@@ -1,28 +1,35 @@
 import React, { useState, useContext } from "react";
 import GlobalContext from "../../context/GlobalContext";
-import VisitForm from '../../pages/VisitForm/VisitForm';
-import ViewVisit from '../../pages/VisitForm/ViewVisit';
-import { createVisitRequest, updateVisitRequest, deleteVisitRequest } from '../../api/visitsRequest';
-import { createPhotoRequest } from '../../api/photosRequests';
+import VisitForm from "../../pages/VisitForm/VisitForm";
+import ViewVisit from "../../pages/VisitForm/ViewVisit";
+import {
+  createVisitRequest,
+  updateVisitRequest,
+  deleteVisitRequest,
+} from "../../api/visitsRequest";
+import {
+  createPhotoRequest,
+  updatePhotoRequest,
+} from "../../api/photosRequests";
 import ConfirmationPopup from "../../components/ConifrmationPopup/ConfirmationPopup";
 
-
-
-function EventModal({snackbar}) {
-  const { setShowEventModal, selectedEvent, daySelected, updateEvent } = useContext(GlobalContext);
-  const [isFormForEdit, setIsFormForEdit] = useState(selectedEvent ? false : true);
+function EventModal({ snackbar }) {
+  const { setShowEventModal, selectedEvent, daySelected, updateEvent } =
+    useContext(GlobalContext);
+  const [isFormForEdit, setIsFormForEdit] = useState(
+    selectedEvent ? false : true
+  );
   const [isFormVisible, setIsFormVisible] = useState(true);
   const [visitToDelete, setVisitToDelete] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
-
   const closeForm = () => {
     setIsFormVisible(false);
-  }
+  };
 
   const closeEventModal = () => {
     setShowEventModal(false);
-  }
+  };
 
   const updateForm = async (formData) => {
     try {
@@ -46,23 +53,16 @@ function EventModal({snackbar}) {
       }));
 
       if (selectedEvent) {
-        await updateVisitRequest(selectedEvent.id, EventData);
-        if (photosData) {
-          for (const photo of photosData) {
-            await createPhotoRequest(selectedEvent.id, photo);
-          }
-        }
-      }
-      else {
+         await updateVisitRequest(selectedEvent.id, EventData);
+      } else {
         const createdEvent = await createVisitRequest(EventData);
-        if (photosData) {
-          for (const photo of photosData) {
+        if (formData.photos) {
+          for (const photo of formData.photos) {
             const photoData = {
-              photo_description: photo.description,
+              photo_description: photo.photo_description,
               image: photo.image,
-              photos_visit_id: createdEvent.id
-            }
-
+              photos_visit_id: createdEvent.id,
+            };
             const finalPhotoData = new FormData();
             Object.entries(photoData).forEach(([key, value]) => {
               finalPhotoData.append(key, value);
@@ -71,10 +71,11 @@ function EventModal({snackbar}) {
           }
         }
       }
-      snackbar('success', 'Wizyta przypisana pomyślnie!');
+      snackbar("success", "Wizyta przypisana pomyślnie!");
       setIsFormVisible(false);
       updateEvent();
     } catch (error) {
+
       console.error('Error submitting form:', error);
       if (error.message === "This vet already has a visit at this time.") {
         snackbar('error', 'Ten weterynarz już ma wizytę o tej porze.');
@@ -100,25 +101,24 @@ function EventModal({snackbar}) {
       localStorage.getItem("employeeData")
     ).employees_clinic_id
     .toString(),
-
   };
 
   const confirmDeleteVisit = async () => {
     try {
       if (!visitToDelete || !visitToDelete.id) {
-        console.error('No selected visit or visit ID');
+        console.error("No selected visit or visit ID");
         return;
       }
       await deleteVisitRequest(visitToDelete.id);
-      snackbar('success', 'Usuwanie wizyty zakończone sukcesem!');
+      snackbar("success", "Usuwanie wizyty zakończone sukcesem!");
       setShowConfirmation(false);
       updateEvent();
     } catch (error) {
-      console.error('Error deleting visit:', error);
-      snackbar('error', 'Błąd podczas usuwania wizyty.');
+      console.error("Error deleting visit:", error);
+      snackbar("error", "Błąd podczas usuwania wizyty.");
     } finally {
       // Close the form
-      closeEventModal()
+      closeEventModal();
     }
   };
   const cancelDeleteVisit = () => {
@@ -127,37 +127,37 @@ function EventModal({snackbar}) {
   };
 
   return (
-      <div>
-        {isFormVisible ? (
-          !isFormForEdit ? (
-            <ViewVisit
-              onClose={closeEventModal}
-              setEdit={setIsFormForEdit}
-              initialValues={selectedEvent ? selectedEvent : newEvent}
-              setVisit={setVisitToDelete}
-              setConfirmation={setShowConfirmation}
-              setFormVisible={closeForm}
-            />
-          ) : (
-            <VisitForm
-              onClose={closeEventModal}
-              onSubmit={updateForm}
-              setEdit={setIsFormForEdit}
-              initialValues={selectedEvent ? selectedEvent : newEvent}
-              editOnly={selectedEvent ? false : true}
-            />
-          )
-        ) : null}
-        {showConfirmation && (
-          <ConfirmationPopup
-            message="Czy na pewno chcesz usunąć wizytę?"
-            onConfirm={confirmDeleteVisit}
-            onCancel={cancelDeleteVisit}
-            onYes="Tak"
-            onNo="Nie"
+    <div>
+      {isFormVisible ? (
+        !isFormForEdit ? (
+          <ViewVisit
+            onClose={closeEventModal}
+            setEdit={setIsFormForEdit}
+            initialValues={selectedEvent ? selectedEvent : newEvent}
+            setVisit={setVisitToDelete}
+            setConfirmation={setShowConfirmation}
+            setFormVisible={closeForm}
           />
-        )}
-      </div>
+        ) : (
+          <VisitForm
+            onClose={closeEventModal}
+            onSubmit={updateForm}
+            setEdit={setIsFormForEdit}
+            initialValues={selectedEvent ? selectedEvent : newEvent}
+            editOnly={selectedEvent ? false : true}
+          />
+        )
+      ) : null}
+      {showConfirmation && (
+        <ConfirmationPopup
+          message="Czy na pewno chcesz usunąć wizytę?"
+          onConfirm={confirmDeleteVisit}
+          onCancel={cancelDeleteVisit}
+          onYes="Tak"
+          onNo="Nie"
+        />
+      )}
+    </div>
   );
 }
 

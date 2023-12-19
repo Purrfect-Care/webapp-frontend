@@ -5,7 +5,7 @@ import './VisitsPage.css';
 import VisitForm from '../../../pages/VisitForm/VisitForm';
 import ViewVisit from '../../VisitForm/ViewVisit';
 import ConfirmationPopup from "../../../components/ConifrmationPopup/ConfirmationPopup";
-import { FaPen, FaTrash, FaPlus } from 'react-icons/fa';// Import the VisitForm component
+import { FaPen, FaTrash, FaPlus } from 'react-icons/fa';
 import PulseLoader from "react-spinners/PulseLoader";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';

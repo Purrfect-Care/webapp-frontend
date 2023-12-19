@@ -14,16 +14,11 @@ const UpdatePatientPhoto = ({ isOpen, patientId, existingData, onClose, onSubmit
       patient_photo: null,  
       });
 
-
-
   useEffect(() => {
     if (existingData) {
       setFormValues(existingData);
     }
   }, [existingData]);
-
-  
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,11 +29,9 @@ const UpdatePatientPhoto = ({ isOpen, patientId, existingData, onClose, onSubmit
       await onSubmit(formValues);
       onClose();
     } catch (error) {
-      console.error('Error:', error.message);
+      console.error("Error:", error.message);
     }
   };
-  
-  
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
@@ -47,48 +40,46 @@ const UpdatePatientPhoto = ({ isOpen, patientId, existingData, onClose, onSubmit
       patient_photo: file,
     });
   };
-  
 
-return (
-<>
-
-<div className="popup-form-change-photo">
-<form onSubmit={handleSubmit} 
-encType="multipart/form-data"
-className="form-sections-change-photo">
-  <div className='form-section-change-photo'>
-  <h3 className="text-3xl font-semibold mt-7 mb-7 text-emerald-600 text-center">
-    Zmiana zdjęcia pacjenta</h3>
-    <div className='container-change-photo'>
-    <input
-        className='change-photo'
-        type="file"
-        accept="image/*"
-        name="patient_photo"
-        multiple
-        onChange={handlePhotoChange}
-      />
-    </div>
-
-        <div className='button-container-change-photo'>
-        <button
-        type="submit"
-        className="submit-button-change-photo">
-        Zmień zdjęcie
-      </button>
-      <button className="submit-button-change-photo" type="button" onClick={onClose}>
-          Anuluj
-        </button>
+  return (
+    <>
+      <div className="popup-form-change-photo">
+        <form
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+          className="form-sections-change-photo"
+        >
+          <div className="form-section-change-photo">
+            <h3 className="text-3xl font-semibold mt-7 mb-7 text-emerald-600 text-center">
+              Zmiana zdjęcia pacjenta
+            </h3>
+            <div className="container-change-photo">
+              <input
+                className="change-photo"
+                type="file"
+                accept="image/*"
+                name="patient_photo"
+                multiple
+                onChange={handlePhotoChange}
+              />
+            </div>
+            <div className="button-container-change-photo">
+              <button type="submit" className="submit-button-change-photo">
+                Zmień zdjęcie
+              </button>
+              <button
+                className="submit-button-change-photo"
+                type="button"
+                onClick={onClose}
+              >
+                Anuluj
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
-
-</div>
-    </form>
-  </div>
-
-
-
-</>
-);
+    </>
+  );
 };
 
 export default UpdatePatientPhoto;

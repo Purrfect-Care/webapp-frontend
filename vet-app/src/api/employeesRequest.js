@@ -76,7 +76,7 @@ export const addEmployeeRequest = async (employeeData) => {
     throw new Error(`Error: ${error.message}`);
   }
 };
-
+employeesByRoleemployeeRequest
 export async function employeeRequest(id) {
   const endpoint = `http://127.0.0.1:8000/api/employees/${id}/`;
 
@@ -92,5 +92,24 @@ export async function employeeRequest(id) {
 
   throw new Error(
     `Response ${response.status}: ${response.statusText} - ${await response.text()}`
+  );
+}
+
+export async function employeesByRole(role, clinic_id) {
+  const endpoint = `http://localhost:8000/api/employees/?employee_role=${role}&employees_clinic_id=${clinic_id}`;
+
+  const response = await fetch(endpoint, {
+    method: "GET",
+  });
+
+  if (response.ok) {
+    const json = await response.json();
+    return json;
+  }
+
+  throw new Error(
+    `Response ${response.status}: ${
+      response.statusText
+    } - ${await response.text()}`
   );
 }

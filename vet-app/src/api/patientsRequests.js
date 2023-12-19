@@ -1,5 +1,5 @@
 export async function patientRequest(patientId) {
-  const endpoint = `http://localhost:8000/api/patients/${patientId}`;
+  const endpoint = `http://localhost:8000/api/patients/${patientId}/`;
 
   const response = await fetch(endpoint);
   if (response.ok) {
@@ -70,7 +70,7 @@ export async function createPatientRequest(formData) {
 }
 
 export async function deletePatientById(patientId) {
-  const endpoint = `http://localhost:8000/api/patients/${patientId}`;
+  const endpoint = `http://localhost:8000/api/patients/${patientId}/`;
 
   try {
     const response = await fetch(endpoint, {
