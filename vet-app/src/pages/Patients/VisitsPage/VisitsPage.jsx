@@ -128,14 +128,14 @@ const VisitsPage = ({ patient }) => {
       
       const photosData = formData.photos.map((photo) => ({
         image: photo.image,
-        description: photo.description,
+        photo_description: photo.photo_description,
       }));
 
       const createdEvent = await createVisitRequest(EventData);
       if (photosData) {
         for (const photo of photosData) {
           const photoData = {
-            photo_description: photo.description,
+            photo_description: photo.photo_description,
             image: photo.image,
             photos_visit_id: createdEvent.id,
           };

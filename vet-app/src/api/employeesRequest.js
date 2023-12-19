@@ -76,7 +76,7 @@ export const addEmployeeRequest = async (employeeData) => {
     throw new Error(`Error: ${error.message}`);
   }
 };
-employeesByRoleemployeeRequest
+
 export async function employeeRequest(id) {
   const endpoint = `http://127.0.0.1:8000/api/employees/${id}/`;
 

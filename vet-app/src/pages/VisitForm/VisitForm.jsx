@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { patientRequest, allPatientsRequest } from '../../api/patientsRequests';
 import { visitTypeRequest } from '../../api/visitTypeRequest'
 import { visitSubtypeRequest } from '../../api/visitSubtypeRequest'
-import { employeeRequest,employeesByRole } from '../../api/employeesRequest';
+import { employeeRequest, employeesByRole } from '../../api/employeesRequest';
 import './VisitForm.css';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -46,16 +46,6 @@ const VisitForm = ({
       localStorage.getItem("employeeData")
     ).employees_clinic_id
     .toString(),
-    visit_datetime: "",
-    visit_duration: "",
-    visit_status: "",
-    visit_description: "",
-    patient_weight: "",
-    patient_height: "",
-    visits_patient_id: "",
-    visits_visit_type_id: "",
-    visits_visit_subtype_id: "",
-    visits_employee_id: "",
   });
   const [allTypes, setAllTypes] = useState([]);
   const [allPatients, setAllPatients] = useState([]);
@@ -269,6 +259,7 @@ const VisitForm = ({
     try {
         await onSubmit({ ...formValues, photos });
         console.log(formValues);
+        onClose();
     } catch (error) {
         // Handle the error returned by the server
         if (error.message === "This vet already has a visit at this time.") {
