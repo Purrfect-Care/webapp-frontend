@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { patientRequest, allPatientsRequest } from '../../api/patientsRequests';
 import { visitTypeRequest } from '../../api/visitTypeRequest'
 import { visitSubtypeRequest } from '../../api/visitSubtypeRequest'
-import { employeeRequest } from '../../api/employeeRequest';
+import { employeeRequest } from '../../api/employeesRequest';
 import './VisitForm.css';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -170,9 +170,19 @@ const VisitForm = ({ onClose, initialValues, setEdit, onSubmit, editOnly = false
     }
   
     console.log('Form submitted!');
-    await onSubmit({ ...formValues, photos });
-    console.log(formValues);
-  };
+    try {
+        await onSubmit({ ...formValues, photos });
+        console.log(formValues);
+    } catch (error) {
+        // Handle the error returned by the server
+        if (error.message === "This vet already has a visit at this time.") {
+            setErrorMessage('This vet already has a visit at this time.');
+        } else {
+            setErrorMessage('An error occurred while creating the visit.');
+        }
+    }
+};
+
   
 
   const handleFocusPatient = (e) => {

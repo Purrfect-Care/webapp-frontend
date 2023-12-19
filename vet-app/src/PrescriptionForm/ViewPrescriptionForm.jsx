@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import html2pdf from 'html2pdf.js';
-import { employeeRequest } from '../api/employeeRequest';
+import { employeeRequest } from '../api/employeesRequest';
 import { patientRequest } from '../api/patientsRequests';
 import './ViewPrescriptionForm.css';
 import dayjs from 'dayjs';

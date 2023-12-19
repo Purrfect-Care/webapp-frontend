@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { patientRequest } from '../../api/patientsRequests';
 import { typeIdRequest } from '../../api/visitTypeRequest'
 import { subtypeIdRequest } from '../../api/visitSubtypeRequest'
-import { employeeRequest } from '../../api/employeeRequest';
+import { employeeRequest } from '../../api/employeesRequest';
 import { deleteVisitRequest } from '../../api/visitsRequest';
 import { getPhotosByVisitId } from '../../api/photosRequests'
 import ConfirmationPopup from "../../components/ConifrmationPopup/ConfirmationPopup";

@@ -56,7 +56,9 @@ export async function getClinicByIdRequest(id) {
 }
 
 export async function deleteClinicById(clinicId) {
+
   const endpoint = `http://localhost:8000/api/clinics/${clinicId}/`;
+
 
   try {
     const response = await fetch(endpoint, {
