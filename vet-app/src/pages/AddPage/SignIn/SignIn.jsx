@@ -236,7 +236,7 @@ const SignIn = ({initialValues, onClose, snackbar}) => {
         <div className="mainPart-signin">
           <div className="flex flex-col items-center">
           <div style={{justifyContent: 'center', marginLeft: '8vh'}}>
-          <h3 class="text-2xl font-semibold ml-12 mt-8 mb-6 text-emerald-600 text-center">
+          <h3 class="text-3xl font-semibold ml-12 mt-8 mb-6 text-emerald-600 text-center">
             Formularz dodawania nowego pracownika
             </h3>
           </div>

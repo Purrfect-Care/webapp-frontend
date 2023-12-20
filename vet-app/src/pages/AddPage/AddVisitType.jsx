@@ -71,9 +71,12 @@ const AddVisitType = ({initialValues, onClose, snackbar}) => {
         <div className="mainPart">
           <div className="flex items-start justify-center h-full">
             <div className="flex flex-col items-center mt-20">
+            <div style={{justifyContent: 'center', marginLeft: '8vh'}}>
               <h3 className="text-3xl font-semibold mb-10 text-emerald-600">
                 Formularz dodawania nowego typu wizyty
               </h3>
+              </div>
+              <div style={{justifyContent: 'center', marginLeft: '8vh'}}>
               <div className="relative pb-8 mb-2">
                 <input
                   className={`rounded h-12 w-96 ${
@@ -97,23 +100,18 @@ const AddVisitType = ({initialValues, onClose, snackbar}) => {
                   </span>
                 )}
               </div>
-              <div className="flex justify-between w-96 items-center">
-                <div className="text-sm text-emerald-950">
-                  <h5>Potrzebny typ wizyty jest już dodany?</h5>
-                  <a
-                    href="http://localhost:3000/add-visit-subtype"
-                    className="font-semibold"
-                  >
-                    Dodaj podtyp wizyty.
-                  </a>
-                </div>
-                {!initialValues && <button
+              <div className="flex justify-center w-96 items-center">
+
+                {!initialValues && 
+                <div style={{justifyContent: 'center'}}>
+                <button
                   type="submit"
                   onClick={handleAddVisitType}
                   className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md"
                 >
                   Dodaj
-                </button>}
+                </button>
+                </div>}
                 {initialValues && (
                 <div className="mx-15vh mt-auto mb-5vh flex justify-center">
                   <button
@@ -132,6 +130,7 @@ const AddVisitType = ({initialValues, onClose, snackbar}) => {
                   </button>
                 </div>
               )}
+              </div>
               </div>
             </div>
           </div>

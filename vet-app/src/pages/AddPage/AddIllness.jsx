@@ -100,7 +100,7 @@ const AddIllness = ({initialValues, onClose, snackbar}) => {
                 )}
               </div>
               {!initialValues && 
-              <div style={{justifyContent: 'center', marginLeft: '15vh'}}>
+              <div style={{justifyContent: 'center', display: 'flex'}}>
               <button
                 type="submit"
                 onClick={handleAddIllness}

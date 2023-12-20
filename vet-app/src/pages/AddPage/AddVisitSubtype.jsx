@@ -119,9 +119,12 @@ const AddVisitSubtype = ({initialValues, onClose, snackbar}) => {
         <div className="mainPart">
           <div className="flex items-start justify-center h-full">
             <div className="flex flex-col items-center mt-20">
+            <div style={{justifyContent: 'center', marginLeft: '8vh'}}>
               <h3 className="text-3xl font-semibold mb-10 text-emerald-600">
                 Formularz dodawania nowego podtypu wizyty
               </h3>
+              </div>
+              <div style={{justifyContent: 'center', marginLeft: '8vh'}}>
               <div className="relative pb-8 mb-2">
                 <select
                   name="visit_subtypes_visit_type_id"
@@ -166,17 +169,7 @@ const AddVisitSubtype = ({initialValues, onClose, snackbar}) => {
                   </span>
                 )}
               </div>
-              <div className="flex items-center justify-between">
-                <span className="whitespace-nowrap text-sm mr-28 text-emerald-950">
-                  <h5>Nie ma potrzebnego typu wizyty?</h5>
-                  <a
-                    href="http://localhost:3000/add-visit-type"
-                    className="font-semibold"
-                  >
-                    Dodaj go.
-                  </a>
-                </span>
-
+              <div className="flex items-center justify-center">
                 {!initialValues && <button
                   type="submit"
                   onClick={handleAddVisitSubtype}
@@ -202,6 +195,7 @@ const AddVisitSubtype = ({initialValues, onClose, snackbar}) => {
                   </button>
                 </div>
               )}
+              </div>
               </div>
             </div>
           </div>
