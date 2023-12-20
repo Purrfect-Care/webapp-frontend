@@ -1,6 +1,10 @@
 .signIn {
     height: 100vh;
-    overflow: hidden;
+    overflow-y: auto; /* Add vertical scroll for smaller screens */
+    overflow-x: hidden; /* Hide horizontal scroll */    
+    background-color: #45846f4f;
+    box-shadow: inset -5px 8px 24px -15px rgba(66, 68, 90, 1);
+
 }
 
 #siginForm {
@@ -9,10 +13,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    width: 567px; 
-    margin: 0 auto; 
-    padding: 20px; 
-}
+    width: 100%; /* Adjust the width as needed */
+    max-width: 567px;
+    margin: 0 auto;
+    padding: 20px;
+  }
 
 #siginForm input {
     border-radius: 10px;
@@ -42,6 +47,9 @@
     width: 100%;
 }
 
+.mainPart-signin {
+    height: 87vh;
+}
 
 
 .roles {
@@ -70,6 +78,8 @@
     width: 100%; 
     display: flex;
     justify-content: flex-end; 
+    background-color: #45846f4f;
+
 }
 
 .buttonContainer button {

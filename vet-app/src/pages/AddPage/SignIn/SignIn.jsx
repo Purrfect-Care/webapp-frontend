@@ -233,10 +233,10 @@ const SignIn = ({initialValues, onClose, snackbar}) => {
     <>
       <div className="signIn">
         <Sidebar />
-        <div className="mainPart">
+        <div className="mainPart-signin">
           <div className="flex flex-col items-center">
-            <h3 className="text-2xl font-semibold mr-6 mt-2 text-emerald-600">
-              Formularz dodawania nowego pracownika
+          <h3 class="text-2xl font-semibold mr-6 mt-8 mb-6 text-emerald-600">
+            Formularz dodawania nowego pracownika
             </h3>
             <div className="formSignIn">
               <form id="siginForm" onSubmit={handleSubmit}>
