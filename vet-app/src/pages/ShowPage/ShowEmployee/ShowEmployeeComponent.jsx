@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import DynamicTable from '../DynamicTable';
-import { employeesRequest, deleteEmployeeById } from '../../../api/employeesRequest';
+import { employeesByClinic, deleteEmployeeById } from '../../../api/employeesRequest';
 import PatientForm from '../../AddPage/PatientForm/PatientForm';
 import SignIn from '../../AddPage/SignIn/SignIn';
 import Snackbar from "@mui/material/Snackbar";
@@ -20,7 +20,8 @@ const ShowEmployeeComponent = () => {
         // Replace this with your actual data fetching logic
         const fetchData = async () => {
             try {
-                const data = await employeesRequest();
+                const employeeData = JSON.parse(localStorage.getItem("employeeData"));
+                const data = await employeesByClinic(employeeData?.employees_clinic_id);
                 setEmployeeData(data);
 
             } catch (error) {
@@ -43,7 +44,8 @@ const ShowEmployeeComponent = () => {
             // Call the delete function from the provided onDelete prop
             await deleteEmployeeById(employeeId);
             console.log('Employee deleted successfully');
-            const data = await employeesRequest();
+            const employeeData = JSON.parse(localStorage.getItem("employeeData"));
+            const data = await employeesByClinic(employeeData?.employees_clinic_id);
             setEmployeeData(data);
             openSnackbar("success", "Pracownik usunięty pomyślnie!");
         } catch (error) {
@@ -62,7 +64,8 @@ const ShowEmployeeComponent = () => {
       const closeForm = async () => {
         setOpenEditForm(false);
         setSelectedEmployee(null);
-        const data = await employeesRequest();
+        const employeeData = JSON.parse(localStorage.getItem("employeeData"));
+        const data = await employeesByClinic(employeeData?.employees_clinic_id);
         setEmployeeData(data);
         setOpenTable(true);
       };
@@ -72,7 +75,8 @@ const ShowEmployeeComponent = () => {
 
     const columns = [{ key: 'id', label: 'ID' },
     { key: 'employee_first_name', label: 'Imię pracownika' },
-    { key: 'employee_last_name', label: 'Nazwisko pracownika' },];
+    { key: 'employee_last_name', label: 'Nazwisko pracownika' },
+    { key: 'employee_role', label: 'Rola pracownika' },];
 
 
     return (
