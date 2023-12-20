@@ -213,7 +213,7 @@ const VisitsPage = ({ patient }) => {
     } else if (sortBy.column === 'DATA') {
       const dateA = new Date(a.visit_datetime);
       const dateB = new Date(b.visit_datetime);
-      return sortBy.ascending ? dateA - dateB : dateB - dateA;
+      return sortBy.descending ? dateA - dateB : dateB - dateA;
     }
     return 0;
   });
