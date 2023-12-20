@@ -128,36 +128,40 @@ const OwnerPage = ({patient}) => {
                       Usuń właściciela
                     </button>
                   </div>
-                  <div>
+                  <p>
                     <span className="owner-label">Imię:</span>
                     <span className="owner-value">{ownerData.owner_first_name}</span>
-                  </div>
-                  <div>
+                  </p>
+                  <p>
                     <span className="owner-label">Nazwisko:</span>
                     <span className="owner-value">{ownerData.owner_last_name}</span>
-                  </div>
-                  <div>
+                  </p>
+                  <p>
                     <span className="owner-label">Adres:</span>
                     <span className="owner-value">{ownerData.owner_address}</span>
-                  </div>
-                  <div>
+                  </p>
+                  <p>
                     <span className="owner-label">Kod pocztowy:</span>
                     <span className="owner-value">
                       {ownerData.owner_postcode} {ownerData.owner_city}
                     </span>
-                  </div>
-                  <div>
+                  </p>
+                  <p>
                     <span className="owner-label">Numer telefonu:</span>
                     <span className="owner-value">{ownerData.owner_phone_number}</span>
-                  </div>
-                  <div>
+                  </p>
+                  <p>
                     <span className="owner-label">Email:</span>
                     <span className="owner-value">{ownerData.owner_email}</span>
-                  </div>
+                  </p>
                   <div>
                     <button className="edit-owner-button" onClick={handleEditButtonClick}>Zmień dane właściciela</button>
                   </div>
+
                 </div>
+                <div className="privacy-policy">
+                    Korzystając z PurrfectCare bądź z usług kliniki korzystającej z PurrfectCare zgadzasz się na przetwarzanie danych osobowych zgodnie z <a href="/privacy-policy">Polityką Prywatności</a>. 
+                  </div>
 
             {showDeleteConfirmation && (
                     <ConfirmationPopup
