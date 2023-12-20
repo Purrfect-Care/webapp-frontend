@@ -235,9 +235,12 @@ const SignIn = ({initialValues, onClose, snackbar}) => {
         <Sidebar />
         <div className="mainPart-signin">
           <div className="flex flex-col items-center">
-          <h3 class="text-2xl font-semibold mr-6 mt-8 mb-6 text-emerald-600">
+          <div style={{justifyContent: 'center', marginLeft: '8vh'}}>
+          <h3 class="text-2xl font-semibold ml-12 mt-8 mb-6 text-emerald-600 text-center">
             Formularz dodawania nowego pracownika
             </h3>
+          </div>
+
             <div className="formSignIn">
               <form id="siginForm" onSubmit={handleSubmit}>
                 <div className="main">
@@ -445,16 +448,7 @@ const SignIn = ({initialValues, onClose, snackbar}) => {
                     )}
                   </div>
                 </div>
-                <div className="flex justify-between w-full items-center">
-                  <div className="text-sm text-emerald-950 whitespace-nowrap ">
-                    <h5>Nie ma odpowiedniej kliniki?</h5>
-                    <a
-                      href="http://localhost:3000/add-clinic"
-                      className="font-semibold"
-                    >
-                      Dodaj ją.
-                    </a>
-                  </div>
+                <div className="flex mb-8 justify-center w-full items-center">
                   {!initialValues && <button
                     type="submit"
                     onClick={handleSubmit}

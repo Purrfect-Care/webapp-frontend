@@ -15,7 +15,7 @@
     justify-content: flex-start;
     width: 100%; /* Adjust the width as needed */
     max-width: 567px;
-    margin: 0 auto;
+    margin-left: 15vh;
     padding: 20px;
   }
 
