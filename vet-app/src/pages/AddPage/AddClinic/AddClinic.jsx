@@ -175,9 +175,11 @@ const AddClinic = ({initialValues, onClose, snackbar}) => {
         <Sidebar />
         <div className="mainPart-addclinic">
           <div className="flex flex-col items-center">
+            <div style={{justifyContent: 'center', marginLeft: '8vh'}}>
             <h3 className="text-3xl font-semibold mt-10 text-emerald-600">
               Formularz dodawania nowej kliniki
             </h3>
+            </div>
             <div className="form">
               <form id="formClinic" onSubmit={handleSubmit}>
                 <div className="relative pb-8 mt-8 w-72">
@@ -297,21 +299,12 @@ const AddClinic = ({initialValues, onClose, snackbar}) => {
                     </span>
                   )}
                 </div>
-                <span className="flex flex-between w-full items-center">
-                  <span className="flex justify-start whitespace-nowrap text-sm text-emerald-950">
-                    <h5>Twoja klinika jest już dodana?</h5>
-                    <a
-                      href="http://localhost:3000/sign-in"
-                      className="ml-1 font-semibold"
-                    >
-                      Zarejestruj się.
-                    </a>
-                  </span>
-                  <footer className="flex justify-end w-96 mb-8">
+                <span className="flex flex-between w-full items-center justify-center">
+                  <footer className="flex justify-center w-100 mb-8">
                   {!initialValues && (<button
                       type="submit"
                       onClick={handleSubmit}
-                      className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded  text-white hover:shadow-md"
+                      className="bg-emerald-600 hover:bg-emerald-800 justify-center px-10 py-2 rounded  text-white hover:shadow-md"
                     >
                       Dodaj
                     </button>)}
