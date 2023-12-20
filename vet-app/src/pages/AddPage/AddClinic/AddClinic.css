@@ -1,6 +1,13 @@
 .addClinic {
   height: 100vh;
-  overflow: hidden;
+  overflow-y: auto; /* Add vertical scroll for smaller screens */
+  overflow-x: hidden; /* Hide horizontal scroll */    
+  background-color: #45846f4f;
+  box-shadow: inset -5px 8px 24px -15px rgba(66, 68, 90, 1);
+}
+
+.mainPart-signin{
+  height: 87vh;
 }
 
 #formClinic {
