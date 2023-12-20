@@ -158,7 +158,7 @@ const IllnessHistoryPage = ({ patient }) => {
         <h1 className="no-documents-msg">
           Brak historii chorób dla tego pacjenta
         </h1>
-        <button onClick={handleIllnessHistoryForm} className="create-illness-button">
+        <button onClick={handleIllnessHistoryForm} className="create-illness-history-button">
           Dodaj chorobę
         </button>
         {showIllnessHistoryForm && (
