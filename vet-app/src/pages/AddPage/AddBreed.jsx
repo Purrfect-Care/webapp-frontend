@@ -118,9 +118,12 @@ const AddBreed = ({ initialValues, onClose, snackbar }) => {
         <div className="mainPart">
           <div className="flex items-start justify-center h-full">
             <div className="flex flex-col items-center mt-20">
+            <div style={{justifyContent: 'center', marginLeft: '8vh'}}>
               <h3 className="text-3xl font-semibold mb-10 text-emerald-600">
                 Formularz dodawania nowej rasy
               </h3>
+              </div>
+              <div style={{justifyContent: 'center', marginLeft: '8vh'}}>
               <div className="relative pb-8 mb-2">
                 <select
                   name="breeds_species_id"
@@ -157,13 +160,16 @@ const AddBreed = ({ initialValues, onClose, snackbar }) => {
                   </span>
                 )}
               </div>
-              {!initialValues && <button
+              {!initialValues && 
+              <div style={{justifyContent: 'center', display: 'flex'}}>
+              <button
                 type="submit"
                 onClick={handleAddBreed}
                 className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md"
               >
                 Dodaj
-              </button>}
+              </button>
+              </div>}
               {initialValues && (
                 <div className="mx-15vh mt-auto mb-5vh flex justify-center">
                   <button
@@ -182,6 +188,7 @@ const AddBreed = ({ initialValues, onClose, snackbar }) => {
                   </button>
                 </div>
               )}
+              </div>
             </div>
           </div>
         </div>
