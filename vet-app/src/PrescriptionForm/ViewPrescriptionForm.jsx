@@ -140,7 +140,7 @@ const ViewPrescriptionForm = ({ onClose, prescriptionDetails }) => {
                 <button ref={generatePDFButtonRef} className="form-button-prescription-form" onClick={handleGeneratePDF}>
                     Wygeneruj plik PDF
                 </button>
-                <button className="form-button-prescription-form" onClick={onClose}>
+                <button className="form-button-prescription-form" onClick={handleClose}>
                     Zamknij
                 </button>
             </div>
