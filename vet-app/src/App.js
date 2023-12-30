@@ -31,6 +31,7 @@ import ShowVisitTypeComponent from "./pages/ShowPage/ShowVisitType/ShowVisitType
 import ShowVisitSubtypeComponent from "./pages/ShowPage/ShowVisitSubtypes/ShowVisitSubtypesComponent";
 import ShowClinicComponent from "./pages/ShowPage/ShowClinic/ShowClinicComponent";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage/PrivacyPolicyPage";
+import SelectClinic from "./pages/SelectClinic/SelectClinic";
 
 const isAuthenticated = () => {
   // Implement your logic to check if the user is authenticated
@@ -256,6 +257,10 @@ function App() {
             element={
               <CustomRoute element={<PrivacyPolicyPage />} path="/privacy-policy" />
             }
+          />
+          <Route
+            path="/select_clinic"
+            element={<CustomRoute element={<SelectClinic/>} path="/select_clinic" />}
           />  
         </Routes>      
       </BrowserRouter>

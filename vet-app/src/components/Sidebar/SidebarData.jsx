@@ -35,5 +35,12 @@ export const SidebarData = [
         path: '/show',
         icon: <FaTableList />,
         className: 'sidebar-text' 
+    },
+    {
+        title: 'Wybierz klinikę',
+        path: '/select_clinic',
+        icon: <FaTableList />,
+        className: 'sidebar-text' 
     }
+
 ]
