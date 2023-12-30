@@ -11,8 +11,9 @@ const CalendarSidebar = () => {
         <aside className="border p-5 w-64 bg-emerald-600 bg-opacity-20 rounded">
             <CreateEventButton />
             <SmallCalendar />
-            {employeeData && employeeData.employee_role === 'Administrator' && <FilterAdminVisits />}
             <LabelsCalendar />
+            {employeeData && employeeData.employee_role === 'Administrator' && <FilterAdminVisits />}
+            
         </aside>
     );
 }

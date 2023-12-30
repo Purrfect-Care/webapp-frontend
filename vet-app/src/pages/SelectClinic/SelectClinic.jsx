@@ -80,7 +80,7 @@ const SelectClinic = ({ onClose, onSubmit, initialPrescriptionValues }) => {
                     <div className="addPageNav">
                         <div className={`overlay-select_clinic ${isFormOpen ? 'active' : ''}`}></div>
                         <form className='select-clinic-form' onSubmit={handleSubmit}>
-                            <h2>Wybierz klinikę</h2>
+                            <h2 className='h2-wybierz'>Wybierz klinikę</h2>
                             <label>
                                 <select className='select-clinic' value={selectedClinicId} onChange={(e) => setSelectedClinicId(e.target.value)}>
                                     <option value="">-</option>

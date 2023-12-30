@@ -4,7 +4,7 @@ import { NavBarData } from "./NavBarData";
 import { Link } from "react-router-dom";
 
 const NavBar = ({ id, onSelectOption, selectedTab }) => {
-
+    
   return (
     <div className="navBar">      
       {NavBarData.map((item, index) => {
@@ -15,12 +15,14 @@ const NavBar = ({ id, onSelectOption, selectedTab }) => {
               onClick={() => {
                 onSelectOption(item.title);
                 
+                
               }}
               className={selectedTab === item.title ? "active" : ""}
             >
               {item.title}
             </Link>
           </li>
+          
         );
       })}
 

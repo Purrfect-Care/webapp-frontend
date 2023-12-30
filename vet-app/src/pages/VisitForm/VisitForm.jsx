@@ -41,7 +41,7 @@ const VisitForm = ({
     visits_patient_id: '',
     visits_visit_type_id: '',
     visits_visit_subtype_id: '',
-    visits_employee_id: '',
+    visits_employee_id: " ",
     visits_clinic_id: JSON.parse(
       localStorage.getItem("employeeData")
     ).employees_clinic_id

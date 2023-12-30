@@ -8,8 +8,6 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import EventModal from "./EventModal";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
-import FilterAdminVisits from "./FilterAdminVisits";
-
 
 const CalendarPage = () => {
   const [currentMonth, setCurrentMonth] = useState(getMonth());
@@ -18,8 +16,6 @@ const CalendarPage = () => {
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
   
-
-
   useEffect(() => {
     setCurrentMonth(getMonth(monthIndex));
       if (comesFromLogin) {

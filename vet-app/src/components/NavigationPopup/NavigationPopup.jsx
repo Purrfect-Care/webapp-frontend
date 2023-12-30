@@ -22,15 +22,15 @@ const PopupComponent = ({ message, buttonNames, urls }) => {
           <p className="navigation-message">{message}</p>
         </span>
         <div className="nav-buttons">
-          {buttonNames.slice(0, 4).map((buttonName, index) => (
+          {buttonNames.slice(0, 5).map((buttonName, index) => (
             <button key={index} onClick={() => handleButtonClick(urls[index])}>
               {buttonName}
             </button>
           ))}
         </div>
         <div className="nav-buttons">
-          {buttonNames.slice(4).map((buttonName, index) => (
-            <button key={index + 4} onClick={() => handleButtonClick(urls[index + 4])}>
+          {buttonNames.slice(5).map((buttonName, index) => (
+            <button key={index + 5} onClick={() => handleButtonClick(urls[index + 5])}>
               {buttonName}
             </button>
           ))}

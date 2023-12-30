@@ -19,15 +19,15 @@ export const SidebarData = [
         className: 'sidebar-text' 
     },
     {
-        title: 'Dodaj',
-        path: '/add',
-        icon: <BsIcons.BsFillBookmarkPlusFill />,
-        className: 'sidebar-text' 
-    },
-    {
         title: 'Recepta',
         path: '/prescription',
         icon: <TfiIcons.TfiWrite />,
+        className: 'sidebar-text' 
+    },
+    {
+        title: 'Dodaj',
+        path: '/add',
+        icon: <BsIcons.BsFillBookmarkPlusFill />,
         className: 'sidebar-text' 
     },
     {

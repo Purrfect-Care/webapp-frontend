@@ -42,24 +42,39 @@ const isAuthenticated = () => {
 const CustomRoute = ({ element, path }) => {
   const employeeData = JSON.parse(localStorage.getItem("employeeData"));
   const isAdministrator = employeeData?.employee_role === "Administrator";
+  const isSuperAdmin = employeeData?.employee_role === "SuperAdmin";
 
   if (path === "/login" || path === "/") {
     // For public routes, redirect to home if the user is authenticated
     return isAuthenticated() ? <Navigate to="/calendar" replace /> : element;
   } else if (
-    (path === "/add" ||
-      path === "/sign-in" ||
+    (
       path === "/add-clinic" ||
       path === "/add-visit-type" ||
       path === "/add-visit-subtype" ||
       path === "/add-medication" ||
       path === "/add-species" ||
       path === "/add-breed" ||
-      path === "/add-patient" ||
-      path === "/add-owner" ||
       path === "/add-medication" ||
-      path === "/add-illness") &&
-    !isAdministrator
+      path === "/add-illness" ||
+      path === "/show-clinic" ||
+      path === "/show-visit-type" ||
+      path === "/show-visit-subtype" ||
+      path === "/show-medication" ||
+      path === "/show-species" ||
+      path === "/show-breed" ||
+      path === "/show-medication" ||
+      path === "/show-illness") &&
+    !isSuperAdmin
+  ) {
+    // Redirect away from "/add" if the user is not an administrator
+    return <Navigate to="/calendar" replace />;
+  } else if (
+    (
+      path === "/sign-in" ||
+      path === "/show-employee"
+) &&
+    !isAdministrator && !isSuperAdmin
   ) {
     // Redirect away from "/add" if the user is not an administrator
     return <Navigate to="/calendar" replace />;

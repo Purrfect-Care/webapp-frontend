@@ -13,7 +13,19 @@ import GlobalContext from "../../context/GlobalContext";
 const Sidebar = () => {
   const [sidebarTab, setSidebarTab] = useState(false);
   const [employeeData, setEmployeeData] = useState(null);
-  const {setLoggingOut} = useContext(GlobalContext);
+  const { setLoggingOut } = useContext(GlobalContext);
+
+  const roleToTitles = {
+    SuperAdmin: [
+      "Kalendarz",
+      "Wybierz klinikę",
+      "Dodaj",
+      "Wyświetl",
+      "Pacjenci",
+    ],
+    Administrator: ["Kalendarz", "Pacjenci", "Dodaj", "Wyświetl"],
+    Weterynarz: ["Kalendarz", "Pacjenci", "Recepta", "Dodaj", "Wyświetl"],
+  };
 
   useEffect(() => {
     // Fetch employee data from local storage
@@ -27,7 +39,7 @@ const Sidebar = () => {
   const handleExit = () => {
     localStorage.removeItem("employeeData");
     localStorage.removeItem("authToken");
-    localStorage.removeItem("authTokenExpiration"); 
+    localStorage.removeItem("authTokenExpiration");
     setLoggingOut(true);
   };
 
@@ -48,12 +60,9 @@ const Sidebar = () => {
               </Link>
             </li>
             {SidebarData.map((item, index) => {
-              // Check if the role is Administrator or if the item is not "Dodaj"
-              const shouldRenderItem =
-                (employeeData?.employee_role === "Administrator" &&
-                  item.title !== "Recepta") ||
-                (employeeData?.employee_role !== "Administrator" &&
-                  item.title !== "Dodaj");
+              const shouldRenderItem = roleToTitles[
+                employeeData?.employee_role
+              ]?.includes(item.title);
 
               return (
                 shouldRenderItem && (

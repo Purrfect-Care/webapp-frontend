@@ -192,6 +192,7 @@ const PatientSection = ({ patientId}) => {
           <DocumentsPage patient={patient} />
         )}
         {activeComponent === "WŁAŚCICIEL" && <OwnerPage patient={patient} />}
+        
       </div>
 
       {showDeleteConfirmation && (

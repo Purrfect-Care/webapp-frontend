@@ -19,6 +19,13 @@
     display: flex;
 }
 
+.logged-name {
+    color: #4AA587;
+    text-wrap: nowrap;
+    padding-right: 4px;
+    margin-right: 8px;
+}
+
 .logo-text {
     color: #4AA587;
     font-family: Outfit;
