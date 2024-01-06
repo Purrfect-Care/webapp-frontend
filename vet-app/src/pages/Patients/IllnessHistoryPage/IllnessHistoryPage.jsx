@@ -13,6 +13,7 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import dayjs from "dayjs";
 import { IoAddCircle } from "react-icons/io5";
+import { jwtDecode } from "jwt-decode";
 
 const IllnessHistoryPage = ({ patient }) => {
   const [illnessHistory, setIllnessHistory] = useState([]);
@@ -147,7 +148,8 @@ const IllnessHistoryPage = ({ patient }) => {
     setSnackbarOpen(true);
   };
 
-  const employeeData = JSON.parse(localStorage.getItem("employeeData"));
+  const authToken = localStorage.getItem('authToken');
+  const employeeData = jwtDecode(authToken);
   const isAdministrator = employeeData?.employee_role === "Administrator";
 
   if (!sortedIllnessHistory.length) {

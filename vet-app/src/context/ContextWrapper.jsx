@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import GlobalContext from "./GlobalContext";
 import dayjs from "dayjs";
+import { jwtDecode } from 'jwt-decode';
+import { Navigate } from 'react-router-dom';
 import {
   visitsByEmployeeIdRequest,
   visitsByEmployeeClinicIdRequest,
@@ -34,12 +36,19 @@ export default function ContextWrapper(props) {
         .includes(evt.visits_employee.id)
     );
   }, [events, labels, vets]);
-  
-  
+
+
 
   async function fetchEvents() {
     try {
-      const employeeData = JSON.parse(localStorage.getItem("employeeData"));
+      let authToken = localStorage.getItem('authToken');
+
+      // Check if authToken is empty, create a mock token if necessary
+      if (!authToken) {
+        const mockTokenValue = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1wbG95ZWVfcm9sZSI6IldldGVyeW5hcnoiLCJlbXBsb3llZV9maXJzdF9uYW1lIjoiS29uc3RhbnR5IiwiZW1wbG95ZWVfbGFzdF9uYW1lIjoiTWFydXN6Y3p5ayIsImVtcGxveWVlc19jbGluaWNfaWQiOjIsImV4cCI6MTcwNDU3NzQ1MC40NzI3NzN9.1z6ODJLIpxqaIKFxYR7xFAyQCiuDryrIbzDARQUauCU";
+        authToken = mockTokenValue;
+      }
+      const employeeData = jwtDecode(authToken);
       if (employeeData) {
         // Check if employeeData exists
         setIsLoggedIn(true); // Set isLoggedIn to true
@@ -63,7 +72,7 @@ export default function ContextWrapper(props) {
     }
   }
 
-  useEffect(() => {fetchEvents();}, []);
+  useEffect(() => { fetchEvents(); }, []);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -75,7 +84,16 @@ export default function ContextWrapper(props) {
 
   const updateEvent = async () => {
     try {
-      const employeeData = JSON.parse(localStorage.getItem("employeeData"));
+      const authToken = localStorage.getItem('authToken');
+      let employeeData;
+
+      try {
+        employeeData = jwtDecode(authToken);
+      } catch (error) {
+        // Handle the case where decoding fails (invalid token)
+        console.error('Error decoding token:', error.message);
+        return <Navigate to="/login" replace />;
+      }
       if (employeeData.employee_role.toString() === "Administrator") {
         const eventsData = await visitsByEmployeeClinicIdRequest(
           employeeData.employees_clinic_id.toString()
@@ -111,16 +129,16 @@ export default function ContextWrapper(props) {
       const uniqueVets = Object.values(uniqueVetsMap);
       return uniqueVets.map((selectedVet) => {
         const currentVet = prevVets.find((vet) => vet.id === selectedVet.id);
-        return { 
-          id: selectedVet.id, 
-          firstName: selectedVet.employee_first_name, 
-          lastName: selectedVet.employee_last_name, 
-          checked: currentVet ? currentVet.checked : true 
+        return {
+          id: selectedVet.id,
+          firstName: selectedVet.employee_first_name,
+          lastName: selectedVet.employee_last_name,
+          checked: currentVet ? currentVet.checked : true
         };
       });
     });
   }, [events]);
-  
+
 
   useEffect(() => {
     if (!showEventModal) {
@@ -145,8 +163,8 @@ export default function ContextWrapper(props) {
       return updatedVets;
     });
   }
-  
-  
+
+
   return (
     <GlobalContext.Provider
       value={{

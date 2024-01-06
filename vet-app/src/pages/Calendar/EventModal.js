@@ -12,6 +12,7 @@ import {
   updatePhotoRequest,
 } from "../../api/photosRequests";
 import ConfirmationPopup from "../../components/ConifrmationPopup/ConfirmationPopup";
+import { jwtDecode } from "jwt-decode";
 
 function EventModal({ snackbar }) {
   const { setShowEventModal, selectedEvent, daySelected, updateEvent } =
@@ -86,6 +87,9 @@ function EventModal({ snackbar }) {
   };
     
 
+  const authToken = localStorage.getItem('authToken');
+  const employeeData = jwtDecode(authToken);
+
   const newEvent = {
     visit_datetime: daySelected,
     visit_duration: '',
@@ -96,11 +100,8 @@ function EventModal({ snackbar }) {
     visits_patient_id: '',
     visits_visit_type_id: '',
     visits_visit_subtype_id: '',
-    visits_employee_id: JSON.parse(localStorage.getItem('employeeData')).id.toString(),
-    visits_clinic_id: JSON.parse(
-      localStorage.getItem("employeeData")
-    ).employees_clinic_id
-    .toString(),
+    visits_employee_id: employeeData.id.toString(),
+    visits_clinic_id: employeeData.employees_clinic_id.toString(),
   };
 
   const confirmDeleteVisit = async () => {

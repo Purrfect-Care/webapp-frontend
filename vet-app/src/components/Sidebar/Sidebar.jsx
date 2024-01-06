@@ -9,6 +9,7 @@ import { IconContext } from "react-icons";
 import Header from "../Header/Header";
 import * as IoIcons from "react-icons/io";
 import GlobalContext from "../../context/GlobalContext";
+import { jwtDecode } from "jwt-decode";
 
 const Sidebar = () => {
   const [sidebarTab, setSidebarTab] = useState(false);
@@ -28,10 +29,11 @@ const Sidebar = () => {
   };
 
   useEffect(() => {
-    // Fetch employee data from local storage
-    const storedEmployeeData = localStorage.getItem("employeeData");
+    // Fetch employee data from local storageconst 
+    const authToken = localStorage.getItem('authToken');
+    const storedEmployeeData = jwtDecode(authToken);
     if (storedEmployeeData) {
-      setEmployeeData(JSON.parse(storedEmployeeData));
+      setEmployeeData(storedEmployeeData);
     }
   }, []);
 

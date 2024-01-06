@@ -15,6 +15,7 @@ import PulseLoader from "react-spinners/PulseLoader";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import dayjs from "dayjs";
+import { jwtDecode } from "jwt-decode";
 
 const VisitsPage = ({ patient }) => {
   const [visits, setVisits] = useState([]);
@@ -221,7 +222,8 @@ const VisitsPage = ({ patient }) => {
     return 0;
   });
 
-  const employeeData = JSON.parse(localStorage.getItem("employeeData"));
+  const authToken = localStorage.getItem('authToken');
+  const employeeData = jwtDecode(authToken);
   const isAdministrator = employeeData?.employee_role === "Administrator";
 
   if (!visits.length) {
@@ -244,12 +246,8 @@ const VisitsPage = ({ patient }) => {
               initialValues={{
                 visits_patient_id: patient.id,
                 visit_datetime: dayjs(),
-                visits_employee_id: JSON.parse(
-                  localStorage.getItem("employeeData")
-                ).id.toString(),
-                visits_clinic_id: JSON.parse(
-                  localStorage.getItem("employeeData")
-                ).employees_clinic_id.toString(),
+                visits_employee_id: employeeData.id.toString(),
+                visits_clinic_id: employeeData.employees_clinic_id.toString(),
               }}
               setEdit={setIsFormForEdit}
               editOnly={editOnly}
@@ -363,12 +361,8 @@ const VisitsPage = ({ patient }) => {
             initialValues={{
               visits_patient_id: patient.id,
               visit_datetime: dayjs(),
-              visits_employee_id: JSON.parse(
-                localStorage.getItem("employeeData")
-              ).id.toString(),
-              visits_clinic_id: JSON.parse(
-                localStorage.getItem("employeeData")
-              ).employees_clinic_id.toString(),
+              visits_employee_id: employeeData.id.toString(),
+              visits_clinic_id: employeeData.employees_clinic_id.toString(),
             }}
             setEdit={setIsFormForEdit}
             editOnly={editOnly}
