@@ -2,9 +2,11 @@ import React from "react";
 import "./AddPage.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import NavigationPopup from "../../components/NavigationPopup/NavigationPopup";
+import { jwtDecode } from "jwt-decode";
 
 const AddPage = () => {
-  const employeeData = JSON.parse(localStorage.getItem("employeeData"));
+  const authToken = localStorage.getItem('authToken');
+  const employeeData = jwtDecode(authToken);
   const isAdministrator = employeeData?.employee_role === "Administrator";
   const isSuperAdmin = employeeData?.employee_role === "SuperAdmin";
   const isVet = employeeData?.employee_role === "Weterynarz";

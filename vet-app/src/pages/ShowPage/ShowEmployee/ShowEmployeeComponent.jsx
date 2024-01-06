@@ -5,6 +5,7 @@ import PatientForm from '../../AddPage/PatientForm/PatientForm';
 import SignIn from '../../AddPage/SignIn/SignIn';
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import { jwtDecode } from 'jwt-decode';
 
 const ShowEmployeeComponent = () => {
     const [employeeData, setEmployeeData] = useState([]);
@@ -20,7 +21,8 @@ const ShowEmployeeComponent = () => {
         // Replace this with your actual data fetching logic
         const fetchData = async () => {
             try {
-                const employeeData = JSON.parse(localStorage.getItem("employeeData"));
+                const authToken = localStorage.getItem('authToken');
+                const employeeData = jwtDecode(authToken);
                 const data = await employeesByClinic(employeeData?.employees_clinic_id);
                 setEmployeeData(data);
 
@@ -44,7 +46,8 @@ const ShowEmployeeComponent = () => {
             // Call the delete function from the provided onDelete prop
             await deleteEmployeeById(employeeId);
             console.log('Employee deleted successfully');
-            const employeeData = JSON.parse(localStorage.getItem("employeeData"));
+            const authToken = localStorage.getItem('authToken');
+            const employeeData = jwtDecode(authToken);
             const data = await employeesByClinic(employeeData?.employees_clinic_id);
             setEmployeeData(data);
             openSnackbar("success", "Pracownik usunięty pomyślnie!");
@@ -64,7 +67,8 @@ const ShowEmployeeComponent = () => {
       const closeForm = async () => {
         setOpenEditForm(false);
         setSelectedEmployee(null);
-        const employeeData = JSON.parse(localStorage.getItem("employeeData"));
+        const authToken = localStorage.getItem('authToken');
+        const employeeData = jwtDecode(authToken);
         const data = await employeesByClinic(employeeData?.employees_clinic_id);
         setEmployeeData(data);
         setOpenTable(true);

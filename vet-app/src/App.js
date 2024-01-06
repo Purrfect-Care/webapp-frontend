@@ -32,6 +32,7 @@ import ShowVisitSubtypeComponent from "./pages/ShowPage/ShowVisitSubtypes/ShowVi
 import ShowClinicComponent from "./pages/ShowPage/ShowClinic/ShowClinicComponent";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage/PrivacyPolicyPage";
 import SelectClinic from "./pages/SelectClinic/SelectClinic";
+import { jwtDecode } from "jwt-decode";
 
 const isAuthenticated = () => {
   // Implement your logic to check if the user is authenticated
@@ -40,7 +41,14 @@ const isAuthenticated = () => {
 };
 
 const CustomRoute = ({ element, path }) => {
-  const employeeData = JSON.parse(localStorage.getItem("employeeData"));
+  let authToken = localStorage.getItem('authToken');
+
+  // Check if authToken is empty, create a mock token if necessary
+  if (!authToken) {
+    const mockTokenValue = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1wbG95ZWVfcm9sZSI6IldldGVyeW5hcnoiLCJlbXBsb3llZV9maXJzdF9uYW1lIjoiS29uc3RhbnR5IiwiZW1wbG95ZWVfbGFzdF9uYW1lIjoiTWFydXN6Y3p5ayIsImVtcGxveWVlc19jbGluaWNfaWQiOjIsImV4cCI6MTcwNDU3NzQ1MC40NzI3NzN9.1z6ODJLIpxqaIKFxYR7xFAyQCiuDryrIbzDARQUauCU";
+    authToken = mockTokenValue;
+  }
+  const employeeData = jwtDecode(authToken);
   const isAdministrator = employeeData?.employee_role === "Administrator";
   const isSuperAdmin = employeeData?.employee_role === "SuperAdmin";
 

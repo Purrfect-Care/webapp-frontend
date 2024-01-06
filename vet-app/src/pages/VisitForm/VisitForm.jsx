@@ -22,6 +22,7 @@ import PhotoAddPopup from "../../components/addVisitPhoto/addVisitPhoto";
 import PhotoEditPopup from "../../components/updatePhoto/updatePhoto";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import { jwtDecode } from 'jwt-decode';
 
 
 const VisitForm = ({
@@ -31,6 +32,8 @@ const VisitForm = ({
   onSubmit,
   editOnly = false,
 }) => {
+  const authToken = localStorage.getItem('authToken');
+  const employeeDataFormValues = jwtDecode(authToken);
   const [formValues, setFormValues] = useState({
     visit_datetime: '',
     visit_duration: '',
@@ -42,9 +45,7 @@ const VisitForm = ({
     visits_visit_type_id: '',
     visits_visit_subtype_id: '',
     visits_employee_id: " ",
-    visits_clinic_id: JSON.parse(
-      localStorage.getItem("employeeData")
-    ).employees_clinic_id
+    visits_clinic_id: employeeDataFormValues.employees_clinic_id
     .toString(),
   });
   const [allTypes, setAllTypes] = useState([]);
@@ -82,9 +83,10 @@ const VisitForm = ({
 
   useEffect(() => {
     // Fetch employee data from local storage
-    const storedEmployeeData = localStorage.getItem("employeeData");
+    const authToken = localStorage.getItem('authToken');
+    const storedEmployeeData = jwtDecode(authToken);
     if (storedEmployeeData) {
-      setEmployeeData(JSON.parse(storedEmployeeData));
+      setEmployeeData(storedEmployeeData);
     }
   }, []);
 
@@ -136,7 +138,8 @@ const VisitForm = ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const employeeData = JSON.parse(localStorage.getItem("employeeData"));
+        const authToken = localStorage.getItem('authToken');
+        const employeeData = jwtDecode(authToken);
         const [visitTypes, visitSubtypes, patients, employeeJSON, vetsData] =
           await Promise.all([
             visitTypeRequest(),

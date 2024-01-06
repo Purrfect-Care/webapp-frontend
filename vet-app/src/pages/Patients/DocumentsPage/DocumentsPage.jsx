@@ -13,6 +13,7 @@ import PrescriptionForm from "../../../PrescriptionForm/PrescriptionForm";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { IoAddCircle } from "react-icons/io5";
+import { jwtDecode } from "jwt-decode";
 
 const DocumentsPage = ({ patient }) => {
   const [prescriptions, setPrescriptions] = useState([]);
@@ -79,9 +80,9 @@ const DocumentsPage = ({ patient }) => {
     try {
       console.log("handlesubmith: ", formValues);
       const { prescription_date, prescriptions_patient_id } = formValues;
-      const prescriptions_employee_id = JSON.parse(
-        localStorage.getItem("employeeData")
-      ).id.toString();
+      const authToken = localStorage.getItem('authToken');
+      const employeeData = jwtDecode(authToken);
+      const prescriptions_employee_id = employeeData.id.toString();
 
       const addedPrescription = await addPrescriptionRequest({
         prescription_date,
@@ -131,7 +132,8 @@ const DocumentsPage = ({ patient }) => {
     return dateB - dateA;
   });
 
-  const employeeData = JSON.parse(localStorage.getItem("employeeData"));
+  const authToken = localStorage.getItem('authToken');
+  const employeeData = jwtDecode(authToken);
   const isAdministrator = employeeData?.employee_role === "Administrator";
 
   if (!sortedPrescriptions.length) {

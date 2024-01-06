@@ -10,8 +10,11 @@ import './ViewVisit.css';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
+import { jwtDecode } from 'jwt-decode';
 
 const ViewVisit = ({ onClose, initialValues, setEdit, setVisit, setConfirmation, setFormVisible }) => {
+  const authToken = localStorage.getItem('authToken');
+  const employeeData = jwtDecode(authToken);
   const [formValues, setFormValues] = useState({
     visit_datetime: null,
     visit_duration: null,
@@ -23,9 +26,7 @@ const ViewVisit = ({ onClose, initialValues, setEdit, setVisit, setConfirmation,
     visits_visit_type_id: null,
     visits_visit_subtype_id: null,
     visits_employee_id: null,
-    visits_clinic_id: JSON.parse(
-      localStorage.getItem("employeeData")
-    ).employees_clinic_id
+    visits_clinic_id: employeeData.employees_clinic_id
     .toString(),
   });
   const [type, setType] = useState({});

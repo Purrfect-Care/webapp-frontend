@@ -5,6 +5,7 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import PrescriptionForm from "../../PrescriptionForm/PrescriptionForm";
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+import { jwtDecode } from "jwt-decode";
 
 const CreatePrescription = () => {
 
@@ -19,7 +20,9 @@ const CreatePrescription = () => {
   const handleSubmitPrescriptionForm = async (formValues) => {
     try {
       const { prescription_date, prescriptions_patient_id } = formValues;
-      const prescriptions_employee_id = JSON.parse(localStorage.getItem('employeeData')).id.toString();
+      const authToken = localStorage.getItem('authToken');
+      const employeeData = jwtDecode(authToken);
+      const prescriptions_employee_id = employeeData.id.toString();
 
       const addedPrescription = await addPrescriptionRequest({
         prescription_date,

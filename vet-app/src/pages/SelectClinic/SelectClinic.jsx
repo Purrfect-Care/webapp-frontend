@@ -5,6 +5,7 @@ import MuiAlert from '@mui/material/Alert';
 import { useNavigate } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import './SelectClinic.css';
+import { jwtDecode } from 'jwt-decode';
 
 
 const SelectClinic = ({ onClose, onSubmit, initialPrescriptionValues }) => {
@@ -31,7 +32,8 @@ const SelectClinic = ({ onClose, onSubmit, initialPrescriptionValues }) => {
     }, []);
 
     // Get the current employee data from local storage
-    const currentEmployeeData = JSON.parse(localStorage.getItem('employeeData')) || {};
+    const authToken = localStorage.getItem('authToken');
+    const currentEmployeeData = jwtDecode(authToken) || {};
     const { employees_clinic_id, ...restEmployeeData } = currentEmployeeData;
 
     // Set the initial selected clinic ID
