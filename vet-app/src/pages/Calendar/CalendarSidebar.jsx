@@ -14,7 +14,7 @@ const CalendarSidebar = () => {
             <CreateEventButton />
             <SmallCalendar />
             <LabelsCalendar />
-            {employeeData && employeeData.employee_role === 'Administrator' || employeeData.employee_role === 'SuperAdmin' && <FilterAdminVisits />}
+            {employeeData && (employeeData.employee_role === 'Administrator' || employeeData.employee_role === 'SuperAdmin') && <FilterAdminVisits />}
             
         </aside>
     );

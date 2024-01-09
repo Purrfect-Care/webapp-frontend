@@ -100,10 +100,12 @@ export default function ContextWrapper(props) {
         return <Navigate to="/login" replace />;
       }
       if (employeeData.employee_role.toString() === "Administrator" || employeeData.employee_role.toString() === "SuperAdmin") {
-        const eventsData = await visitsByEmployeeClinicIdRequest(
-          employeeData.employees_clinic_id.toString()
-        );
-        setEvents(eventsData);
+        if (employeeData.employees_clinic_id.toString() != ""){
+          const eventsData = await visitsByEmployeeClinicIdRequest(
+            employeeData.employees_clinic_id.toString()
+          );
+          setEvents(eventsData);
+        }
       } else {
         const eventsData = await visitsByEmployeeIdRequest(
           employeeData.id.toString()

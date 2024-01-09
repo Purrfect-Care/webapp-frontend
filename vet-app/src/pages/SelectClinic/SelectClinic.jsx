@@ -94,6 +94,7 @@ const SelectClinic = ({ onClose, onSubmit, initialPrescriptionValues }) => {
 
     const handleClose = () => {
         setIsFormOpen(false);
+        updateEvent();
         navigate(`/calendar`, { replace: true });
     };
 

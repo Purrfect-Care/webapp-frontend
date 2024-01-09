@@ -135,6 +135,7 @@ const DocumentsPage = ({ patient }) => {
   const authToken = localStorage.getItem('authToken');
   const employeeData = jwtDecode(authToken);
   const isAdministrator = employeeData?.employee_role === "Administrator";
+  const isSuperAdmin = employeeData?.employee_role === "SuperAdmin";
 
   if (!sortedPrescriptions.length) {
     return (
@@ -183,7 +184,7 @@ const DocumentsPage = ({ patient }) => {
   return (
     <>
       <div className="documentsPage">
-        {!isAdministrator && (<div className="create-presc">
+        {(!isAdministrator && !isSuperAdmin) && (<div className="create-presc">
           <button
             onClick={handleCreatePrescription}
             className="create_prescription_button"
