@@ -52,12 +52,17 @@ export default function ContextWrapper(props) {
       if (employeeData) {
         // Check if employeeData exists
         setIsLoggedIn(true); // Set isLoggedIn to true
-        if (employeeData.employee_role.toString() === "Administrator") {
-          const eventsData = await visitsByEmployeeClinicIdRequest(
-            employeeData.employees_clinic_id.toString()
-          );
-          setEvents(eventsData);
-        } else {
+        if (employeeData.employee_role.toString() === "Administrator" || employeeData.employee_role.toString() === "SuperAdmin" ) {
+          if (employeeData.employees_clinic_id.toString() != ""){
+
+            const eventsData = await visitsByEmployeeClinicIdRequest(
+              employeeData.employees_clinic_id.toString()
+            );
+            setEvents(eventsData);
+          }
+        }
+        
+        else {
           const eventsData = await visitsByEmployeeIdRequest(
             employeeData.id.toString()
           );
@@ -94,7 +99,7 @@ export default function ContextWrapper(props) {
         console.error('Error decoding token:', error.message);
         return <Navigate to="/login" replace />;
       }
-      if (employeeData.employee_role.toString() === "Administrator") {
+      if (employeeData.employee_role.toString() === "Administrator" || employeeData.employee_role.toString() === "SuperAdmin") {
         const eventsData = await visitsByEmployeeClinicIdRequest(
           employeeData.employees_clinic_id.toString()
         );

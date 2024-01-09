@@ -106,7 +106,14 @@ const Login = () => {
           "authTokenExpiration",
           Math.floor(data.expiration_time)
         );
-        routeChange();
+        if (data.employee.employee_role === "SuperAdmin")
+        {
+          routeChangeSuperAdmin();
+        }
+        else
+        {
+          routeChange();
+        }
       } else {
         const errorData = await response.json();
         setEmail("");
@@ -125,6 +132,12 @@ const Login = () => {
   let navigate = useNavigate();
   const routeChange = () => {
     let path = "/calendar";
+    navigate(path, {
+      state: { snackbarOpenlog, snackbarSeveritylog, snackbarMessagelog },
+    });
+  };
+  const routeChangeSuperAdmin = () => {
+    let path = "/select_clinic";
     navigate(path, {
       state: { snackbarOpenlog, snackbarSeveritylog, snackbarMessagelog },
     });

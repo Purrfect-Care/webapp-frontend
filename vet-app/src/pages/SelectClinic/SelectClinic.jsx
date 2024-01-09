@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { getClinicsRequest } from '../../api/clinicRequests';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import './SelectClinic.css';
 import { jwtDecode } from 'jwt-decode';
-
+import GlobalContext from '../../context/GlobalContext';
 
 const SelectClinic = ({ onClose, onSubmit, initialPrescriptionValues }) => {
     const [allClinics, setAllClinics] = useState([]);
@@ -16,6 +16,8 @@ const SelectClinic = ({ onClose, onSubmit, initialPrescriptionValues }) => {
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [isFormOpen, setIsFormOpen] = useState(true);
     const navigate = useNavigate();
+    const { comesFromLogin, setComesFromLogin, updateEvent } = useContext(GlobalContext);
+    const sign = require('jwt-encode');
 
     // Fetch clinics from Django API on component mount
     useEffect(() => {
@@ -30,6 +32,19 @@ const SelectClinic = ({ onClose, onSubmit, initialPrescriptionValues }) => {
 
         fetchData();
     }, []);
+
+    useEffect(() => {
+          if (comesFromLogin) {
+            openSnackbarLog("success", "Zalogowano pomyślnie!");
+            setComesFromLogin(false); 
+          }
+      }, [comesFromLogin]);
+
+      const openSnackbarLog = (severity, message) => {
+        setSnackbarSeverity(severity);
+        setSnackbarMessage(message);
+        setSnackbarOpen(true);
+      };
 
     // Get the current employee data from local storage
     const authToken = localStorage.getItem('authToken');
@@ -46,10 +61,18 @@ const SelectClinic = ({ onClose, onSubmit, initialPrescriptionValues }) => {
         e.preventDefault();
 
         // Update local storage with the selected clinic ID and preserve other employee data
-        localStorage.setItem('employeeData', JSON.stringify({
+        const updatedTokenData = {
             ...restEmployeeData,
             employees_clinic_id: selectedClinicId,
-        }));
+        };
+    
+        // Encode the updated payload back to JWT
+        const updatedAuthToken = sign(updatedTokenData,"your_secret_key");
+    
+        // Update local storage with the new authToken
+        localStorage.setItem('authToken', updatedAuthToken);
+
+        updateEvent();
 
         openSnackbar('success', 'Wybór kliniki zakończony sukcesem!');
         setTimeout(() => {
