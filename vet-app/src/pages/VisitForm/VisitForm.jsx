@@ -426,7 +426,7 @@ const VisitForm = ({
           <form onSubmit={handleSubmit} className="form-sections-visit">
             <div className="form-section-visit">
               <h3>Weterynarz</h3>
-              {employeeData?.employee_role === "Administrator" ? (
+              {(employeeData?.employee_role === "Administrator" || employeeData?.employee_role === "SuperAdmin") ? (
                 <label>
                   Imię i nazwisko
                   <select
