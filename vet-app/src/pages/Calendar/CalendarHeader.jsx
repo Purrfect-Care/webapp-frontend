@@ -6,10 +6,11 @@ import 'dayjs/locale/pl';
 import { BsWindowSidebar } from "react-icons/bs";
 
 const CalendarHeader = () => {
-  const { monthIndex, setMonthIndex, showCalendarSidebar, setShowCalendarSidebar} = useContext(GlobalContext);
+  const { monthIndex, setMonthIndex, showCalendarSidebar, setShowCalendarSidebar, monthSelected, setMonthSelected} = useContext(GlobalContext);
 
   function handlePrevMonth() {
     setMonthIndex(monthIndex - 1);
+    console.log("monthIndex:", monthIndex);
   }
 
   function handleNextMonth() {
@@ -42,6 +43,7 @@ const CalendarHeader = () => {
           onClick={handleNextMonth}
         />
       </div>
+      <button onClick={() => setMonthSelected(!monthSelected)} className="border rounded bg-white text-customGreen py-2 px-4 mr-5 select-none transition duration-300 shadow-2xl hover:shadow-md hover:font-bold">Tydzień</button> 
     </header>
   );
 };

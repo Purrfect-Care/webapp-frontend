@@ -1,4 +1,6 @@
 import dayjs from "dayjs";
+import isoWeek from 'dayjs/plugin/isoWeek'
+dayjs.extend(isoWeek)
 
 export function getMonth(month = dayjs().month()) {
     month = Math.floor(month)
@@ -16,3 +18,12 @@ export function getMonth(month = dayjs().month()) {
     });
     return daysMatrix;
 }
+  
+
+
+export function getWeek(year = dayjs().year(), week = dayjs().isoWeek()) {
+    const startOfWeek = dayjs().year(year).isoWeek(week).startOf('isoWeek');
+    const daysArray = Array.from({ length: 7 }, (_, i) => startOfWeek.add(i, 'day'));
+    return daysArray;
+}
+

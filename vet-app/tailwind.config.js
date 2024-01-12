@@ -9,6 +9,7 @@ module.exports = {
         'planned': '#3490dc',
         'cancelled': '#e3342f',
         'complete': '#00FF00',
+        'myGreen': '#c0e5d9',
       },
       gridTemplateColumns: {
         "1/5": "1fr 5fr"

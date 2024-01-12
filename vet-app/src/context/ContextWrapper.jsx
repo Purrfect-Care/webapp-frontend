@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import GlobalContext from "./GlobalContext";
 import dayjs from "dayjs";
+import weekOfYear from 'dayjs/plugin/weekOfYear';
 import { jwtDecode } from 'jwt-decode';
 import { Navigate } from 'react-router-dom';
 import {
@@ -9,6 +10,7 @@ import {
 } from "../api/visitsRequest";
 
 export default function ContextWrapper(props) {
+  dayjs.extend(weekOfYear);
   const [monthIndex, setMonthIndex] = useState(dayjs().month());
   const [smallCalendarMonth, setSmallCalendarMonth] = useState(null);
   const [daySelected, setDaySelected] = useState(dayjs());
@@ -23,6 +25,8 @@ export default function ContextWrapper(props) {
   const [showCalendarSidebar, setShowCalendarSidebar] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectAll, setSelectAll] = useState(true);
+  const [monthSelected, setMonthSelected] = useState(true);
+  const [weekIndex, setWeekIndex] = useState(dayjs().week());
 
   const filteredEvents = useMemo(() => {
     return events.filter((evt) =>
@@ -206,6 +210,10 @@ export default function ContextWrapper(props) {
         setIsLoggedIn,
         setSelectAll,
         selectAll,
+        setMonthSelected,
+        monthSelected,
+        setWeekIndex,
+        weekIndex,
       }}
     >
       {props.children}

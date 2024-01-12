@@ -8,6 +8,7 @@ const Day = ({ day, rowIdx }) => {
     setShowEventModal,
     filteredEvents,
     setSelectedEvent,
+    monthSelected,
   } = useContext(GlobalContext);
   const [dayEvents, setDayEvents] = useState([]);
 
@@ -62,7 +63,12 @@ const Day = ({ day, rowIdx }) => {
       setShowEventModal(true);
     }}>
       <header className="flex flex-col items-center">
-        {rowIdx === 0 && (
+        {monthSelected && rowIdx === 0 && (
+          <p className="text-sm mt-1 select-none">
+            {day.format("ddd").toUpperCase()}
+          </p>
+        )}
+        {!monthSelected && (
           <p className="text-sm mt-1 select-none">
             {day.format("ddd").toUpperCase()}
           </p>
