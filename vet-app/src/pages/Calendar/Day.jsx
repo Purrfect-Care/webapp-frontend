@@ -68,11 +68,6 @@ const Day = ({ day, rowIdx }) => {
             {day.format("ddd").toUpperCase()}
           </p>
         )}
-        {!monthSelected && (
-          <p className="text-sm mt-1 select-none">
-            {day.format("ddd").toUpperCase()}
-          </p>
-        )}
         <p
           className={`text-sm p-1 my-1 text-center select-none ${getCurrentDayClass()}`}
         >

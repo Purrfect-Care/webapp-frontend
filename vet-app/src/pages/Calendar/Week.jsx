@@ -24,14 +24,16 @@ const Week = ({ month }) => {
       <TimeLabel
         key={i}
         time={`${i}:00`}
+        marginbottom={"mb-0"}
       />,
-      <TimeLabel key={i + 0.5} time={`${i}:30`}/>
+      <TimeLabel key={i + 0.5} time={`${i}:30`} marginbottom={"mb-0"}/>
     );
   }
   timeLabels.push(
     <TimeLabel
       key={20}
       time={`20:00`}
+      marginbottom={"mb-6"}
     />
   );
 
@@ -45,7 +47,7 @@ const Week = ({ month }) => {
             <div className="border-t border-customGreen w-full border-4"></div>
           </header>
 
-          <div className="flex-1 grid grid-rows-14 select-none">
+          <div className="flex-1 grid grid-rows-14 select-none mt-2">
             {timeLabels}
           </div>
         </div>

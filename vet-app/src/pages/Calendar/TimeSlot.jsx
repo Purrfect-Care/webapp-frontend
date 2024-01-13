@@ -1,8 +1,9 @@
+// TimeSlot.js
 import React from 'react';
 
 const TimeSlot = ({ time, onClick }) => {
   return (
-    <div onClick={onClick} className='h-12'>
+    <div onClick={() => onClick(time)} className='h-12 cursor-pointer'>
       <hr />
     </div>
   );
