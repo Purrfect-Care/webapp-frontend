@@ -6,27 +6,34 @@ import { getMonth, getWeek } from "../../util";
 import GlobalContext from "../../context/GlobalContext";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import EventModal from "./EventModal";
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 import CalendarHeaderWeek from "./CalendarHeaderWeek";
 import Week from "./Week";
 
 const CalendarPage = () => {
   const [currentMonth, setCurrentMonth] = useState(getMonth());
-  const { monthIndex, showEventModal, comesFromLogin, setComesFromLogin, showCalendarSidebar, monthSelected} = useContext(GlobalContext);
+  const {
+    monthIndex,
+    showEventModal,
+    comesFromLogin,
+    setComesFromLogin,
+    showCalendarSidebar,
+    monthSelected,
+  } = useContext(GlobalContext);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
-  const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  const [snackbarMessage, setSnackbarMessage] = useState("");
   const [currentWeek, setCurrentWeek] = useState(getMonth(monthIndex));
-  
+
   //change this useffect
   useEffect(() => {
     setCurrentMonth(getMonth(monthIndex));
     setCurrentWeek(getWeek(monthIndex));
-      if (comesFromLogin) {
-        openSnackbarLog("success", "Zalogowano pomyślnie!");
-        setComesFromLogin(false); 
-      }
+    if (comesFromLogin) {
+      openSnackbarLog("success", "Zalogowano pomyślnie!");
+      setComesFromLogin(false);
+    }
   }, [monthIndex, comesFromLogin]);
 
   const openSnackbar = (severity, message) => {
@@ -41,26 +48,26 @@ const CalendarPage = () => {
     setSnackbarOpen(true);
   };
 
-
   return (
     <>
       <React.Fragment>
-        {showEventModal && <EventModal snackbar = {openSnackbar}/>}
+        {showEventModal && <EventModal snackbar={openSnackbar} />}
         <Sidebar />
         <div className="h-screen flex flex-col shadow-inner ml-[-5px] mt-[8px] py-[12px] px-[24px] bg-white rounded-lg ">
           {monthSelected && <CalendarHeader />}
           {!monthSelected && <CalendarHeaderWeek />}
           <div className="flex flex-1">
-            {showCalendarSidebar && <CalendarSidebar />}
+            {showCalendarSidebar && monthSelected && <CalendarSidebar />}
+            {!monthSelected && <CalendarSidebar />}
+
             {monthSelected && <Month month={currentMonth} />}
             {!monthSelected && <Week month={currentMonth} />}
           </div>
         </div>
-        
       </React.Fragment>
       <Snackbar
         open={snackbarOpen}
-        anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
         autoHideDuration={6000}
         onClose={() => setSnackbarOpen(false)}
       >

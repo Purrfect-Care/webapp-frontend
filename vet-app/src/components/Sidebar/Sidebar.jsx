@@ -11,7 +11,7 @@ import * as IoIcons from "react-icons/io";
 import GlobalContext from "../../context/GlobalContext";
 import { jwtDecode } from "jwt-decode";
 
-const Sidebar = () => {
+const Sidebar = ( ) => {
   const [sidebarTab, setSidebarTab] = useState(false);
   const [employeeData, setEmployeeData] = useState(null);
   const { setLoggingOut } = useContext(GlobalContext);

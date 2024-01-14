@@ -20,6 +20,8 @@ const GlobalContext = React.createContext({
   updateEvent: () => {},
   updatePatientBar: false,
   setUpdatePatientBar: () => {},
+  setSelectedVet: (index) => {},
+  selectedVet: 0,
 });
 
 export default GlobalContext;

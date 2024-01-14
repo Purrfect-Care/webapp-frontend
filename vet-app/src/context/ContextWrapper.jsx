@@ -22,11 +22,12 @@ export default function ContextWrapper(props) {
   const [updatePatientBar, setUpdatePatientBar] = useState(false);
   const [comesFromLogin, setComesFromLogin] = useState(false);
   const [loggingOut, setLoggingOut] = useState(false);
-  const [showCalendarSidebar, setShowCalendarSidebar] = useState(false);
+  const [showCalendarSidebar, setShowCalendarSidebar] = useState(true);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [selectAll, setSelectAll] = useState(true);
+  const [selectAll, setSelectAll] = useState(false);
   const [monthSelected, setMonthSelected] = useState(true);
   const [weekIndex, setWeekIndex] = useState(dayjs().week());
+  const [selectedVet, setSelectedVet] = useState(0);
 
   const filteredEvents = useMemo(() => {
     return events.filter((evt) =>
@@ -138,17 +139,31 @@ export default function ContextWrapper(props) {
         return acc;
       }, {});
       const uniqueVets = Object.values(uniqueVetsMap);
+
+      // Check if there are vets and if selectedVet is not already set
+      if (uniqueVets.length > 0 && selectedVet === null) {
+        const firstVet = uniqueVets[0];
+        setSelectedVet(firstVet.id); // Set the selectedVet to the ID of the first vet
+        return uniqueVets.map((vet) => ({
+          id: vet.id,
+          firstName: vet.employee_first_name,
+          lastName: vet.employee_last_name,
+          checked: vet.id === firstVet.id, // Check the first vet initially
+        }));
+      }
+
+      // If selectedVet is already set or there are no vets
       return uniqueVets.map((selectedVet) => {
         const currentVet = prevVets.find((vet) => vet.id === selectedVet.id);
         return {
           id: selectedVet.id,
           firstName: selectedVet.employee_first_name,
           lastName: selectedVet.employee_last_name,
-          checked: currentVet ? currentVet.checked : true
+          checked: currentVet ? currentVet.checked : false,
         };
       });
     });
-  }, [events]);
+  }, [events, selectedVet]);
 
 
   useEffect(() => {
@@ -214,6 +229,8 @@ export default function ContextWrapper(props) {
         monthSelected,
         setWeekIndex,
         weekIndex,
+        setSelectedVet,
+        selectedVet,
       }}
     >
       {props.children}

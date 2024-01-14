@@ -81,13 +81,7 @@ const CalendarHeaderWeek = () => {
 
   return (
     <header className="px-5 py-3 flex items-center bg-emerald-600/25 bg-opacity-20 rounded-md mb-3">
-      <div
-        className="cursor-pointer shadow-2xl rounded-md hover:shadow-md hover:font-bold transition duration-300"
-        onClick={() => setShowCalendarSidebar(!showCalendarSidebar)}
-      >
-        <BsWindowSidebar className=" text-white text-5xl " />
-      </div>
-      <div className=" border-r-[1px] border-gray-400 h-12 mx-6"></div>
+
       <button
         onClick={handleReset}
         className="border rounded bg-white text-customGreen py-2 px-4 mr-5 select-none transition duration-300 shadow-2xl hover:shadow-md hover:font-bold"

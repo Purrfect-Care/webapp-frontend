@@ -1,5 +1,6 @@
-import dayjs from "dayjs";
+// Import the useState hook from React
 import React, { useContext, useEffect, useState } from "react";
+import dayjs from "dayjs";
 import GlobalContext from "../../context/GlobalContext";
 import TimeSlot from "./TimeSlot";
 import VisitWeekTag from "./VisitWeekTag";
@@ -13,6 +14,7 @@ const DayWeek = ({ day, rowIdx }) => {
     monthSelected,
   } = useContext(GlobalContext);
   const [dayEvents, setDayEvents] = useState([]);
+  const [selectedTime, setSelectedTime] = useState(null); // Add state to track selected time
 
   useEffect(() => {
     const events = filteredEvents.filter(
@@ -28,7 +30,7 @@ const DayWeek = ({ day, rowIdx }) => {
       <TimeSlot
         key={i}
         time={`${i}:00 - ${i}:30`}
-        onClick={() => console.log("Time slot clicked")}
+        onClick={() => handleTimeSlotClick(`${i}:00`)}
         marginbottom={"mb-0"}
         cursor={"cursor-pointer"}
         height={'h-12'}
@@ -36,7 +38,7 @@ const DayWeek = ({ day, rowIdx }) => {
       <TimeSlot
         key={i + 0.5}
         time={`${i}:30 - ${i + 1}:00`}
-        onClick={() => console.log("Time slot clicked")}
+        onClick={() => handleTimeSlotClick(`${i}:30`)}
         marginbottom={"mb-0"}
         cursor={"cursor-pointer"}
         height={'h-12'}
@@ -52,6 +54,14 @@ const DayWeek = ({ day, rowIdx }) => {
       height={'h-4'}
     />
   );
+
+  function handleTimeSlotClick(startTime) {
+    setSelectedTime(startTime); // Set the selected time
+    setDaySelected(day);
+    setShowEventModal(true);
+    // You can also perform other actions related to the selected time here
+    console.log("Time slot clicked:", startTime);
+  }
 
   function getCurrentDayClass() {
     return day.format("DD-MM-YY") === dayjs().format("DD-MM-YY")
