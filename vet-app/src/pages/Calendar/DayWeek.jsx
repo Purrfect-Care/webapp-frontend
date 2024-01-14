@@ -33,7 +33,7 @@ const DayWeek = ({ day, rowIdx }) => {
         onClick={() => handleTimeSlotClick(`${i}:00`)}
         marginbottom={"mb-0"}
         cursor={"cursor-pointer"}
-        height={'h-12'}
+        height={'h-28'}
       />,
       <TimeSlot
         key={i + 0.5}
@@ -41,7 +41,7 @@ const DayWeek = ({ day, rowIdx }) => {
         onClick={() => handleTimeSlotClick(`${i}:30`)}
         marginbottom={"mb-0"}
         cursor={"cursor-pointer"}
-        height={'h-12'}
+        height={'h-28'}
       />
     );
   }
@@ -93,7 +93,7 @@ const DayWeek = ({ day, rowIdx }) => {
           <div className="border-t border-customGreen w-full border-4"></div>
         </header>
 
-        <div className="mt-8 relative" style={{ zIndex: 5 }}>
+        <div className="mt-14 relative" style={{ zIndex: 5 }}>
           {/* Middle layer: VisitWeekTag */}
           <div className="absolute top-0 left-0 right-0">
             <VisitWeekTag day={day} />

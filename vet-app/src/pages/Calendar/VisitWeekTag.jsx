@@ -55,13 +55,13 @@ const VisitWeekTag = ({ day }) => {
   const calculateTimeSlotIndex = (visitTime) => {
     const startTime = dayjs("8:00 AM", "h:mm A");
     const visitStartTime = dayjs(visitTime, "h:mm A");
-
+  
     const minutesDiff = visitStartTime.diff(startTime, "minutes");
     const timeSlotIndex = Math.floor(minutesDiff / 30);
-
-    return timeSlotIndex;
+    const remainingMinutes = minutesDiff % 30;
+  
+    return { timeSlotIndex, remainingMinutes };
   };
-
   const calculateVisitHeight = (duration) => {
     console.log("Visit Duration:", duration);
   
@@ -77,30 +77,31 @@ const VisitWeekTag = ({ day }) => {
     }
   
     // Assuming each time slot has a height of 48px
-    const slotHeight = 48;
-    const wholeSlots = Math.floor(durationInMinutes / 30);
-
-  // Calculate the number of half slots for any remaining time
-  const halfSlots = durationInMinutes % 30 !== 0 ? 0.5 : 0;
-
-  const visitHeight = (wholeSlots + halfSlots) * slotHeight;
-
-  console.log("Calculated Height:", visitHeight);
-
-  return visitHeight;
+    const slotHeight = 112;
+    const timeSlots = durationInMinutes / 30;
+  
+    const visitHeight = timeSlots * slotHeight;
+  
+    console.log("Calculated Height:", visitHeight);
+  
+    return visitHeight;
   };
   
   
 
   return (
-    <div style={{ width: "80%" }}>
+    <div style={{ width: "100%" }}>
       {dayEvents.map((evt, idx) => {
-        const timeSlotIndex = calculateTimeSlotIndex(
+        const { timeSlotIndex, remainingMinutes } = calculateTimeSlotIndex(
           dayjs(evt.visit_datetime).format("h:mm A")
         );
-
+  
         const visitHeight = calculateVisitHeight(evt.visit_duration);
-
+  
+        const adjustedTop = `${
+          timeSlotIndex * 112 + (remainingMinutes / 30) * 112
+        }px`;
+  
         return (
           <div
             key={idx}
@@ -116,7 +117,7 @@ const VisitWeekTag = ({ day }) => {
             }`}
             style={{
               position: "absolute",
-              top: `${timeSlotIndex * 48}px`, // Adjust the value as needed
+              top: adjustedTop,
               left: 0,
               width: "85%", // Adjust the value as needed
               height: `${visitHeight}px`, // Adjust the value as needed
@@ -137,7 +138,7 @@ const VisitWeekTag = ({ day }) => {
             >
               {evt.visits_visit_type.visit_type_name}
             </div>
-            <span style={{ marginRight: "15px", marginLeft: "6px" }}>
+            <span style={{ marginRight: "10px", }}>
               {addTimes(formatToTime(evt.visit_datetime), evt.visit_duration)}
             </span>
             <span>
@@ -150,6 +151,6 @@ const VisitWeekTag = ({ day }) => {
       })}
     </div>
   );
-};
+    };
 
 export default VisitWeekTag;

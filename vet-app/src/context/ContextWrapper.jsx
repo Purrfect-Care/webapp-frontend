@@ -175,6 +175,7 @@ export default function ContextWrapper(props) {
   useEffect(() => {
     if (smallCalendarMonth !== null) {
       setMonthIndex(smallCalendarMonth);
+      
     }
   }, [smallCalendarMonth]);
 

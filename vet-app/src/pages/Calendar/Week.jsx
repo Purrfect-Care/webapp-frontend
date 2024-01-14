@@ -47,7 +47,7 @@ const Week = ({ month }) => {
             <div className="border-t border-customGreen w-full border-4"></div>
           </header>
 
-          <div className="flex-1 grid grid-rows-14 select-none mt-2">
+          <div className="flex-1 grid grid-rows-14 select-none">
             {timeLabels}
           </div>
         </div>

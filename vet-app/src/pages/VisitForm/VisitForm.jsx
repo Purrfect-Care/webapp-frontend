@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { patientRequest, allPatientsRequest } from '../../api/patientsRequests';
-import { visitTypeRequest } from '../../api/visitTypeRequest'
-import { visitSubtypeRequest } from '../../api/visitSubtypeRequest'
-import { employeeRequest, employeesByRole } from '../../api/employeesRequest';
-import './VisitForm.css';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';  // Import the utc plugin
-import timezone from 'dayjs/plugin/timezone';
+import React, { useState, useEffect } from "react";
+import { patientRequest, allPatientsRequest } from "../../api/patientsRequests";
+import { visitTypeRequest } from "../../api/visitTypeRequest";
+import { visitSubtypeRequest } from "../../api/visitSubtypeRequest";
+import { employeeRequest, employeesByRole } from "../../api/employeesRequest";
+import "./VisitForm.css";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import dayjs from "dayjs";
+import utc from "dayjs/plugin/utc"; // Import the utc plugin
+import timezone from "dayjs/plugin/timezone";
 import { FaPen, FaTrash, FaPlus } from "react-icons/fa";
 import {
   getPhotosByVisitId,
@@ -22,8 +22,7 @@ import PhotoAddPopup from "../../components/addVisitPhoto/addVisitPhoto";
 import PhotoEditPopup from "../../components/updatePhoto/updatePhoto";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import { jwtDecode } from 'jwt-decode';
-
+import { jwtDecode } from "jwt-decode";
 
 const VisitForm = ({
   onClose,
@@ -32,21 +31,20 @@ const VisitForm = ({
   onSubmit,
   editOnly = false,
 }) => {
-  const authToken = localStorage.getItem('authToken');
+  const authToken = localStorage.getItem("authToken");
   const employeeDataFormValues = jwtDecode(authToken);
   const [formValues, setFormValues] = useState({
-    visit_datetime: '',
-    visit_duration: '',
-    visit_status: '',
-    visit_description: '',
-    patient_weight: '',
-    patient_height: '',
-    visits_patient_id: '',
-    visits_visit_type_id: '',
-    visits_visit_subtype_id: '',
+    visit_datetime: "",
+    visit_duration: "",
+    visit_status: "",
+    visit_description: "",
+    patient_weight: "",
+    patient_height: "",
+    visits_patient_id: "",
+    visits_visit_type_id: "",
+    visits_visit_subtype_id: "",
     visits_employee_id: " ",
-    visits_clinic_id: employeeDataFormValues.employees_clinic_id
-    .toString(),
+    visits_clinic_id: employeeDataFormValues.employees_clinic_id.toString(),
   });
   const [allTypes, setAllTypes] = useState([]);
   const [allPatients, setAllPatients] = useState([]);
@@ -83,7 +81,7 @@ const VisitForm = ({
 
   useEffect(() => {
     // Fetch employee data from local storage
-    const authToken = localStorage.getItem('authToken');
+    const authToken = localStorage.getItem("authToken");
     const storedEmployeeData = jwtDecode(authToken);
     if (storedEmployeeData) {
       setEmployeeData(storedEmployeeData);
@@ -138,7 +136,7 @@ const VisitForm = ({
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const authToken = localStorage.getItem('authToken');
+        const authToken = localStorage.getItem("authToken");
         const employeeData = jwtDecode(authToken);
         const [visitTypes, visitSubtypes, patients, employeeJSON, vetsData] =
           await Promise.all([
@@ -178,8 +176,10 @@ const VisitForm = ({
   });
 
   const sortedEmployees = vets.slice().sort((a, b) => {
-    const nameA = a.employee_first_name.toLowerCase() + a.employee_last_name.toLowerCase();
-    const nameB = a.employee_first_name.toLowerCase() + a.employee_last_name.toLowerCase();
+    const nameA =
+      a.employee_first_name.toLowerCase() + a.employee_last_name.toLowerCase();
+    const nameB =
+      a.employee_first_name.toLowerCase() + a.employee_last_name.toLowerCase();
     return nameA.localeCompare(nameB);
   });
 
@@ -257,22 +257,21 @@ const VisitForm = ({
       setErrorMessage("Wypełnij wszystkie wymagane pola.");
       return;
     }
-  
-    console.log('Form submitted!');
-    try {
-        await onSubmit({ ...formValues, photos });
-        console.log(formValues);
-        onClose();
-    } catch (error) {
-        // Handle the error returned by the server
-        if (error.message === "This vet already has a visit at this time.") {
-            setErrorMessage('This vet already has a visit at this time.');
-        } else {
-            setErrorMessage('An error occurred while creating the visit.');
-        }
-    }
-};
 
+    console.log("Form submitted!");
+    try {
+      await onSubmit({ ...formValues, photos });
+      console.log(formValues);
+      onClose();
+    } catch (error) {
+      // Handle the error returned by the server
+      if (error.message === "This vet already has a visit at this time.") {
+        setErrorMessage("This vet already has a visit at this time.");
+      } else {
+        setErrorMessage("An error occurred while creating the visit.");
+      }
+    }
+  };
 
   const handleFocusPatient = (e) => {
     setFocusedPatient(true);
@@ -426,7 +425,8 @@ const VisitForm = ({
           <form onSubmit={handleSubmit} className="form-sections-visit">
             <div className="form-section-visit">
               <h3>Weterynarz</h3>
-              {(employeeData?.employee_role === "Administrator" || employeeData?.employee_role === "SuperAdmin") ? (
+              {employeeData?.employee_role === "Administrator" ||
+              employeeData?.employee_role === "SuperAdmin" ? (
                 <label>
                   Imię i nazwisko
                   <select
@@ -446,7 +446,9 @@ const VisitForm = ({
                       </option>
                     ))}
                   </select>
-                  <span className="span-visitform">Należy wybrać weterynarza</span>
+                  <span className="span-visitform">
+                    Należy wybrać weterynarza
+                  </span>
                 </label>
               ) : (
                 <label>
@@ -484,7 +486,9 @@ const VisitForm = ({
                     <option value="">Wybierz pacjenta</option>
                     {sortedPatients.map((patient) => (
                       <option key={patient.id} value={patient.id}>
-                        {patient.patient_name} • {patient.patients_owner.owner_first_name} {patient.patients_owner.owner_last_name}
+                        {patient.patient_name} •{" "}
+                        {patient.patients_owner.owner_first_name}{" "}
+                        {patient.patients_owner.owner_last_name}
                       </option>
                     ))}
                   </select>
@@ -602,6 +606,8 @@ const VisitForm = ({
                             borderRadius: "10px",
                             border: "1px solid #000000",
                           }}
+                          minTime={dayjs().hour(8).minute(0).second(0)}
+                          maxTime={dayjs().hour(20).minute(0).second(0)}
                         />
                       </LocalizationProvider>
                     </div>
@@ -609,21 +615,27 @@ const VisitForm = ({
                   <label>
                     Czas trwania wizyty (wymagane)
                     <div>
-                      <input
+                      <select
                         className="input-visitform-duration"
-                        type="text"
                         name="visit_duration"
                         value={formValues.visit_duration}
                         onChange={handleChange}
                         required="true"
                         onBlur={handleFocusDuration}
                         focused={focusedDuration.toString()}
-                        pattern="^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
-                        maxLength="5"
-                      />
+                      >
+                        <option value="">Wybierz czas trwania</option>
+                        <option value="00:15">15 minut</option>
+                        <option value="00:30">30 minut</option>
+                        <option value="00:45">45 minut</option>
+                        <option value="01:00">1 godzina</option>
+                        <option value="01:15">1 godzina 15 minut</option>
+                        <option value="01:30">1 godzina 30 minut</option>
+                        <option value="01:45">1 godzina 45 minut</option>
+                        <option value="02:00">2 godziny</option>
+                      </select>
                       <span className="span-visitform">
-                        Należy wypełnić czas trwania wizyty (poprawny format to
-                        HH:mm)
+                        Należy wypełnić czas trwania wizyty
                       </span>
                     </div>
                   </label>
