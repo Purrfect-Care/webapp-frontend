@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 import React, { useContext, useEffect, useState } from "react";
 import GlobalContext from "../../context/GlobalContext";
 import TimeSlot from "./TimeSlot";
+import VisitWeekTag from "./VisitWeekTag";
 
 const DayWeek = ({ day, rowIdx }) => {
   const {
@@ -28,15 +29,29 @@ const DayWeek = ({ day, rowIdx }) => {
         key={i}
         time={`${i}:00 - ${i}:30`}
         onClick={() => console.log("Time slot clicked")}
+        marginbottom={"mb-0"}
+        cursor={"cursor-pointer"}
+        height={'h-12'}
       />,
       <TimeSlot
         key={i + 0.5}
         time={`${i}:30 - ${i + 1}:00`}
         onClick={() => console.log("Time slot clicked")}
+        marginbottom={"mb-0"}
+        cursor={"cursor-pointer"}
+        height={'h-12'}
       />
     );
   }
-  timeSlots.push(<TimeSlot key={20} time={`20:00`} />);
+  timeSlots.push(
+    <TimeSlot
+      key={20}
+      time={`20:00`}
+      marginbottom={"mb-4"}
+      cursor={"select-none"}
+      height={'h-4'}
+    />
+  );
 
   function getCurrentDayClass() {
     return day.format("DD-MM-YY") === dayjs().format("DD-MM-YY")
@@ -53,7 +68,10 @@ const DayWeek = ({ day, rowIdx }) => {
           setShowEventModal(true);
         }}
       >
-        <header className="flex flex-col items-center sticky top-0 bg-myGreen h-16">
+        <header
+          className="flex flex-col items-center bg-myGreen h-16 sticky top-0"
+          style={{ zIndex: 10 }}
+        >
           <p className="text-sm mt-1 select-none">
             {day.format("ddd").toUpperCase()}
           </p>
@@ -64,12 +82,15 @@ const DayWeek = ({ day, rowIdx }) => {
           </p>
           <div className="border-t border-customGreen w-full border-4"></div>
         </header>
-  
-        <div className="mt-8">
+
+        <div className="mt-8 relative" style={{ zIndex: 5 }}>
+          {/* Middle layer: VisitWeekTag */}
+          <div className="absolute top-0 left-0 right-0">
+            <VisitWeekTag day={day} />
+          </div>
+
+          {/* Bottom layer: Time Slots */}
           {timeSlots}
-          {dayEvents.map((event, index) => (
-            <div key={index}>{event.title}</div>
-          ))}
         </div>
       </div>
     </>
