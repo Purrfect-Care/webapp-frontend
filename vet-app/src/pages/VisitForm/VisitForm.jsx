@@ -169,7 +169,7 @@ const VisitForm = ({
     };
 
     fetchData();
-  }, []);
+  }, [initialValues]);
 
   const sortedPatients = allPatients.slice().sort((a, b) => {
     const nameA = a.patient_name.toLowerCase();
