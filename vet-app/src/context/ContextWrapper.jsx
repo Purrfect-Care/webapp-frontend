@@ -27,7 +27,7 @@ export default function ContextWrapper(props) {
   const [selectAll, setSelectAll] = useState(false);
   const [monthSelected, setMonthSelected] = useState(true);
   const [weekIndex, setWeekIndex] = useState(dayjs().week());
-  const [selectedVet, setSelectedVet] = useState(0);
+  const [selectedVet, setSelectedVet] = useState(null);
 
   const filteredEvents = useMemo(() => {
     return events.filter((evt) =>
@@ -48,11 +48,13 @@ export default function ContextWrapper(props) {
     try {
       let authToken = localStorage.getItem('authToken');
 
-      // Check if authToken is empty, create a mock token if necessary
       if (!authToken) {
-        const mockTokenValue = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1wbG95ZWVfcm9sZSI6IldldGVyeW5hcnoiLCJlbXBsb3llZV9maXJzdF9uYW1lIjoiS29uc3RhbnR5IiwiZW1wbG95ZWVfbGFzdF9uYW1lIjoiTWFydXN6Y3p5ayIsImVtcGxveWVlc19jbGluaWNfaWQiOjIsImV4cCI6MTcwNDU3NzQ1MC40NzI3NzN9.1z6ODJLIpxqaIKFxYR7xFAyQCiuDryrIbzDARQUauCU";
-        authToken = mockTokenValue;
+        // Handle the case where the token is missing
+        console.error('No authToken found.');
+        setIsLoggedIn(false); // Set isLoggedIn to false
+        return;
       }
+
       const employeeData = jwtDecode(authToken);
       if (employeeData) {
         // Check if employeeData exists
@@ -68,6 +70,8 @@ export default function ContextWrapper(props) {
         }
         
         else {
+          console.log("Employee data found heeeeeeeeeeere");
+          console.log(employeeData.id.toString());
           const eventsData = await visitsByEmployeeIdRequest(
             employeeData.id.toString()
           );
@@ -121,6 +125,7 @@ export default function ContextWrapper(props) {
       console.error("Error fetching events from the server:", error);
     }
   };
+
   useEffect(() => {
     setLabels((prevLabels) => {
       return [...new Set(events.map((evt) => evt.visit_status))].map(
@@ -139,20 +144,13 @@ export default function ContextWrapper(props) {
         return acc;
       }, {});
       const uniqueVets = Object.values(uniqueVetsMap);
-
-      // Check if there are vets and if selectedVet is not already set
+  
+      // If there are vets and selectedVet is still null
       if (uniqueVets.length > 0 && selectedVet === null) {
         const firstVet = uniqueVets[0];
         setSelectedVet(firstVet.id); // Set the selectedVet to the ID of the first vet
-        return uniqueVets.map((vet) => ({
-          id: vet.id,
-          firstName: vet.employee_first_name,
-          lastName: vet.employee_last_name,
-          checked: vet.id === firstVet.id, // Check the first vet initially
-        }));
       }
-
-      // If selectedVet is already set or there are no vets
+  
       return uniqueVets.map((selectedVet) => {
         const currentVet = prevVets.find((vet) => vet.id === selectedVet.id);
         return {
@@ -164,7 +162,8 @@ export default function ContextWrapper(props) {
       });
     });
   }, [events, selectedVet]);
-
+  
+  
 
   useEffect(() => {
     if (!showEventModal) {

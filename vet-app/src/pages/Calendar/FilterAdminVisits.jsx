@@ -1,8 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import GlobalContext from "../../context/GlobalContext";
 
 const FilterAdminVisits = () => {
   const { vets, setVets, selectedVet, setSelectedVet } = useContext(GlobalContext);
+
 
   const handleDropdownChange = (event) => {
     const selectedVetId = parseInt(event.target.value);
@@ -23,7 +24,6 @@ const FilterAdminVisits = () => {
           onChange={handleDropdownChange}
           className={`form-select border-gray-300 w-full mt-1 rounded`}
         >
-          <option value="" disabled>Wybierz weterynarza</option>
           {vets.map(({ id, firstName, lastName }, idx) => (
             <option key={idx} value={id}>
               {firstName} {lastName}

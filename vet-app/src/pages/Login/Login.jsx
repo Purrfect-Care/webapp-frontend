@@ -100,7 +100,7 @@ const Login = () => {
         console.log(isLoggedIn);
 
         // Store employee data in local storage
-        localStorage.setItem("employeeData", JSON.stringify(data.employee));
+   
         localStorage.setItem("authToken", data.token);
         localStorage.setItem(
           "authTokenExpiration",
