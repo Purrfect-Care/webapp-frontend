@@ -8,6 +8,7 @@ import {
   visitsByEmployeeIdRequest,
   visitsByEmployeeClinicIdRequest,
 } from "../api/visitsRequest";
+import { employeesByRole } from "../api/employeesRequest";
 
 export default function ContextWrapper(props) {
   dayjs.extend(weekOfYear);
@@ -30,21 +31,8 @@ export default function ContextWrapper(props) {
   const [selectedVet, setSelectedVet] = useState(null);
 
   const filteredEvents = useMemo(() => {
-    return events.filter((evt) =>
-      labels
-        .filter((lbl) => lbl.checked)
-        .map((lbl) => lbl.label)
-        .includes(evt.visit_status) &&
-      vets
-        .filter((vet) => vet.checked)
-        .map((vet) => vet.id)
-        .includes(evt.visits_employee.id)
-    );
-  }, [events, labels, vets]);
+    let isVet = false;
 
-
-
-  async function fetchEvents() {
     try {
       let authToken = localStorage.getItem('authToken');
 
@@ -56,25 +44,59 @@ export default function ContextWrapper(props) {
       }
 
       const employeeData = jwtDecode(authToken);
+      if (employeeData.employee_role.toString() === "Weterynarz") { 
+        isVet = true;
+      }
+    }
+    catch (error) {
+      console.error("Error fetching employee data from the server:", error);
+    }
+
+    if(!isVet){
+      return events.filter((evt) =>
+      labels
+        .filter((lbl) => lbl.checked)
+        .map((lbl) => lbl.label)
+        .includes(evt.visit_status) &&
+      vets
+        .filter((vet) => vet.checked)
+        .map((vet) => vet.id)
+        .includes(evt.visits_employee.id)
+      );
+    }
+    else {
+      return events.filter((evt) =>
+      labels
+        .filter((lbl) => lbl.checked)
+        .map((lbl) => lbl.label)
+        .includes(evt.visit_status)
+      )
+    }
+  }, [events, labels, vets]);
+
+  async function fetchEvents() {
+    try {
+      let authToken = localStorage.getItem('authToken');
+
+      if (!authToken) {
+        // Handle the case where the token is missing
+        console.error('No authToken found.');
+        setIsLoggedIn(false); // Set isLoggedIn to false
+        return;
+      }
+      const employeeData = jwtDecode(authToken);
       if (employeeData) {
         // Check if employeeData exists
         setIsLoggedIn(true); // Set isLoggedIn to true
         if (employeeData.employee_role.toString() === "Administrator" || employeeData.employee_role.toString() === "SuperAdmin" ) {
-          if (employeeData.employees_clinic_id.toString() != ""){
-
-            const eventsData = await visitsByEmployeeClinicIdRequest(
-              employeeData.employees_clinic_id.toString()
-            );
-            setEvents(eventsData);
-          }
-        }
-        
+          const eventsData = await visitsByEmployeeIdRequest(selectedVet);
+          console.log("selectedVet", selectedVet);
+          console.log("eventsData", eventsData);
+          
+          setEvents(eventsData);
+        }          
         else {
-          console.log("Employee data found heeeeeeeeeeere");
-          console.log(employeeData.id.toString());
-          const eventsData = await visitsByEmployeeIdRequest(
-            employeeData.id.toString()
-          );
+          const eventsData = await visitsByEmployeeIdRequest(employeeData.id);
           setEvents(eventsData);
         }
       } else {
@@ -84,9 +106,14 @@ export default function ContextWrapper(props) {
     } catch (error) {
       console.error("Error fetching events from the server:", error);
     }
-  }
+  } 
 
-  useEffect(() => { fetchEvents(); }, []);
+  useEffect(() => {
+    console.log("selectedVet", selectedVet);
+    if (selectedVet) {      
+      fetchEvents(selectedVet);
+    }
+  }, [selectedVet]);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -108,17 +135,12 @@ export default function ContextWrapper(props) {
         console.error('Error decoding token:', error.message);
         return <Navigate to="/login" replace />;
       }
-      if (employeeData.employee_role.toString() === "Administrator" || employeeData.employee_role.toString() === "SuperAdmin") {
-        if (employeeData.employees_clinic_id.toString() != ""){
-          const eventsData = await visitsByEmployeeClinicIdRequest(
-            employeeData.employees_clinic_id.toString()
-          );
-          setEvents(eventsData);
-        }
-      } else {
-        const eventsData = await visitsByEmployeeIdRequest(
-          employeeData.id.toString()
-        );
+      if (employeeData.employee_role.toString() === "Administrator" || employeeData.employee_role.toString() === "SuperAdmin" ) {
+        const eventsData = await visitsByEmployeeIdRequest(selectedVet);
+        setEvents(eventsData);
+      }          
+      else {
+        const eventsData = await visitsByEmployeeIdRequest(employeeData.id);
         setEvents(eventsData);
       }
     } catch (error) {
@@ -138,29 +160,45 @@ export default function ContextWrapper(props) {
   }, [events]);
 
   useEffect(() => {
-    setVets((prevVets) => {
-      const uniqueVetsMap = events.reduce((acc, evt) => {
-        acc[evt.visits_employee.id] = evt.visits_employee;
-        return acc;
-      }, {});
-      const uniqueVets = Object.values(uniqueVetsMap);
+    async function fetchVets() {
+      try {
+        let authToken = localStorage.getItem('authToken');
   
-      // If there are vets and selectedVet is still null
-      if (uniqueVets.length > 0 && selectedVet === null) {
-        const firstVet = uniqueVets[0];
-        setSelectedVet(firstVet.id); // Set the selectedVet to the ID of the first vet
+        if (!authToken) {
+          // Handle the case where the token is missing
+          console.error('No authToken found.');
+          setIsLoggedIn(false); // Set isLoggedIn to false
+          return;
+        }
+  
+        const employeeData = jwtDecode(authToken);
+        if (employeeData) {
+          const uniqueVetsMap = await employeesByRole("Weterynarz", employeeData.employees_clinic_id);
+          setVets((prevVets) => {
+            const uniqueVets = Object.values(uniqueVetsMap);
+            // If there are vets and selectedVet is still null
+            if (uniqueVets.length > 0 && selectedVet === null) {
+              const firstVet = uniqueVets[0];
+              setSelectedVet(firstVet.id); // Set the selectedVet to the ID of the first vet
+            }
+        
+            return uniqueVets.map((selectedVet) => {
+              const currentVet = prevVets.find((vet) => vet.id === selectedVet.id);
+              return {
+                id: selectedVet.id,
+                firstName: selectedVet.employee_first_name,
+                lastName: selectedVet.employee_last_name,
+                checked: currentVet ? currentVet.checked : false,
+              };
+            });
+          });
+        }
       }
-  
-      return uniqueVets.map((selectedVet) => {
-        const currentVet = prevVets.find((vet) => vet.id === selectedVet.id);
-        return {
-          id: selectedVet.id,
-          firstName: selectedVet.employee_first_name,
-          lastName: selectedVet.employee_last_name,
-          checked: currentVet ? currentVet.checked : false,
-        };
-      });
-    });
+      catch (error) {
+        console.error("Error fetching employees from the server:", error);
+      }
+    }
+    fetchVets();
   }, [events, selectedVet]);
   
   

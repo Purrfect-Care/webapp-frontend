@@ -13,11 +13,13 @@ const Day = ({ day, rowIdx }) => {
   const [dayEvents, setDayEvents] = useState([]);
 
   useEffect(() => {
-    const events = filteredEvents.filter(
-      (evt) =>
-        dayjs(evt.visit_datetime).format("DD-MM-YY") === day.format("DD-MM-YY")
-    );
-    setDayEvents(events);
+    if (filteredEvents) {
+      const events = filteredEvents.filter(
+        (evt) =>
+          dayjs(evt.visit_datetime).format("DD-MM-YY") === day.format("DD-MM-YY")
+      );
+      setDayEvents(events);
+    }    
   }, [filteredEvents, day]);
 
   function formatToTime(date) {
