@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import GlobalContext from "../../context/GlobalContext";
 import VisitForm from "../../pages/VisitForm/VisitForm";
 import ViewVisit from "../../pages/VisitForm/ViewVisit";
@@ -6,16 +6,16 @@ import {
   createVisitRequest,
   updateVisitRequest,
   deleteVisitRequest,
+  visitRequest
 } from "../../api/visitsRequest";
 import {
   createPhotoRequest,
-  updatePhotoRequest,
 } from "../../api/photosRequests";
 import ConfirmationPopup from "../../components/ConifrmationPopup/ConfirmationPopup";
 import { jwtDecode } from "jwt-decode";
 
 function EventModal({ snackbar }) {
-  const { setShowEventModal, selectedEvent, daySelected, updateEvent } =
+  const { setShowEventModal, selectedEvent, setSelectedEvent, daySelected, updateEvent } =
     useContext(GlobalContext);
   const [isFormForEdit, setIsFormForEdit] = useState(
     selectedEvent ? false : true
@@ -23,6 +23,16 @@ function EventModal({ snackbar }) {
   const [isFormVisible, setIsFormVisible] = useState(true);
   const [visitToDelete, setVisitToDelete] = useState(null);
   const [showConfirmation, setShowConfirmation] = useState(false);
+
+  useEffect(() => {
+    async function fetchData() {
+      if (selectedEvent && !selectedEvent.visits_patient) {
+        const visitData = await visitRequest(selectedEvent.id);
+        setSelectedEvent(visitData);
+      }
+    }
+    fetchData();
+  }, [selectedEvent, setSelectedEvent]);
 
   const closeForm = () => {
     setIsFormVisible(false);

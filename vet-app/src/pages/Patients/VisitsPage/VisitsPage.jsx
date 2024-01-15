@@ -4,6 +4,7 @@ import {
   updateVisitRequest,
   deleteVisitRequest,
   createVisitRequest,
+  visitRequest,
 } from "../../../api/visitsRequest";
 import { createPhotoRequest } from "../../../api/photosRequests";
 import "./VisitsPage.css";
@@ -47,6 +48,16 @@ const VisitsPage = ({ patient }) => {
       fetchVisits();
     }
   }, [patient]);
+
+  useEffect(() => {
+    async function fetchData() {
+      if (selectedVisit && !selectedVisit.visits_patient) {
+        const visitData = await visitRequest(selectedVisit.id);
+        setSelectedVisit(visitData);
+      }      
+    }
+    fetchData();
+  }, [selectedVisit, setSelectedVisit]);
 
   const sortColumn = (column) => {
     if (sortBy.column === column) {
