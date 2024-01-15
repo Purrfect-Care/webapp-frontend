@@ -51,8 +51,11 @@ export default function ContextWrapper(props) {
     catch (error) {
       console.error("Error fetching employee data from the server:", error);
     }
-
+     
     if(!isVet){
+      console.log('Events:', events);
+  console.log('Labels:', labels);
+  console.log('Vets:', vets);
       return events.filter((evt) =>
       labels
         .filter((lbl) => lbl.checked)
@@ -62,7 +65,10 @@ export default function ContextWrapper(props) {
         .filter((vet) => vet.checked)
         .map((vet) => vet.id)
         .includes(evt.visits_employee.id)
+
+        
       );
+      
     }
     else {
       return events.filter((evt) =>
@@ -181,17 +187,19 @@ export default function ContextWrapper(props) {
               const firstVet = uniqueVets[0];
               setSelectedVet(firstVet.id); // Set the selectedVet to the ID of the first vet
             }
-        
-            return uniqueVets.map((selectedVet) => {
-              const currentVet = prevVets.find((vet) => vet.id === selectedVet.id);
+          
+            return uniqueVets.map((vet) => {
+              const currentVet = prevVets.find((prevVet) => prevVet.id === vet.id);
               return {
-                id: selectedVet.id,
-                firstName: selectedVet.employee_first_name,
-                lastName: selectedVet.employee_last_name,
-                checked: currentVet ? currentVet.checked : false,
+                id: vet.id,
+                firstName: vet.employee_first_name,
+                lastName: vet.employee_last_name,
+                // Set checked to true only for the vet whose id matches selectedVet
+                checked: vet.id === selectedVet ? true : currentVet ? currentVet.checked : false,
               };
             });
           });
+          
         }
       }
       catch (error) {

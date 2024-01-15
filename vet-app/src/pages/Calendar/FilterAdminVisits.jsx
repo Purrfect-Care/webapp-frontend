@@ -1,9 +1,8 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import GlobalContext from "../../context/GlobalContext";
 
 const FilterAdminVisits = () => {
   const { vets, setVets, selectedVet, setSelectedVet } = useContext(GlobalContext);
-
 
   const handleDropdownChange = (event) => {
     const selectedVetId = parseInt(event.target.value);
@@ -20,7 +19,7 @@ const FilterAdminVisits = () => {
       <label className="mt-6 block">
         <span className={`text-gray-500 font-bold mt-10 px-2 py-1 rounded`}>Wybierz weterynarza:</span>
         <select
-          value={selectedVet || ""}
+          value={selectedVet || ""}  
           onChange={handleDropdownChange}
           className={`form-select border-gray-300 w-full mt-1 rounded`}
         >
