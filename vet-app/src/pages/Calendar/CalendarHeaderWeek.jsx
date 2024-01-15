@@ -16,6 +16,7 @@ const CalendarHeaderWeek = () => {
     setShowCalendarSidebar,
     monthSelected,
     setMonthSelected,
+    setDaySelected,
   } = useContext(GlobalContext);
 
   // Get the current month and week
@@ -67,14 +68,10 @@ const CalendarHeaderWeek = () => {
 
 
   function handleReset() {
-    const now = dayjs();
-    const currentMonth = now.month();
-    const currentWeek = now.week() - 1;
-  
-    setMonthIndex(currentMonth);
-    setWeekIndex(currentWeek);
+
+    setMonthIndex(monthIndex === dayjs().month() ? monthIndex + Math.random() : dayjs().month());
+    setDaySelected(dayjs());
   }
-  
   
 
   dayjs.locale("pl");

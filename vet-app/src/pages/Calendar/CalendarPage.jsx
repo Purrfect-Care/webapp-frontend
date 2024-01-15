@@ -20,6 +20,7 @@ const CalendarPage = () => {
     setComesFromLogin,
     showCalendarSidebar,
     monthSelected,
+    selectedDay,
   } = useContext(GlobalContext);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
@@ -61,7 +62,7 @@ const CalendarPage = () => {
             {!monthSelected && <CalendarSidebar />}
 
             {monthSelected && <Month month={currentMonth} />}
-            {!monthSelected && <Week month={currentMonth} />}
+            {!monthSelected && <Week month={currentMonth} day={selectedDay} />}
           </div>
         </div>
       </React.Fragment>

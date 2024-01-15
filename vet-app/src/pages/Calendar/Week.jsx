@@ -1,16 +1,22 @@
-// Week.js
 import React from "react";
 import DayWeek from "./DayWeek";
 import TimeLabel from "./TimeLabel";
 import { useContext } from "react";
 import GlobalContext from "../../context/GlobalContext";
 
-const Week = ({ month }) => {
-  const { weekIndex } = useContext(GlobalContext);
+
+const Week = ({ month}) => {
+  const { daySelected } = useContext(GlobalContext);
 
   if (!month || month.length === 0) {
     return null; // Or some loading state
   }
+
+  // Find the week that contains the selected day
+  const weekIndex = month.findIndex((week) =>
+    week.some((day) => day.isSame(daySelected, 'day'))
+  );
+
   const week = month[weekIndex];
   if (!week) {
     console.log("week is undefined");
@@ -19,22 +25,13 @@ const Week = ({ month }) => {
 
   const timeLabels = [];
   for (let i = 8; i < 20; i++) {
-
     timeLabels.push(
-      <TimeLabel
-        key={i}
-        time={`${i}:00`}
-        marginbottom={"mb-0"}
-      />,
-      <TimeLabel key={i + 0.5} time={`${i}:30`} marginbottom={"mb-0"}/>
+      <TimeLabel key={i} time={`${i}:00`} marginbottom={"mb-0"} />,
+      <TimeLabel key={i + 0.5} time={`${i}:30`} marginbottom={"mb-0"} />
     );
   }
   timeLabels.push(
-    <TimeLabel
-      key={20}
-      time={`20:00`}
-      marginbottom={"mb-4"}
-    />
+    <TimeLabel key={20} time={`20:00`} marginbottom={"mb-4"} />
   );
 
   return (
@@ -46,7 +43,6 @@ const Week = ({ month }) => {
             <p className={`text-sm p-1 my-1 text-center select-none`}>Wizyt</p>
             <div className="border-t border-customGreen w-full border-4"></div>
           </header>
-
           <div className="flex-1 grid grid-rows-14 select-none">
             {timeLabels}
           </div>

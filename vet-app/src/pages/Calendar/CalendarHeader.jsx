@@ -6,7 +6,7 @@ import 'dayjs/locale/pl';
 import { BsWindowSidebar } from "react-icons/bs";
 
 const CalendarHeader = () => {
-  const { monthIndex, setMonthIndex, showCalendarSidebar, setShowCalendarSidebar, monthSelected, setMonthSelected} = useContext(GlobalContext);
+  const { monthIndex, setDaySelected, setMonthIndex, showCalendarSidebar, setShowCalendarSidebar, monthSelected, setMonthSelected} = useContext(GlobalContext);
 
   function handlePrevMonth() {
     setMonthIndex(monthIndex - 1);
@@ -19,6 +19,7 @@ const CalendarHeader = () => {
 
   function handleReset() {
     setMonthIndex(monthIndex === dayjs().month() ? monthIndex + Math.random() : dayjs().month());
+    setDaySelected(dayjs());
   }
 
   dayjs.locale('pl');
