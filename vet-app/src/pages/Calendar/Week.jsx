@@ -1,4 +1,3 @@
-// Week.js
 import React from "react";
 import DayWeek from "./DayWeek";
 import TimeLabel from "./TimeLabel";
@@ -24,22 +23,13 @@ const Week = ({ month }) => {
 
   const timeLabels = [];
   for (let i = 8; i < 20; i++) {
-
     timeLabels.push(
-      <TimeLabel
-        key={i}
-        time={`${i}:00`}
-        marginbottom={"mb-0"}
-      />,
-      <TimeLabel key={i + 0.5} time={`${i}:30`} marginbottom={"mb-0"}/>
+      <TimeLabel key={i} time={`${i}:00`} marginbottom={"mb-0"} />,
+      <TimeLabel key={i + 0.5} time={`${i}:30`} marginbottom={"mb-0"} />
     );
   }
   timeLabels.push(
-    <TimeLabel
-      key={20}
-      time={`20:00`}
-      marginbottom={"mb-4"}
-    />
+    <TimeLabel key={20} time={`20:00`} marginbottom={"mb-4"} />
   );
 
   return (
@@ -51,7 +41,6 @@ const Week = ({ month }) => {
             <p className={`text-sm p-1 my-1 text-center select-none`}>Wizyt</p>
             <div className="border-t border-customGreen w-full border-4"></div>
           </header>
-
           <div className="flex-1 grid grid-rows-14 select-none">
             {timeLabels}
           </div>

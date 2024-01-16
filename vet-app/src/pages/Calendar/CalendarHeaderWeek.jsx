@@ -28,7 +28,6 @@ const CalendarHeaderWeek = () => {
     setDaySelected(dayjs());
   }
   
-  
 
   dayjs.locale("pl");
 
