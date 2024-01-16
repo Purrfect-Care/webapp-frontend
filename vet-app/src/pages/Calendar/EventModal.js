@@ -13,6 +13,7 @@ import {
 } from "../../api/photosRequests";
 import ConfirmationPopup from "../../components/ConifrmationPopup/ConfirmationPopup";
 import { jwtDecode } from "jwt-decode";
+import dayjs from "dayjs";
 
 function EventModal({ snackbar }) {
   const { setShowEventModal, selectedEvent, setSelectedEvent, daySelected, updateEvent } =
@@ -100,9 +101,13 @@ function EventModal({ snackbar }) {
   const authToken = localStorage.getItem('authToken');
   const employeeData = jwtDecode(authToken);
 
+  useEffect(() => {
+    console.log('daySelected', daySelected);
+  }, [daySelected]);
+
   const newEvent = {
     visit_datetime: daySelected,
-    visit_duration: '',
+    visit_duration: '00:30',
     visit_status: '',
     visit_description: '',
     patient_weight: '',

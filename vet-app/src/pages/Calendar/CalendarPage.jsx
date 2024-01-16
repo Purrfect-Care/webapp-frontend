@@ -20,6 +20,7 @@ const CalendarPage = () => {
     setComesFromLogin,
     showCalendarSidebar,
     monthSelected,
+    daySelected,
   } = useContext(GlobalContext);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
@@ -52,7 +53,7 @@ const CalendarPage = () => {
     <>
       <React.Fragment>
         {showEventModal && <EventModal snackbar={openSnackbar} />}
-        <Sidebar />
+        <Sidebar className='ml-8'/>
         <div className="h-screen flex flex-col shadow-inner ml-[-5px] mt-[8px] py-[12px] px-[24px] bg-white rounded-lg ">
           {monthSelected && <CalendarHeader />}
           {!monthSelected && <CalendarHeaderWeek />}
@@ -61,7 +62,7 @@ const CalendarPage = () => {
             {!monthSelected && <CalendarSidebar />}
 
             {monthSelected && <Month month={currentMonth} />}
-            {!monthSelected && <Week month={currentMonth} />}
+            {!monthSelected && <Week month={currentMonth} day={daySelected}/>}
           </div>
         </div>
       </React.Fragment>

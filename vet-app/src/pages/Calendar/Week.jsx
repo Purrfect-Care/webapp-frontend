@@ -6,11 +6,16 @@ import { useContext } from "react";
 import GlobalContext from "../../context/GlobalContext";
 
 const Week = ({ month }) => {
-  const { weekIndex } = useContext(GlobalContext);
+  const { daySelected } = useContext(GlobalContext);
 
   if (!month || month.length === 0) {
     return null; // Or some loading state
   }
+
+  const weekIndex = month.findIndex((week) =>
+  week.some((day) => day.isSame(daySelected, 'day'))
+);
+
   const week = month[weekIndex];
   if (!week) {
     console.log("week is undefined");

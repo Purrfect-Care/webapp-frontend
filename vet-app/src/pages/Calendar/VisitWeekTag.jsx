@@ -63,7 +63,7 @@ const VisitWeekTag = ({ day }) => {
     return { timeSlotIndex, remainingMinutes };
   };
   const calculateVisitHeight = (duration) => {
-    console.log("Visit Duration:", duration);
+
   
     // Parse the hours, minutes, and seconds from the duration
     const [hours, minutes, seconds] = duration.split(":").map(Number);
@@ -81,8 +81,7 @@ const VisitWeekTag = ({ day }) => {
     const timeSlots = durationInMinutes / 30;
   
     const visitHeight = timeSlots * slotHeight;
-  
-    console.log("Calculated Height:", visitHeight);
+ 
   
     return visitHeight;
   };
