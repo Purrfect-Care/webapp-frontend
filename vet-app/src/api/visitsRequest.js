@@ -50,7 +50,8 @@ export async function updateVisitRequest(id, data) {
         const updatedData = await response.json();
         return updatedData;
       } else {
-        throw new Error(`Response ${response.status}: ${response.statusText}`);
+        const errorData = await response.json();
+        throw new Error(errorData.message);
       }
     } catch (error) {
       console.error('Error updating visit:', error);
