@@ -178,7 +178,7 @@ export default function ContextWrapper(props) {
         }
   
         const employeeData = jwtDecode(authToken);
-        if (employeeData) {
+        if (employeeData && employeeData.employees_clinic_id !== "") {
           const uniqueVetsMap = await employeesByRole("Weterynarz", employeeData.employees_clinic_id);
           setVets((prevVets) => {
             const uniqueVets = Object.values(uniqueVetsMap);
@@ -209,7 +209,46 @@ export default function ContextWrapper(props) {
     fetchVets();
   }, [events, selectedVet]);
   
-  
+  async function fetchVetsForSuperadmin(clinicId) {
+    try {
+      let authToken = localStorage.getItem('authToken');
+
+      if (!authToken) {
+        // Handle the case where the token is missing
+        console.error('No authToken found.');
+        setIsLoggedIn(false); // Set isLoggedIn to false
+        return;
+      }
+
+      const employeeData = jwtDecode(authToken);
+      if (employeeData) {
+        const uniqueVetsMap = await employeesByRole("Weterynarz", clinicId);
+        setVets((prevVets) => {
+          const uniqueVets = Object.values(uniqueVetsMap);
+          // If there are vets and selectedVet is still null
+          if (uniqueVets.length > 0) {
+            const firstVet = uniqueVets[0];
+            setSelectedVet(firstVet.id); // Set the selectedVet to the ID of the first vet
+          }
+        
+          return uniqueVets.map((vet) => {
+            const currentVet = prevVets.find((prevVet) => prevVet.id === vet.id);
+            return {
+              id: vet.id,
+              firstName: vet.employee_first_name,
+              lastName: vet.employee_last_name,
+              // Set checked to true only for the vet whose id matches selectedVet
+              checked: vet.id === selectedVet ? true : currentVet ? currentVet.checked : false,
+            };
+          });
+        });
+        
+      }
+    }
+    catch (error) {
+      console.error("Error fetching employees from the server:", error);
+    }
+  }
 
   useEffect(() => {
     if (!showEventModal) {
@@ -277,6 +316,7 @@ export default function ContextWrapper(props) {
         weekIndex,
         setSelectedVet,
         selectedVet,
+        fetchVetsForSuperadmin,
       }}
     >
       {props.children}

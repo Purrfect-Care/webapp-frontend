@@ -16,7 +16,7 @@ const SelectClinic = ({ onClose, onSubmit, initialPrescriptionValues }) => {
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const [isFormOpen, setIsFormOpen] = useState(true);
     const navigate = useNavigate();
-    const { comesFromLogin, setComesFromLogin, updateEvent } = useContext(GlobalContext);
+    const { comesFromLogin, setComesFromLogin, updateEvent, fetchVetsForSuperadmin } = useContext(GlobalContext);
     const sign = require('jwt-encode');
 
     // Fetch clinics from Django API on component mount
@@ -72,7 +72,7 @@ const SelectClinic = ({ onClose, onSubmit, initialPrescriptionValues }) => {
         // Update local storage with the new authToken
         localStorage.setItem('authToken', updatedAuthToken);
 
-        updateEvent();
+        fetchVetsForSuperadmin(selectedClinicId);
 
         openSnackbar('success', 'Wybór kliniki zakończony sukcesem!');
         setTimeout(() => {

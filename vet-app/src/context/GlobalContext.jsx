@@ -22,6 +22,7 @@ const GlobalContext = React.createContext({
   setUpdatePatientBar: () => {},
   setSelectedVet: (index) => {},
   selectedVet: null,
+  fetchVetsForSuperadmin: (index) => {},
 });
 
 export default GlobalContext;
