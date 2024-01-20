@@ -55,52 +55,44 @@ const VisitWeekTag = ({ day }) => {
   const calculateTimeSlotIndex = (visitTime) => {
     const startTime = dayjs("8:00 AM", "h:mm A");
     const visitStartTime = dayjs(visitTime, "h:mm A");
-  
+
     const minutesDiff = visitStartTime.diff(startTime, "minutes");
     const timeSlotIndex = Math.floor(minutesDiff / 30);
     const remainingMinutes = minutesDiff % 30;
-  
+
     return { timeSlotIndex, remainingMinutes };
   };
   const calculateVisitHeight = (duration) => {
-
-  
     // Parse the hours, minutes, and seconds from the duration
     const [hours, minutes, seconds] = duration.split(":").map(Number);
-  
+
     // Convert the total duration to minutes
     const durationInMinutes = hours * 60 + minutes + seconds / 60;
-  
+
     if (isNaN(durationInMinutes)) {
       console.error("Invalid visit duration:", duration);
       return 0; // Or any default height you want to set for invalid durations
     }
-  
+
     // Assuming each time slot has a height of 48px
     const slotHeight = 112;
     const timeSlots = durationInMinutes / 30;
-  
+
     const visitHeight = timeSlots * slotHeight;
- 
-  
+
     return visitHeight;
   };
-  
-  
 
   return (
     <div style={{ width: "100%" }}>
+      
       {dayEvents.map((evt, idx) => {
         const { timeSlotIndex, remainingMinutes } = calculateTimeSlotIndex(
           dayjs(evt.visit_datetime).format("h:mm A")
         );
-  
         const visitHeight = calculateVisitHeight(evt.visit_duration);
-  
-        const adjustedTop = `${
-          timeSlotIndex * 112 + (remainingMinutes / 30) * 112
-        }px`;
-  
+        const adjustedTop = `${timeSlotIndex * 112 + (remainingMinutes / 30) * 112}px`;
+
         return (
           <div
             key={idx}
@@ -137,7 +129,7 @@ const VisitWeekTag = ({ day }) => {
             >
               {evt.visits_visit_type.visit_type_name}
             </div>
-            <span style={{ marginRight: "10px", }}>
+            <span style={{ marginRight: "10px" }}>
               {addTimes(formatToTime(evt.visit_datetime), evt.visit_duration)}
             </span>
             <span>
@@ -150,6 +142,6 @@ const VisitWeekTag = ({ day }) => {
       })}
     </div>
   );
-    };
+};
 
 export default VisitWeekTag;

@@ -31,6 +31,7 @@ const Week = ({ month }) => {
   timeLabels.push(
     <TimeLabel key={20} time={`20:00`} marginbottom={"mb-4"} />
   );
+  
 
   return (
     <div className="flex-1 pb-1 grid grid-cols-8 " style={{ gridTemplateColumns: '0.4fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr' }}>
