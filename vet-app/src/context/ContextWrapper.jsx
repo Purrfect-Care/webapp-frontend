@@ -95,6 +95,9 @@ export default function ContextWrapper(props) {
         // Check if employeeData exists
         setIsLoggedIn(true); // Set isLoggedIn to true
         if (employeeData.employee_role.toString() === "Administrator" || employeeData.employee_role.toString() === "SuperAdmin" ) {
+          if (!selectedVet) {
+            fetchVets();
+          }
           const eventsData = await visitsByEmployeeIdRequest(selectedVet);
           console.log("selectedVet", selectedVet);
           console.log("eventsData", eventsData);
@@ -165,47 +168,49 @@ export default function ContextWrapper(props) {
     });
   }, [events]);
 
-  useEffect(() => {
-    async function fetchVets() {
-      try {
-        let authToken = localStorage.getItem('authToken');
-  
-        if (!authToken) {
-          // Handle the case where the token is missing
-          console.error('No authToken found.');
-          setIsLoggedIn(false); // Set isLoggedIn to false
-          return;
-        }
-  
-        const employeeData = jwtDecode(authToken);
-        if (employeeData && employeeData.employees_clinic_id !== "") {
-          const uniqueVetsMap = await employeesByRole("Weterynarz", employeeData.employees_clinic_id);
-          setVets((prevVets) => {
-            const uniqueVets = Object.values(uniqueVetsMap);
-            // If there are vets and selectedVet is still null
-            if (uniqueVets.length > 0 && selectedVet === null) {
-              const firstVet = uniqueVets[0];
-              setSelectedVet(firstVet.id); // Set the selectedVet to the ID of the first vet
-            }
-          
-            return uniqueVets.map((vet) => {
-              const currentVet = prevVets.find((prevVet) => prevVet.id === vet.id);
-              return {
-                id: vet.id,
-                firstName: vet.employee_first_name,
-                lastName: vet.employee_last_name,
-                // Set checked to true only for the vet whose id matches selectedVet
-                checked: vet.id === selectedVet ? true : currentVet ? currentVet.checked : false,
-              };
-            });
-          });
-          
-        }
+  async function fetchVets() {
+    try {
+      let authToken = localStorage.getItem('authToken');
+
+      if (!authToken) {
+        // Handle the case where the token is missing
+        console.error('No authToken found.');
+        setIsLoggedIn(false); // Set isLoggedIn to false
+        return;
       }
-      catch (error) {
-        console.error("Error fetching employees from the server:", error);
+
+      const employeeData = jwtDecode(authToken);
+      if (employeeData && employeeData.employees_clinic_id !== "") {
+        const uniqueVetsMap = await employeesByRole("Weterynarz", employeeData.employees_clinic_id);
+        setVets((prevVets) => {
+          const uniqueVets = Object.values(uniqueVetsMap);
+          // If there are vets and selectedVet is still null
+          if (uniqueVets.length > 0 && selectedVet === null) {
+            const firstVet = uniqueVets[0];
+            setSelectedVet(firstVet.id); // Set the selectedVet to the ID of the first vet
+          }
+        
+          return uniqueVets.map((vet) => {
+            const currentVet = prevVets.find((prevVet) => prevVet.id === vet.id);
+            return {
+              id: vet.id,
+              firstName: vet.employee_first_name,
+              lastName: vet.employee_last_name,
+              // Set checked to true only for the vet whose id matches selectedVet
+              checked: vet.id === selectedVet ? true : currentVet ? currentVet.checked : false,
+            };
+          });
+        });
+        
       }
     }
+    catch (error) {
+      console.error("Error fetching employees from the server:", error);
+    }
+  }
+
+  useEffect(() => {
+    
     fetchVets();
   }, [events, selectedVet]);
   
