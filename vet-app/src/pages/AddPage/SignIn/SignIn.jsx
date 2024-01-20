@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from "react";
 import "./SignIn.css";
-import { getClinicsRequest } from "../../../api/clinicRequests";
 import { editEmployeeRequest, addEmployeeRequest } from "../../../api/employeesRequest";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
 
 
 const SignIn = ({initialValues, onClose, snackbar}) => {
+
+  const authToken = localStorage.getItem('authToken');
+  const employeeData = jwtDecode(authToken);
+  const clinicId = employeeData.employees_clinic_id.toString();
+
   const [formValues, setFormValues] = useState({
     employee_role: '',
     employee_first_name: '',
@@ -19,16 +23,14 @@ const SignIn = ({initialValues, onClose, snackbar}) => {
     employee_phone_number: '',  // Add this line for the patient photo
     employee_email: '',
     employee_password: '',
-    employees_clinic_id: null,
+    employees_clinic_id: clinicId,
   });
 
-  const [clinicsData, setClinicsData] = useState([]);
   //const [formValues, setFormValues] = useState({});
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [errors, setErrors] = useState({});
-  const navigate = useNavigate();
 
   const openSnackbar = (severity, message) => {
     setSnackbarSeverity(severity);
@@ -144,15 +146,6 @@ const SignIn = ({initialValues, onClose, snackbar}) => {
       valid = false;
     } 
 
-    if (
-      !formValues.employees_clinic_id
-    ) {
-      newErrors.employees_clinic_id = "Wybierz klinikę pracownika.";
-      valid = false;
-    } else {
-      newErrors.employees_clinic_id = "";
-    }
-
     setErrors(newErrors);
     return valid;
   };
@@ -206,19 +199,6 @@ const SignIn = ({initialValues, onClose, snackbar}) => {
 
     
   };
-
-  useEffect(() => {
-    console.log("Fetching clinics data...");
-    const fetchData = async () => {
-      try {
-        const clinicsData = await getClinicsRequest();
-        setClinicsData(clinicsData);
-      } catch (error) {
-        console.error("Error fetching data: " + error);
-      }
-    };
-    fetchData();
-  }, []);
 
   useEffect(() => {
     const updateFormValues = async () => {
@@ -401,52 +381,26 @@ const SignIn = ({initialValues, onClose, snackbar}) => {
                     </span>
                   )}
                 </div>
-                <div className="role-clinics">
-                  <div className="relative pb-7 mr-10 w-56">
-                    <select
-                      name="employee_role"
-                      className={`rounded w-56 ${
-                        errors.employee_role
-                          ? "border-red-500"
-                          : "border-gray-300"
-                      }`}
-                      onChange={handleInputChange}
-                      value={formValues.employee_role}
-                    >
-                      <option value="">Wybierz rolę</option>
-                      <option value="Weterynarz">Weterynarz</option>
-                      <option value="Administrator">Administrator</option>
-                    </select>
-                    {errors.employee_role && (
-                      <span className="text-red-500 text-sm absolute bottom-0 right-0 mb-2 mr-2">
-                        {errors.employee_role}
-                      </span>
-                    )}
-                  </div>
-                  <div className="relative pb-7 w-72">
-                    <select
-                      name="employees_clinic_id"
-                      className={`rounded w-72 ${
-                        errors.employees_clinic_id
-                          ? "border-red-500"
-                          : "border-gray-300"
-                      }`}
-                      onChange={handleInputChange}
-                      value={formValues.employees_clinic_id}
-                    >
-                      <option value="">Wybierz klinikę</option>
-                      {clinicsData.map((clinic) => (
-                        <option key={clinic.id} value={clinic.id}>
-                          {clinic.clinic_name}
-                        </option>
-                      ))}
-                    </select>
-                    {errors.employees_clinic_id && (
-                      <span className="text-red-500 text-sm absolute bottom-0 right-0 mb-2 mr-2">
-                        {errors.employees_clinic_id}
-                      </span>
-                    )}
-                  </div>
+                <div className="relative pb-7 w-56">
+                  <select
+                    name="employee_role"
+                    className={`rounded w-56 ${
+                      errors.employee_role
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    }`}
+                    onChange={handleInputChange}
+                    value={formValues.employee_role}
+                  >
+                    <option value="">Wybierz rolę</option>
+                    <option value="Weterynarz">Weterynarz</option>
+                    <option value="Administrator">Administrator</option>
+                  </select>
+                  {errors.employee_role && (
+                    <span className="text-red-500 text-sm absolute bottom-0 right-0 mb-2 mr-2">
+                      {errors.employee_role}
+                    </span>
+                  )}
                 </div>
                 <div className="flex mb-8 justify-center w-full items-center">
                   {!initialValues && <button
