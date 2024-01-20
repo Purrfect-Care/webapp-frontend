@@ -14,7 +14,7 @@ import { jwtDecode } from "jwt-decode";
 const Sidebar = ( ) => {
   const [sidebarTab, setSidebarTab] = useState(false);
   const [employeeData, setEmployeeData] = useState(null);
-  const { setLoggingOut } = useContext(GlobalContext);
+  const { setLoggingOut, setMonthSelcted } = useContext(GlobalContext);
 
   const roleToTitles = {
     SuperAdmin: [
@@ -42,7 +42,9 @@ const Sidebar = ( ) => {
     localStorage.removeItem("employeeData");
     localStorage.removeItem("authToken");
     localStorage.removeItem("authTokenExpiration");
+    setMonthSelcted(true);
     setLoggingOut(true);
+   
   };
 
   return (
