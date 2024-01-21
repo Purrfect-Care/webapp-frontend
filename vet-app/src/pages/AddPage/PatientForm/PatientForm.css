@@ -1,21 +1,21 @@
-.add-patient{
+.add-patient {
   background-color: #45846f4f;
-    height: 100vh;
-    overflow: auto;
-    border: 1px solid #080707;
+  height: 100vh;
+  overflow: auto;
+  border: 1px solid #080707;
 }
 
-.patient-form{
-    height: 80vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: auto;
-    width: 80vh;
-    margin-top: 10px;
+.patient-form {
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  width: 80vh;
+  margin-top: 10px;
 }
 
-.patient-form h3{
+.patient-form h3 {
   margin-left: 15vh;
   display: flex;
   justify-content: center;
@@ -38,37 +38,32 @@
 }
 
 .patient-form-date {
-  display: flex;  
+  display: flex;
   margin-left: 15vh;
   border-radius: 10px;
   padding: 10px;
   justify-content: center;
   align-content: center;
   height: 80px;
-
 }
 
-
-
-/* Styles for Photo Upload */
 .patient-form-photo {
   flex-wrap: wrap;
-  display: flex; 
-    margin-left: 25vh;
-    border-radius: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    margin-bottom: 25px;
-    height: 50px;
-    width: 50vh;
-    background-color: #ffffff;
-    justify-content: center;
-    align-content: center;
+  display: flex;
+  margin-left: 25vh;
+  border-radius: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 25px;
+  height: 50px;
+  width: 50vh;
+  background-color: #ffffff;
+  justify-content: center;
+  align-content: center;
 }
 
-
 .submit-button-add-patient,
-.submit-button-update-patient{
+.submit-button-update-patient {
   background-color: #047857;
   color: #ffffff;
   padding: 10px;
@@ -88,8 +83,8 @@
 }
 
 .submit-button-cancel-patient {
-  background-color: rgb(220 38 38); /* Replace with your desired background color */
-  color: #ffffff; /* Replace with your desired text color */
+  background-color: rgb(220 38 38);
+  color: #ffffff;
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
@@ -100,12 +95,12 @@
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
-    background-color: rgb(153 27 27); /* Replace with your desired hover background color */
+    background-color: rgb(153 27 27);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   }
 }
 
-.button-container-add-patient{
+.button-container-add-patient {
   margin-left: 15vh;
   margin-top: auto;
   margin-bottom: 5vh;
@@ -114,7 +109,6 @@
   align-items: baseline;
 }
 
-
 .span-patientform {
   font-size: 12px;
   padding: 3px;
@@ -122,19 +116,19 @@
   display: none;
   margin-left: 15vh;
 }
-.span-patientform-error{
+.span-patientform-error {
   font-size: 15px;
   padding: 3px;
   color: red;
   margin-left: 15vh;
 }
 
-.select-patientform:invalid[focused="true"] ~ .span-patientform{
+.select-patientform:invalid[focused="true"] ~ .span-patientform {
   display: block;
   margin-left: 15vh;
 }
 
-.input-patientform:invalid[focused="true"] ~ .span-patientform{
+.input-patientform:invalid[focused="true"] ~ .span-patientform {
   display: block;
   margin-left: 15vh;
 }

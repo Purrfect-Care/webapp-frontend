@@ -8,16 +8,15 @@ const Week = ({ month }) => {
   const { daySelected } = useContext(GlobalContext);
 
   if (!month || month.length === 0) {
-    return null; // Or some loading state
+    return null; 
   }
 
   const weekIndex = month.findIndex((week) =>
-  week.some((day) => day.isSame(daySelected, 'day'))
-);
+    week.some((day) => day.isSame(daySelected, "day"))
+  );
 
   const week = month[weekIndex];
   if (!week) {
-    console.log("week is undefined");
     return null;
   }
 
@@ -28,13 +27,13 @@ const Week = ({ month }) => {
       <TimeLabel key={i + 0.5} time={`${i}:30`} marginbottom={"mb-0"} />
     );
   }
-  timeLabels.push(
-    <TimeLabel key={20} time={`20:00`} marginbottom={"mb-4"} />
-  );
-  
+  timeLabels.push(<TimeLabel key={20} time={`20:00`} marginbottom={"mb-4"} />);
 
   return (
-    <div className="flex-1 pb-1 grid grid-cols-8 " style={{ gridTemplateColumns: '0.4fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr' }}>
+    <div
+      className="flex-1 pb-1 grid grid-cols-8 "
+      style={{ gridTemplateColumns: "0.4fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr" }}
+    >
       <div className="col-span-1 select-none">
         <div className="border border-gray-200 flex flex-col">
           <header className="flex flex-col items-center sticky h-16 bg-myGreen top-0">

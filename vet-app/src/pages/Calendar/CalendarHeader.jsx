@@ -18,7 +18,6 @@ const CalendarHeader = () => {
 
   function handlePrevMonth() {
     setMonthIndex(monthIndex - 1);
-    console.log("monthIndex:", monthIndex);
   }
 
   function handleNextMonth() {

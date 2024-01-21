@@ -4,16 +4,16 @@ import { addClinic, updateClinicRequest } from "../../../api/clinicRequests";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
-const AddClinic = ({initialValues, onClose, snackbar}) => {
+const AddClinic = ({ initialValues, onClose, snackbar }) => {
   const [formValues, setFormValues] = useState({
     clinic_name: "",
     clinic_address: "",
     clinic_postcode: "",
     clinic_city: "",
     clinic_phone_number: "",
-    clinic_email: ""
+    clinic_email: "",
   });
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -21,7 +21,7 @@ const AddClinic = ({initialValues, onClose, snackbar}) => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
-  
+
   const openSnackbar = (severity, message) => {
     setSnackbarSeverity(severity);
     setSnackbarMessage(message);
@@ -40,7 +40,7 @@ const AddClinic = ({initialValues, onClose, snackbar}) => {
       if (initialValues) {
         setFormValues(initialValues);
       }
-    }
+    };
     updateFormValues();
   }, [initialValues]);
 
@@ -109,12 +109,12 @@ const AddClinic = ({initialValues, onClose, snackbar}) => {
     } else {
       newErrors.clinic_email = "";
     }
-    
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (formValues.clinic_email && !emailRegex.test(formValues.clinic_email)) {
       newErrors.clinic_email = "Podaj poprawny adres e-mail.";
       valid = false;
-    } 
+    }
 
     setErrors(newErrors);
     return valid;
@@ -152,14 +152,15 @@ const AddClinic = ({initialValues, onClose, snackbar}) => {
     try {
       if (!initialValues) {
         const response = await addClinic(formValues);
-        console.log("Clinic added successfully", response);
         openSnackbar("success", "Klinika dodana pomyślnie");
         setTimeout(() => {
           navigate(`/calendar`, { replace: true });
         }, 3000);
       } else {
-        const response = await updateClinicRequest(initialValues.id, formValues);
-        console.log("Clinic updated successfully", response);
+        const response = await updateClinicRequest(
+          initialValues.id,
+          formValues
+        );
         snackbar("success", "Dane kliniki zmienione pomyślnie");
         onClose();
       }
@@ -175,10 +176,10 @@ const AddClinic = ({initialValues, onClose, snackbar}) => {
         <Sidebar />
         <div className="mainPart-addclinic">
           <div className="flex flex-col items-center">
-            <div style={{justifyContent: 'center', marginLeft: '8vh'}}>
-            <h3 className="text-3xl font-semibold mt-10 text-emerald-600">
-              Formularz dodawania nowej kliniki
-            </h3>
+            <div style={{ justifyContent: "center", marginLeft: "8vh" }}>
+              <h3 className="text-3xl font-semibold mt-10 text-emerald-600">
+                Formularz dodawania nowej kliniki
+              </h3>
             </div>
             <div className="form">
               <form id="formClinic" onSubmit={handleSubmit}>
@@ -301,30 +302,32 @@ const AddClinic = ({initialValues, onClose, snackbar}) => {
                 </div>
                 <span className="flex flex-between w-full items-center justify-center">
                   <footer className="flex justify-center w-100 mb-8">
-                  {!initialValues && (<button
-                      type="submit"
-                      onClick={handleSubmit}
-                      className="bg-emerald-600 hover:bg-emerald-800 justify-center px-10 py-2 rounded  text-white hover:shadow-md"
-                    >
-                      Dodaj
-                    </button>)}
-                    {initialValues && (
-                    <div className="mx-15vh mt-auto mb-5vh flex justify-center">
+                    {!initialValues && (
                       <button
-                      type="submit"
-                      onClick={handleSubmit}
-                      className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded  text-white hover:shadow-md ml-4"
-                    >
-                      Edytuj
-                    </button>
-                    <button
-                    type="submit"
-                    onClick={() => onClose()}
-                    className="bg-red-600 hover:bg-red-800 px-10 py-2 rounded text-white hover:shadow-md ml-4"
-                  >
-                    Anuluj
-                  </button>
-                    </div>
+                        type="submit"
+                        onClick={handleSubmit}
+                        className="bg-emerald-600 hover:bg-emerald-800 justify-center px-10 py-2 rounded  text-white hover:shadow-md"
+                      >
+                        Dodaj
+                      </button>
+                    )}
+                    {initialValues && (
+                      <div className="mx-15vh mt-auto mb-5vh flex justify-center">
+                        <button
+                          type="submit"
+                          onClick={handleSubmit}
+                          className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded  text-white hover:shadow-md ml-4"
+                        >
+                          Edytuj
+                        </button>
+                        <button
+                          type="submit"
+                          onClick={() => onClose()}
+                          className="bg-red-600 hover:bg-red-800 px-10 py-2 rounded text-white hover:shadow-md ml-4"
+                        >
+                          Anuluj
+                        </button>
+                      </div>
                     )}
                   </footer>
                 </span>

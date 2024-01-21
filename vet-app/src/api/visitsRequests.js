@@ -6,4 +6,3 @@ export async function visitTypesRequest() {
   const data = await response.json();
   return data;
 }
-

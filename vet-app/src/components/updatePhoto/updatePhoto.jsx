@@ -69,7 +69,7 @@ const PhotoEditPopup = ({ photo, onSubmit, onClose, isFormOpen }) => {
                     />
                   </div>
                 </label>
-              </div>              
+              </div>
             </div>
           </div>
           <div className="button-container-visit">

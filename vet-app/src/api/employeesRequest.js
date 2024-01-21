@@ -1,11 +1,11 @@
 export async function employeesRequest() {
-    const endpoint = `http://localhost:8000/api/employees/`;
-  
-    const response = await fetch(endpoint);
-    if (response.ok) {
-      const data = await response.json();
-      return data;
-    }
+  const endpoint = `http://localhost:8000/api/employees/`;
+
+  const response = await fetch(endpoint);
+  if (response.ok) {
+    const data = await response.json();
+    return data;
+  }
 }
 
 export async function deleteEmployeeById(employeeId) {
@@ -20,7 +20,6 @@ export async function deleteEmployeeById(employeeId) {
     });
 
     if (response.ok) {
-      console.log("Employee deleted successfully");
       return true;
     } else {
       throw new Error(`Response ${response.status}: ${response.statusText}`);
@@ -30,27 +29,30 @@ export async function deleteEmployeeById(employeeId) {
     throw error;
   }
 }
-  
 
 export async function editEmployeeRequest(employeeId, formData) {
   try {
-    const response = await fetch(`http://127.0.0.1:8000/api/employees/${employeeId}/`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
+    const response = await fetch(
+      `http://127.0.0.1:8000/api/employees/${employeeId}/`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }
+    );
 
     if (!response.ok) {
-      throw new Error(`Failed to update employee data: ${await response.text()}`);
+      throw new Error(
+        `Failed to update employee data: ${await response.text()}`
+      );
     }
 
-    console.log('Employee data updated successfully');
-    return response.json(); // Assuming the response contains updated owner data
+    return response.json();
   } catch (error) {
-    console.error('Error updating employee data:', error.message);
-    throw error; // Re-throw the error for the caller to handle
+    console.error("Error updating employee data:", error.message);
+    throw error;
   }
 }
 
@@ -65,14 +67,12 @@ export const addEmployeeRequest = async (employeeData) => {
       },
       body: JSON.stringify(employeeData),
     });
-    console.log(employeeData);
     if (response.ok) {
       return response.json();
     } else {
       throw new Error("Failed to add an employee");
     }
   } catch (error) {
-    
     throw new Error(`Error: ${error.message}`);
   }
 };
@@ -86,12 +86,13 @@ export async function employeeRequest(id) {
 
   if (response.ok) {
     const json = await response.json();
-    console.log("Employee data:", json);
     return json;
   }
 
   throw new Error(
-    `Response ${response.status}: ${response.statusText} - ${await response.text()}`
+    `Response ${response.status}: ${
+      response.statusText
+    } - ${await response.text()}`
   );
 }
 

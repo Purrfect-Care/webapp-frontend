@@ -1,20 +1,14 @@
-// Import the useState hook from React
 import React, { useContext, useEffect, useState } from "react";
 import dayjs from "dayjs";
 import GlobalContext from "../../context/GlobalContext";
 import TimeSlot from "./TimeSlot";
 import VisitWeekTag from "./VisitWeekTag";
 
-const DayWeek = ({ day, rowIdx }) => {
-  const {
-    setDaySelected,
-    setShowEventModal,
-    filteredEvents,
-    setSelectedEvent,
-    monthSelected,
-  } = useContext(GlobalContext);
+const DayWeek = ({ day }) => {
+  const { setDaySelected, setShowEventModal, filteredEvents } =
+    useContext(GlobalContext);
   const [dayEvents, setDayEvents] = useState([]);
-  const [selectedTime, setSelectedTime] = useState(null); // Add state to track selected time
+  const [selectedTime, setSelectedTime] = useState(null);
 
   useEffect(() => {
     const events = filteredEvents.filter(
@@ -33,7 +27,7 @@ const DayWeek = ({ day, rowIdx }) => {
         onClick={() => handleTimeSlotClick(`${i}:00`)}
         marginbottom={"mb-0"}
         cursor={"cursor-pointer"}
-        height={'h-28'}
+        height={"h-28"}
       />,
       <TimeSlot
         key={i + 0.5}
@@ -41,7 +35,7 @@ const DayWeek = ({ day, rowIdx }) => {
         onClick={() => handleTimeSlotClick(`${i}:30`)}
         marginbottom={"mb-0"}
         cursor={"cursor-pointer"}
-        height={'h-28'}
+        height={"h-28"}
       />
     );
   }
@@ -51,16 +45,14 @@ const DayWeek = ({ day, rowIdx }) => {
       time={`20:00`}
       marginbottom={"mb-4"}
       cursor={"select-none"}
-      height={'h-4'}
+      height={"h-4"}
     />
   );
 
   function handleTimeSlotClick(startTime) {
-    setSelectedTime(startTime); // Set the selected time
+    setSelectedTime(startTime);
     setDaySelected(day);
     setShowEventModal(true);
-    // You can also perform other actions related to the selected time here
-    console.log("Time slot clicked:", startTime);
   }
 
   function getCurrentDayClass() {
@@ -94,12 +86,9 @@ const DayWeek = ({ day, rowIdx }) => {
         </header>
 
         <div className="mt-14 relative" style={{ zIndex: 5 }}>
-          {/* Middle layer: VisitWeekTag */}
           <div className="absolute top-0 left-0 right-0">
             <VisitWeekTag day={day} />
           </div>
-
-          {/* Bottom layer: Time Slots */}
           {timeSlots}
         </div>
       </div>

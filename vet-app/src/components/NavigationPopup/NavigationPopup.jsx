@@ -30,7 +30,10 @@ const PopupComponent = ({ message, buttonNames, urls }) => {
         </div>
         <div className="nav-buttons">
           {buttonNames.slice(5).map((buttonName, index) => (
-            <button key={index + 5} onClick={() => handleButtonClick(urls[index + 5])}>
+            <button
+              key={index + 5}
+              onClick={() => handleButtonClick(urls[index + 5])}
+            >
               {buttonName}
             </button>
           ))}

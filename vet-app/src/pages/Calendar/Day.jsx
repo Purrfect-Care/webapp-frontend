@@ -16,10 +16,11 @@ const Day = ({ day, rowIdx }) => {
     if (filteredEvents) {
       const events = filteredEvents.filter(
         (evt) =>
-          dayjs(evt.visit_datetime).format("DD-MM-YY") === day.format("DD-MM-YY")
+          dayjs(evt.visit_datetime).format("DD-MM-YY") ===
+          day.format("DD-MM-YY")
       );
       setDayEvents(events);
-    }    
+    }
   }, [filteredEvents, day]);
 
   function formatToTime(date) {
@@ -90,10 +91,13 @@ const Day = ({ day, rowIdx }) => {
   }
 
   return (
-    <div className="border border-gray-200 flex flex-col cursor-pointer" onClick={() => {
-      setDaySelected(day);
-      setShowEventModal(true);
-    }}>
+    <div
+      className="border border-gray-200 flex flex-col cursor-pointer"
+      onClick={() => {
+        setDaySelected(day);
+        setShowEventModal(true);
+      }}
+    >
       <header className="flex flex-col items-center">
         {monthSelected && rowIdx === 0 && (
           <p className="text-sm mt-1 select-none">
@@ -125,7 +129,7 @@ const Day = ({ day, rowIdx }) => {
           return (
             <div
               key={idx}
-              onClick={() => setSelectedEvent(evt)}             
+              onClick={() => setSelectedEvent(evt)}
               className={`${
                 shouldAddSpace ? "mt-10" : ""
               } p-1 mr-3 text-black text-xs rounded mb-1 truncate ${

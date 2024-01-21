@@ -55,10 +55,8 @@ const OwnerPage = ({patient}) => {
         const confirmDeleteOwner = async () => {
           try {
             const ownerId = ownerToDelete;
-            console.log(ownerId);
       
             await deleteOwnerById(ownerId);
-            console.log("Owner deleted successfully");
             openSnackbar('success', 'Właściciel usunięty pomyślnie!');
 
             setTimeout(() => {
@@ -98,7 +96,7 @@ const OwnerPage = ({patient}) => {
 
         const submitEditOwnerForm = async (ownerId, ownerData) => {
           try {
-            console.log("Owner Data:", ownerData);
+       
             const ownerId = ownerData.id;
             await editOwnerRequest(ownerId, ownerData);
             const updatedOwner = await ownerByIdRequest(ownerId);
@@ -117,7 +115,6 @@ const OwnerPage = ({patient}) => {
           setSnackbarOpen(true);
         };
 
-        console.log("loading: ", loading);
         
         return (
             <>

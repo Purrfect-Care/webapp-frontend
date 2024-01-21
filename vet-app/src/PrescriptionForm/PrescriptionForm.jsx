@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { allPatientsRequest } from '../api/patientsRequests';
-import { allMedicationsRequest } from '../api/medicationsRequest'; // Assuming you have an API endpoint for fetching medications
-import { patientRequest } from '../api/patientsRequests';
-import { FaPlus, FaTrash } from 'react-icons/fa';
-import './PrescriptionForm.css';
-
+import React, { useState, useEffect } from "react";
+import { allPatientsRequest } from "../api/patientsRequests";
+import { allMedicationsRequest } from "../api/medicationsRequest"; 
+import { patientRequest } from "../api/patientsRequests";
+import { FaPlus, FaTrash } from "react-icons/fa";
+import "./PrescriptionForm.css";
 
 const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
   const MAX_MEDICATIONS = 5;
 
   const [formValues, setFormValues] = useState({
-    prescription_date: new Date().toISOString().split('T')[0],
-    prescriptions_patient_id: initialPrescriptionValues.prescriptions_patient_id,
+    prescription_date: new Date().toISOString().split("T")[0],
+    prescriptions_patient_id:
+      initialPrescriptionValues.prescriptions_patient_id,
     prescribed_medications: Array.from({ length: 1 }, () => ({
-      medication_id: '',
+      medication_id: "",
       medication_amount: 1,
-      medication_dosage: '',
+      medication_dosage: "",
     })),
   });
 
@@ -34,16 +34,17 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
           allMedicationsRequest(),
         ]);
 
-
         if (initialPrescriptionValues.prescriptions_patient_id != null) {
-          const patientJSON = await patientRequest(initialPrescriptionValues.prescriptions_patient_id);
+          const patientJSON = await patientRequest(
+            initialPrescriptionValues.prescriptions_patient_id
+          );
           setPatient(patientJSON);
         }
 
         setAllPatients(patients);
         setAllMedications(medications);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
@@ -59,22 +60,26 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
   const handleChange = (e, index) => {
     const { name, value } = e.target;
     const updatedMedications = [...formValues.prescribed_medications];
-    updatedMedications[index][name] = name === 'medication_amount' ? Math.max(1, Math.min(5, parseInt(value, 10))) : value;
-    
+    updatedMedications[index][name] =
+      name === "medication_amount"
+        ? Math.max(1, Math.min(5, parseInt(value, 10)))
+        : value;
+
     setFormValues((prevFormValues) => ({
       ...prevFormValues,
       prescribed_medications: updatedMedications,
     }));
-    console.log('handlechange: ', updatedMedications);
   };
 
   const handleAddMedication = () => {
     if (formValues.prescribed_medications.length < MAX_MEDICATIONS) {
       setFormValues((prevFormValues) => ({
         ...prevFormValues,
-        prescribed_medications: [...prevFormValues.prescribed_medications, { medication_id: '', medication_amount: 1, medication_dosage: '' }],
+        prescribed_medications: [
+          ...prevFormValues.prescribed_medications,
+          { medication_id: "", medication_amount: 1, medication_dosage: "" },
+        ],
       }));
-      console.log('handleaddmedication: ', formValues);
     }
   };
 
@@ -90,7 +95,7 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('handlesubmith: ', formValues);
+
     await onSubmit(formValues);
   };
   const handleClose = () => {
@@ -100,30 +105,41 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
 
   const handleFocusPatient = (e) => {
     setFocusedPatient(true);
-  }
+  };
   const handleFocusMedication = (e) => {
     setFocusedMedication(true);
-  }
+  };
 
   return (
     <div>
-      <div className={`overlay-prescription-form ${isFormOpen ? 'active' : ''}`} onClick={handleClose}></div>
+      <div
+        className={`overlay-prescription-form ${isFormOpen ? "active" : ""}`}
+        onClick={handleClose}
+      ></div>
       <div className="popup-form-pres">
         <h2>Formularz recepty</h2>
-        <form onSubmit={handleSubmit} className="form-sections-prescription-form">
-          <div className='form-section-patient-prescription'>
-            <label className='prescription-patient-label'>
-              Pacjent
-            </label>
+        <form
+          onSubmit={handleSubmit}
+          className="form-sections-prescription-form"
+        >
+          <div className="form-section-patient-prescription">
+            <label className="prescription-patient-label">Pacjent</label>
             <div className="input-wrapper">
-              <p className="patient-name-prescription">{patientData.patient_name}</p>
+              <p className="patient-name-prescription">
+                {patientData.patient_name}
+              </p>
               {!initialPrescriptionValues.prescriptions_patient_id && (
                 <>
                   <select
-                    className='select-prescriptionform'
+                    className="select-prescriptionform"
                     name="prescriptions_patient_id"
                     value={formValues.prescriptions_patient_id}
-                    onChange={(e) => setFormValues((prevFormValues) => ({ ...prevFormValues, prescriptions_patient_id: e.target.value }))}
+                    onChange={(e) =>
+                      setFormValues((prevFormValues) => ({
+                        ...prevFormValues,
+                        prescriptions_patient_id: e.target.value,
+                      }))
+                    }
                     required="true"
                     onBlur={handleFocusPatient}
                     focused={focusedPatient.toString()}
@@ -131,23 +147,26 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
                     <option value="">Wybierz pacjenta</option>
                     {sortedPatients.map((patient) => (
                       <option key={patient.id} value={patient.id}>
-                        {patient.patient_name} • {patient.patients_owner.owner_first_name} {patient.patients_owner.owner_last_name}
+                        {patient.patient_name} •{" "}
+                        {patient.patients_owner.owner_first_name}{" "}
+                        {patient.patients_owner.owner_last_name}
                       </option>
                     ))}
                   </select>
-                  <span className='span-prescriptionform'>Należy wybrać pacjenta</span>
+                  <span className="span-prescriptionform">
+                    Należy wybrać pacjenta
+                  </span>
                 </>
               )}
             </div>
-
           </div>
-          <div className='form-section-medication'>
+          <div className="form-section-medication">
             {formValues.prescribed_medications.map((medication, index) => (
-              <div key={index} className='medication-space'>
-                <label className='medication-name-pres'>
+              <div key={index} className="medication-space">
+                <label className="medication-name-pres">
                   Lek:
                   <select
-                    className='select-prescriptionform'
+                    className="select-prescriptionform"
                     name="medication_id"
                     value={medication.medication_id}
                     onChange={(e) => handleChange(e, index)}
@@ -162,12 +181,14 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
                       </option>
                     ))}
                   </select>
-                  <span className='span-prescriptionform'>Należy wybrać lek</span>
+                  <span className="span-prescriptionform">
+                    Należy wybrać lek
+                  </span>
                 </label>
-                <label className='medication-amount-pres'>
+                <label className="medication-amount-pres">
                   Ilość:
                   <input
-                    className='input-prescriptionform'
+                    className="input-prescriptionform"
                     type="number"
                     name="medication_amount"
                     value={medication.medication_amount}
@@ -176,10 +197,10 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
                     max="5"
                   />
                 </label>
-                  <label className='medication-dosage-pres'>
+                <label className="medication-dosage-pres">
                   Dawkowanie:
                   <input
-                    className='input-prescriptionform'
+                    className="input-prescriptionform"
                     type="text"
                     name="medication_dosage"
                     value={medication.medication_dosage}
@@ -187,16 +208,23 @@ const PrescriptionForm = ({ onClose, onSubmit, initialPrescriptionValues }) => {
                   />
                 </label>
                 {index > 0 && (
-                  <button type="button" onClick={() => handleRemoveMedication(index)} className='delete-medication'>
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveMedication(index)}
+                    className="delete-medication"
+                  >
                     <FaTrash />
                   </button>
                 )}
               </div>
             ))}
-
           </div>
 
-          <button type="button" onClick={handleAddMedication} className='add-medication'>
+          <button
+            type="button"
+            onClick={handleAddMedication}
+            className="add-medication"
+          >
             <FaPlus />
           </button>
 

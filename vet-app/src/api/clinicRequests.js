@@ -9,7 +9,6 @@ export const addClinic = async (clinicData) => {
       },
       body: JSON.stringify(clinicData),
     });
-    console.log(clinicData);
 
     if (response.ok) {
       return response.json();
@@ -17,17 +16,15 @@ export const addClinic = async (clinicData) => {
       throw new Error("Failed to add clinic");
     }
   } catch (error) {
-    
     throw new Error(`Error: ${error.message}`);
   }
 };
 
 export async function getClinicsRequest() {
-
   const response = await fetch(`${BASE_URL}/clinics/`, {
     method: "GET",
   });
-  
+
   if (response.ok) {
     const json = await response.json();
     return json;
@@ -41,7 +38,6 @@ export async function getClinicsRequest() {
 }
 
 export async function getClinicByIdRequest(id) {
-
   const response = await fetch(`${BASE_URL}/clinics/${id}`, {
     method: "GET",
   });
@@ -51,14 +47,14 @@ export async function getClinicByIdRequest(id) {
   }
 
   throw new Error(
-    `Response ${response.status}: ${response.statusText} - ${await response.text()}`
+    `Response ${response.status}: ${
+      response.statusText
+    } - ${await response.text()}`
   );
 }
 
 export async function deleteClinicById(clinicId) {
-
   const endpoint = `http://localhost:8000/api/clinics/${clinicId}/`;
-
 
   try {
     const response = await fetch(endpoint, {
@@ -69,7 +65,6 @@ export async function deleteClinicById(clinicId) {
     });
 
     if (response.ok) {
-      console.log("Clinic deleted successfully");
       return true;
     } else {
       throw new Error(`Response ${response.status}: ${response.statusText}`);
@@ -82,22 +77,24 @@ export async function deleteClinicById(clinicId) {
 
 export async function updateClinicRequest(clinicId, formData) {
   try {
-    const response = await fetch(`http://127.0.0.1:8000/api/clinics/${clinicId}/`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(formData),
-    });
+    const response = await fetch(
+      `http://127.0.0.1:8000/api/clinics/${clinicId}/`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }
+    );
 
     if (!response.ok) {
       throw new Error(`Failed to update clinic data: ${await response.text()}`);
     }
 
-    console.log('Clinic data updated successfully');
-    return response.json(); // Assuming the response contains updated clinic data
+    return response.json();
   } catch (error) {
-    console.error('Error updating clinic data:', error.message);
-    throw error; // Re-throw the error for the caller to handle
+    console.error("Error updating clinic data:", error.message);
+    throw error;
   }
 }

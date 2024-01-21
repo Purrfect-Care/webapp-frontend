@@ -1,20 +1,15 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import "./Home.css";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const logo = document.querySelectorAll("#logo path");
 
-  for (let i = 0; i < logo.length; i++) {
-    console.log(`Letter ${i} is ${logo[i].getTotalLength()}`);
-  }
-
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Navigate to the "/other" route after a 2-second delay
     const timeout = setTimeout(() => {
-      navigate('/login');
+      navigate("/login");
     }, 5000);
 
     return () => clearTimeout(timeout);
@@ -24,7 +19,7 @@ const Home = () => {
     <div className="home">
       <h2 className="welcome">Witamy w</h2>
       <svg
-      id="logo"
+        id="logo"
         width="838"
         height="121"
         viewBox="0 0 838 121"

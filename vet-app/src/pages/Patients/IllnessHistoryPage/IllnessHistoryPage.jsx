@@ -69,7 +69,6 @@ const IllnessHistoryPage = ({ patient }) => {
 
       const itemId = illnessHistoryToDelete.id;
       await deleteIllnessHistoryRequest(itemId);
-      console.log("Illness history item deleted successfully");
       openSnackbar("success", "Choroba usunięta pomyślnie!");
 
       // Update the illness history list after deletion
@@ -126,7 +125,6 @@ const IllnessHistoryPage = ({ patient }) => {
 
   const submitIllnessForm = async (formData) => {
     try {
-      console.log("Form Data:", formData);
 
       await createIllnessHistoryRequest(formData);
       const updatedIllnessHistory = await illnessHistoryByPatientIdRequest(

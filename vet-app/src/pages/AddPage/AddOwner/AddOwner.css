@@ -14,7 +14,7 @@
   width: 80vh;
   margin-top: 20px;
 }
-.owner-form div{
+.owner-form div {
   margin-left: 15vh;
   align-items: center;
   align-content: center;
@@ -32,7 +32,7 @@
 }
 
 .input-owner-form {
-  width:40vh;
+  width: 40vh;
   min-width: 300px;
   border-radius: 10px;
   padding: 10px;
@@ -46,7 +46,6 @@
   justify-content: center;
   align-content: center;
 }
-
 
 .submit-button-add-owner,
 .submit-button-update-owner {
@@ -71,7 +70,7 @@
 
 .cancel-button-owner {
   margin-top: 2vh;
-  background-color: rgb(220 38 38); 
+  background-color: rgb(220 38 38);
   color: #ffffff;
   padding: 10px;
   border-radius: 5px;
@@ -92,7 +91,6 @@
   margin-bottom: 5vh;
   display: flex;
   justify-content: center;
-  
 }
 
 .input-container {
@@ -122,6 +120,6 @@
   margin-left: 15vh;
 }
 
-.input-owner-form:invalid[focused="true"] ~ .span-addowner{
+.input-owner-form:invalid[focused="true"] ~ .span-addowner {
   display: block;
 }

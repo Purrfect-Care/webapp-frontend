@@ -32,11 +32,11 @@ function SmallCalendar() {
       return "bg-green-200 rounded-full text-customGreen font-bold border-2 border-customGreen ";
     } else {
       return "";
-    } 
-    
+    }
   }
 
-  const { monthIndex, setSmallCalendarMonth, setDaySelected, daySelected } = useContext(GlobalContext);
+  const { monthIndex, setSmallCalendarMonth, setDaySelected, daySelected } =
+    useContext(GlobalContext);
 
   useEffect(() => {
     setCurrentMonthIdx(monthIndex);

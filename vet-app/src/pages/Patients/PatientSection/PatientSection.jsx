@@ -57,7 +57,7 @@ const PatientSection = ({ patientId}) => {
       const patientId = patientToDelete;
 
       await deletePatientById(patientId);
-      console.log("Patient deleted successfully");
+   
       openSnackbar('success', 'Pacjent usunięty pomyślnie!');
 
       setTimeout(() => {

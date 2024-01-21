@@ -1,6 +1,5 @@
-// ConfirmationPopup.jsx
-import React from 'react';
-import './ConfirmationPopup.css'; // Import your CSS file for styling
+import React from "react";
+import "./ConfirmationPopup.css";
 
 const ConfirmationPopup = ({ message, onConfirm, onCancel, onYes, onNo }) => {
   return (

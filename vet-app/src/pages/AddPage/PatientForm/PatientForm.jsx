@@ -1,36 +1,40 @@
-import React, { useState, useEffect } from 'react';
-import { createPatientRequest, updatePatientPhotoRequest, deleteOldPhotoRequest } from '../../../api/patientsRequests';
-import { getClinicsRequest } from '../../../api/clinicRequests';
-import { allBreedsRequest } from '../../../api/breedRequests';
-import { allSpeciesRequest } from '../../../api/speciesRequests';
-import { allOwnersRequest } from '../../../api/ownerRequests';
-import './PatientForm.css'; // Create a CSS file for styling if needed
-import Sidebar from '../../../components/Sidebar/Sidebar';
-import dayjs from 'dayjs';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
-import { useNavigate } from 'react-router-dom';
-import Snackbar from '@mui/material/Snackbar';
-import MuiAlert from '@mui/material/Alert';
+import React, { useState, useEffect } from "react";
+import {
+  createPatientRequest,
+  updatePatientPhotoRequest,
+  deleteOldPhotoRequest,
+} from "../../../api/patientsRequests";
+import { getClinicsRequest } from "../../../api/clinicRequests";
+import { allBreedsRequest } from "../../../api/breedRequests";
+import { allSpeciesRequest } from "../../../api/speciesRequests";
+import { allOwnersRequest } from "../../../api/ownerRequests";
+import "./PatientForm.css";
+import Sidebar from "../../../components/Sidebar/Sidebar";
+import dayjs from "dayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import utc from "dayjs/plugin/utc";
+import timezone from "dayjs/plugin/timezone";
+import { useNavigate } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 const PatientForm = ({ initialValues, onClose, snackbar }) => {
   const [formValues, setFormValues] = useState({
-    patient_name: '',
+    patient_name: "",
     patient_gender: null,
     patient_date_of_birth: null,
     patients_owner_id: null,
     patients_species_id: null,
     patients_breed_id: null,
-    patient_photo: null,  // Add this line for the patient photo
+    patient_photo: null,
   });
 
   const [owners, setOwners] = useState([]);
   const [species, setSpecies] = useState([]);
   const [breeds, setBreeds] = useState([]);
-  const [filteredBreeds, setFilteredBreeds] = useState([]); // New state for filtered breeds
+  const [filteredBreeds, setFilteredBreeds] = useState([]);
   const [clinics, setClinics] = useState([]);
   const [readOnly, setReadOnly] = useState();
   const navigate = useNavigate();
@@ -41,18 +45,16 @@ const PatientForm = ({ initialValues, onClose, snackbar }) => {
   const [focusedBreed, setFocusedBreed] = useState(false);
   const [focusedOwner, setFocusedOwner] = useState(false);
   const [focusedClinic, setFocusedClinic] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
 
   const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
-  const [snackbarMessage, setSnackbarMessage] = useState('');
-
+  const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   dayjs.extend(utc);
   dayjs.extend(timezone);
-  // Set the time zone to Warsaw (CET)
-  dayjs.tz.setDefault('Europe/Warsaw');
-  dayjs.locale('en');
+  dayjs.tz.setDefault("Europe/Warsaw");
+  dayjs.locale("en");
   useEffect(() => {
     setReadOnly();
   }, []);
@@ -64,8 +66,8 @@ const PatientForm = ({ initialValues, onClose, snackbar }) => {
           allOwnersRequest(),
           allSpeciesRequest(),
           allBreedsRequest(),
-          getClinicsRequest()
-        ])
+          getClinicsRequest(),
+        ]);
 
         setOwners(owners);
         setSpecies(species);
@@ -73,7 +75,7 @@ const PatientForm = ({ initialValues, onClose, snackbar }) => {
         setFilteredBreeds(breeds);
         setClinics(clinics);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       }
     };
 
@@ -89,17 +91,19 @@ const PatientForm = ({ initialValues, onClose, snackbar }) => {
       try {
         const response = await fetch(initialValues.patient_photo);
         const blob = await response.blob();
-        const fileName = initialValues.patient_photo.substring(initialValues.patient_photo.lastIndexOf('/') + 1);
-        const urlFile = new File([blob], fileName, { type: 'image/*' });
+        const fileName = initialValues.patient_photo.substring(
+          initialValues.patient_photo.lastIndexOf("/") + 1
+        );
+        const urlFile = new File([blob], fileName, { type: "image/*" });
 
         setFormValues((prevFormValues) => ({
           ...prevFormValues,
           patient_photo: urlFile,
         }));
       } catch (error) {
-        console.error('Error fetching photo from URL:', error);
+        console.error("Error fetching photo from URL:", error);
       }
-    }
+    };
     updateFormValues();
   }, [initialValues]);
 
@@ -107,12 +111,14 @@ const PatientForm = ({ initialValues, onClose, snackbar }) => {
     const { name, value } = e.target;
     if (name === "patients_species_id") {
       const selectedSpeciesId = parseInt(value);
-      const breedsForSpecies = breeds.filter(breed => breed.breeds_species_id === selectedSpeciesId);
+      const breedsForSpecies = breeds.filter(
+        (breed) => breed.breeds_species_id === selectedSpeciesId
+      );
       setFilteredBreeds(breedsForSpecies);
       setFormValues((prevFormValues) => ({
         ...prevFormValues,
         [name]: value,
-        patients_breed_id: "", // Reset breed selection when species changes
+        patients_breed_id: "",
       }));
     } else {
       setFormValues((prevFormValues) => ({
@@ -125,7 +131,7 @@ const PatientForm = ({ initialValues, onClose, snackbar }) => {
     if (!readOnly) {
       setFormValues((prevFormValues) => ({
         ...prevFormValues,
-        patient_date_of_birth: newValue ? newValue.format('YYYY-MM-DD') : null,
+        patient_date_of_birth: newValue ? newValue.format("YYYY-MM-DD") : null,
       }));
     }
   };
@@ -140,68 +146,70 @@ const PatientForm = ({ initialValues, onClose, snackbar }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const requiredFields = ['patient_name', 'patient_gender', 'patients_owner_id', 'patients_species_id', 'patients_breed_id'];
-    const isEmptyField = requiredFields.some(field => !formValues[field]);
+    const requiredFields = [
+      "patient_name",
+      "patient_gender",
+      "patients_owner_id",
+      "patients_species_id",
+      "patients_breed_id",
+    ];
+    const isEmptyField = requiredFields.some((field) => !formValues[field]);
 
     if (isEmptyField) {
-      setErrorMessage('Wypełnij wszystkie wymagane pola.');
+      setErrorMessage("Wypełnij wszystkie wymagane pola.");
       return;
     }
     try {
-      console.log("form values in submit", formValues);
       const formData = new FormData();
       Object.entries(formValues).forEach(([key, value]) => {
-        if (key === 'patient_photo' && value === null) {
+        if (key === "patient_photo" && value === null) {
           return;
         }
         formData.append(key, value);
       });
 
-      console.log(formValues);
-
       if (!initialValues) {
-
         const response = await createPatientRequest(formData);
-        console.log('Form submitted!', response);
-        openSnackbar('success', 'Pacjent dodany pomyślnie!');
+        openSnackbar("success", "Pacjent dodany pomyślnie!");
         setTimeout(() => {
           navigate(`/patients/${response.id}`, { replace: true });
         }, 3000);
       } else {
-        const fileName = initialValues.patient_photo.substring(initialValues.patient_photo.lastIndexOf('/') + 1);
+        const fileName = initialValues.patient_photo.substring(
+          initialValues.patient_photo.lastIndexOf("/") + 1
+        );
         await deleteOldPhotoRequest(fileName);
-        const response = await updatePatientPhotoRequest(initialValues.id, formData);
-        console.log('Form submitted!', response);
-        snackbar('success', 'Dane pacjenta zmodyfikowane pomyślnie!');
+        const response = await updatePatientPhotoRequest(
+          initialValues.id,
+          formData
+        );
+        snackbar("success", "Dane pacjenta zmodyfikowane pomyślnie!");
         onClose();
       }
     } catch (error) {
-      console.error('Error:', error.message);
-      openSnackbar('error', 'Błąd podczas dodawania pacjenta.');
+      console.error("Error:", error.message);
+      openSnackbar("error", "Błąd podczas dodawania pacjenta.");
     }
   };
 
-
-
-
   const handleFocusPatientName = (e) => {
     setFocusedPatientName(true);
-  }
+  };
   const handleFocusGender = (e) => {
     setFocusedGender(true);
-  }
+  };
   const handleFocusSpecies = (e) => {
     setFocusedSpecies(true);
-  }
+  };
   const handleFocusBreed = (e) => {
     setFocusedBreed(true);
-  }
+  };
   const handleFocusOwner = (e) => {
     setFocusedOwner(true);
-  }
+  };
   const handleFocusClinic = (e) => {
     setFocusedClinic(true);
-  }
+  };
 
   const openSnackbar = (severity, message) => {
     setSnackbarSeverity(severity);
@@ -209,20 +217,18 @@ const PatientForm = ({ initialValues, onClose, snackbar }) => {
     setSnackbarOpen(true);
   };
 
-
   return (
     <>
-
       <div className="add-patient">
         <Sidebar />
-        <div className='patient-form'>
+        <div className="patient-form">
           <h3 className="text-3xl font-semibold mt-10 mb-10 text-emerald-600">
-            Formularz dodawania pacjenta</h3>
-          <form onSubmit={handleSubmit}
-            encType="multipart/form-data">
+            Formularz dodawania pacjenta
+          </h3>
+          <form onSubmit={handleSubmit} encType="multipart/form-data">
             <label>
               <input
-                className='input-patientform'
+                className="input-patientform"
                 type="text"
                 name="patient_name"
                 value={formValues.patient_name}
@@ -232,12 +238,14 @@ const PatientForm = ({ initialValues, onClose, snackbar }) => {
                 onBlur={handleFocusPatientName}
                 focused={focusedPatientName.toString()}
               />
-              <span className='span-patientform'>Należy podać imię pacjenta</span>
+              <span className="span-patientform">
+                Należy podać imię pacjenta
+              </span>
             </label>
 
             <label>
               <select
-                className='select-patientform'
+                className="select-patientform"
                 name="patient_gender"
                 value={formValues.patient_gender}
                 onChange={handleChange}
@@ -249,12 +257,14 @@ const PatientForm = ({ initialValues, onClose, snackbar }) => {
                 <option value="samiec">Samiec</option>
                 <option value="samica">Samica</option>
               </select>
-              <span className='span-patientform'>Należy wybrać płeć pacjenta</span>
+              <span className="span-patientform">
+                Należy wybrać płeć pacjenta
+              </span>
             </label>
 
             <label>
               <select
-                className='select-patientform'
+                className="select-patientform"
                 name="patients_species_id"
                 value={formValues.patients_species_id}
                 onChange={handleChange}
@@ -269,12 +279,14 @@ const PatientForm = ({ initialValues, onClose, snackbar }) => {
                   </option>
                 ))}
               </select>
-              <span className='span-patientform'>Należy wybrać gatunek pacjenta</span>
+              <span className="span-patientform">
+                Należy wybrać gatunek pacjenta
+              </span>
             </label>
 
             <label>
               <select
-                className='select-patientform'
+                className="select-patientform"
                 name="patients_breed_id"
                 value={formValues.patients_breed_id}
                 onChange={handleChange}
@@ -289,19 +301,21 @@ const PatientForm = ({ initialValues, onClose, snackbar }) => {
                   </option>
                 ))}
               </select>
-              <span className='span-patientform'>Należy wybrać rasę pacjenta</span>
-
+              <span className="span-patientform">
+                Należy wybrać rasę pacjenta
+              </span>
             </label>
 
             <label>
               <select
-                className='select-patientform'
+                className="select-patientform"
                 name="patients_owner_id"
                 value={formValues.patients_owner_id}
                 onChange={handleChange}
                 required="true"
                 onBlur={handleFocusOwner}
-                focused={focusedOwner.toString()}>
+                focused={focusedOwner.toString()}
+              >
                 <option value="">Wybierz właściciela</option>
                 {owners.map((owner) => (
                   <option key={owner.id} value={owner.id}>
@@ -309,73 +323,78 @@ const PatientForm = ({ initialValues, onClose, snackbar }) => {
                   </option>
                 ))}
               </select>
-              <span className='span-patientform'>Należy wybrać właściciela pacjenta</span>
+              <span className="span-patientform">
+                Należy wybrać właściciela pacjenta
+              </span>
             </label>
 
-
             <h3>Data urodzenia</h3>
-            <div className='patient-form-date'>
+            <div className="patient-form-date">
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
-
                   placeholder="Data urodzenia"
                   name="patient_date_of_birth"
-                  format='YYYY-MM-DD'
+                  format="YYYY-MM-DD"
                   value={dayjs(formValues.patient_date_of_birth)}
                   onChange={handleDateChange}
                   disabled={!!readOnly}
-                  dayOfWeekFormatter={(_day, weekday) => `${weekday.format('dd')}`}
+                  dayOfWeekFormatter={(_day, weekday) =>
+                    `${weekday.format("dd")}`
+                  }
                   sx={{
                     backgroundColor: "white",
                     borderRadius: "10px",
 
-                    "& fieldset": { border: 'none' },
+                    "& fieldset": { border: "none" },
                   }}
                 />
               </LocalizationProvider>
             </div>
 
-
-
-
             <h3>Zdjęcie</h3>
             <input
-              className='patient-form-photo'
+              className="patient-form-photo"
               type="file"
               accept="image/*"
               name="patient_photo"
               multiple
               onChange={handlePhotoChange}
             />
-            {errorMessage && <span className='span-patientform-error'>{errorMessage}</span>}
+            {errorMessage && (
+              <span className="span-patientform-error">{errorMessage}</span>
+            )}
 
             <div className="button-container-add-patient">
-              {!initialValues && 
-              <button
-                type="submit"
-                onClick={handleSubmit}
-                className="submit-button-add-patient">
-                Dodaj
-              </button>}
-              {initialValues && 
-
+              {!initialValues && (
                 <button
-                type='submit'
-                onClick={handleSubmit}
-                className="submit-button-update-patient">
-                Edytuj
-              </button>}
-              {initialValues && <button
-                    type="submit"
-                    onClick={() => onClose()}
-                    className="submit-button-cancel-patient"
-                  >
-                    Anuluj
-                  </button>}
-              </div>
+                  type="submit"
+                  onClick={handleSubmit}
+                  className="submit-button-add-patient"
+                >
+                  Dodaj
+                </button>
+              )}
+              {initialValues && (
+                <button
+                  type="submit"
+                  onClick={handleSubmit}
+                  className="submit-button-update-patient"
+                >
+                  Edytuj
+                </button>
+              )}
+              {initialValues && (
+                <button
+                  type="submit"
+                  onClick={() => onClose()}
+                  className="submit-button-cancel-patient"
+                >
+                  Anuluj
+                </button>
+              )}
+            </div>
           </form>
         </div>
-
       </div>
       <Snackbar
         open={snackbarOpen}
@@ -393,7 +412,6 @@ const PatientForm = ({ initialValues, onClose, snackbar }) => {
         </MuiAlert>
       </Snackbar>
     </>
-
   );
 };
 

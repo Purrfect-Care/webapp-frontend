@@ -11,14 +11,21 @@ const Login = () => {
   const [snackbarOpenlog, setSnackbarOpenlog] = useState(false);
   const [snackbarSeveritylog, setSnackbarSeveritylog] = useState("success");
   const [snackbarMessagelog, setSnackbarMessagelog] = useState("");
-  const { setComesFromLogin, setLoggingOut, loggingOut, setEvents, setIsLoggedIn, isLoggedIn } = useContext(GlobalContext);
+  const {
+    setComesFromLogin,
+    setLoggingOut,
+    loggingOut,
+    setEvents,
+    setIsLoggedIn,
+    isLoggedIn,
+  } = useContext(GlobalContext);
   const [errors, setErrors] = useState({
     email: "",
     password: "",
   });
 
   const handleEnterPress = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       handleLogin();
     }
   };
@@ -58,12 +65,11 @@ const Login = () => {
     if (email && !emailRegex.test(email)) {
       newErrors.email = "Podaj poprawny adres e-mail.";
       valid = false;
-    } 
+    }
 
     setErrors(newErrors);
     return valid;
   };
-
 
   useEffect(() => {
     if (loggingOut) {
@@ -75,7 +81,6 @@ const Login = () => {
   }, [loggingOut]);
 
   const handleLogin = async (e) => {
-
     if (!validateForm()) {
       return;
     }
@@ -90,28 +95,21 @@ const Login = () => {
           email,
           password,
         }),
-        
       });
-        
+
       if (response.ok) {
         const data = await response.json();
         setIsLoggedIn(true);
         setComesFromLogin(true);
-        console.log(isLoggedIn);
 
-        // Store employee data in local storage
-   
         localStorage.setItem("authToken", data.token);
         localStorage.setItem(
           "authTokenExpiration",
           Math.floor(data.expiration_time)
         );
-        if (data.employee.employee_role === "SuperAdmin")
-        {
+        if (data.employee.employee_role === "SuperAdmin") {
           routeChangeSuperAdmin();
-        }
-        else
-        {
+        } else {
           routeChange();
         }
       } else {
@@ -150,43 +148,45 @@ const Login = () => {
           <Header />
         </div>
         <div className="h-full flex flex-col items-center mt-36">
-        <div className="relative pb-8 mb-2"> 
-          <input
-            className={`rounded h-12 w-96 ${
-              errors.email
-                ? "border-2 border-red-700"
-                : "border-gray-300"
-            }`}
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => {clearErrors(email); setEmail(e.target.value)}}
-            onKeyDown={handleEnterPress}
-          />
-          {errors.email && (
-                  <span className="text-red-900 text-base absolute bottom-0 right-0 mb-2 mr-2">
-                    {errors.email}
-                  </span>
-                )}
+          <div className="relative pb-8 mb-2">
+            <input
+              className={`rounded h-12 w-96 ${
+                errors.email ? "border-2 border-red-700" : "border-gray-300"
+              }`}
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => {
+                clearErrors(email);
+                setEmail(e.target.value);
+              }}
+              onKeyDown={handleEnterPress}
+            />
+            {errors.email && (
+              <span className="text-red-900 text-base absolute bottom-0 right-0 mb-2 mr-2">
+                {errors.email}
+              </span>
+            )}
           </div>
-            <div className="relative pb-8 mb-2">
-          <input
-            className={`rounded h-12 w-96 ${
-              errors.password
-                ? "border-2 border-red-700"
-                : "border-gray-300"
-            }`}
-            type="password"
-            placeholder="Hasło"
-            value={password}
-            onChange={(e) => {clearErrors(password); setPassword(e.target.value)}}
-            onKeyDown={handleEnterPress}
-          />
-          {errors.password && (
-                  <span className="text-red-900 text-base absolute bottom-0 right-0 mb-2 mr-2">
-                    {errors.password}
-                  </span>
-                )}
+          <div className="relative pb-8 mb-2">
+            <input
+              className={`rounded h-12 w-96 ${
+                errors.password ? "border-2 border-red-700" : "border-gray-300"
+              }`}
+              type="password"
+              placeholder="Hasło"
+              value={password}
+              onChange={(e) => {
+                clearErrors(password);
+                setPassword(e.target.value);
+              }}
+              onKeyDown={handleEnterPress}
+            />
+            {errors.password && (
+              <span className="text-red-900 text-base absolute bottom-0 right-0 mb-2 mr-2">
+                {errors.password}
+              </span>
+            )}
           </div>
           <span className="flex flex-between w-96 items-center">
             <footer className="flex justify-end w-96">

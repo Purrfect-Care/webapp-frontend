@@ -1,21 +1,21 @@
 export async function allSpeciesRequest() {
-    const endpoint = "http://127.0.0.1:8000/api/species/";
-  
-    const response = await fetch(endpoint, {
-      method: "GET",
-    });
-  
-    if (response.ok) {
-      const json = await response.json();
-      return json;
-    }
-  
-    throw new Error(
-      "Response ${response.status}: ${response.statusText} - ${await response.text()}"
-    );
+  const endpoint = "http://127.0.0.1:8000/api/species/";
+
+  const response = await fetch(endpoint, {
+    method: "GET",
+  });
+
+  if (response.ok) {
+    const json = await response.json();
+    return json;
   }
-  
-  const BASE_URL = "http://localhost:8000/api";
+
+  throw new Error(
+    "Response ${response.status}: ${response.statusText} - ${await response.text()}"
+  );
+}
+
+const BASE_URL = "http://localhost:8000/api";
 
 export const addSpeciesRequest = async (species) => {
   try {
@@ -26,7 +26,6 @@ export const addSpeciesRequest = async (species) => {
       },
       body: JSON.stringify(species),
     });
-    console.log(species);
 
     if (response.ok) {
       return response.json();
@@ -34,7 +33,6 @@ export const addSpeciesRequest = async (species) => {
       throw new Error("Failed to add species");
     }
   } catch (error) {
-    
     throw new Error(`Error: ${error.message}`);
   }
 };
@@ -49,7 +47,6 @@ export const deleteSpecieRequest = async (specieId) => {
     });
 
     if (response.ok) {
-      // Check if there is JSON data in the response before parsing
       const jsonData = await response.text();
       return jsonData ? JSON.parse(jsonData) : null;
     } else {
@@ -69,15 +66,12 @@ export const updateSpecieRequest = async (specieId, specie) => {
       },
       body: JSON.stringify(specie),
     });
-    console.log(specie);
 
     if (response.ok) {
-      console.log("Specie deleted successfully");
     } else {
       throw new Error("Failed to update specie");
     }
   } catch (error) {
-    
     throw new Error(`Error: ${error.message}`);
   }
 };

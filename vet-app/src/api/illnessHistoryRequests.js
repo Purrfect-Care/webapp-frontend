@@ -15,7 +15,6 @@ export async function illnessHistoryByPatientIdRequest(patientId) {
   }
 }
 
-
 export async function deleteIllnessHistoryRequest(id) {
   const endpoint = `http://localhost:8000/api/illness_history/${id}/`;
 
@@ -28,7 +27,6 @@ export async function deleteIllnessHistoryRequest(id) {
     });
 
     if (response.ok) {
-      console.log("Illness history item deleted successfully");
       return true;
     } else {
       throw new Error(`Response ${response.status}: ${response.statusText}`);
@@ -91,7 +89,6 @@ export const addIllnessRequest = async (illness) => {
       },
       body: JSON.stringify(illness),
     });
-    console.log(illness);
 
     if (response.ok) {
       return response.json();
@@ -99,7 +96,6 @@ export const addIllnessRequest = async (illness) => {
       throw new Error("Failed to add illness");
     }
   } catch (error) {
-    
     throw new Error(`Error: ${error.message}`);
   }
 };
@@ -113,15 +109,12 @@ export const updateIllnessRequest = async (illnessId, illness) => {
       },
       body: JSON.stringify(illness),
     });
-    console.log(illness);
 
     if (response.ok) {
-      console.log("Illness deleted successfully");
     } else {
       throw new Error("Failed to update illness");
     }
   } catch (error) {
-    
     throw new Error(`Error: ${error.message}`);
   }
 };
@@ -136,7 +129,6 @@ export const deleteIllnessRequest = async (illnessId) => {
     });
 
     if (response.ok) {
-      // Check if there is JSON data in the response before parsing
       const jsonData = await response.text();
       return jsonData ? JSON.parse(jsonData) : null;
     } else {

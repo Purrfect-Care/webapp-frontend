@@ -4,7 +4,6 @@ export async function patientRequest(patientId) {
   const response = await fetch(endpoint);
   if (response.ok) {
     const data = await response.json();
-    console.log(data);
     return data;
   }
 
@@ -34,37 +33,38 @@ export async function patientsSideBarRequest() {
   );
 }
 
-export async function allPatientsRequest(){
-  const endpoint = "http://127.0.0.1:8000/api/patients/"
+export async function allPatientsRequest() {
+  const endpoint = "http://127.0.0.1:8000/api/patients/";
 
-  const response = await fetch(endpoint, { 
-      method: "GET"
+  const response = await fetch(endpoint, {
+    method: "GET",
   });
 
   if (response.ok) {
-      const json = await response.json();
-      return json;
+    const json = await response.json();
+    return json;
   }
 
-  throw new Error('Response ${response.status}: ${response.statusText} - ${await response.text()}');
+  throw new Error(
+    "Response ${response.status}: ${response.statusText} - ${await response.text()}"
+  );
 }
 
 export async function createPatientRequest(formData) {
   const endpoint = `http://127.0.0.1:8000/api/patients/`;
   try {
     const response = await fetch(endpoint, {
-      method: 'POST',
-      body: formData,  // Pass the FormData directly as the body
+      method: "POST",
+      body: formData,
     });
     if (response.ok) {
       const updatedData = await response.json();
-      console.log(updatedData);
       return updatedData;
     } else {
       throw new Error(`Response ${response.status}: ${response.statusText}`);
     }
   } catch (error) {
-    console.error('Error creating patient:', error);
+    console.error("Error creating patient:", error);
     throw error;
   }
 }
@@ -81,7 +81,6 @@ export async function deletePatientById(patientId) {
     });
 
     if (response.ok) {
-      console.log("Patient deleted successfully");
       return true;
     } else {
       throw new Error(`Response ${response.status}: ${response.statusText}`);
@@ -92,55 +91,57 @@ export async function deletePatientById(patientId) {
   }
 }
 
-export async function allPatientsByClinicIdRequest(clinicId){
-  const endpoint = `http://127.0.0.1:8000/api/patients/?clinic_id=${clinicId}`
+export async function allPatientsByClinicIdRequest(clinicId) {
+  const endpoint = `http://127.0.0.1:8000/api/patients/?clinic_id=${clinicId}`;
 
-  const response = await fetch(endpoint, { 
-      method: "GET"
+  const response = await fetch(endpoint, {
+    method: "GET",
   });
 
   if (response.ok) {
-      const json = await response.json();
-      return json;
+    const json = await response.json();
+    return json;
   }
 
-  throw new Error('Response ${response.status}: ${response.statusText} - ${await response.text()}');
+  throw new Error(
+    "Response ${response.status}: ${response.statusText} - ${await response.text()}"
+  );
 }
-
 
 export async function updatePatientPhotoRequest(patientId, formData) {
   const endpoint = `http://localhost:8000/api/patients/${patientId}/`;
-  try{
-  const response = await fetch(endpoint, {
-    method: 'PUT',
-    body: formData,
-  });
-  if (response.ok) {
-    const updatedData = await response.json();
-    return updatedData;
-  } else {
-    throw new Error(`Response ${response.status}: ${response.statusText}`);
+  try {
+    const response = await fetch(endpoint, {
+      method: "PUT",
+      body: formData,
+    });
+    if (response.ok) {
+      const updatedData = await response.json();
+      return updatedData;
+    } else {
+      throw new Error(`Response ${response.status}: ${response.statusText}`);
+    }
+  } catch (error) {
+    console.error("Error updating patient:", error);
+    throw error;
   }
-} catch (error) {
-  console.error('Error updating patient:', error);
-  throw error;
-}
-
 }
 
 export async function deleteOldPhotoRequest(photoFileName) {
   const endpoint = `http://localhost:8000/delete_old_photo/${photoFileName}/`;
   try {
     const response = await fetch(endpoint, {
-      method: 'DELETE',
+      method: "DELETE",
     });
 
     if (!response.ok) {
-      console.error('Failed to delete old photo:', response.status, response.statusText);
+      console.error(
+        "Failed to delete old photo:",
+        response.status,
+        response.statusText
+      );
     }
   } catch (error) {
-    console.error('Error deleting old photo:', error);
+    console.error("Error deleting old photo:", error);
   }
 }
-
-

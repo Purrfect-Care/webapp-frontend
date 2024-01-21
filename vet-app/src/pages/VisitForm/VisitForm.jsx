@@ -8,7 +8,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import dayjs from "dayjs";
-import utc from "dayjs/plugin/utc"; // Import the utc plugin
+import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import { FaPen, FaTrash, FaPlus } from "react-icons/fa";
 import {
@@ -80,19 +80,12 @@ const VisitForm = ({
   };
 
   useEffect(() => {
-    // Fetch employee data from local storage
     const authToken = localStorage.getItem("authToken");
     const storedEmployeeData = jwtDecode(authToken);
     if (storedEmployeeData) {
       setEmployeeData(storedEmployeeData);
     }
   }, []);
-
-  // const formatDuration = (duration) => {
-  //   const [hours, minutes] = duration.split(':');
-
-  //   return `${hours}:${minutes}`;
-  // };
 
   const addPhotoField = () => {
     setPhotos((prevPhotos) => [
@@ -129,7 +122,6 @@ const VisitForm = ({
 
   dayjs.extend(utc);
   dayjs.extend(timezone);
-  // Set the time zone to Warsaw (CET)
   dayjs.tz.setDefault("Europe/Warsaw");
   dayjs.locale("en");
 
@@ -239,7 +231,6 @@ const VisitForm = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Check if any required field is empty
     const requiredFields = [
       "visits_patient_id",
       "visits_visit_type_id",
@@ -253,18 +244,15 @@ const VisitForm = ({
     const isPhotoEmpty = photos.some((photo) => !photo.image);
 
     if (isEmptyField || isPhotoEmpty) {
-      // Display an error message or take appropriate action
       setErrorMessage("Wypełnij wszystkie wymagane pola.");
       return;
     }
 
-    console.log("Form submitted!");
     try {
       await onSubmit({ ...formValues, photos });
-      console.log(formValues);
+
       onClose();
     } catch (error) {
-      // Handle the error returned by the server
       if (error.message === "This vet already has a visit at this time.") {
         setErrorMessage("This vet already has a visit at this time.");
       } else {
@@ -327,7 +315,7 @@ const VisitForm = ({
       const photoId = photoToDelete.id;
       await deletePhotoById(photoId);
       openSnackbar("success", "Usuwanie zdjęcia zakończone sukcesem!");
-      console.log("snackbar: ", snackbarMessage, snackbarSeverity);
+
       setPhotos((prevPhotos) =>
         prevPhotos.filter((photo) => photo.id !== photoToDelete.id)
       );
@@ -370,7 +358,7 @@ const VisitForm = ({
           Object.entries(photoData).forEach(([key, value]) => {
             finalPhotoData.append(key, value);
           });
-          console.log("Final data: ", finalPhotoData);
+
           await createPhotoRequest(finalPhotoData);
 
           const newPhotos = await getPhotosByVisitId(initialValues.id);
@@ -398,7 +386,6 @@ const VisitForm = ({
         finalPhotoData.append(key, value);
       });
 
-      console.log("Final data: ", finalPhotoData);
       await patchUpdatePhotoRequest(finalPhotoData, photo.id);
 
       const newPhotos = await getPhotosByVisitId(initialValues.id);
@@ -520,7 +507,6 @@ const VisitForm = ({
                   onChange={handleChange}
                 />
               </label>
-              {/* Add other patient-related fields here */}
             </div>
             <div className="form-section-visit">
               <h3>Wizyta</h3>

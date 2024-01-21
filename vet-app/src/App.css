@@ -5,10 +5,10 @@
   font-family: Outfit;
   margin: 0;
   padding: 0;
-
 }
 
-.home, .prescription {
+.home,
+.prescription {
   height: 90vh;
   align-items: center;
   font-size: 3rem;
@@ -16,11 +16,11 @@
 
 .app-conatiner {
   background-color: brown;
-  min-height: 100vh; 
+  min-height: 100vh;
   display: flex;
 }
 
 .app {
-  max-width: 100vw; 
-  max-height: 100vh;  
+  max-width: 100vw;
+  max-height: 100vh;
 }

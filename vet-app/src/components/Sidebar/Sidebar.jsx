@@ -11,7 +11,7 @@ import * as IoIcons from "react-icons/io";
 import GlobalContext from "../../context/GlobalContext";
 import { jwtDecode } from "jwt-decode";
 
-const Sidebar = ( ) => {
+const Sidebar = () => {
   const [sidebarTab, setSidebarTab] = useState(false);
   const [employeeData, setEmployeeData] = useState(null);
   const { setLoggingOut, setMonthSelected } = useContext(GlobalContext);
@@ -29,8 +29,7 @@ const Sidebar = ( ) => {
   };
 
   useEffect(() => {
-    // Fetch employee data from local storageconst 
-    const authToken = localStorage.getItem('authToken');
+    const authToken = localStorage.getItem("authToken");
     const storedEmployeeData = jwtDecode(authToken);
     if (storedEmployeeData) {
       setEmployeeData(storedEmployeeData);
@@ -44,7 +43,6 @@ const Sidebar = ( ) => {
     localStorage.removeItem("authTokenExpiration");
     setMonthSelected(true);
     setLoggingOut(true);
-   
   };
 
   return (

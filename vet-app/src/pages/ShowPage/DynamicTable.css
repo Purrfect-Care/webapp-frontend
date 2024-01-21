@@ -1,26 +1,25 @@
-/* DynamicTable.css */
 .dynamic-table {
-    background-color: #45846f4f;
-    height: 100vh;
-    overflow: auto;
-    border: 1px solid #080707;
-  }
-  .searchbarTable {
-    display: flex; /* Use flexbox for layout */
-    justify-content: flex-end; /* Move items to the end (right) of the container */
-    margin-bottom: 5px;
-    padding-right: 15px; /* Add padding for better spacing */
+  background-color: #45846f4f;
+  height: 100vh;
+  overflow: auto;
+  border: 1px solid #080707;
+}
+.searchbarTable {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 5px;
+  padding-right: 15px;
 }
 
 .inputSearchTable {
-    height: 5vh;
-    min-width: 20vh;
-    max-width: 30vh; /* Adjust the width as needed */
-    padding: 8px;
-    border: none;
-    border-radius: 20px; /* Make it curved */
-    outline: none;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-    margin-bottom: 5px;
-    flex-grow: 1; /* Take up remaining space on the right */
+  height: 5vh;
+  min-width: 20vh;
+  max-width: 30vh;
+  padding: 8px;
+  border: none;
+  border-radius: 20px;
+  outline: none;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 5px;
+  flex-grow: 1;
 }
