@@ -63,7 +63,6 @@ const AddMedications = ({ initialValues, onClose, snackbar }) => {
     } catch (error) {
       console.error("Error:", error.message);
       openSnackbar("error", "Błąd podczas dodawania leku");
-      snackbar("error", "Błąd podczas dodawania leku");
     }
   };
 
