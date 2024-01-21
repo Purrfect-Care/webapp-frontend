@@ -13,13 +13,12 @@ const AddMedications = ({ initialValues, onClose, snackbar }) => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-
   useEffect(() => {
     const updateFormValues = async () => {
       if (initialValues) {
         setMedication(initialValues);
       }
-    }
+    };
     updateFormValues();
   }, [initialValues]);
 
@@ -44,19 +43,17 @@ const AddMedications = ({ initialValues, onClose, snackbar }) => {
     }
 
     try {
-
       if (initialValues) {
-        const response = await updateMedicationRequest(initialValues.id, medication);
+        const response = await updateMedicationRequest(
+          initialValues.id,
+          medication
+        );
 
-        console.log("Medication updated successfully", response);
         onClose();
         snackbar("success", "Lek zmodyfikowany pomyślnie!");
-
       } else {
-
         const response = await addMedicationsRequest(medication);
 
-        console.log("Medication added successfully", response);
         openSnackbar("success", "Lek dodany pomyślnie");
         setMedication({ medication_name: "" });
       }
@@ -76,62 +73,64 @@ const AddMedications = ({ initialValues, onClose, snackbar }) => {
         <div className="mainPart">
           <div className="flex items-start justify-center h-full">
             <div className="flex flex-col items-center mt-20 justify-center">
-            <div style={{justifyContent: 'center', marginLeft: '8vh'}}>
-              <h3 className="text-3xl font-semibold mb-10 text-emerald-600">
-                Formularz dodawania nowego leku
-              </h3>
+              <div style={{ justifyContent: "center", marginLeft: "8vh" }}>
+                <h3 className="text-3xl font-semibold mb-10 text-emerald-600">
+                  Formularz dodawania nowego leku
+                </h3>
               </div>
-              <div style={{justifyContent: 'center', marginLeft: '8vh'}}>
-              <div className="relative pb-8 mb-2">
-                <input
-                  className={`rounded h-12 w-96 ${isError ? "border-red-500" : "border-gray-300"
+              <div style={{ justifyContent: "center", marginLeft: "8vh" }}>
+                <div className="relative pb-8 mb-2">
+                  <input
+                    className={`rounded h-12 w-96 ${
+                      isError ? "border-red-500" : "border-gray-300"
                     }`}
-                  type="text"
-                  placeholder="Nazwa leku"
-                  name="medication_name"
-                  value={medication.medication_name}
-                  onChange={(e) => {
-                    clearErrors();
-                    setMedication({
-                      ...medication,
-                      medication_name: e.target.value,
-                    });
-                  }}
-                />
-                {errorMessage && (
-                  <span className="text-red-500 text-sm absolute bottom-0 right-0 mb-2 mr-2">
-                    {errorMessage}
-                  </span>
-                )}
-              </div>
-              {!initialValues && 
-              <div style={{justifyContent: 'center', display: 'flex'}}>
-                <button
-                type="submit"
-                onClick={handleAddMedication}
-                className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md"
-              >
-                Dodaj
-              </button>
-              </div>}
-              {initialValues && (
-                <div className="mx-15vh mt-auto mb-5vh flex justify-center">
-                  <button
-                    type="submit"
-                    onClick={handleAddMedication}
-                    className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md mr-10"
-                  >
-                    Edytuj
-                  </button>
-                  <button
-                    type="submit"
-                    onClick={() => onClose()}
-                    className="bg-red-600 hover:bg-red-800 px-10 py-2 rounded text-white hover:shadow-md"
-                  >
-                    Anuluj
-                  </button>
+                    type="text"
+                    placeholder="Nazwa leku"
+                    name="medication_name"
+                    value={medication.medication_name}
+                    onChange={(e) => {
+                      clearErrors();
+                      setMedication({
+                        ...medication,
+                        medication_name: e.target.value,
+                      });
+                    }}
+                  />
+                  {errorMessage && (
+                    <span className="text-red-500 text-sm absolute bottom-0 right-0 mb-2 mr-2">
+                      {errorMessage}
+                    </span>
+                  )}
                 </div>
-              )}
+                {!initialValues && (
+                  <div style={{ justifyContent: "center", display: "flex" }}>
+                    <button
+                      type="submit"
+                      onClick={handleAddMedication}
+                      className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md"
+                    >
+                      Dodaj
+                    </button>
+                  </div>
+                )}
+                {initialValues && (
+                  <div className="mx-15vh mt-auto mb-5vh flex justify-center">
+                    <button
+                      type="submit"
+                      onClick={handleAddMedication}
+                      className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md mr-10"
+                    >
+                      Edytuj
+                    </button>
+                    <button
+                      type="submit"
+                      onClick={() => onClose()}
+                      className="bg-red-600 hover:bg-red-800 px-10 py-2 rounded text-white hover:shadow-md"
+                    >
+                      Anuluj
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>

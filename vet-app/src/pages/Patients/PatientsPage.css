@@ -1,7 +1,6 @@
 .patientsPage {
-    display: flex;
-    overflow-y: hidden;
-    box-sizing: border-box;
-    height: 87vh;
-    
+  display: flex;
+  overflow-y: hidden;
+  box-sizing: border-box;
+  height: 87vh;
 }

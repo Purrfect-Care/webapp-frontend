@@ -1,91 +1,87 @@
 .signIn {
-    height: 100vh;
-    overflow-y: auto; /* Add vertical scroll for smaller screens */
-    overflow-x: hidden; /* Hide horizontal scroll */    
-    background-color: #45846f4f;
-    box-shadow: inset -5px 8px 24px -15px rgba(66, 68, 90, 1);
-
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-color: #45846f4f;
+  box-shadow: inset -5px 8px 24px -15px rgba(66, 68, 90, 1);
 }
 
 #siginForm {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%; /* Adjust the width as needed */
-    max-width: 567px;
-    margin-left: 15vh;
-    padding: 20px;
-  }
-
-#siginForm input {
-    border-radius: 10px;
-    padding: 8px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  max-width: 567px;
+  margin-left: 15vh;
+  padding: 20px;
 }
 
+#siginForm input {
+  border-radius: 10px;
+  padding: 8px;
+}
 
 .main {
-    display: flex;
-    width: 100%;
-    align-items: center;
+  display: flex;
+  width: 100%;
+  align-items: center;
 }
 
 .code-city {
-    display: flex;
-    width: 100%;
-    align-items: center;
+  display: flex;
+  width: 100%;
+  align-items: center;
 }
 
 .role-clinics {
-    display: flex;
-    width: 100%;
-    align-items: center;
+  display: flex;
+  width: 100%;
+  align-items: center;
 }
 
 .species-breed {
-    width: 100%;
+  width: 100%;
 }
 
 .mainPart-signin {
-    height: 87vh;
+  height: 87vh;
 }
 
-
 .roles {
-    margin-right: 15px;
-    padding: 10px 50px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
+  margin-right: 15px;
+  padding: 10px 50px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
 }
 
 .clinics {
-    padding: 10px 100px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
+  padding: 10px 100px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
 }
 
 .links {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%; 
-    max-width: 450px; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 450px;
 }
 
 .buttonContainer {
-    margin-top: 8px; 
-    width: 100%; 
-    display: flex;
-    justify-content: flex-end; 
-    background-color: #45846f4f;
-
+  margin-top: 8px;
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  background-color: #45846f4f;
 }
 
 .buttonContainer button {
-    padding: 10px 20px;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  padding: 10px 20px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }

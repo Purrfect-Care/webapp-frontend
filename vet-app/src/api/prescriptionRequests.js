@@ -66,7 +66,7 @@ export const addPrescribedMedicationRequest = async (prescriptionmedData) => {
       },
       body: JSON.stringify(prescriptionmedData),
     });
-    console.log("medication json", prescriptionmedData);
+
 
     if (response.ok) {
       return response.json();
@@ -89,7 +89,7 @@ export const deleteEmptyPrescriptionsRequest = async () => {
     });
 
     if (response.ok) {
-      console.log("Empty prescriptions deleted successfully");
+
     } else {
       throw new Error(`Error deleting empty prescriptions: ${response.statusText}`);
     }

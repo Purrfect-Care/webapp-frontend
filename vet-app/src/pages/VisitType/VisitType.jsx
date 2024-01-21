@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { visitTypesRequest } from '../../api/visitsRequests.js'; // Import your API function
+import React, { useState, useEffect } from "react";
+import { visitTypesRequest } from "../../api/visitsRequests.js";
 
 function VisitTypePage() {
   const [visitTypes, setVisitTypes] = useState([]);
@@ -33,7 +33,7 @@ function VisitTypePage() {
     <div>
       <h1>Visit Types</h1>
       <ul>
-        {visitTypes.map(visitType => (
+        {visitTypes.map((visitType) => (
           <li key={visitType.id}>{visitType.visit_type_name}</li>
         ))}
       </ul>

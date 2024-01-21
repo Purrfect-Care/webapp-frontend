@@ -3,13 +3,20 @@ import "./addVisitPhoto.css";
 import { FaTrash, FaPlus } from "react-icons/fa";
 
 const PhotoAddPopup = ({ onSubmit, onClose, visitId, isFormOpen }) => {
-  const [photos, setPhotos] = useState([{ image: null, photo_description: '', id: null, photos_visit_id: visitId}]);
+  const [photos, setPhotos] = useState([
+    { image: null, photo_description: "", id: null, photos_visit_id: visitId },
+  ]);
   const [errorMessage, setErrorMessage] = useState("");
 
   const addPhotoField = () => {
     setPhotos((prevPhotos) => [
       ...prevPhotos,
-      { image: null, photo_description: "", id: null, photos_visit_id: visitId },
+      {
+        image: null,
+        photo_description: "",
+        id: null,
+        photos_visit_id: visitId,
+      },
     ]);
   };
 

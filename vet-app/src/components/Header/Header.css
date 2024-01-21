@@ -1,44 +1,43 @@
 .header-main {
-    background-color: #ffffff;
-    padding: 10px 20px;
-    width: 100vw;
-    user-select:  none;
-    display: flex;
-    align-items:center;
-    justify-content: center;
+  background-color: #ffffff;
+  padding: 10px 20px;
+  width: 100vw;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .header {
-    display: flex;
-    align-items:center;
-    justify-content: center;
-    width: 20vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20vw;
 }
 
 .logo-prescription {
-    display: flex;
+  display: flex;
 }
 
 .logged-name {
-    color: #4AA587;
-    text-wrap: nowrap;
-    padding-right: 4px;
-    margin-right: 8px;
+  color: #4aa587;
+  text-wrap: nowrap;
+  padding-right: 4px;
+  margin-right: 8px;
 }
 
 .logo-text {
-    color: #4AA587;
-    font-family: Outfit;
-    font-size: 23px;
-    font-style: normal;
-    font-weight: 400;
-    text-shadow: 2px 2px 4px #04040430;
+  color: #4aa587;
+  font-family: Outfit;
+  font-size: 23px;
+  font-style: normal;
+  font-weight: 400;
+  text-shadow: 2px 2px 4px #04040430;
 }
 
 .dog {
-    text-shadow: 2px 2px 4px #04040430;
-    min-width: 40px;
-    height: 100%;
-    color: #4AA587;
+  text-shadow: 2px 2px 4px #04040430;
+  min-width: 40px;
+  height: 100%;
+  color: #4aa587;
 }
-

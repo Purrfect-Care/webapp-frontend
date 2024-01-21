@@ -1,12 +1,12 @@
 .addClinic {
   height: 100vh;
-  overflow-y: auto; /* Add vertical scroll for smaller screens */
-  overflow-x: hidden; /* Hide horizontal scroll */    
+  overflow-y: auto;
+  overflow-x: hidden;
   background-color: #45846f4f;
   box-shadow: inset -5px 8px 24px -15px rgba(66, 68, 90, 1);
 }
 
-.mainPart-signin{
+.mainPart-signin {
   height: 87vh;
 }
 
@@ -26,12 +26,13 @@
   padding: 10px;
 }
 
-.name, .address{
-    width: 400px;
+.name,
+.address {
+  width: 400px;
 }
 
 .postcode {
-    margin-right: 20px;
+  margin-right: 20px;
 }
 
 .code-city {

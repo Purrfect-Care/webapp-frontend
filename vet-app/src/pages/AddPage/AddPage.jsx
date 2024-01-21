@@ -5,7 +5,7 @@ import NavigationPopup from "../../components/NavigationPopup/NavigationPopup";
 import { jwtDecode } from "jwt-decode";
 
 const AddPage = () => {
-  const authToken = localStorage.getItem('authToken');
+  const authToken = localStorage.getItem("authToken");
   const employeeData = jwtDecode(authToken);
   const isAdministrator = employeeData?.employee_role === "Administrator";
   const isSuperAdmin = employeeData?.employee_role === "SuperAdmin";

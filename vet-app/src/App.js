@@ -35,17 +35,15 @@ import SelectClinic from "./pages/SelectClinic/SelectClinic";
 import { jwtDecode } from "jwt-decode";
 
 const isAuthenticated = () => {
-  // Implement your logic to check if the user is authenticated
-  // For example, check if the authentication token exists in local storage
   return localStorage.getItem("authToken") !== null;
 };
 
 const CustomRoute = ({ element, path }) => {
-  let authToken = localStorage.getItem('authToken');
+  let authToken = localStorage.getItem("authToken");
 
-  // Check if authToken is empty, create a mock token if necessary
   if (!authToken) {
-    const mockTokenValue = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1wbG95ZWVfcm9sZSI6IldldGVyeW5hcnoiLCJlbXBsb3llZV9maXJzdF9uYW1lIjoiS29uc3RhbnR5IiwiZW1wbG95ZWVfbGFzdF9uYW1lIjoiTWFydXN6Y3p5ayIsImVtcGxveWVlc19jbGluaWNfaWQiOjIsImV4cCI6MTcwNDU3NzQ1MC40NzI3NzN9.1z6ODJLIpxqaIKFxYR7xFAyQCiuDryrIbzDARQUauCU";
+    const mockTokenValue =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1wbG95ZWVfcm9sZSI6IldldGVyeW5hcnoiLCJlbXBsb3llZV9maXJzdF9uYW1lIjoiS29uc3RhbnR5IiwiZW1wbG95ZWVfbGFzdF9uYW1lIjoiTWFydXN6Y3p5ayIsImVtcGxveWVlc19jbGluaWNfaWQiOjIsImV4cCI6MTcwNDU3NzQ1MC40NzI3NzN9.1z6ODJLIpxqaIKFxYR7xFAyQCiuDryrIbzDARQUauCU";
     authToken = mockTokenValue;
   }
   const employeeData = jwtDecode(authToken);
@@ -53,11 +51,9 @@ const CustomRoute = ({ element, path }) => {
   const isSuperAdmin = employeeData?.employee_role === "SuperAdmin";
 
   if (path === "/login" || path === "/") {
-    // For public routes, redirect to home if the user is authenticated
     return isAuthenticated() ? <Navigate to="/calendar" replace /> : element;
   } else if (
-    (
-      path === "/add-clinic" ||
+    (path === "/add-clinic" ||
       path === "/add-visit-type" ||
       path === "/add-visit-subtype" ||
       path === "/add-medication" ||
@@ -75,19 +71,14 @@ const CustomRoute = ({ element, path }) => {
       path === "/show-illness") &&
     !isSuperAdmin
   ) {
-    // Redirect away from "/add" if the user is not an administrator
     return <Navigate to="/calendar" replace />;
   } else if (
-    (
-      path === "/sign-in" ||
-      path === "/show-employee"
-) &&
-    !isAdministrator && !isSuperAdmin
+    (path === "/sign-in" || path === "/show-employee") &&
+    !isAdministrator &&
+    !isSuperAdmin
   ) {
-    // Redirect away from "/add" if the user is not an administrator
     return <Navigate to="/calendar" replace />;
   } else {
-    // For private routes, redirect to login if the user is not authenticated
     return isAuthenticated() ? element : <Navigate to="/login" replace />;
   }
 };
@@ -213,79 +204,114 @@ function App() {
           />
           <Route
             path="/show"
-            element={<CustomRoute element={<ShowPage/>} path="/show" />}
+            element={<CustomRoute element={<ShowPage />} path="/show" />}
           />
           <Route
             path="/show-patient"
             element={
-              <CustomRoute element={<ShowPatientComponent />} path="/show-patient" />
+              <CustomRoute
+                element={<ShowPatientComponent />}
+                path="/show-patient"
+              />
             }
           />
-        <Route
+          <Route
             path="/show-owner"
             element={
-              <CustomRoute element={<ShowOwnerComponent />} path="/show-owner" />
+              <CustomRoute
+                element={<ShowOwnerComponent />}
+                path="/show-owner"
+              />
             }
           />
           <Route
             path="/show-illness"
             element={
-              <CustomRoute element={<ShowIllnessComponent />} path="/show-illness" />
+              <CustomRoute
+                element={<ShowIllnessComponent />}
+                path="/show-illness"
+              />
             }
           />
           <Route
             path="/show-species"
             element={
-              <CustomRoute element={<ShowSpecieComponent />} path="/show-species" />
+              <CustomRoute
+                element={<ShowSpecieComponent />}
+                path="/show-species"
+              />
             }
           />
           <Route
             path="/show-breed"
             element={
-              <CustomRoute element={<ShowBreedComponent />} path="/show-breed" />
+              <CustomRoute
+                element={<ShowBreedComponent />}
+                path="/show-breed"
+              />
             }
           />
           <Route
             path="/show-medication"
             element={
-              <CustomRoute element={<ShowMedicationComponent />} path="/show-medication" />
+              <CustomRoute
+                element={<ShowMedicationComponent />}
+                path="/show-medication"
+              />
             }
           />
           <Route
             path="/show-visit-type"
             element={
-              <CustomRoute element={<ShowVisitTypeComponent />} path="/show-visit-type" />
+              <CustomRoute
+                element={<ShowVisitTypeComponent />}
+                path="/show-visit-type"
+              />
             }
           />
           <Route
             path="/show-visit-subtype"
             element={
-              <CustomRoute element={<ShowVisitSubtypeComponent />} path="/show-visit-subtype" />
+              <CustomRoute
+                element={<ShowVisitSubtypeComponent />}
+                path="/show-visit-subtype"
+              />
             }
           />
           <Route
             path="/show-employee"
             element={
-              <CustomRoute element={<ShowEmployeeComponent />} path="/show-employee" />
+              <CustomRoute
+                element={<ShowEmployeeComponent />}
+                path="/show-employee"
+              />
             }
           />
           <Route
             path="/show-clinic"
             element={
-              <CustomRoute element={<ShowClinicComponent />} path="/show-clinic" />
+              <CustomRoute
+                element={<ShowClinicComponent />}
+                path="/show-clinic"
+              />
             }
           />
           <Route
             path="/privacy-policy"
             element={
-              <CustomRoute element={<PrivacyPolicyPage />} path="/privacy-policy" />
+              <CustomRoute
+                element={<PrivacyPolicyPage />}
+                path="/privacy-policy"
+              />
             }
           />
           <Route
             path="/select_clinic"
-            element={<CustomRoute element={<SelectClinic/>} path="/select_clinic" />}
-          />  
-        </Routes>      
+            element={
+              <CustomRoute element={<SelectClinic />} path="/select_clinic" />
+            }
+          />
+        </Routes>
       </BrowserRouter>
     </div>
   );

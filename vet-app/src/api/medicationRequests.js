@@ -9,7 +9,6 @@ export const addMedicationsRequest = async (med_name) => {
       },
       body: JSON.stringify(med_name),
     });
-    console.log(med_name);
 
     if (response.ok) {
       return response.json();
@@ -17,7 +16,6 @@ export const addMedicationsRequest = async (med_name) => {
       throw new Error("Failed to add medication");
     }
   } catch (error) {
-    
     throw new Error(`Error: ${error.message}`);
   }
 };

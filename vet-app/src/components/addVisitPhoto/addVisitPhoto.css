@@ -4,13 +4,13 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
-  z-index: 1001; /* Ensure the overlay is below the form but above other content */
-  display: none; /* Initially hide the overlay */
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1001;
+  display: none;
 }
 
 .overlay-photo-form.active {
-  display: block; /* Show the overlay when the form is open */
+  display: block;
 }
 
 .photo-add-popup {
@@ -24,7 +24,7 @@
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
   z-index: 1002;
   box-sizing: border-box;
-  max-width: 600px; /* Adjust the maximum width as needed */
+  max-width: 600px;
   width: 100%;
   height: auto;
   overflow-y: auto;
@@ -59,9 +59,9 @@
   }
 
   .form-section-column-visit label {
-    width: 100%; /* Adjust the width to control the alignment */
+    width: 100%;
     box-sizing: border-box;
-    margin-bottom: 0; /* Remove margin bottom to align items at the same level */
+    margin-bottom: 0;
   }
 }
 
@@ -133,7 +133,7 @@
   border: none;
 }
 
-.form-button-visit{
+.form-button-visit {
   background-color: #4aa587;
   display: flex;
   color: white;
@@ -150,10 +150,10 @@
   background-color: #2f6d58;
 }
 
-.select-visitform:invalid[focused="true"] ~ .span-visitform{
+.select-visitform:invalid[focused="true"] ~ .span-visitform {
   display: block;
 }
 
-.input-visitform-duration:invalid[focused="true" ] ~ .span-visitform{
+.input-visitform-duration:invalid[focused="true"] ~ .span-visitform {
   display: block;
 }

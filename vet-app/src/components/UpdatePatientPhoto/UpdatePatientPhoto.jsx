@@ -1,18 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { patientRequest, updatePatientPhotoRequest, deleteOldPhotoRequest } from '../../api/patientsRequests';
-import './UpdatePatientPhoto.css';
-import Sidebar from '../Sidebar/Sidebar';
+import React, { useState, useEffect } from "react";
+import { deleteOldPhotoRequest } from "../../api/patientsRequests";
+import "./UpdatePatientPhoto.css";
 
-const UpdatePatientPhoto = ({ isOpen, patientId, existingData, onClose, onSubmit}) => {
-    const [formValues, setFormValues] = useState({
-      patient_name: '',
-      patient_gender: null,
-      patient_date_of_birth: null,
-      patients_owner_id: null,
-      patients_species_id: null,
-      patients_breed_id: null,
-      patient_photo: null,  
-      });
+const UpdatePatientPhoto = ({
+  isOpen,
+  patientId,
+  existingData,
+  onClose,
+  onSubmit,
+}) => {
+  const [formValues, setFormValues] = useState({
+    patient_name: "",
+    patient_gender: null,
+    patient_date_of_birth: null,
+    patients_owner_id: null,
+    patients_species_id: null,
+    patients_breed_id: null,
+    patient_photo: null,
+  });
 
   useEffect(() => {
     if (existingData) {
@@ -23,8 +28,9 @@ const UpdatePatientPhoto = ({ isOpen, patientId, existingData, onClose, onSubmit
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const fileName = existingData.patient_photo.substring(existingData.patient_photo.lastIndexOf('/') + 1);
-      console.log("file name: ", fileName);
+      const fileName = existingData.patient_photo.substring(
+        existingData.patient_photo.lastIndexOf("/") + 1
+      );
       await deleteOldPhotoRequest(fileName);
       await onSubmit(formValues);
       onClose();

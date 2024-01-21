@@ -32,7 +32,6 @@ const DocumentsPage = ({ patient }) => {
           patient.id
         );
         setPrescriptions(prescriptionsData);
-        console.log(prescriptionsData);
       } catch (error) {
         console.error("Error fetching data: " + error);
       } finally {
@@ -78,7 +77,6 @@ const DocumentsPage = ({ patient }) => {
 
   const handleSubmitPrescriptionForm = async (formValues) => {
     try {
-      console.log("handlesubmith: ", formValues);
       const { prescription_date, prescriptions_patient_id } = formValues;
       const authToken = localStorage.getItem('authToken');
       const employeeData = jwtDecode(authToken);
@@ -105,7 +103,6 @@ const DocumentsPage = ({ patient }) => {
         prescribedMedicationsData.map(addPrescribedMedicationRequest)
       );
 
-      console.log("Prescription and medications added successfully!");
       openSnackbar("success", "Recepta przypisana pomyślnie!");
       const updatedPrescriptions = await prescriptionsByPatientIdRequest(
         patient.id

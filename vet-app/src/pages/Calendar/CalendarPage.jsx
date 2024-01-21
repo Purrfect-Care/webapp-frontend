@@ -27,7 +27,6 @@ const CalendarPage = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [currentWeek, setCurrentWeek] = useState(getMonth(monthIndex));
 
-  //change this useffect
   useEffect(() => {
     setCurrentMonth(getMonth(monthIndex));
     setCurrentWeek(getWeek(monthIndex));
@@ -53,7 +52,7 @@ const CalendarPage = () => {
     <>
       <React.Fragment>
         {showEventModal && <EventModal snackbar={openSnackbar} />}
-        <Sidebar className='ml-8'/>
+        <Sidebar className="ml-8" />
         <div className="h-screen flex flex-col shadow-inner ml-[-5px] mt-[8px] py-[12px] px-[24px] bg-white rounded-lg ">
           {monthSelected && <CalendarHeader />}
           {!monthSelected && <CalendarHeaderWeek />}
@@ -62,7 +61,7 @@ const CalendarPage = () => {
             {!monthSelected && <CalendarSidebar />}
 
             {monthSelected && <Month month={currentMonth} />}
-            {!monthSelected && <Week month={currentMonth} day={daySelected}/>}
+            {!monthSelected && <Week month={currentMonth} day={daySelected} />}
           </div>
         </div>
       </React.Fragment>

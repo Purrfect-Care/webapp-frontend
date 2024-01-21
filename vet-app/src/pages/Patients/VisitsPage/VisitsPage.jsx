@@ -103,14 +103,14 @@ const VisitsPage = ({ patient }) => {
 
   const updateForm = async (formData) => {
     try {
-      console.log("Form Data:", formData);
+  
       if (!selectedVisit || !selectedVisit.id) {
         console.error("No selected visit or visit ID");
         return;
       }
       const visitId = selectedVisit.id;
       await updateVisitRequest(visitId, formData);
-      console.log("Form submitted successfully");
+     
 
       // Fetch updated data after successful submission
       const updatedData = await visitsByPatientIdRequest(patient.id);
@@ -192,9 +192,9 @@ const VisitsPage = ({ patient }) => {
       }
       const visitId = visitToDelete.id;
       await deleteVisitRequest(visitId);
-      console.log("Visit deleted successfully");
+
       openSnackbar("success", "Usuwanie wizyty zakończone sukcesem!");
-      console.log("snackbar: ", snackbarMessage, snackbarSeverity);
+  
       setVisits((prevVisits) =>
         prevVisits.filter((visit) => visit.id !== visitToDelete.id)
       );

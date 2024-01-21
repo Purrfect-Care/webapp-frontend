@@ -6,18 +6,20 @@ import {
   createVisitRequest,
   updateVisitRequest,
   deleteVisitRequest,
-  visitRequest
+  visitRequest,
 } from "../../api/visitsRequest";
-import {
-  createPhotoRequest,
-} from "../../api/photosRequests";
+import { createPhotoRequest } from "../../api/photosRequests";
 import ConfirmationPopup from "../../components/ConifrmationPopup/ConfirmationPopup";
 import { jwtDecode } from "jwt-decode";
-import dayjs from "dayjs";
 
 function EventModal({ snackbar }) {
-  const { setShowEventModal, selectedEvent, setSelectedEvent, daySelected, updateEvent } =
-    useContext(GlobalContext);
+  const {
+    setShowEventModal,
+    selectedEvent,
+    setSelectedEvent,
+    daySelected,
+    updateEvent,
+  } = useContext(GlobalContext);
   const [isFormForEdit, setIsFormForEdit] = useState(
     selectedEvent ? false : true
   );
@@ -57,7 +59,7 @@ function EventModal({ snackbar }) {
         visits_visit_subtype_id: formData.visits_visit_subtype_id,
         visits_employee_id: formData.visits_employee_id,
         visits_clinic_id: formData.visits_clinic_id,
-      }
+      };
 
       const photosData = formData.photos.map((photo) => ({
         image: photo.image,
@@ -65,7 +67,7 @@ function EventModal({ snackbar }) {
       }));
 
       if (selectedEvent) {
-         await updateVisitRequest(selectedEvent.id, EventData);
+        await updateVisitRequest(selectedEvent.id, EventData);
       } else {
         const createdEvent = await createVisitRequest(EventData);
         if (formData.photos) {
@@ -87,34 +89,28 @@ function EventModal({ snackbar }) {
       setIsFormVisible(false);
       updateEvent();
     } catch (error) {
-
-      console.error('Error submitting form:', error);
+      console.error("Error submitting form:", error);
       if (error.message === "This vet already has a visit at this time.") {
-        snackbar('error', 'Ten weterynarz już ma wizytę o tej porze.');
+        snackbar("error", "Ten weterynarz już ma wizytę o tej porze.");
       } else {
-        snackbar('error', 'Błąd podczas przypisywania wizyty.');
+        snackbar("error", "Błąd podczas przypisywania wizyty.");
       }
     }
   };
-    
 
-  const authToken = localStorage.getItem('authToken');
+  const authToken = localStorage.getItem("authToken");
   const employeeData = jwtDecode(authToken);
-
-  useEffect(() => {
-    console.log('daySelected', daySelected);
-  }, [daySelected]);
 
   const newEvent = {
     visit_datetime: daySelected,
-    visit_duration: '00:30',
-    visit_status: '',
-    visit_description: '',
-    patient_weight: '',
-    patient_height: '',
-    visits_patient_id: '',
-    visits_visit_type_id: '',
-    visits_visit_subtype_id: '',
+    visit_duration: "00:30",
+    visit_status: "",
+    visit_description: "",
+    patient_weight: "",
+    patient_height: "",
+    visits_patient_id: "",
+    visits_visit_type_id: "",
+    visits_visit_subtype_id: "",
     visits_employee_id: employeeData.id.toString(),
     visits_clinic_id: employeeData.employees_clinic_id.toString(),
   };
@@ -133,7 +129,6 @@ function EventModal({ snackbar }) {
       console.error("Error deleting visit:", error);
       snackbar("error", "Błąd podczas usuwania wizyty.");
     } finally {
-      // Close the form
       closeEventModal();
     }
   };

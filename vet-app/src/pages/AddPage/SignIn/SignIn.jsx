@@ -1,32 +1,32 @@
 import React, { useState, useEffect } from "react";
 import "./SignIn.css";
-import { editEmployeeRequest, addEmployeeRequest } from "../../../api/employeesRequest";
+import {
+  editEmployeeRequest,
+  addEmployeeRequest,
+} from "../../../api/employeesRequest";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { jwtDecode } from "jwt-decode";
 
-
-const SignIn = ({initialValues, onClose, snackbar}) => {
-
-  const authToken = localStorage.getItem('authToken');
+const SignIn = ({ initialValues, onClose, snackbar }) => {
+  const authToken = localStorage.getItem("authToken");
   const employeeData = jwtDecode(authToken);
   const clinicId = employeeData.employees_clinic_id.toString();
 
   const [formValues, setFormValues] = useState({
-    employee_role: '',
-    employee_first_name: '',
-    employee_last_name: '',
-    employee_address: '',
-    employee_postcode: '',
-    employee_city: '',
-    employee_phone_number: '',  // Add this line for the patient photo
-    employee_email: '',
-    employee_password: '',
+    employee_role: "",
+    employee_first_name: "",
+    employee_last_name: "",
+    employee_address: "",
+    employee_postcode: "",
+    employee_city: "",
+    employee_phone_number: "",
+    employee_email: "",
+    employee_password: "",
     employees_clinic_id: clinicId,
   });
 
-  //const [formValues, setFormValues] = useState({});
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState("success");
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -82,8 +82,6 @@ const SignIn = ({initialValues, onClose, snackbar}) => {
     } else {
       newErrors.employee_password = "";
     }
-
-    
 
     if (!formValues.employee_address || !formValues.employee_address.trim()) {
       newErrors.employee_address = "Podaj adres pracownika.";
@@ -141,10 +139,13 @@ const SignIn = ({initialValues, onClose, snackbar}) => {
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (formValues.employee_email && !emailRegex.test(formValues.employee_email)) {
+    if (
+      formValues.employee_email &&
+      !emailRegex.test(formValues.employee_email)
+    ) {
       newErrors.employee_email = "Podaj poprawny adres e-mail.";
       valid = false;
-    } 
+    }
 
     setErrors(newErrors);
     return valid;
@@ -172,15 +173,13 @@ const SignIn = ({initialValues, onClose, snackbar}) => {
     }
   };
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validateForm()) {
       return;
     }
-    if (!initialValues){
+    if (!initialValues) {
       try {
         await addEmployeeRequest(formValues);
         openSnackbar("success", "Pracownik dodany pomyślnie");
@@ -190,14 +189,10 @@ const SignIn = ({initialValues, onClose, snackbar}) => {
         openSnackbar("error", "Błąd podczas dodawania pracownika");
       }
     } else {
-        const response = await editEmployeeRequest(initialValues.id, formValues);
-        console.log('Form submitted!', response);
-        snackbar('success', 'Dane pracownika zmienione pomyślnie!');
-        onClose();
-      }
-    
-
-    
+      const response = await editEmployeeRequest(initialValues.id, formValues);
+      snackbar("success", "Dane pracownika zmienione pomyślnie!");
+      onClose();
+    }
   };
 
   useEffect(() => {
@@ -205,7 +200,7 @@ const SignIn = ({initialValues, onClose, snackbar}) => {
       if (initialValues) {
         setFormValues(initialValues);
       }
-    }
+    };
     updateFormValues();
   }, [initialValues]);
 
@@ -215,11 +210,11 @@ const SignIn = ({initialValues, onClose, snackbar}) => {
         <Sidebar />
         <div className="mainPart-signin">
           <div className="flex flex-col items-center">
-          <div style={{justifyContent: 'center', marginLeft: '8vh'}}>
-          <h3 class="text-3xl font-semibold ml-12 mt-8 mb-6 text-emerald-600 text-center">
-            Formularz dodawania nowego pracownika
-            </h3>
-          </div>
+            <div style={{ justifyContent: "center", marginLeft: "8vh" }}>
+              <h3 class="text-3xl font-semibold ml-12 mt-8 mb-6 text-emerald-600 text-center">
+                Formularz dodawania nowego pracownika
+              </h3>
+            </div>
 
             <div className="formSignIn">
               <form id="siginForm" onSubmit={handleSubmit}>
@@ -403,31 +398,33 @@ const SignIn = ({initialValues, onClose, snackbar}) => {
                   )}
                 </div>
                 <div className="flex mb-8 justify-center w-full items-center">
-                  {!initialValues && <button
-                    type="submit"
-                    onClick={handleSubmit}
-                    className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md"
-                  >
-                    Dodaj
-                  </button>}
+                  {!initialValues && (
+                    <button
+                      type="submit"
+                      onClick={handleSubmit}
+                      className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md"
+                    >
+                      Dodaj
+                    </button>
+                  )}
                   {initialValues && (
-                <div className="mx-15vh mt-auto mb-5vh flex justify-center">
-                  <button
-                    type="submit"
-                    onClick={handleSubmit}
-                    className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md mr-10"
-                  >
-                    Edytuj
-                  </button>
-                  <button
-                    type="submit"
-                    onClick={() => onClose()}
-                    className="bg-red-600 hover:bg-red-800 px-10 py-2 rounded text-white hover:shadow-md"
-                  >
-                    Anuluj
-                  </button>
-                </div>
-              )}
+                    <div className="mx-15vh mt-auto mb-5vh flex justify-center">
+                      <button
+                        type="submit"
+                        onClick={handleSubmit}
+                        className="bg-emerald-600 hover:bg-emerald-800 px-10 py-2 rounded text-white hover:shadow-md mr-10"
+                      >
+                        Edytuj
+                      </button>
+                      <button
+                        type="submit"
+                        onClick={() => onClose()}
+                        className="bg-red-600 hover:bg-red-800 px-10 py-2 rounded text-white hover:shadow-md"
+                      >
+                        Anuluj
+                      </button>
+                    </div>
+                  )}
                 </div>
               </form>
             </div>
