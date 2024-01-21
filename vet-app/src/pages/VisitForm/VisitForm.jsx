@@ -625,14 +625,14 @@ const VisitForm = ({
                         focused={focusedDuration.toString()}
                       >
                         <option value="">Wybierz czas trwania</option>
-                        <option value="00:15">15 minut</option>
-                        <option value="00:30">30 minut</option>
-                        <option value="00:45">45 minut</option>
-                        <option value="01:00">1 godzina</option>
-                        <option value="01:15">1 godzina 15 minut</option>
-                        <option value="01:30">1 godzina 30 minut</option>
-                        <option value="01:45">1 godzina 45 minut</option>
-                        <option value="02:00">2 godziny</option>
+                        <option value="00:15:00">15 minut</option>
+                        <option value="00:30:00">30 minut</option>
+                        <option value="00:45:00">45 minut</option>
+                        <option value="01:00:00">1 godzina</option>
+                        <option value="01:15:00">1 godzina 15 minut</option>
+                        <option value="01:30:00">1 godzina 30 minut</option>
+                        <option value="01:45:00">1 godzina 45 minut</option>
+                        <option value="02:00:00">2 godziny</option>
                       </select>
                       <span className="span-visitform">
                         Należy wypełnić czas trwania wizyty
